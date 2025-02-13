@@ -10,7 +10,7 @@ const UniHeading = ({ icon: Icon, text, showButton = false, buttonText = "Send p
       {showButton && (
         <button
           onClick={onButtonClick}
-          className="bg-primary text-text px-4 py-2 rounded-lg hover:bg-opacity-90 transition-all"
+          className="bg-primary text-text px-4 py-2 rounded-full transform hover:scale-105 hover:bg-opacity-90 transition-all duration-300 ease-in-out"
         >
           {buttonText}
         </button>

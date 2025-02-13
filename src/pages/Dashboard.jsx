@@ -1,9 +1,21 @@
-import React from 'react';
+import { LayoutDashboard } from "lucide-react";
+import UniHeading from "../components/UniHeading";
 
-export default function Dashboard() {
-  return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-    </div>
-  );
-}
+const Dashboard = () => {
+    const handleNotificationClick = () => {
+        console.log("Send notification clicked");
+    };
+
+    return (
+        <div>
+            <UniHeading
+                icon={LayoutDashboard}
+                text="Dashboard Overview"
+                showButton={true}
+                onButtonClick={handleNotificationClick}
+            />
+        </div>
+    );
+};
+
+export default Dashboard;

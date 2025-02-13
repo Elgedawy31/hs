@@ -148,7 +148,7 @@ const UniTable = ({ columns, data, actions, onRowSelect }) => {
   return (
     <div className="overflow-visible">
       <table className="min-w-full divide-y divide-borderColor">
-        <thead className="bg-background border-b border-borderColor">
+        <thead className="bg-body border-b border-borderColor">
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => (
@@ -166,7 +166,7 @@ const UniTable = ({ columns, data, actions, onRowSelect }) => {
             </tr>
           ))}
         </thead>
-        <tbody className="bg-body divide-y divide-borderColor">
+        <tbody className="bg-background divide-y divide-borderColor">
           {table.getRowModel().rows.map(row => (
             <tr key={row.id} className="hover:bg-background">
               {row.getVisibleCells().map(cell => (

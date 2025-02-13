@@ -59,7 +59,7 @@ const UniTable = ({ columns, data, actions, onRowSelect }) => {
               <>
                 {/* Backdrop */}
                 <div 
-                  // className={`fixed inset-0 bg-black/20 dark:bg-black/40 z-40 ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}
+                  className={`fixed inset-0  z-40 ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}
                   onClick={(e) => handleMenuToggle(e, null)}
                 />
                 {/* Menu */}

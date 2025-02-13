@@ -1,10 +1,21 @@
+import { AiOutlineHome } from "react-icons/ai";
+import UniHeading from "../components/UniHeading";
+
 const HomePage = () => {
+    const handleNotificationClick = () => {
+        console.log("Send notification clicked");
+    };
+
     return (
         <div>
-            <h1>Home Page</h1>
+            <UniHeading
+                icon={AiOutlineHome}
+                text="Dashboard Overview"
+                showButton={true}
+                onButtonClick={handleNotificationClick}
+            />
         </div>
     );
-}
-
+};
 
 export default HomePage;

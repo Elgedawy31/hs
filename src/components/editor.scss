@@ -1,0 +1,249 @@
+.emoji-picker-container {
+  background: var(--background);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+  [data-emoji-mart] {
+    --background-color: var(--background);
+    --border-color: var(--borderColor);
+    --category-icon-size: 20px;
+    --font-size: 14px;
+    --text-color: var(--text);
+
+    ::-webkit-scrollbar {
+      width: 8px;
+
+      &-track {
+        background: transparent;
+      }
+
+      &-thumb {
+        background: var(--borderColor);
+        border-radius: 4px;
+
+        &:hover {
+          background: var(--primary);
+        }
+      }
+    }
+  }
+}
+
+.quill-editor {
+  @apply flex-grow flex flex-col;
+  min-height: 0; // Enable proper flex container scrolling
+
+  .ql-toolbar {
+    background: var(--background) !important;
+    border-color: var(--borderColor) !important;
+    flex-shrink: 0; // Prevent toolbar from shrinking
+  }
+
+  .ql-container {
+    @apply flex-grow;
+    min-height: 0; // Enable proper flex item scrolling
+    background: var(--background) !important;
+    border-color: var(--borderColor) !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ql-editor {
+    color: var(--text) !important;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--borderColor);
+      border-radius: 4px;
+
+      &:hover {
+        background: var(--primary);
+      }
+    }
+
+    p {
+      position: relative;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .ql-align {
+      &-center {
+        text-align: center;
+
+        img {
+          margin: 0 auto;
+        }
+      }
+
+      &-right {
+        text-align: right;
+
+        img {
+          margin-left: auto;
+        }
+      }
+
+      &-justify {
+        text-align: justify;
+      }
+    }
+
+    // Apply actual font sizes to text
+    [style*="font-size: 8px"]  { font-size: 8px !important; }
+    [style*="font-size: 10px"] { font-size: 10px !important; }
+    [style*="font-size: 12px"] { font-size: 12px !important; }
+    [style*="font-size: 14px"] { font-size: 14px !important; }
+    [style*="font-size: 16px"] { font-size: 16px !important; }
+    [style*="font-size: 18px"] { font-size: 18px !important; }
+    [style*="font-size: 20px"] { font-size: 20px !important; }
+    [style*="font-size: 22px"] { font-size: 22px !important; }
+    [style*="font-size: 24px"] { font-size: 24px !important; }
+    [style*="font-size: 26px"] { font-size: 26px !important; }
+    [style*="font-size: 28px"] { font-size: 28px !important; }
+    [style*="font-size: 30px"] { font-size: 30px !important; }
+    [style*="font-size: 32px"] { font-size: 32px !important; }
+    [style*="font-size: 48px"] { font-size: 48px !important; }
+  }
+
+  .ql-picker {
+    color: var(--text) !important;
+
+    &-options {
+      background: var(--background) !important;
+      max-height: 200px !important;
+      overflow-y: auto !important;
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: var(--borderColor);
+        border-radius: 4px;
+
+        &:hover {
+          background: var(--primary);
+        }
+      }
+    }
+  }
+
+  .ql-picker.ql-size {
+    .ql-picker-label::before,
+    .ql-picker-item::before {
+      content: attr(data-value) !important;
+    }
+
+    .ql-picker-label[data-value="8px"]::before,
+    .ql-picker-item[data-value="8px"]::before {
+      content: '8px' !important;
+      font-size: 12px !important;
+    }
+
+    .ql-picker-label[data-value="10px"]::before,
+    .ql-picker-item[data-value="10px"]::before {
+      content: '10px' !important;
+      font-size: 12px !important;
+    }
+
+    .ql-picker-label[data-value="12px"]::before,
+    .ql-picker-item[data-value="12px"]::before {
+      content: '12px' !important;
+      font-size: 12px !important;
+    }
+
+    .ql-picker-label[data-value="14px"]::before,
+    .ql-picker-item[data-value="14px"]::before {
+      content: '14px' !important;
+      font-size: 12px !important;
+    }
+
+    .ql-picker-label[data-value="16px"]::before,
+    .ql-picker-item[data-value="16px"]::before {
+      content: '16px' !important;
+      font-size: 12px !important;
+    }
+
+    .ql-picker-label[data-value="18px"]::before,
+    .ql-picker-item[data-value="18px"]::before {
+      content: '18px' !important;
+      font-size: 12px !important;
+    }
+
+    .ql-picker-label[data-value="20px"]::before,
+    .ql-picker-item[data-value="20px"]::before {
+      content: '20px' !important;
+      font-size: 12px !important;
+    }
+
+    .ql-picker-label[data-value="22px"]::before,
+    .ql-picker-item[data-value="22px"]::before {
+      content: '22px' !important;
+      font-size: 12px !important;
+    }
+
+    .ql-picker-label[data-value="24px"]::before,
+    .ql-picker-item[data-value="24px"]::before {
+      content: '24px' !important;
+      font-size: 12px !important;
+    }
+
+    .ql-picker-label[data-value="26px"]::before,
+    .ql-picker-item[data-value="26px"]::before {
+      content: '26px' !important;
+      font-size: 12px !important;
+    }
+
+    .ql-picker-label[data-value="28px"]::before,
+    .ql-picker-item[data-value="28px"]::before {
+      content: '28px' !important;
+      font-size: 12px !important;
+    }
+
+    .ql-picker-label[data-value="30px"]::before,
+    .ql-picker-item[data-value="30px"]::before {
+      content: '30px' !important;
+      font-size: 12px !important;
+    }
+
+    .ql-picker-label[data-value="32px"]::before,
+    .ql-picker-item[data-value="32px"]::before {
+      content: '32px' !important;
+      font-size: 12px !important;
+    }
+
+    .ql-picker-label[data-value="48px"]::before,
+    .ql-picker-item[data-value="48px"]::before {
+      content: '48px' !important;
+      font-size: 12px !important;
+    }
+  }
+
+  .ql-stroke {
+    stroke: var(--text) !important;
+  }
+
+  .ql-fill {
+    fill: var(--text) !important;
+  }
+
+  .ql-blank::before {
+    color: var(--placeholderText) !important;
+  }
+}

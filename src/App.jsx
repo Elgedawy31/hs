@@ -35,7 +35,7 @@ function App() {
        
         ">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        <main className="flex-1 p-4 rounded-2xl border-borderColor bg-background" style={{ borderWidth: '1px' }}>
+        <main className="flex-1 " >
           <Outlet />
         </main>
       </div>

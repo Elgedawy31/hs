@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import UniTable from '../components/UniTable';
-import UniHeading from '../components/UniHeading';
-import UniCard from '../components/UniCard';
+import UniTable from '../../components/UniTable';
+import UniHeading from '../../components/UniHeading';
+import UniCard from '../../components/UniCard';
 import { UsersRound, UserCheck, Briefcase, Building2 } from 'lucide-react';
-import CardContainer from '../components/CardContainer';
+import CardContainer from '../../components/CardContainer';
+import { useNavigate } from 'react-router-dom';
 
 export default function Employees() {
+  const navigate = useNavigate();
   // Sample data
   const data = [
     {
@@ -193,7 +195,7 @@ export default function Employees() {
     console.log('Selected rows:', selectedRows);
   };
   const handleClick = () => {
-    console.log('Add New Employee');
+   navigate('new')
   }
 
   return (

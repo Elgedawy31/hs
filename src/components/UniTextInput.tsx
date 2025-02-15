@@ -63,7 +63,7 @@ const isDarkMode = currentTheme === 'dark';
     } 
     ${disabled 
       ? 'opacity-50 cursor-not-allowed' 
-      : 'focus:outline-none focus:ring-1 focus:ring-opacity-25'
+      : 'focus:outline-none focus:ring-0 focus:ring-opacity-25'
     }
     transition-all duration-200 ease-in-out
   `;

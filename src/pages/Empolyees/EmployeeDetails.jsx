@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import CustomTabs from '../../components/CustomTabs'
-import CardContainer from '../../components/CardContainer';
 
 function EmployeeDetails() {
   const [activeTab, setActiveTab] = useState("details");

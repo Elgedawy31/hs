@@ -21,6 +21,7 @@ import Bonus from './pages/Bonus.jsx'
 import Employees from './pages/Empolyees/Employees.jsx'
 import AddEmployee from './pages/Empolyees/AddEmployee.jsx'
 import EditEmployee from './pages/Empolyees/EditEmployee.jsx'
+import EmployeeDetails from './pages/Empolyees/EmployeeDetails.jsx'
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth()
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: 'employees/edit/:id',
         element: <EditEmployee />
+      },
+      {
+        path: 'employees/:id',
+        element: <EmployeeDetails />
       },
       {
         path: 'screenshots',

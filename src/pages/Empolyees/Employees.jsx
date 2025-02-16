@@ -197,6 +197,13 @@ export default function Employees() {
         handleDelete(row);
       },
     },
+    {
+      label: 'Details',
+      onClick: (row) => {
+        console.log('Viewing details for:', row);
+        navigate(`${row.id}`)
+       },
+    },
   ];
 
   // Handle row selection

@@ -3,6 +3,7 @@ import CardContainer from '../../CardContainer'
 import Info from '../detailsTab/Info'
 import MonthlyDashboard from '../detailsTab/MonthlyDashboard'
 import PersonalInformation from '../detailsTab/PersonalInformation'
+import Allowances from '../detailsTab/Allowances'
 
 function DetailsTab() {
   return (
@@ -10,6 +11,7 @@ function DetailsTab() {
         <Info />
         <MonthlyDashboard />
         <PersonalInformation />
+        <Allowances />
     </CardContainer>
   )
 }

@@ -15,27 +15,22 @@ const bonusSchema = z.object({
     .refine((val) => !isNaN(val) && Number(val) > 0, 'Amount must be greater than 0')
 });
 
-const AllowancesForm = ({ isOpen, onClose }) => {
+const AllowancesForm = ({ isOpen, onClose, onSubmit, initialValues = { title: '', amount: '' } }) => {
   const [isLoading, setIsLoading] = useState(false);
   
   const { handleSubmit, formState: { errors }, setValue, watch } = useForm({
     resolver: zodResolver(bonusSchema),
     mode: 'onChange',
-    defaultValues: {
-      title: '',
-      amount: ''
-    }
+    defaultValues: initialValues
   });
 
   const values = watch();
 
-  const onSubmit = (data) => {
+  const handleFormSubmit = (data) => {
     setIsLoading(true);
-    console.log('Form data:', data);
-    setTimeout(() => {
-      setIsLoading(false);
-      onClose();
-    }, 1000);
+    onSubmit(data);
+    setIsLoading(false);
+    onClose();
   };
 
   return (
@@ -43,12 +38,12 @@ const AllowancesForm = ({ isOpen, onClose }) => {
       isOpen={isOpen}
       onClose={onClose}
       title="Add New Bonus"
-      onSave={handleSubmit(onSubmit)}
+      onSave={handleSubmit(handleFormSubmit)}
       saveButtonText="Save"
       cancelButtonText="Cancel"
       isLoading={isLoading}
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-4">
         <UniTextInput
           label="Bonus Title"
           placeholder="Enter bonus title"

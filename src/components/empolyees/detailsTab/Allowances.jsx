@@ -18,6 +18,16 @@ function Allowances() {
     setOpen(false)
   }
 
+  const handleSubmit = (data) => {
+    console.log('Form submitted:', data)
+    // Here you would typically make an API call to save the bonus
+  }
+
+  const initialValues = {
+    title: '',
+    amount: ''
+  }
+
   const bonusData = [
     {
       title: "Transportation Bonus",
@@ -66,7 +76,12 @@ function Allowances() {
         </div>
       </CardContainer>
 
-      <AllowancesForm isOpen={open} onClose={handleClose} />
+      <AllowancesForm 
+        isOpen={open} 
+        onClose={handleClose}
+        onSubmit={handleSubmit}
+        initialValues={initialValues}
+      />
     </div>
   )
 }

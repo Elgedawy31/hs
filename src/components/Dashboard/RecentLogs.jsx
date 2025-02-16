@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import UniTable from '../../components/UniTable';
 import UniHeading from '../../components/UniHeading';
-import { UsersRound} from 'lucide-react';
+import { Clock8Icon} from 'lucide-react';
 import CardContainer from '../../components/CardContainer';
 
 function RecentLogs() {
@@ -196,7 +196,7 @@ function RecentLogs() {
       },
     },
   ];
-  
+
   // Handle row selection
   const handleRowSelect = (selectedRows) => {
     console.log('Selected rows:', selectedRows);
@@ -206,7 +206,7 @@ function RecentLogs() {
   }
   return (
     <div className=''>
-    <UniHeading icon={UsersRound} text="Recent Logs"  />
+    <UniHeading icon={Clock8Icon} text="Recent Logs"  />
 
     <CardContainer>
       <UniTable

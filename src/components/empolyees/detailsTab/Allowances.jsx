@@ -4,12 +4,18 @@ import UniHeading from '../../UniHeading'
 import { BadgeDollarSign, Pencil, Trash2 } from 'lucide-react'
 import CardContainer from '../../CardContainer'
 import { useParams } from 'react-router-dom'
+import AllowancesForm from './AllowancesForm'
 
 function Allowances() {
   const {id} = useParams()
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   
   const handleClick = () => {
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
   }
 
   const bonusData = [
@@ -59,6 +65,8 @@ function Allowances() {
           ))}
         </div>
       </CardContainer>
+
+      <AllowancesForm isOpen={open} onClose={handleClose} />
     </div>
   )
 }

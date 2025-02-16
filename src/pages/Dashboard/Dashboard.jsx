@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import UniHeading from '../components/UniHeading';
+import UniHeading from '../../components/UniHeading';
 import { HomeIcon } from 'lucide-react';
-import OnlineEmployees from '../components/Dashboard/OnlineEmployees';
-import DashboardCards from '../components/Dashboard/DashboardCards';
-import RecentLogs from '../components/Dashboard/RecentLogs';
-import SendNotificationForm from '../components/Dashboard/SendNotificationForm';
+import OnlineEmployees from '../../components/Dashboard/OnlineEmployees';
+import DashboardCards from '../../components/Dashboard/DashboardCards';
+import RecentLogs from '../../components/Dashboard/RecentLogs';
+import SendNotificationForm from '../../components/Dashboard/SendNotificationForm';
 
 const Dashboard = () => {
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);

@@ -14,9 +14,9 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import ToastProvider from './components/CustomToast.jsx'
 import NotFound from './pages/NotFound.jsx'
-import Dashboard from './pages/Dashboard.jsx'
+import Dashboard from './pages/Dashboard/Dashboard.jsx'
 import Screenshots from './pages/Screenshots.jsx'
-import Payment from './pages/Payment.jsx'
+import Payment from './pages/Payment/Payment.jsx'
 import Bonus from './pages/Bonus.jsx'
 import Employees from './pages/Empolyees/Employees.jsx'
 import AddEmployee from './pages/Empolyees/AddEmployee.jsx'

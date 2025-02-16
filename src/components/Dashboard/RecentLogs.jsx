@@ -5,6 +5,13 @@ import { Clock8Icon} from 'lucide-react';
 import CardContainer from '../../components/CardContainer';
 
 function RecentLogs() {
+     const [selectedRows, setSelectedRows] = useState([]);
+  
+    const handleCheckboxChange = (id) => {
+      setSelectedRows((prev) =>
+        prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]
+      );
+    };
      const data = [
     {
       id: 1,
@@ -148,6 +155,7 @@ function RecentLogs() {
 
   // Column definitions
   const columns = [
+   
     {
       accessorKey: 'name',
       header: 'Name',

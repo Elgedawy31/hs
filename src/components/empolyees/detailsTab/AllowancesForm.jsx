@@ -15,16 +15,20 @@ const bonusSchema = z.object({
     .refine((val) => !isNaN(val) && Number(val) > 0, 'Amount must be greater than 0')
 });
 
-const AllowancesForm = ({ isOpen, onClose, onSubmit, initialValues = { title: '', amount: '' } }) => {
+const AllowancesForm = ({ isOpen, onClose, onSubmit, initialValues = { title: '', amount: '' }, isEdit }) => {
   const [isLoading, setIsLoading] = useState(false);
   
-  const { handleSubmit, formState: { errors }, setValue, watch } = useForm({
+  const { handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
     resolver: zodResolver(bonusSchema),
     mode: 'onChange',
     defaultValues: initialValues
   });
 
   const values = watch();
+
+  React.useEffect(() => {
+    reset(initialValues);
+  }, [initialValues, reset]);
 
   const handleFormSubmit = (data) => {
     setIsLoading(true);
@@ -37,7 +41,7 @@ const AllowancesForm = ({ isOpen, onClose, onSubmit, initialValues = { title: ''
     <AddModal
       isOpen={isOpen}
       onClose={onClose}
-      title="Add New Bonus"
+      title={isEdit ? "Edit Bonus" : "Add New Bonus"}
       onSave={handleSubmit(handleFormSubmit)}
       saveButtonText="Save"
       cancelButtonText="Cancel"

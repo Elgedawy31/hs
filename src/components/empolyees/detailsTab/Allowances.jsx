@@ -5,27 +5,62 @@ import { BadgeDollarSign, Pencil, Trash2 } from 'lucide-react'
 import CardContainer from '../../CardContainer'
 import { useParams } from 'react-router-dom'
 import AllowancesForm from './AllowancesForm'
+import DeleteConfirmation from '../../DeleteConfirmation'
 
 function Allowances() {
   const {id} = useParams()
   const [open, setOpen] = useState(false);
+  const [selectedBonus, setSelectedBonus] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [bonusToDelete, setBonusToDelete] = useState(null);
   
   const handleClick = () => {
-    setOpen(true)
+    setIsEdit(false);
+    setSelectedBonus(null);
+    setOpen(true);
   }
 
   const handleClose = () => {
-    setOpen(false)
+    setOpen(false);
+    setSelectedBonus(null);
+    setIsEdit(false);
   }
 
-  const handleSubmit = (data) => {
-    console.log('Form submitted:', data)
+  const handleEdit = (bonus) => {
+    setIsEdit(true);
+    setSelectedBonus({
+      ...bonus,
+      amount: bonus.amount.toString()
+    });
+    setOpen(true);
+  }
+
+  const handleAdd = (data) => {
+    console.log('Adding new bonus:', data);
     // Here you would typically make an API call to save the bonus
   }
 
-  const initialValues = {
-    title: '',
-    amount: ''
+  const handleUpdate = (data) => {
+    console.log('Updating bonus:', data);
+    // Here you would typically make an API call to update the bonus
+  }
+
+  const handleDelete = (bonus) => {
+    setBonusToDelete(bonus);
+    setShowDeleteModal(true);
+  }
+
+  const handleConfirmDelete = () => {
+    console.log('Deleting bonus:', bonusToDelete);
+    // Here you would typically make an API call to delete the bonus
+    setShowDeleteModal(false);
+    setBonusToDelete(null);
+  }
+
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+    setBonusToDelete(null);
   }
 
   const bonusData = [
@@ -62,10 +97,16 @@ function Allowances() {
                   {bonus.title}
                 </h3>
                 <div className="flex gap-2">
-                  <button className="hover:opacity-80">
+                  <button 
+                    className="hover:opacity-80"
+                    onClick={() => handleEdit(bonus)}
+                  >
                     <Pencil size={17} className='text-text' />
                   </button>
-                  <button className="text-danger hover:opacity-80">
+                  <button 
+                    className="text-danger hover:opacity-80"
+                    onClick={() => handleDelete(bonus)}
+                  >
                     <Trash2 size={17} />
                   </button>
                 </div>
@@ -79,8 +120,17 @@ function Allowances() {
       <AllowancesForm 
         isOpen={open} 
         onClose={handleClose}
-        onSubmit={handleSubmit}
-        initialValues={initialValues}
+        onSubmit={isEdit ? handleUpdate : handleAdd}
+        initialValues={selectedBonus || { title: '', amount: '' }}
+        isEdit={isEdit}
+      />
+
+      <DeleteConfirmation 
+        isOpen={showDeleteModal}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        folderName={bonusToDelete?.title}
+        title="Delete Bonus"
       />
     </div>
   )

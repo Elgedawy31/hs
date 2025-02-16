@@ -7,6 +7,10 @@ const Dashboard = () => {
     };
 
     return (
+    <>
+      <div className="flex">
+        <h1 className="text-xl font-medium">Good Morning <span className="text-xl font-meduim text-gray-600">Admin !</span> </h1>
+      </div>
         <div>
             <UniHeading
                 icon={LayoutDashboard}
@@ -15,6 +19,8 @@ const Dashboard = () => {
                 onButtonClick={handleNotificationClick}
             />
         </div>
+    </>
+       
     );
 };
 

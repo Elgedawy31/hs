@@ -5,9 +5,12 @@ import UniCard from '../../components/UniCard';
 import { UsersRound, UserCheck, Briefcase, Building2 } from 'lucide-react';
 import CardContainer from '../../components/CardContainer';
 import { useNavigate } from 'react-router-dom';
+import DeleteConfirmation from '../../components/DeleteConfirmation';
 
 export default function Employees() {
   const navigate = useNavigate();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [employeeToDelete, setEmployeeToDelete] = useState(null);
   // Sample data
   const data = [
     {
@@ -169,6 +172,18 @@ export default function Employees() {
   ];
 
   // Action menu items
+  const handleDelete = (employee) => {
+    setEmployeeToDelete(employee);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = () => {
+    console.log('Deleting employee:', employeeToDelete);
+    // Here you would typically make an API call to delete the employee
+    setShowDeleteModal(false);
+    setEmployeeToDelete(null);
+  };
+
   const actions = [
     {
       label: 'Edit',
@@ -179,7 +194,7 @@ export default function Employees() {
     {
       label: 'Delete',
       onClick: (row) => {
-        console.log('Delete:', row);
+        handleDelete(row);
       },
     },
   ];
@@ -222,13 +237,21 @@ export default function Employees() {
       <UniHeading icon={UsersRound} text="All Employees" showButton buttonText='Add New Emplyee' onButtonClick={handleClick} />
 
       <CardContainer>
-      <UniTable
-        columns={columns}
-        data={data}
-        actions={actions}
-        onRowSelect={handleRowSelect}
-      />
+        <UniTable
+          columns={columns}
+          data={data}
+          actions={actions}
+          onRowSelect={handleRowSelect}
+        />
       </CardContainer>
+
+      <DeleteConfirmation
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={confirmDelete}
+        folderName={employeeToDelete?.name}
+        title="Delete Employee"
+      />
     </div>
   );
 }

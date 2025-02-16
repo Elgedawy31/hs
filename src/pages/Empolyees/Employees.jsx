@@ -8,6 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import DeleteConfirmation from '../../components/DeleteConfirmation';
 
 export default function Employees() {
+     const [selectedRows, setSelectedRows] = useState([]);
+  
+    const handleCheckboxChange = (id) => {
+      setSelectedRows((prev) =>
+        prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]
+      );
+    };
   const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState(null);
@@ -136,6 +143,18 @@ export default function Employees() {
 
   // Column definitions
   const columns = [
+    {
+      accessorKey: 'select',
+      header: '',
+      size: 50,
+      cell: ({ row }) => (
+        <input
+          type="checkbox"
+          checked={selectedRows.includes(row.original.id)}
+          onChange={() => handleCheckboxChange(row.original.id)}
+        />
+      ),
+    },
     {
       accessorKey: 'name',
       header: 'Name',

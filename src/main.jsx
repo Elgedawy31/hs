@@ -15,10 +15,11 @@ import { store } from "./store/store";
 import ToastProvider from './components/CustomToast.jsx'
 import NotFound from './pages/NotFound.jsx'
 import Dashboard from './pages/Dashboard.jsx'
-import Employees from './pages/Employees.jsx'
 import Screenshots from './pages/Screenshots.jsx'
 import Payment from './pages/Payment.jsx'
 import Bonus from './pages/Bonus.jsx'
+import Employees from './pages/Empolyees/Employees.jsx'
+import AddEmployee from './pages/Empolyees/AddEmployee.jsx'
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth()
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: 'employees',
         element: <Employees />
+      },
+      {
+        path: 'employees/new',
+        element: <AddEmployee />
       },
       {
         path: 'screenshots',

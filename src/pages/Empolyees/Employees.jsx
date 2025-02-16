@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import UniTable from '../../components/UniTable';
 import UniHeading from '../../components/UniHeading';
-import { UsersRound} from 'lucide-react';
+import UniCard from '../../components/UniCard';
+import { UsersRound, UserCheck, Briefcase, Building2 } from 'lucide-react';
 import CardContainer from '../../components/CardContainer';
+import { useNavigate } from 'react-router-dom';
 
-function OnlineEmployees() {
-     const data = [
+export default function Employees() {
+  const navigate = useNavigate();
+  // Sample data
+  const data = [
     {
       id: 1,
       name: 'Nouran Khaled',
-      status: 'Idle',
+      status: 'Break',
       hoursToday: '6H 30M',
       productiveHours: '7 h',
     },
@@ -23,105 +27,105 @@ function OnlineEmployees() {
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Idle',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Active',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Active',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Active',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Idle',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Idle',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Idle',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Idle',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Active',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Idle',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Idle',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Active',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Active',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Active',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
     {
       id: 3,
       name: 'Jane Smith',
-      status: 'Active',
+      status: 'Inactive',
       hoursToday: '2H 15M',
       productiveHours: '2 h',
     },
@@ -143,7 +147,7 @@ function OnlineEmployees() {
         const colors = {
           Break: 'text-orange-500',
           Active: 'text-green-500',
-          Idle: 'text-red-500',
+          Inactive: 'text-red-500',
         };
         return (
           <span className={colors[status]}>
@@ -186,15 +190,44 @@ function OnlineEmployees() {
     },
   ];
 
+  // Handle row selection
   const handleRowSelect = (selectedRows) => {
     console.log('Selected rows:', selectedRows);
   };
-  
-  return (
-    <div className=''>
-    <UniHeading icon={UsersRound} text="Online Employees"  />
+  const handleClick = () => {
+   navigate('new')
+  }
 
-    <CardContainer>
+  return (
+    <div className="p-4 space-y-6">
+      <UniHeading icon={UsersRound} text="Employees Overview" />
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+        <UniCard 
+          title="Total Employees" 
+          value="50"
+          icon={UsersRound}
+        />
+        <UniCard 
+          title="Active Now" 
+          value="4"
+          icon={UserCheck}
+        />
+        <UniCard 
+          title="On Leave" 
+          value="5"
+          icon={Briefcase}
+        />
+        <UniCard 
+          title="Departments" 
+          value="4"
+          icon={Building2}
+        />
+      </div>
+
+      <UniHeading icon={UsersRound} text="All Employees" showButton buttonText='Add New Emplyee' onButtonClick={handleClick} />
+
+      <CardContainer>
       <UniTable
         columns={columns}
         data={data}
@@ -202,9 +235,6 @@ function OnlineEmployees() {
         onRowSelect={handleRowSelect}
       />
       </CardContainer>
-
     </div>
-  )
+  );
 }
-
-export default OnlineEmployees

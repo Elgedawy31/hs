@@ -9,9 +9,6 @@ import SendNotificationForm from '../components/Dashboard/SendNotificationForm';
 const Dashboard = () => {
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
 
-  const handleRowSelect = (selectedRows) => {
-    console.log('Selected rows:', selectedRows);
-  };
 
   const handleClick = () => {
     setIsNotificationModalOpen(true);

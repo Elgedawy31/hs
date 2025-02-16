@@ -4,6 +4,7 @@ import Info from '../detailsTab/Info'
 import MonthlyDashboard from '../detailsTab/MonthlyDashboard'
 import PersonalInformation from '../detailsTab/PersonalInformation'
 import Allowances from '../detailsTab/Allowances'
+import Memoes from '../detailsTab/Memoes'
 
 function DetailsTab() {
   return (
@@ -12,6 +13,7 @@ function DetailsTab() {
         <MonthlyDashboard />
         <PersonalInformation />
         <Allowances />
+        <Memoes />
     </CardContainer>
   )
 }

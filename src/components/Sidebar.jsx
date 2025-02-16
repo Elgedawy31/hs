@@ -18,16 +18,16 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
     >
       <div
         className={`absolute left-0 w-[2px] sm:w-[3px] h-full transform transition-all duration-300 ease-in-out 
-          ${location.pathname === path ? 'bg-primary scale-y-100' : 'bg-transparent scale-y-0 group-hover:scale-y-100 group-hover:bg-primary/50'}`}
+          ${location?.pathname.includes(path) ? 'bg-primary scale-y-100' : 'bg-transparent scale-y-0 group-hover:scale-y-100 group-hover:bg-primary/50'}`}
       />
       <div
         className={`flex items-center w-full px-3 sm:px-4 py-2 transform transition-all duration-300 ease-in-out
-          ${location.pathname === path ? 'bg-secondPrimaryColor translate-x-1' : 'bg-transparent hover:translate-x-1 hover:bg-secondPrimaryColor/50'}
+          ${location?.pathname.includes(path) ? 'bg-secondPrimaryColor translate-x-1' : 'bg-transparent hover:translate-x-1 hover:bg-secondPrimaryColor/50'}
           text-text hover:text-hoverText`}
       >
         <Icon
           className={`w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 ease-in-out group-hover:scale-110 
-            ${location.pathname === path ? 'text-primary' : 'text-text'}`}
+            ${location?.pathname.includes(path) ? 'text-primary' : 'text-text'}`}
         />
         <span className="ml-2 sm:ml-3 flex-1 text-left font-medium transition-all duration-300">{label}</span>
       </div>
@@ -47,7 +47,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
           <MenuItem
             icon={HomeIcon}
             label="Dashboard"
-            path="/"
+            path="/dashboard"
           />
           <MenuItem
             icon={UsersIcon}

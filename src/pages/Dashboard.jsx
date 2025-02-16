@@ -14,9 +14,9 @@ const Dashboard = () => {
   }
     return (
     <> 
-    <div className='space-y-4 p-4'>
+    <div className='space-y-4'>
       <div className="flex space-y-4">
-        <h1 className="text-xl font-medium">Good Morning <span className="text-xl font-meduim text-gray-600">Admin !</span> </h1>
+        <h1 className="text-xl font-medium">Good Morning <span className="text-xl font-meduim text-placeholderText">Admin !</span> </h1>
       </div>
         <div>
           <UniHeading 

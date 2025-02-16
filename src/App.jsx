@@ -35,7 +35,7 @@ function App() {
        
         ">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        <main className="flex-1 " >
+        <main className="flex-1 md:pr-5 pr-0 " >
           <Outlet />
         </main>
       </div>

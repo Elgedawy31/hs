@@ -173,19 +173,13 @@ export default function Employees() {
     {
       label: 'Edit',
       onClick: (row) => {
-        console.log('Edit:', row);
+       navigate('edit/'+row.id)
       },
     },
     {
       label: 'Delete',
       onClick: (row) => {
         console.log('Delete:', row);
-      },
-    },
-    {
-      label: 'View Details',
-      onClick: (row) => {
-        console.log('View Details:', row);
       },
     },
   ];

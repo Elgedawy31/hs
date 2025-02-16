@@ -1,14 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Loader } from 'lucide-react'
 
-function UniBtn({ text, onClick, className = "", type = "button" }) {
+function UniBtn({ text, onClick, className = "", type = "button", loading = false , disabled = false }) {
   return (
     <button
       type={type}
+      disabled={disabled}
       onClick={onClick}
       className={`bg-primary px-8 py-2 rounded-full transition-all duration-200 ease-in-out hover:scale-105 hover:opacity-90 active:scale-95 ${className}`}
     >
-      {text}
+      {loading ? <Loader className=' animate-spin' />: text}
     </button>
   )
 }

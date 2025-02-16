@@ -17,7 +17,7 @@ const employeeSchema = z.object({
   about: z.string().min(10, "About must be at least 10 characters"),
 });
 
-const EmployeeForm = ({ onSubmit }) => {
+const EmployeeForm = ({ onSubmit, loading = false, initialValues = {} }) => {
   const {
     handleSubmit,
     formState: { errors },
@@ -28,14 +28,14 @@ const EmployeeForm = ({ onSubmit }) => {
     resolver: zodResolver(employeeSchema),
     mode: "onChange",
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-      jobTitle: "",
-      department: "",
-      about: "",
-      salary: "",
+      firstName: initialValues.firstName || "",
+      lastName: initialValues.lastName || "",
+      email: initialValues.email || "",
+      phoneNumber: initialValues.phoneNumber || "",
+      jobTitle: initialValues.jobTitle || "",
+      department: initialValues.department || "",
+      about: initialValues.about || "",
+      salary: initialValues.salary || "",
     }
   });
 
@@ -144,8 +144,10 @@ const EmployeeForm = ({ onSubmit }) => {
           className="bg-transparent border border-borderColor text-text"
         />
         <UniBtn
-          text="Submit"
+          text={"Submit"}
           type="submit"
+          loading={loading}
+          disabled={loading}
         />
       </div>
     </form>

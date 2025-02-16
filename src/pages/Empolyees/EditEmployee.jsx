@@ -1,28 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import CardContainer from '../../components/CardContainer'
 import UniHeading from '../../components/UniHeading'
-import { UserRoundPlus } from 'lucide-react'
+import { UserRoundPen } from 'lucide-react'
 import EmployeeForm from '../../components/empolyees/EmployeeForm'
-import { useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 
-function AddEmployee() {
+function EditEmployee() {
     const [loading, setLoading] = useState(false)
+    const [employeeData, setEmployeeData] = useState(null)
+    const { id } = useParams()
     const navigate = useNavigate()
 
     const handleSubmit = async (data) => {
-       console.log(data)
+        console.log(data)
     }
+
 
     return (
         <CardContainer className={'p-6 space-y-4'}>
-            <UniHeading icon={UserRoundPlus} text="Add Employee" />
+            <UniHeading icon={UserRoundPen} text="Edit Employee Information" />
             <EmployeeForm 
                 onSubmit={handleSubmit}
                 loading={loading}
+                initialValues={{}}
             />
         </CardContainer>
     )
 }
 
-export default AddEmployee
+export default EditEmployee

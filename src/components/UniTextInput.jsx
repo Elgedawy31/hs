@@ -1,26 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 
-interface Option {
-  value: string;
-  label: string;
-}
-
-interface UniTextInputProps {
-  type?: 'text' | 'password' | 'email' | 'number' | 'textarea' | 'select';
-  label?: string;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-  error?: string;
-  options?: Option[];
-  rows?: number;
-  required?: boolean;
-  disabled?: boolean;
-  className?: string;
-}
-
-const UniTextInput: React.FC<UniTextInputProps> = ({
+const UniTextInput = ({
   type = 'text',
   label,
   value,
@@ -35,13 +16,14 @@ const UniTextInput: React.FC<UniTextInputProps> = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const selectRef = useRef<HTMLDivElement>(null);
+  const selectRef = useRef(null);
   const { currentTheme } = useTheme();
-const isDarkMode = currentTheme === 'dark';
+  const isDarkMode = currentTheme === 'dark';
+
   // Handle click outside for select dropdown
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+    const handleClickOutside = (event) => {
+      if (selectRef.current && !selectRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     };
@@ -49,6 +31,7 @@ const isDarkMode = currentTheme === 'dark';
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
   const baseInputClasses = `
     w-full px-4 py-2.5 rounded-lg border text-sm
     ${isDarkMode 

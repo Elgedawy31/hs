@@ -12,7 +12,7 @@ const employeeSchema = z.object({
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   phoneNumber: z.string().regex(/^[0-9]{11}$/, "Phone number must be 11 digits"),
-  role: z.string().min(2, "Role must be at least 2 characters"),
+  jobTitle: z.string().min(2, "Job Title must be at least 2 characters"),
   department: z.string().min(2, "Department must be at least 2 characters"),
   about: z.string().min(10, "About must be at least 10 characters"),
 });
@@ -32,7 +32,7 @@ const EmployeeForm = ({ onSubmit }) => {
       lastName: "",
       email: "",
       phoneNumber: "",
-      role: "",
+      jobTitle: "",
       department: "",
       about: "",
       salary: "",
@@ -94,11 +94,11 @@ const EmployeeForm = ({ onSubmit }) => {
         </div>
         <div>
           <UniTextInput
-            label="Role"
-            placeholder="Enter role"
-            value={values.role || ""}
-            onChange={(value) => setValue("role", value, { shouldValidate: true })}
-            error={errors.role?.message}
+            label="Job Title"
+            placeholder="Enter Job Title"
+            value={values.jobTitle || ""}
+            onChange={(value) => setValue("jobTitle", value, { shouldValidate: true })}
+            error={errors.jobTitle?.message}
             required
           />
         </div>
@@ -114,6 +114,18 @@ const EmployeeForm = ({ onSubmit }) => {
         </div>
         <div className="md:col-span-2">
           <UniTextInput
+            label="Salary"
+            type="number"
+            placeholder="Enter salary"
+            value={values.salary || ""}
+            onChange={(value) => setValue("salary", value, { shouldValidate: true })}
+            error={errors.salary?.message}
+            required
+          />
+        </div> 
+
+        <div className="md:col-span-2">
+          <UniTextInput
             label="About"
             type="textarea"
             placeholder="Enter about information"
@@ -123,17 +135,7 @@ const EmployeeForm = ({ onSubmit }) => {
             required
           />
         </div>
-        <div>
-          <UniTextInput
-            label="Salary"
-            type="number"
-            placeholder="Enter salary"
-            value={values.salary || ""}
-            onChange={(value) => setValue("salary", value, { shouldValidate: true })}
-            error={errors.salary?.message}
-            required
-          />
-        </div>
+       
       </div>
       <div className="mt-6 flex justify-end space-x-4">
         <UniBtn

@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import CustomTabs from '../../components/CustomTabs'
+import Leaves from '../../components/Empolyees/tabs/Leaves';
+import DeilyTab from '../../components/Empolyees/tabs/DeilyTab';
+import DetailsTab from '../../components/Empolyees/tabs/DetailsTab';
 
 function EmployeeDetails() {
   const [activeTab, setActiveTab] = useState("details");
@@ -16,9 +19,13 @@ function EmployeeDetails() {
         tabs={tabs}
         activeTab={activeTab}
         onChange={setActiveTab}
-      >
-      </CustomTabs>
+      />
 
+      <div className="mt-4">
+      {activeTab === "details" && <DetailsTab />}
+      {activeTab === "daily" && <DeilyTab />}
+      {activeTab === "leaves" && <Leaves />}
+      </div>
       
      
     </div>

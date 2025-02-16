@@ -1,10 +1,11 @@
 import React from 'react'
+import CardContainer from '../../CardContainer'
 
 function DetailsTab() {
   return (
-    <div>
-      DetailsTab
-    </div>
+    <CardContainer className='p-6'>
+        
+    </CardContainer>
   )
 }
 

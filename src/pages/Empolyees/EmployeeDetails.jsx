@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import CustomTabs from '../../components/CustomTabs'
-import Leaves from '../../components/Empolyees/tabs/Leaves';
-import DeilyTab from '../../components/Empolyees/tabs/DeilyTab';
-import DetailsTab from '../../components/Empolyees/tabs/DetailsTab';
+import Leaves from '../../components/empolyees/tabs/Leaves';
+import DeilyTab from '../../components/empolyees/tabs/DeilyTab';
+import DetailsTab from '../../components/empolyees/tabs/DetailsTab';
 
 function EmployeeDetails() {
   const [activeTab, setActiveTab] = useState("details");

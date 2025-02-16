@@ -1,6 +1,6 @@
 import React from 'react';
 import UniCard from '../../components/UniCard';
-import { UsersRound, UserCheck, Briefcase, Building2 } from 'lucide-react';
+import { UsersRound, UserCheck, MailIcon, FileChartLineIcon } from 'lucide-react';
 
 function DashboardCards() {
   return (
@@ -18,14 +18,14 @@ function DashboardCards() {
           icon={UserCheck}
         />
         <UniCard 
-          title="On Leave" 
-          value="5"
-          icon={Briefcase}
+          title="MTD / CH" 
+          value="680"
+          icon={MailIcon}
         />
         <UniCard 
-          title="Departments" 
-          value="4"
-          icon={Building2}
+          title="Bouns This Month" 
+          value="$ 2,500"
+          icon={FileChartLineIcon}
         />
       </div>
 

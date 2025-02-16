@@ -137,18 +137,6 @@ function OnlineEmployees() {
   // Column definitions
   const columns = [
     {
-      accessorKey: 'select',
-      header: '',
-      size: 20,
-      cell: ({ row }) => (
-        <input
-          type="checkbox"
-          checked={selectedRows.includes(row.original.id)}
-          onChange={() => handleCheckboxChange(row.original.id)}
-        />
-      ),
-    },
-    {
       accessorKey: 'name',
       header: 'Name',
       size: 200,

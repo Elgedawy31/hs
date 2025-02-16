@@ -10,7 +10,7 @@ function MonthlyCard({ hours, minutes, label, icon: Icon, prefix = '' }) {
           </h3>
         </div>
         <div className={`w-[38px] h-[38px] rounded-full bg-[#EBF3FF] flex items-center justify-center`}>
-          <Icon className="w-[22px] h-[22px] text-primary ml-0.5" />
+          <Icon className="w-[22px] h-[22px] text-primary " />
         </div>
       </div>
       <p className="text-placeholderText mt-2 text-lg">{label}</p>

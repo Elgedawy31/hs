@@ -1,8 +1,8 @@
 import React from 'react'
 
-function CardContainer({children , className}) {
+function CardContainer({children , className , onClick = () => {}}) {
   return (
-    <div className={`bg-background border-1 border-borderColor p-4 rounded-lg ${className}`}>
+    <div onClick={onClick} className={`bg-background border-1 border-borderColor p-4 rounded-lg ${className}`}>
       {children}
     </div>
   )

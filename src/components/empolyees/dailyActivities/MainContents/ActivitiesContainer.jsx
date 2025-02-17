@@ -3,7 +3,7 @@ import SidebarItem from './SidebarItem'
 import MainContent from './MainContent'
 
 function ActivitiesContainer() {
-  const [activeTab, setActiveTab] = useState('details')
+  const [activeTab, setActiveTab] = useState(null)
 
   const menuItems = [
     { id: 'details', title: 'Details' },
@@ -28,7 +28,7 @@ function ActivitiesContainer() {
 
       {/* Main Content */}
       <div className="flex-1">
-        <MainContent />
+        <MainContent activeTab={activeTab} />
       </div>
     </div>
   )

@@ -13,9 +13,9 @@ function ActivitiesContainer() {
   ]
 
   return (
-    <div className="flex h-[calc(100vh-200px)]  rounded-lg overflow-hidden gap-4 ">
+    <div className="flex gap-4 h-[calc(100vh-200px)] pt-6">
       {/* Sidebar */}
-      <div className="w-64 space-y-4">
+      <div className="w-64 space-y-4 ">
         {menuItems.map((item) => (
           <SidebarItem
             key={item.id}
@@ -27,7 +27,7 @@ function ActivitiesContainer() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1">
+      <div className="flex-1 overflow-hidden">
         <MainContent activeTab={activeTab} />
       </div>
     </div>

@@ -115,7 +115,7 @@ const MonthDays = ({ currentDate }) => {
           <ChevronLeft className={`w-5 h-5 text-primary ${startIndex === 0 ? 'opacity-50' : ''}`} />
         </button>
 
-        <div className="flex gap-2 sm:gap-4 overflow-hidden">
+        <div className="flex gap-2 sm:gap-4 ">
           {monthDays.slice(startIndex, startIndex + visibleCards).map((day, index) => (
             <div
               key={startIndex + index}

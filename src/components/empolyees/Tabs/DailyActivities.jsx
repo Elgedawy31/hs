@@ -1,11 +1,13 @@
-import React from 'react'
+import React from 'react';
+import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
+import CalendarHeader from './CalendarHeader';
 
-function DeilyTab() {
+function DailyActivities() {
   return (
-    <div>
-      DeilyTab
-    </div>
-  )
+  <div className='space-y-4'>
+<CalendarHeader />
+  </div>
+  );
 }
 
-export default DeilyTab
+export default DailyActivities;

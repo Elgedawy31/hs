@@ -91,6 +91,7 @@ const Bouns = () => {
             {errors.bonusName && <p className="text-red-500">{errors.bonusName.message}</p>}
 
             {/* Bonus Type Dropdown */}
+            <label className="block font-medium">Bonus Type</label>
             <select className="border p-2 w-full rounded" {...register("bonusType")}>
               <option>MISC Bonus</option>
               <option>Percentage of salary</option>
@@ -108,7 +109,9 @@ const Bouns = () => {
                   {...register("fixedRate")}
                 />
                 {errors.fixedRate && <p className="text-red-500">{errors.fixedRate.message}</p>}
-                <textarea
+                <UniTextInput
+                  label="Description"
+                  type="text"
                   placeholder="Description"
                   className="border p-2 w-full rounded"
                   {...register("description")}
@@ -125,7 +128,9 @@ const Bouns = () => {
                   {...register("rateOfSalary")}
                 />
                 {errors.rateOfSalary && <p className="text-red-500">{errors.rateOfSalary.message}</p>}
-                <textarea
+                <UniTextInput
+                  label="Description"
+                  type="text"
                   placeholder="Description"
                   className="border p-2 w-full rounded"
                   {...register("description")}
@@ -168,10 +173,14 @@ const Bouns = () => {
                   {...register("specificAmount")}
                 />
                 {errors.specificAmount && <p className="text-red-500">{errors.specificAmount.message}</p>}
+                <label className="block font-medium">To</label>
                 <select className="border p-2 w-full rounded" {...register("selectedOption")}>
-                  <option value="">To</option>
+                  <option value="">Select Employee</option>
                   <option value="Nancy Mahmoud">Nancy Mahmoud</option>
                   <option value="Mohamed Elgedawy">Mohamed Elgedawy</option>
+                  <option value="Noran Khaled">Noran Khaled</option>
+                  <option value=" Mohamed Ramadan"> Mohamed Ramadan</option>
+
                 </select>
                 {errors.selectedOption && <p className="text-red-500">{errors.selectedOption.message}</p>}
               </>

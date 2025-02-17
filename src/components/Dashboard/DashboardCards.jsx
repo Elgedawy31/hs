@@ -1,5 +1,5 @@
 import React from 'react';
-import UniCard from '../../components/UniCard';
+import UniCard from '../UniCard';
 import { UsersRound, UserCheck, MailIcon, FileChartLineIcon } from 'lucide-react';
 
 function DashboardCards() {

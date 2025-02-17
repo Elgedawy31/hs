@@ -17,11 +17,12 @@ import NotFound from './pages/NotFound.jsx'
 import Dashboard from './pages/Dashboard/Dashboard.jsx'
 import Screenshots from './pages/Screenshots.jsx'
 import Payment from './pages/Payment/Payment.jsx'
-import Bonus from './pages/Bonus.jsx'
+import Bouns from './pages/Bouns/Bonus.jsx'
 import Employees from './pages/Empolyees/Employees.jsx'
 import AddEmployee from './pages/Empolyees/AddEmployee.jsx'
 import EditEmployee from './pages/Empolyees/EditEmployee.jsx'
 import EmployeeDetails from './pages/Empolyees/EmployeeDetails.jsx'
+import AddBonus from './components/bouns/BounsList.jsx'
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth()
@@ -73,8 +74,9 @@ const router = createBrowserRouter([
       },
       {
         path: 'bonus',
-        element: <Bonus />
-      }
+        element: <Bouns />
+      },
+      
     ]
   },
   {

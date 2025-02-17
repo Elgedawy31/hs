@@ -2,6 +2,7 @@ import React from 'react'
 import CardContainer from '../../CardContainer'
 import Reminder from '../leavesTab/Reminder'
 import Requesting from '../leavesTab/Requesting'
+import AllLeaves from '../leavesTab/AllLeaves'
 
 function Leaves() {
   return (
@@ -9,6 +10,7 @@ function Leaves() {
     
     <Reminder />
     <Requesting />
+    <AllLeaves />
     </CardContainer>
   )
 }

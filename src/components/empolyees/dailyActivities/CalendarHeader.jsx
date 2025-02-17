@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 
-const CalendarHeader = () => {
+const CalendarHeader = ({ onMonthChange }) => {
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [slideDirection, setSlideDirection] = useState(0);
 
@@ -11,7 +11,9 @@ const CalendarHeader = () => {
   const handlePrevMonth = () => {
     setSlideDirection(-1);
     setTimeout(() => {
-      setCurrentDate(currentDate.subtract(1, 'month'));
+      const newDate = currentDate.subtract(1, 'month');
+      setCurrentDate(newDate);
+      onMonthChange(newDate);
       setSlideDirection(0);
     }, 150);
   };
@@ -20,26 +22,27 @@ const CalendarHeader = () => {
     if (isCurrentMonth) return;
     setSlideDirection(1);
     setTimeout(() => {
-      setCurrentDate(currentDate.add(1, 'month'));
+      const newDate = currentDate.add(1, 'month');
+      setCurrentDate(newDate);
+      onMonthChange(newDate);
       setSlideDirection(0);
     }, 150);
   };
 
   return (
-     
-  <div className="">
+    <div className="">
       <div className="flex items-center justify-between shadow-sm rounded-lg p-3">
         <div className="">
-         <div className='flex items-center gap-2 mb-1'>
-         <Calendar className="w-6 h-6 text-primary" />
-          <div>
-            <h1 className="text-xl font-semibold text-primary">Nouran's Working hour</h1>
-          </div>
-         </div>
-            <div className="text-placeholderText text-sm">
-              <span className="mr-2">This Week</span>
-              <span className='text-primary'>27:56:07</span>
+          <div className="flex items-center gap-2 mb-1">
+            <Calendar className="w-6 h-6 text-primary" />
+            <div>
+              <h1 className="text-xl font-semibold text-primary">Nouran's Working hour</h1>
             </div>
+          </div>
+          <div className="text-placeholderText text-sm">
+            <span className="mr-2">This Week</span>
+            <span className="text-primary">27:56:07</span>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <ChevronLeft 

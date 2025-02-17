@@ -1,7 +1,29 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import React from 'react';
+import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
+import React, { useState } from 'react';
+import dayjs from 'dayjs';
 
 const CalendarHeader = () => {
+  const [currentDate, setCurrentDate] = useState(dayjs());
+  const [slideDirection, setSlideDirection] = useState(0);
+
+  const isCurrentMonth = currentDate.format('YYYY-MM') === dayjs().format('YYYY-MM');
+
+  const handlePrevMonth = () => {
+    setSlideDirection(-1);
+    setTimeout(() => {
+      setCurrentDate(currentDate.subtract(1, 'month'));
+      setSlideDirection(0);
+    }, 150);
+  };
+
+  const handleNextMonth = () => {
+    if (isCurrentMonth) return;
+    setSlideDirection(1);
+    setTimeout(() => {
+      setCurrentDate(currentDate.add(1, 'month'));
+      setSlideDirection(0);
+    }, 150);
+  };
 
   return (
      
@@ -9,7 +31,7 @@ const CalendarHeader = () => {
       <div className="flex items-center justify-between shadow-sm rounded-lg p-3">
         <div className="">
          <div className='flex items-center gap-2 mb-1'>
-         <CalendarHeader className="w-6 h-6 text-primary" />
+         <Calendar className="w-6 h-6 text-primary" />
           <div>
             <h1 className="text-xl font-semibold text-primary">Nouran's Working hour</h1>
           </div>
@@ -19,10 +41,26 @@ const CalendarHeader = () => {
               <span className='text-primary'>27:56:07</span>
             </div>
         </div>
-        <div className="flex items-center gap-3">
-          <ChevronLeft className="w-5 h-5 text-primary cursor-pointer" />
-          <span className="text-base text-primary ">Feb 2025</span>
-          <ChevronRight className="w-5 h-5 text-primary cursor-pointer" />
+        <div className="flex items-center gap-2">
+          <ChevronLeft 
+            className="w-5 h-5 text-primary cursor-pointer" 
+            onClick={handlePrevMonth}
+          />
+          <div className="overflow-hidden w-20 text-center">
+            <span 
+              className="text-base text-primary inline-block transition-all duration-300 ease-in-out transform"
+              style={{
+                transform: `translateX(${slideDirection * 100}%)`,
+                opacity: slideDirection === 0 ? 1 : 0
+              }}
+            >
+              {currentDate.format('MMM YYYY')}
+            </span>
+          </div>
+          <ChevronRight 
+            className={`w-5 h-5 text-primary ${isCurrentMonth ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+            onClick={handleNextMonth}
+          />
         </div>
       </div>
     </div>

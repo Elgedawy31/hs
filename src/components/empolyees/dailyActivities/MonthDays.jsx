@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import dayjs from 'dayjs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -6,7 +6,29 @@ const MonthDays = ({ currentDate }) => {
   const [monthDays, setMonthDays] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState(0);
-  const [activeIndex, setActiveIndex] = useState(dayjs().date() - 1); // Current day is active
+  const [activeIndex, setActiveIndex] = useState(dayjs().date() - 1);
+  const [visibleCards, setVisibleCards] = useState(7);
+
+  // Update visible cards based on screen size
+  const updateVisibleCards = useCallback(() => {
+    const width = window.innerWidth;
+    if (width < 640) { // sm
+      setVisibleCards(1);
+    } else if (width < 768) { // md
+      setVisibleCards(3);
+    } else if (width < 1024) { // lg
+      setVisibleCards(5);
+    } else {
+      setVisibleCards(7);
+    }
+  }, []);
+
+  // Listen for window resize
+  useEffect(() => {
+    updateVisibleCards();
+    window.addEventListener('resize', updateVisibleCards);
+    return () => window.removeEventListener('resize', updateVisibleCards);
+  }, [updateVisibleCards]);
 
   useEffect(() => {
     generateMonthDays();
@@ -22,12 +44,11 @@ const MonthDays = ({ currentDate }) => {
       days.push({
         dayName: dayDate.format('ddd'),
         dayNumber: i,
-        time: generateRandomTime() // In real app, this would come from your data
+        time: generateRandomTime()
       });
     }
     setMonthDays(days);
     
-    // Set start index to show current day in the middle
     // Reset to start of month when month changes
     setStartIndex(0);
     // Update active index to first day of month
@@ -41,7 +62,7 @@ const MonthDays = ({ currentDate }) => {
   };
 
   const handlePrevSlide = () => {
-    if (startIndex > 0) {
+    if (startIndex > 0 && monthDays.length > visibleCards) {
       setSlideDirection(-1);
       setTimeout(() => {
         setStartIndex(prev => prev - 1);
@@ -51,7 +72,7 @@ const MonthDays = ({ currentDate }) => {
   };
 
   const handleNextSlide = () => {
-    if (startIndex < monthDays.length - 7) {
+    if (startIndex < monthDays.length - visibleCards) {
       setSlideDirection(1);
       setTimeout(() => {
         setStartIndex(prev => prev + 1);
@@ -64,8 +85,8 @@ const MonthDays = ({ currentDate }) => {
     setActiveIndex(index);
     // Center the clicked day if possible
     const newStartIndex = Math.min(
-      Math.max(index - 3, 0),
-      monthDays.length - 7
+      Math.max(index - Math.floor(visibleCards / 2), 0),
+      monthDays.length - visibleCards
     );
     if (newStartIndex !== startIndex) {
       setSlideDirection(newStartIndex > startIndex ? 1 : -1);
@@ -85,7 +106,7 @@ const MonthDays = ({ currentDate }) => {
 
   return (
     <div className="relative mt-6">
-      <div className="flex justify-center items-center gap-4">
+      <div className="flex justify-center items-center gap-2 sm:gap-4">
         <button
           onClick={handlePrevSlide}
           className="p-2 rounded-full hover:bg-background transition-colors"
@@ -94,8 +115,8 @@ const MonthDays = ({ currentDate }) => {
           <ChevronLeft className={`w-5 h-5 text-primary ${startIndex === 0 ? 'opacity-50' : ''}`} />
         </button>
 
-        <div className="flex gap-4 overflow-hidden">
-          {monthDays.slice(startIndex, startIndex + 7).map((day, index) => (
+        <div className="flex gap-2 sm:gap-4 overflow-hidden">
+          {monthDays.slice(startIndex, startIndex + visibleCards).map((day, index) => (
             <div
               key={startIndex + index}
               onClick={() => handleDayClick(startIndex + index)}
@@ -105,7 +126,7 @@ const MonthDays = ({ currentDate }) => {
               `}
             >
               <div
-                className={`w-32 h-32 rounded-lg p-4 flex flex-col items-center justify-center
+                className={`w-full sm:w-28 md:w-32 h-32 rounded-lg p-4 flex flex-col items-center justify-center
                   ${startIndex + index === activeIndex ? 'bg-background border-2 border-primary' : 'bg-background'}
                 `}
               >
@@ -130,9 +151,9 @@ const MonthDays = ({ currentDate }) => {
         <button
           onClick={handleNextSlide}
           className="p-2 rounded-full hover:bg-background transition-colors"
-          disabled={startIndex >= monthDays.length - 7}
+          disabled={startIndex >= monthDays.length - visibleCards}
         >
-          <ChevronRight className={`w-5 h-5 text-primary ${startIndex >= monthDays.length - 7 ? 'opacity-50' : ''}`} />
+          <ChevronRight className={`w-5 h-5 text-primary ${startIndex >= monthDays.length - visibleCards ? 'opacity-50' : ''}`} />
         </button>
       </div>
     </div>

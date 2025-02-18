@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import UniTextInput from "../UniTextInput";
 import CardContainer from '../CardContainer';
+import UniBtn from '../UniBtn';
 
 // Define Zod Schema
 const bonusSchema = z.object({
@@ -17,7 +18,7 @@ const bonusSchema = z.object({
   fromHours: z.string().optional(),
   toHours: z.string().optional(),
   specificAmount: z.string().optional(),
-  selectedOption: z.string().optional(),
+  selectedOption: z.array(z.string()).optional(),
 }).refine((data) => {
   if (data.bonusType === "MISC Bonus" && !data.fixedRate) {
     return false;
@@ -28,7 +29,7 @@ const bonusSchema = z.object({
   if (data.bonusType === "Over Time" && (!data.hourlyRate || !data.fromHours || !data.toHours)) {
     return false;
   }
-  if (data.bonusType === "Specific Bonus" && (!data.specificAmount || !data.selectedOption)) {
+  if (data.bonusType === "Specific Bonus" && (!data.specificAmount || !data.selectedOption?.length)) {
     return false;
   }
   return true;
@@ -49,7 +50,7 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
       fromHours: "",
       toHours: "",
       specificAmount: "",
-      selectedOption: "",
+      selectedOption: [],
     },
   });
 
@@ -182,12 +183,12 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
               label="To"
               type="select"
               placeholder="Select Employee"
-              value={values.selectedOption || ''}
+              value={values.selectedOption || []}
               onChange={(value) => setValue('selectedOption', value, { shouldValidate: true })}
               error={errors.selectedOption?.message}
               required
+              multiple={true}
               options={[
-                { value: "", label: "Select Employee" },
                 { value: "Nancy Mahmoud", label: "Nancy Mahmoud" },
                 { value: "Mohamed Elgedawy", label: "Mohamed Elgedawy" },
                 { value: "Noran Khaled", label: "Noran Khaled" },
@@ -199,16 +200,16 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
 
         {/* Buttons */}
         <div className="flex justify-end gap-2">
-          <button
-            type="button"
-            className="border px-4 py-2 rounded"
+          <UniBtn
+            text="Cancel"
             onClick={onClose}
-          >
-            Cancel
-          </button>
-          <button type="submit" className="bg-primary text-white px-4 py-2 rounded">
-            Add
-          </button>
+            className="!bg-transparent !text-text border"
+          />
+          <UniBtn
+            text="Add"
+            type="submit"
+            className='text-white'
+          />
         </div>
       </form>
     </CardContainer>

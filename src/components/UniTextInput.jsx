@@ -13,6 +13,7 @@ const UniTextInput = ({
   required = false,
   disabled = false,
   className = '',
+  multiple = false,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -109,9 +110,45 @@ const UniTextInput = ({
               onClick={() => !disabled && setIsOpen(!isOpen)}
               className={`${baseInputClasses} cursor-pointer flex items-center justify-between ${className}`}
             >
-              <span className={value ? '' : 'text-gray-400'}>
-                {value ? options.find(opt => opt.value === value)?.label : placeholder}
-              </span>
+              <div className="flex flex-wrap gap-2 min-h-[28px]">
+                {type === 'select' && multiple && Array.isArray(value) ? (
+                  value.length > 0 ? (
+                    value.map(v => {
+                      const option = options.find(opt => opt.value === v);
+                      return option ? (
+                        <div
+                          key={v}
+                          className={`
+                            flex items-center gap-2 px-3 py-1 rounded-full text-sm
+                            ${isDarkMode ? 'bg-[#1a1a2e]' : 'bg-[#ECEDFF]'}
+                          `}
+                        >
+                          <span>{option.label}</span>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const newValue = value.filter(val => val !== v);
+                              onChange(newValue);
+                            }}
+                            className="hover:text-red-500 transition-colors"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                      ) : null;
+                    })
+                  ) : (
+                    <span className="text-gray-400">{placeholder}</span>
+                  )
+                ) : (
+                  <span className={value ? '' : 'text-gray-400'}>
+                    {value ? options.find(opt => opt.value === value)?.label : placeholder}
+                  </span>
+                )}
+              </div>
               <svg
                 className={`w-5 h-5 transform transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
                 fill="none"
@@ -134,19 +171,45 @@ const UniTextInput = ({
                   <div
                     key={option.value}
                     onClick={() => {
-                      onChange(option.value);
-                      setIsOpen(false);
+                      if (type === 'select' && multiple) {
+                        const newValue = Array.isArray(value) ? value : [];
+                        const index = newValue.indexOf(option.value);
+                        if (index === -1) {
+                          onChange([...newValue, option.value]);
+                        } else {
+                          onChange(newValue.filter((v) => v !== option.value));
+                        }
+                      } else {
+                        onChange(option.value);
+                        setIsOpen(false);
+                      }
                     }}
                     className={`
                       px-4 py-2 cursor-pointer first:rounded-t-lg last:rounded-b-lg
                       ${isDarkMode 
-                        ? `hover:bg-[#1a1a2e] ${value === option.value ? 'bg-[#1a1a2e]' : ''}` 
-                        : `hover:bg-[#ECEDFF] ${value === option.value ? 'bg-[#ECEDFF]' : ''}`
+                        ? 'hover:bg-[#1a1a2e]'
+                        : 'hover:bg-[#ECEDFF]'
                       }
-                      transition-colors duration-150 ease-in-out
+                      transition-colors duration-150 ease-in-out flex items-center justify-between
                     `}
                   >
-                    {option.label}
+                    <span>{option.label}</span>
+                    {((type === 'select' && multiple && Array.isArray(value) && value.includes(option.value)) ||
+                      (!multiple && value === option.value)) && (
+                      <svg 
+                        className="w-5 h-5 text-primary" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                      >
+                        <path 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          strokeWidth="2" 
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    )}
                   </div>
                 ))}
               </div>

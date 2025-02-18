@@ -1,5 +1,5 @@
 import React, { useState }  from 'react'
-import { PlusCircle, Pencil, Trash } from "lucide-react";
+import { PlusCircle, Pencil, Trash, Trash2 } from "lucide-react";
 import CardContainer from '../CardContainer';
 import UniHeading from '../UniHeading';
 
@@ -42,7 +42,7 @@ function BounsList() {
           
         />
         {bonuses.map((bonus) => (
-          <CardContainer key={bonus.id} className=" p-4 rounded-lg shadow flex justify-between items-center">
+          <CardContainer key={bonus.id} className=" p-4 rounded-lg border border-borderColor flex justify-between items-center">
             <div>
               <h4 className="text-lg font-medium">{bonus.title}</h4>
               <p className="text-gray-500 text-sm">{bonus.description}</p>
@@ -55,12 +55,18 @@ function BounsList() {
                 </span>
               </div>
             </div>
-            <div className="flex gap-3">
-              <button className="text-gray-600 hover:text-gray-800">
-                <Pencil size={18} />
+            <div className="flex gap-2">
+              <button 
+                className="hover:opacity-80"
+                onClick={() => handleEdit(bonus)}
+              >
+                <Pencil size={17} className="text-text" />
               </button>
-              <button className="text-red-600 hover:text-red-800" onClick={() => handleDelete(bonus.id)}>
-                <Trash size={18} />
+              <button 
+                className="text-danger hover:opacity-80"
+                onClick={() => handleDelete(bonus.id)}
+              >
+                <Trash2 size={17} />
               </button>
             </div>
           </CardContainer>

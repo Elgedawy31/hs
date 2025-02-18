@@ -193,19 +193,21 @@ export default function Screenshots() {
   ];
 
   return (
-    <div className="p-6" >
+    <div className="p-6">
       <UniHeading icon={Focus} text="Screenshots" />
       
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {screenshots.map(screenshot => (
-          <ScreenCard
-            key={screenshot.id}
-            screenshot={screenshot.screenshot}
-            user={screenshot.user}
-            type={screenshot.type}
-            timestamp={screenshot.timestamp}
-          />
-        ))}
+      <div className="mt-6 h-[calc(100vh-140px)] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {screenshots.map(screenshot => (
+            <ScreenCard
+              key={screenshot.id}
+              screenshot={screenshot.screenshot}
+              user={screenshot.user}
+              type={screenshot.type}
+              timestamp={screenshot.timestamp}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

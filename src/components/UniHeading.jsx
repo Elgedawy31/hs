@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
-const UniHeading = ({ icon: Icon, text, showButton = false, buttonText = "Send public notification", onButtonClick }) => {
+const UniHeading = ({ icon: Icon, text, showButton = false, buttonText = "Send public notification", onButtonClick , haveMb=true }) => {
   return (
-    <div className="flex items-center justify-between mb-4">
+    <div className={`flex items-center justify-between ${haveMb ? 'mb-4' : ''}`}>
       <div className="flex items-center gap-2">
         {Icon && <Icon className="text-2xl" />}
         <h1 className="text-xl font-medium">{text}</h1>

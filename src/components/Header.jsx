@@ -77,7 +77,7 @@ export default function Header({ sidebarOpen, setSidebarOpen }) {
             ease-in-out group-hover:rotate-12" />
         </button>
       <div className="flex items-center">
-        <Link to='/' >
+        <Link to='/dashboard' >
           <img src={logo} className="w-[80px] sm:w-[100px]
           md:block hidden
           " />

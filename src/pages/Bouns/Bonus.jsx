@@ -4,6 +4,7 @@ import CardContainer from "../../components/CardContainer";
 import BounsList from "../../components/bouns/BounsList";
 import BonusForm from "../../components/bouns/BonusForm";
 
+
 const Bouns = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -13,6 +14,7 @@ const Bouns = () => {
   };
 
   return (
+    <>
     <div className="space-y-4 min-h-screen">
       <CardContainer>
         <BonusHeading onAddClick={() => setIsFormOpen(true)} />
@@ -27,6 +29,8 @@ const Bouns = () => {
 
       <BounsList />
     </div>
+    
+    </>
   );
 };
 

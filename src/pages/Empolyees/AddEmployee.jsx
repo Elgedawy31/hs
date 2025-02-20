@@ -16,8 +16,9 @@ function AddEmployee() {
 
     return (
         <CardContainer className={'p-6 space-y-4'}>
-            <UniHeading icon={UserRoundPlus} text="Add Employee" />
             <EmployeeForm 
+            MainIcon={UserRoundPlus}
+            MainHead='Add New Employee'
                 onSubmit={handleSubmit}
                 loading={loading}
             />

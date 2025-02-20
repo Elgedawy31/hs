@@ -19,8 +19,9 @@ function EditEmployee() {
 
     return (
         <CardContainer className={'p-6 space-y-4'}>
-            <UniHeading icon={UserRoundPen} text="Edit Employee Information" />
             <EmployeeForm 
+                MainIcon={UserRoundPen}
+                MainHead='Edit Employee Information'
                 onSubmit={handleSubmit}
                 loading={loading}
                 initialValues={{}}

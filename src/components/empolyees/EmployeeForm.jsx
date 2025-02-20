@@ -7,7 +7,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import CardContainer from "../CardContainer";
 import UniHeading from "../UniHeading";
-import { BadgeDollarSign, BriefcaseBusiness } from "lucide-react";
+import EmployeeWorkInfo from "./EmployeeWorkInfo";
 
 const employeeSchema = z.object({
   // Employee Information
@@ -26,7 +26,9 @@ const employeeSchema = z.object({
   
   // Payroll Information
   salary: z.string().regex(/^\d+$/, "Salary must be a valid number"),
-  paymentPeriod: z.string().min(2, "Payment period is required"),
+  paymentPeriod: z.enum(["Month", "Week", "Day"], {
+    errorMap: () => ({ message: "Please select a valid payment period" })
+  }),
 });
 
 const EmployeeForm = ({ onSubmit, loading = false, initialValues = {} , MainIcon, MainHead='Add New Employee' }) => {
@@ -148,73 +150,11 @@ const EmployeeForm = ({ onSubmit, loading = false, initialValues = {} , MainIcon
 
        </CardContainer>
 
-       {/* Working Information Section */}
-         <UniHeading text="Working Information" icon={BriefcaseBusiness} className="mb-6" />
-       <CardContainer>
-         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-             <div>
-               <UniTextInput
-                 label="Weekly Working Days"
-                 type="number"
-                 placeholder="Enter number of working days"
-                 value={values.weeklyWorkingDays || ""}
-                 onChange={(value) => setValue("weeklyWorkingDays", value, { shouldValidate: true })}
-                 error={errors.weeklyWorkingDays?.message}
-                 required
-               />
-             </div>
-             <div>
-               <UniTextInput
-                 label="Daily Working Hours"
-                 type="number"
-                 placeholder="Enter working hours per day"
-                 value={values.dailyWorkingHours || ""}
-                 onChange={(value) => setValue("dailyWorkingHours", value, { shouldValidate: true })}
-                 error={errors.dailyWorkingHours?.message}
-                 required
-               />
-             </div>
-             <div>
-               <UniTextInput
-                 label="Daily Break Minutes"
-                 type="number"
-                 placeholder="Enter break minutes per day"
-                 value={values.dailyBreakMinutes || ""}
-                 onChange={(value) => setValue("dailyBreakMinutes", value, { shouldValidate: true })}
-                 error={errors.dailyBreakMinutes?.message}
-                 required
-               />
-             </div>
-           </div>
-       </CardContainer>
-
-       {/* Payroll Information Section */}
-         <UniHeading text="Payroll Information" icon={BadgeDollarSign} className="mb-6" />
-       <CardContainer>
-         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div>
-             <UniTextInput
-               label="Salary"
-               type="number"
-               placeholder="Enter salary amount"
-               value={values.salary || ""}
-               onChange={(value) => setValue("salary", value, { shouldValidate: true })}
-               error={errors.salary?.message}
-               required
-             />
-           </div>
-           <div>
-             <UniTextInput
-               label="Payment Period"
-               placeholder="Enter payment period"
-               value={values.paymentPeriod || ""}
-               onChange={(value) => setValue("paymentPeriod", value, { shouldValidate: true })}
-               error={errors.paymentPeriod?.message}
-               required
-             />
-           </div>
-         </div>
-       </CardContainer>
+       <EmployeeWorkInfo 
+         data={values}
+         onChange={(field, value) => setValue(field, value, { shouldValidate: true })}
+         errors={errors}
+       />
 
        <div className="flex justify-end space-x-4 mt-6">
          <UniBtn

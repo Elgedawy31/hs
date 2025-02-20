@@ -44,7 +44,7 @@ function PersonalInformation() {
           </div>
 
           <div className="space-y-2">
-            <h3 className="text-placeholderText text-base font-[500]">Role</h3>
+            <h3 className="text-placeholderText text-base font-[500]">Job Title</h3>
             <p className="text-base font-medium text-text ont-[600]">UI/UX Designer</p>
           </div>
 
@@ -52,13 +52,14 @@ function PersonalInformation() {
             <h3 className="text-placeholderText text-base font-[500]">Creation Date</h3>
             <p className="text-base font-medium text-text ont-[600]">Dec 09, 2024</p>
           </div>
-          <div className="space-y-2">
-            <h3 className="text-placeholderText text-base font-[500]">Monthly Salary</h3>
-            <p className="text-base font-medium text-text ont-[600]">$10.000</p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-placeholderText text-base font-[500]">Bonuses for Feb</h3>
-            <p className="text-base font-medium text-text ont-[600]">$4.000</p>
+
+          <div className="col-span-2 space-y-2">
+            <h3 className="text-placeholderText text-base font-[500]">About</h3>
+            <p className="text-base font-medium text-text ont-[600]">
+              Experienced UI/UX designer with a passion for creating intuitive and visually appealing user interfaces. 
+              Skilled in user research, wireframing, and prototyping. Strong focus on user-centered design principles 
+              and accessibility standards.
+            </p>
           </div>
         </div>
       </CardContainer>

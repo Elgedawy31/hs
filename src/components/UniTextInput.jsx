@@ -110,7 +110,7 @@ const UniTextInput = ({
               onClick={() => !disabled && setIsOpen(!isOpen)}
               className={`${baseInputClasses} cursor-pointer flex items-center justify-between ${className}`}
             >
-              <div className="flex flex-wrap gap-2 min-h-[28px]">
+              <div className="flex flex-wrap gap-2 min-h-[23px]">
                 {type === 'select' && multiple && Array.isArray(value) ? (
                   value.length > 0 ? (
                     value.map(v => {

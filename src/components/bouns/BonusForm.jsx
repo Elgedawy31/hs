@@ -112,6 +112,22 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
               value={values.description || ''}
               onChange={(value) => setValue('description', value, { shouldValidate: true })}
             />
+            <UniTextInput
+              label="To"
+              type="select"
+              placeholder="Select Employee"
+              value={values.selectedOption || []}
+              onChange={(value) => setValue('selectedOption', value, { shouldValidate: true })}
+              error={errors.selectedOption?.message}
+              required
+              multiple={true}
+              options={[
+                { value: "Nancy Mahmoud", label: "Nancy Mahmoud" },
+                { value: "Mohamed Elgedawy", label: "Mohamed Elgedawy" },
+                { value: "Noran Khaled", label: "Noran Khaled" },
+                { value: "Mohamed Ramadan", label: "Mohamed Ramadan" }
+              ]}
+            />
           </>
         )}
 
@@ -132,6 +148,22 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
               placeholder="Description"
               value={values.description || ''}
               onChange={(value) => setValue('description', value, { shouldValidate: true })}
+            />
+            <UniTextInput
+              label="To"
+              type="select"
+              placeholder="Select Employee"
+              value={values.selectedOption || []}
+              onChange={(value) => setValue('selectedOption', value, { shouldValidate: true })}
+              error={errors.selectedOption?.message}
+              required
+              multiple={true}
+              options={[
+                { value: "Nancy Mahmoud", label: "Nancy Mahmoud" },
+                { value: "Mohamed Elgedawy", label: "Mohamed Elgedawy" },
+                { value: "Noran Khaled", label: "Noran Khaled" },
+                { value: "Mohamed Ramadan", label: "Mohamed Ramadan" }
+              ]}
             />
           </>
         )}
@@ -164,6 +196,22 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
               onChange={(value) => setValue('toHours', value, { shouldValidate: true })}
               error={errors.toHours?.message}
               required
+            />
+            <UniTextInput
+              label="To"
+              type="select"
+              placeholder="Select Employee"
+              value={values.selectedOption || []}
+              onChange={(value) => setValue('selectedOption', value, { shouldValidate: true })}
+              error={errors.selectedOption?.message}
+              required
+              multiple={true}
+              options={[
+                { value: "Nancy Mahmoud", label: "Nancy Mahmoud" },
+                { value: "Mohamed Elgedawy", label: "Mohamed Elgedawy" },
+                { value: "Noran Khaled", label: "Noran Khaled" },
+                { value: "Mohamed Ramadan", label: "Mohamed Ramadan" }
+              ]}
             />
           </>
         )}

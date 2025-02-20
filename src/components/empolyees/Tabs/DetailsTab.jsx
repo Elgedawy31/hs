@@ -5,6 +5,7 @@ import Info from '../detailsTab/Info'
 import MonthlyDashboard from '../detailsTab/MonthlyDashboard'
 import PersonalInformation from '../detailsTab/PersonalInformation'
 import Bonus from '../detailsTab/Bonus'
+import Allowances from '../detailsTab/Allowances'
 import Memoes from '../detailsTab/Memoes'
 
 function DetailsTab() {
@@ -27,6 +28,7 @@ function DetailsTab() {
           disabled={true}
         />
         <Bonus />
+        <Allowances />
         <Memoes />
     </CardContainer>
   )

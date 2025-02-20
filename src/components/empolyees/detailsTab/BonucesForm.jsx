@@ -15,7 +15,7 @@ const bonusSchema = z.object({
     .refine((val) => !isNaN(val) && Number(val) > 0, 'Amount must be greater than 0')
 });
 
-const AllowancesForm = ({ isOpen, onClose, onSubmit, initialValues = { title: '', amount: '' }, isEdit }) => {
+const BonucesForm = ({ isOpen, onClose, onSubmit, initialValues = { title: '', amount: '' }, isEdit }) => {
   const [isLoading, setIsLoading] = useState(false);
   
   const { handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
@@ -71,4 +71,4 @@ const AllowancesForm = ({ isOpen, onClose, onSubmit, initialValues = { title: ''
   );
 };
 
-export default AllowancesForm;
+export default BonucesForm;

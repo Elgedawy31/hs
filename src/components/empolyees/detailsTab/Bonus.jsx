@@ -4,10 +4,10 @@ import UniHeading from '../../UniHeading'
 import { BadgeDollarSign, Pencil, Trash2 } from 'lucide-react'
 import CardContainer from '../../CardContainer'
 import { useParams } from 'react-router-dom'
-import AllowancesForm from './AllowancesForm'
+import BonucesForm from './BonucesForm'
 import DeleteConfirmation from '../../DeleteConfirmation'
 
-function Allowances() {
+function Bonuces() {
   const {id} = useParams()
   const [open, setOpen] = useState(false);
   const [selectedBonus, setSelectedBonus] = useState(null);
@@ -82,9 +82,9 @@ function Allowances() {
     <div className='space-y-6'>
       <UniHeading 
         icon={BadgeDollarSign} 
-        text="Allowances" 
+        text="Bonus" 
         showButton
-        buttonText='Add Bounes'
+        buttonText='Add Bouns'
         onButtonClick={handleClick}
       />
 
@@ -117,7 +117,7 @@ function Allowances() {
         </div>
       </CardContainer>
 
-      <AllowancesForm 
+      <BonucesForm 
         isOpen={open} 
         onClose={handleClose}
         onSubmit={isEdit ? handleUpdate : handleAdd}
@@ -136,4 +136,4 @@ function Allowances() {
   )
 }
 
-export default Allowances
+export default Bonuces

@@ -6,9 +6,9 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { Plus, X } from 'lucide-react';
+import UniBtn from './UniBtn';
 
 const defaultStep = {
   label: '',
@@ -37,7 +37,13 @@ const AddModal = ({
   const [step, setStep] = useState(initialStep);
 
   const handleSave = () => {
+    console.log('Save button clicked');
     onSave?.(step);
+  };
+
+  const handleClose = () => {
+    console.log('Close/Cancel button clicked');
+    onClose();
   };
 
   return (
@@ -62,15 +68,11 @@ const AddModal = ({
             <span className="text-lg font-semibold text-hoverText">{title}</span>
           </div>
           {!hideCloseButton && (
-            <Button
-              isIconOnly
-              variant="light"
-              onPress={onClose}
-              size='sm'
-              className="text-text hover:text-hoverText border-2 border-borderColor rounded-full !min-w-1 w-6 h-6"
-            >
-              <X size={15} className='text-hoverText' />
-            </Button>
+            <UniBtn
+              text={<X size={15} className='text-hoverText' />}
+              onClick={handleClose}
+              className="!p-0 !bg-transparent text-text hover:text-hoverText border-2 border-borderColor flex items-center justify-center rounded-full min-w-[24px] w-6 h-6"
+            />
           )}
         </ModalHeader>
 
@@ -84,20 +86,17 @@ const AddModal = ({
         {/* Footer */}
         {!hideFooter && (
           <ModalFooter>
-            <Button
-              variant="bordered" 
-              onPress={onClose}
-              className="w-full border-borderColor text-text hover:text-hoverText"
-            >
-              {cancelButtonText}
-            </Button>
-            <Button
-              onPress={handleSave}
-              isLoading={isLoading}
-              className="w-full bg-primary hover:bg-altPrimary text-white"
-            >
-              {saveButtonText}
-            </Button>
+            <UniBtn
+              text={cancelButtonText}
+              onClick={handleClose}
+              className="w-full !bg-transparent border-2 border-borderColor text-text hover:text-hoverText"
+            />
+            <UniBtn
+              text={saveButtonText}
+              onClick={handleSave}
+              loading={isLoading}
+              className="w-full text-white"
+            />
           </ModalFooter>
         )}
       </ModalContent>

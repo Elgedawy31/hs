@@ -1,6 +1,6 @@
 import React from 'react'
 import UniBtn from '../../UniBtn'
-import { Avatar } from "@nextui-org/react"
+import { Avatar } from "@heroui/react"
 
 function Requesting() {
   return (

@@ -2,7 +2,7 @@ import React from 'react'
 import UniHeading from '../../UniHeading'
 import { UserRound } from 'lucide-react'
 import CardContainer from '../../CardContainer'
-import { Avatar } from "@nextui-org/react"
+import { Avatar } from "@heroui/react"
 import UniBtn from '../../UniBtn'
 
 function Info() {

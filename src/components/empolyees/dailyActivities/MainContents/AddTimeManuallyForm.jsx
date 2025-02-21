@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import AddModal from '../../../AddModal';
 import UniTextInput from '../../../UniTextInput';
-import { DatePicker } from "@nextui-org/react";
+import UniDateTimePicker from '../../../UniDateTimePicker';
 
 const AddTimeManuallyForm = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     employee: '',
-    date: new Date().toISOString().split('T')[0],
+    date: null,
     hours: '',
     minutes: ''
   });
@@ -35,11 +35,13 @@ const AddTimeManuallyForm = ({ isOpen, onClose }) => {
         </div>
         <div>
           <label className="text-sm text-placeholderText">Date</label>
-          <DatePicker
-              description={'placement'}
-              label={"Birth date"}
-              labelPlacement={'outside'}
-            />
+          <UniDateTimePicker
+            mode="date"
+            value={formData.date}
+            onChange={(date) => setFormData(prev => ({...prev, date}))}
+            labelPlacement="outside"
+            className="w-full"
+          />
         </div>
         <div>
           <label className="text-sm text-placeholderText">Time</label>

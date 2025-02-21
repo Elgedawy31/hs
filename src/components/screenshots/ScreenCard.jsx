@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { Avatar } from "@nextui-org/react";
+import { Avatar } from "@heroui/react";
 import { LaptopMinimalCheck } from 'lucide-react';
 
 function ScreenCard({ screenshot, user, timestamp, type }) {

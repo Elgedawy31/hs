@@ -101,7 +101,7 @@ function AllLeaves() {
                 </div>
 
                 <div>
-                    <UniBtn onClick={() => setIsModalOpen(true)} text='Send a Warning' className='bg-red-500' />
+                    <UniBtn onClick={() => setIsModalOpen(true)} text='Send a Warning' className='bg-red-500 text-white' />
                 </div>
             </div>
 

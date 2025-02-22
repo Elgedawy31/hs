@@ -35,13 +35,14 @@ const AddTimeManuallyForm = ({ isOpen, onClose }) => {
         </div>
         <div>
           <label className="text-sm text-placeholderText">Date</label>
-          <UniDateTimePicker
-            mode="date"
-            value={formData.date}
-            onChange={(date) => setFormData(prev => ({...prev, date}))}
-            labelPlacement="outside"
-            className="w-full"
-          />
+          <UniTextInput
+                type="date"
+                placeholder="Hour"
+                value={formData.hours}
+                onChange={(e) => setFormData(prev => ({...prev, hours: e.target.value}))}
+                min="0"
+                max="23"
+              />
         </div>
         <div>
           <label className="text-sm text-placeholderText">Time</label>

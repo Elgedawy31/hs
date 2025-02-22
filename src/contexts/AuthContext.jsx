@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
+import Loading from '../components/Loading'
 const AuthContext = createContext({
   user: null,
   loading: false,
@@ -104,9 +105,7 @@ export function AuthProvider({ children }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-      </div>
+     <Loading />
     )
   }
 

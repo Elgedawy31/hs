@@ -5,14 +5,14 @@ export default function DeleteConfirmation({ isOpen, onClose, onConfirm, folderN
 
   return (
     <div
-      className="fixed inset-0 bg-text/50 z-50 flex items-center justify-center animate-fadeIn"
+      className="fixed inset-0 -top-10 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center animate-fadeIn"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           onClose();
         }
       }}
     >
-      <div className="bg-background rounded-lg shadow-xl w-full max-w-md p-6 relative animate-slideIn">
+      <div className="bg-background rounded-lg w-full max-w-md p-6 relative">
         <div className="text-center">
           <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
             <Icon className="text-red-500" />

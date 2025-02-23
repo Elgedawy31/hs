@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
     role: "admin"
   }
   const [user, setUser] = useState(defaultUser)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false) 
 
   const verifyConnection = async () => {
     try {

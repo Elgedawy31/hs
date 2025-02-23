@@ -8,10 +8,10 @@ function Requesting() {
       <div className="flex items-center justify-between">
         {/* Profile Section */}
         <div className="flex items-center gap-3">
-          <Avatar
+          <img
             src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
 
-            className=" w-11 h-11"
+            className=" w-11 h-11 rounded-full object-cover"
           />
           <div>
             <h3 className="font-medium text-text">John Johnson</h3>

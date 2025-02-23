@@ -54,7 +54,7 @@ const AddModal = ({
       placement="center"
       classNames={{
         backdrop: "bg-black/50 backdrop-blur-sm animate-fadeIn",
-        base: "bg-body rounded-lg shadow-lg max-h-[81vh]",
+        base: "bg-body rounded-lg  max-h-[81vh]",
         header: "border-b border-borderColor px-6 py-4",
         body: "px-6 py-4 overflow-y-auto",
         footer: "px-6 py-4",

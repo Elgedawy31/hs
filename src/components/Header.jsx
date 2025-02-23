@@ -24,6 +24,8 @@ export default function Header({ sidebarOpen, setSidebarOpen }) {
   const [isModalOpen, setIsModalOpen] = useState(false);;
   const {allEmails} = useSelector(state => state.box);
   const dispatch = useDispatch();
+    const { user } = useAuth()
+  
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   
   const dropdownRef = useRef(null);
@@ -77,7 +79,7 @@ export default function Header({ sidebarOpen, setSidebarOpen }) {
             ease-in-out group-hover:rotate-12" />
         </button>
       <div className="flex items-center">
-        <Link to='/dashboard' >
+        <Link to={user?.role ==='admin' ? '/dashboard' : '/'} >
           <img src={logo} className="w-[80px] sm:w-[100px]
           md:block hidden
           " />

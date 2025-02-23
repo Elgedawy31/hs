@@ -22,13 +22,16 @@ import Employees from './pages/Empolyees/Employees.jsx'
 import AddEmployee from './pages/Empolyees/AddEmployee.jsx'
 import EditEmployee from './pages/Empolyees/EditEmployee.jsx'
 import EmployeeDetails from './pages/Empolyees/EmployeeDetails.jsx'
-import AddBonus from './components/bouns/BounsList.jsx'
 
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated } = useAuth()
-
+const ProtectedRoute = ({ requireAdmin, children }) => {
+  const { isAuthenticated, user } = useAuth()
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />
+  }
+
+  // Check for admin access if required
+  if (requireAdmin && (!user?.role || user?.role !== 'admin')) {
+    return <Navigate to="/" replace />
   }
 
   return children
@@ -40,42 +43,46 @@ const router = createBrowserRouter([
     element: <Login />
   },
   {
-    path: '/dashboard',
+    path: '/',
     element: <ProtectedRoute><App /></ProtectedRoute>,
     children: [
       {
-        index: true,
-        element: <Dashboard />,
+        path: '',
+        element: <h1>home</h1>
       },
       {
-        path: 'employees',
-        element: <Employees />
+        element: <ProtectedRoute requireAdmin={true}><Dashboard /></ProtectedRoute>,
+        path: 'dashboard'
+      },
+      // Admin-only routes
+      {
+        path: 'dashboard/employees',
+        element: <ProtectedRoute requireAdmin={true}><Employees /></ProtectedRoute>
       },
       {
-        path: 'employees/new',
-        element: <AddEmployee />
+        path: 'dashboard/employees/new',
+        element: <ProtectedRoute requireAdmin={true}><AddEmployee /></ProtectedRoute>
       },
       {
-        path: 'employees/edit/:id',
-        element: <EditEmployee />
+        path: 'dashboard/employees/edit/:id',
+        element: <ProtectedRoute requireAdmin={true}><EditEmployee /></ProtectedRoute>
       },
       {
-        path: 'employees/:id',
-        element: <EmployeeDetails />
+        path: 'dashboard/employees/:id',
+        element: <ProtectedRoute requireAdmin={true}><EmployeeDetails /></ProtectedRoute>
       },
       {
-        path: 'screenshots',
-        element: <Screenshots />
+        path: 'dashboard/screenshots',
+        element: <ProtectedRoute requireAdmin={true}><Screenshots /></ProtectedRoute>
       },
       {
-        path: 'payment',
-        element: <Payment />
+        path: 'dashboard/payment',
+        element: <ProtectedRoute requireAdmin={true}><Payment /></ProtectedRoute>
       },
       {
-        path: 'bonus',
-        element: <Bouns />
+        path: 'dashboard/bonus',
+        element: <ProtectedRoute requireAdmin={true}><Bouns /></ProtectedRoute>
       },
-      
     ]
   },
   {

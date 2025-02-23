@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
   const defaultUser = {
     name: "Default User",
     email: "user@example.com",
-    role: "user"
+    role: "admin"
   }
   const [user, setUser] = useState(defaultUser)
   const [loading, setLoading] = useState(false)

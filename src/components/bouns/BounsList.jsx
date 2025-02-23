@@ -44,8 +44,8 @@ function BounsList() {
         {bonuses.map((bonus) => (
           <CardContainer key={bonus.id} className=" p-4 rounded-lg border border-borderColor flex justify-between items-center">
             <div>
-              <h4 className="text-lg font-medium">{bonus.title}</h4>
-              <p className="text-gray-500 text-sm">{bonus.description}</p>
+              <h4 className="text-lg text-text font-medium">{bonus.title}</h4>
+              <p className="text-placeholderText text-sm">{bonus.description}</p>
               <div className="mt-2 flex gap-2">
                 <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded text-sm">
                   {bonus.type}

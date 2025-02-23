@@ -14,6 +14,8 @@ const UniTextInput = ({
   disabled = false,
   className = '',
   multiple = false,
+  min=0,
+  max=100
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -226,6 +228,8 @@ const UniTextInput = ({
             placeholder={placeholder}
             disabled={disabled}
             required={required}
+            min={min}
+            max={max}
             className={`${baseInputClasses} ${className}`}
           />
         );

@@ -6,14 +6,15 @@ import {
   CreditCardIcon,
   StarIcon,
 } from '@heroicons/react/24/outline';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const {user:{role}} = useAuth()
   const MenuItem = ({ icon: Icon, label, path }) => (
     <button
-      onClick={() => navigate(path)}
+      onClick={() => navigate(`${role ==='user' ? '/dashboard' : '/'}/${path}`)}
       className={`w-full flex items-center relative group transition-all duration-300 ease-in-out text-sm sm:text-base`}
     >
       <div
@@ -47,27 +48,27 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
           <MenuItem
             icon={HomeIcon}
             label="Dashboard"
-            path="/dashboard"
+            path=""
           />
           <MenuItem
             icon={UsersIcon}
             label="Employees"
-            path="/employees"
+            path="employees"
           />
           <MenuItem
             icon={CameraIcon}
             label="Screenshots"
-            path="/screenshots"
+            path="screenshots"
           />
           <MenuItem
             icon={CreditCardIcon}
             label="Payment"
-            path="/payment"
+            path="payment"
           />
           <MenuItem
             icon={StarIcon}
             label="Bonus"
-            path="/bonus"
+            path="bonus"
           />
         </nav>
       </div>

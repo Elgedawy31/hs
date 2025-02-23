@@ -193,7 +193,7 @@ export default function Screenshots() {
   ];
 
   return (
-    <div className="p-6">
+    <div className="">
       <UniHeading icon={Focus} text="Screenshots" />
       
       <div className="mt-6 h-[calc(100vh-140px)] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">

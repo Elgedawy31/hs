@@ -5,29 +5,29 @@ import PayCards from '../../components/Payment/PayCards';
 import AllPays from '../../components/Payment/AllPays';
 
 function Payment() {
-    const handleClick = () => {
+  const handleClick = () => {
     setIsNotificationModalOpen(true);
   };
   return (
-    
+
     <div className='space-y-4'>
-            <div className="p-4"> 
-            <UniHeading 
-            icon={LucideFiles} 
-            text="Payment" 
-            showButton 
-            buttonText='Export' 
-            onButtonClick={handleClick}
-            />
-            </div>
-            <div>
-                <PayCards/>
-            </div>
-            <div>
-                <AllPays/>
-            </div>
-        
-        </div>
+      <div className="">
+        <UniHeading
+          icon={LucideFiles}
+          text="Payment"
+          showButton
+          buttonText='Export'
+          onButtonClick={handleClick}
+        />
+      </div>
+      <div>
+        <PayCards />
+      </div>
+      <div>
+        <AllPays />
+      </div>
+
+    </div>
   )
 }
 

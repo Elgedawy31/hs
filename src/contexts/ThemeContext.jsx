@@ -5,10 +5,10 @@ const ThemeContext = createContext();
 export const themes = {
   light: {
     body:'#F6F8FC',
-    secondPrimaryColor: "#ECEDFF",
+    secondPrimaryColor: "#F8EEE6",
     placeholderText: "#525253",
-    primary: "#264699",
-    altPrimary: '#1E40AF',
+    primary: "#E76507",
+    altPrimary: '#D35400',
     text: '#101010',
     hoverText: '#000000',
     borderColor: '#E4E5E7',
@@ -16,10 +16,10 @@ export const themes = {
   },
   dark: {
     body:'#111111',
-    secondPrimaryColor: "#1a1a2e",
+    secondPrimaryColor: "#272728",
     placeholderText: "#a0a0a1",
-    primary: "#4f6bcc",
-    altPrimary: '#3b5bdb',
+    primary: "#E76507",
+    altPrimary: '#F97316',
     text: '#e6e6e6',
     hoverText: '#FFFFFF',
     borderColor: '#2d2d2d',

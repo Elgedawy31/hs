@@ -96,6 +96,7 @@ const AddModal = ({
               text={saveButtonText}
               onClick={handleSave}
               loading={isLoading}
+              disabled={isLoading}
               className="w-full text-white"
             />
           </ModalFooter>

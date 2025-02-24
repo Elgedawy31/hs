@@ -8,7 +8,7 @@ function UniBtn({ text, onClick, className = "", type = "button", loading = fals
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`bg-primary px-8 py-2 rounded-full transition-all duration-200 ease-in-out hover:scale-105 hover:opacity-90 active:scale-95 ${className}`}
+      className={`bg-primary px-8 py-2 rounded-full transition-all duration-200 ease-in-out hover:scale-105 flex items-center justify-center hover:opacity-90 active:scale-95 ${className}`}
     >
       {loading ? <Loader className=' animate-spin' />: text}
     </button>

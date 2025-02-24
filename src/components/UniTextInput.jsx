@@ -44,8 +44,8 @@ const UniTextInput = ({
     ${error 
       ? 'border-red-500 focus:border-red-500' 
       : isDarkMode 
-        ? 'focus:border-[#4f6bcc]'
-        : 'focus:border-[#264699]'
+      ? 'focus:border-[#E76507]'
+      : 'focus:border-[#E76507]'
     } 
     ${disabled 
       ? 'opacity-50 cursor-not-allowed' 
@@ -122,7 +122,7 @@ const UniTextInput = ({
                           key={v}
                           className={`
                             flex items-center gap-2 px-3 py-1 rounded-full text-sm
-                            ${isDarkMode ? 'bg-[#1a1a2e]' : 'bg-[#ECEDFF]'}
+                            ${isDarkMode ? 'bg-[#2D1810]' : 'bg-[#FFF3EC]'}
                           `}
                         >
                           <span>{option.label}</span>
@@ -189,8 +189,8 @@ const UniTextInput = ({
                     className={`
                       px-4 py-2 cursor-pointer first:rounded-t-lg last:rounded-b-lg
                       ${isDarkMode 
-                        ? 'hover:bg-[#1a1a2e]'
-                        : 'hover:bg-[#ECEDFF]'
+                        ? 'hover:bg-[#2D1810]'
+                        : 'hover:bg-[#FFF3EC]'
                       }
                       transition-colors duration-150 ease-in-out flex items-center justify-between
                     `}

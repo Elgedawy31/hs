@@ -14,7 +14,7 @@ function HomePage() {
         }
     } , [user])
   return (
-    <CardContainer>
+    <CardContainer className='p-6'>
       <div className="grid grid-cols-3 gap-8">
         <HomeCard Icon={StepForward} title='Tracked Time' description='167 h 19 m' />
         <HomeCard Icon={CircleCheckBig} title='Producitity' description='167 h 19 m' />

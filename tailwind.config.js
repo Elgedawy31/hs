@@ -60,6 +60,7 @@ export default {
         hoverText: 'var(--hoverText)',
         borderColor: 'var(--borderColor)',
         background: 'var(--background)',
+        barColor:'var(--barColor)'
       },
     },
   },

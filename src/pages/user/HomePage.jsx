@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import HomeCard from '../../components/user/bonus/HomeCard'
 import CardContainer from '../../components/CardContainer'
 import { CircleCheckBig, ClockAlert, StepForward } from 'lucide-react'
+import WorkHoursTracker from '../../components/BarCharts'
 
 function HomePage() {
   const { user } = useAuth()
@@ -28,6 +29,14 @@ function HomePage() {
         <HomeCard Icon={CircleCheckBig} title='Producitity' description='167 h 19 m' />
         <HomeCard Icon={ClockAlert} title='Overtime' description='16 h' />
       </div>
+
+      <div className="grid grid-cols-3 gap-4">
+        <div className=' col-span-2'>
+          <WorkHoursTracker />
+        </div>
+        <div className=' col-span-1'>hi</div>
+      </div>
+
     </CardContainer>
   )
 }

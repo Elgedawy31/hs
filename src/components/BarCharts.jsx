@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Line, ComposedChart, ResponsiveContainer, Label, Tooltip } from 'recharts';
 import CardContainer from './CardContainer';
+import { useTheme } from '../contexts/ThemeContext';
 
 const WorkHoursTracker = () => {
-  const [timeUnit, setTimeUnit] = useState('Hours');
+
+  const {currentTheme} = useTheme()
+  const isDark = currentTheme === 'dark'
   
   // Sample data for work hours
   const data = [
@@ -20,12 +23,12 @@ const WorkHoursTracker = () => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-[#FFF5E9] p-3 rounded-lg shadow-lg border-none">
+        <CardContainer className="bg-[#FFF5E9] p-3 rounded-lg shadow-lg border-none">
           <p className="text-[#FF6B00] font-bold">{payload[0].payload.day}</p>
-          <p className="text-gray-800 font-medium">
+          <p className="text-text font-medium">
             Working Hours: {payload[0].value}h
           </p>
-        </div>
+        </CardContainer>
       );
     }
     return null;
@@ -37,7 +40,7 @@ const WorkHoursTracker = () => {
         <div className="grid grid-cols-7 w-full">
           {data.map((item) => (
             <div key={item.day} className="text-center">
-              <span className="text-xl font-medium text-white">{item.day}</span>
+              <span className="text-base font-medium text-text">{item.day}</span>
             </div>
           ))}
         </div>

@@ -22,6 +22,10 @@ import Employees from './pages/admin/Empolyees/Employees.jsx'
 import AddEmployee from './pages/admin/Empolyees/AddEmployee.jsx'
 import EditEmployee from './pages/admin/Empolyees/EditEmployee.jsx'
 import EmployeeDetails from './pages/admin/Empolyees/EmployeeDetails.jsx'
+import HomePage from './pages/user/HomePage.jsx'
+import Tracking from './pages/user/Tracking.jsx'
+import Requesting from './pages/user/Requesting.jsx'
+import Memo from './pages/user/Memo.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated, user } = useAuth()
@@ -47,8 +51,20 @@ const router = createBrowserRouter([
     element: <ProtectedRoute><App /></ProtectedRoute>,
     children: [
       {
-        path: '',
-        element: <h1>home</h1>
+        path: '/',
+        element: <HomePage />
+      },
+      {
+        path: '/tracking',
+        element: <Tracking />
+      },
+      {
+        path: '/requesting',
+        element: <Requesting />
+      },
+      {
+        path: '/memo',
+        element: <Memo />
       },
       {
         element: <ProtectedRoute requireAdmin={true}><Dashboard /></ProtectedRoute>,

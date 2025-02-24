@@ -35,7 +35,7 @@ const WorkHoursTracker = () => {
   };
 
   return (
-    <CardContainer className="flex flex-col rounded-3xl p-6 bg-[#1E1E1E]">
+    <CardContainer className="flex flex-col rounded-3xl h-full p-6 bg-[#1E1E1E]">
       <div className="flex justify-between mb-4">
         <div className="grid grid-cols-7 w-full">
           {data.map((item) => (

@@ -5,6 +5,7 @@ import HomeCard from '../../components/user/bonus/HomeCard'
 import CardContainer from '../../components/CardContainer'
 import { CircleCheckBig, ClockAlert, StepForward } from 'lucide-react'
 import WorkHoursTracker from '../../components/BarCharts'
+import CompletedHours from '../../components/CompeletedHours'
 
 function HomePage() {
   const { user } = useAuth()
@@ -34,7 +35,10 @@ function HomePage() {
         <div className=' col-span-2'>
           <WorkHoursTracker />
         </div>
-        <div className=' col-span-1'>hi</div>
+        <div className=' col-span-1'>
+
+          <CompletedHours />
+        </div>
       </div>
 
     </CardContainer>

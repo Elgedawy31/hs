@@ -53,6 +53,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         ${sidebarOpen ? 'translate-x-[-20px] opacity-100 scale-100' : '-translate-x-full opacity-0 scale-95'}`}
     >
       <div className="flex flex-1 flex-col overflow-y-auto">
+        <nav className="flex-1 space-y-0.5 sm:space-y-1 w-[85%] sm:w-[80%] mx-auto">
+          {user?.role === 'user' ? (
+            <>
               <MenuItem
                 icon={HomeIcon}
                 label="Dashboard"

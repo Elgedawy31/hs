@@ -6,33 +6,43 @@ import MonthDays from '../../components/empolyees/dailyActivities/MonthDays';
 import CustomTabs from '../../components/CustomTabs'
 
 import dayjs from 'dayjs';
+import TrackingDetailsTab from '../../components/user/tracking/tabs/TrackingDetailsTab';
+import TrackingScreenshots from '../../components/user/tracking/tabs/TrackingScreenshots';
+import TrackingSystemLogs from '../../components/user/tracking/tabs/TrackingSystemLogs';
+import TrackingAppTab from '../../components/user/tracking/tabs/TrackingAppTab';
 
 function Tracking() {
   const [currentMonth, setCurrentMonth] = useState(dayjs());
-    const [activeTab, setActiveTab] = useState("details");
-  
-    const tabs = [
-      { id: "details", label: "Details" },
-      { id: "screenshots", label: "Screenshots" },
-      { id: "systemLogs", label: "System Logs" },
-      { id: "apps", label: "Apps" },
-    ];
-  
-    const handleMonthChange = (newDate) => {
-      setCurrentMonth(newDate);
-    };
+  const [activeTab, setActiveTab] = useState("details");
+
+  const tabs = [
+    { id: "details", label: "Details" },
+    { id: "screenshots", label: "Screenshots" },
+    { id: "systemLogs", label: "System Logs" },
+    { id: "apps", label: "Apps" },
+  ];
+
+  const handleMonthChange = (newDate) => {
+    setCurrentMonth(newDate);
+  };
   return (
     <CardContainer className='space-y-8'>
-      <Timer  />
+      <Timer />
 
       <CalendarHeader onMonthChange={handleMonthChange} />
 
       <MonthDays currentDate={currentMonth} />
- <CustomTabs
+      <CustomTabs
         tabs={tabs}
         activeTab={activeTab}
         onChange={setActiveTab}
       />
+      <div className="mt-4">
+        {activeTab === "details" && <TrackingDetailsTab />}
+        {activeTab === "screenshots" && <TrackingScreenshots />}
+        {activeTab === "systemLogs" && <TrackingSystemLogs />}
+        {activeTab === "apps" && <TrackingAppTab />}
+      </div >
     </CardContainer>
   )
 }

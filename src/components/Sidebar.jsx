@@ -28,9 +28,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
       />
       <div
         className={`flex items-center w-full px-3 sm:px-4 py-2 transform transition-all duration-300 ease-in-out
-          ${path === "/" ? (location?.pathname === "/" ? 'bg-secondPrimaryColor translate-x-1' : 'bg-transparent hover:translate-x-1 hover:bg-secondPrimaryColor/50')
-          : path === "dashboard" ? ((location?.pathname === "/dashboard" || location.pathname ==='/dashboard/') ? 'bg-secondPrimaryColor translate-x-1' : 'bg-transparent hover:translate-x-1 hover:bg-secondPrimaryColor/50')
-          : location?.pathname.includes(path) ? 'bg-secondPrimaryColor translate-x-1' : 'bg-transparent hover:translate-x-1 hover:bg-secondPrimaryColor/50'}
+          ${path === "/" ? (location?.pathname === "/" ? ' translate-x-1' : 'bg-transparent hover:translate-x-1 hover:/50')
+          : path === "dashboard" ? ((location?.pathname === "/dashboard" || location.pathname ==='/dashboard/') ? ' translate-x-1' : 'bg-transparent hover:translate-x-1 hover:/50')
+          : location?.pathname.includes(path) ? ' translate-x-1' : 'bg-transparent hover:translate-x-1 hover:/50'}
           text-text hover:text-hoverText`}
       >
         <Icon
@@ -39,7 +39,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
             : path === "dashboard" ? ((location?.pathname === "/dashboard" || location.pathname ==='/dashboard/') ? 'text-primary' : 'text-text')
             : location?.pathname.includes(path) ? 'text-primary' : 'text-text'}`}
         />
-        <span className="ml-2 sm:ml-3 flex-1 text-left font-medium transition-all duration-300">{label}</span>
+        <span className={`ml-2 sm:ml-3 flex-1 text-left font-medium transition-all duration-300  ${path === "/" ? (location?.pathname === "/" ? 'text-primary' : 'text-text')
+            : path === "dashboard" ? ((location?.pathname === "/dashboard" || location.pathname ==='/dashboard/') ? 'text-primary' : 'text-text')
+            : location?.pathname.includes(path) ? 'text-primary' : 'text-text'}`}>{label}</span>
       </div>
     </button>
   );

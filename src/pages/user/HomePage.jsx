@@ -12,7 +12,11 @@ function HomePage() {
     } , [user])
   return (
     <div>
-      HomePage
+      <div className="grid grid-cols-3 gap-4">
+        <div>osama</div>
+        <div>osama</div>
+        <div>osama</div>
+      </div>
     </div>
   )
 }

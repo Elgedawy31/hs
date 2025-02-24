@@ -18,25 +18,22 @@ const CompletedHours = ({ progress = 0 }) => {
       {/* Progress bars */}
       <div className="space-y-6">
         {/* Bar 1 */}
-        <div className="relative h-14 bg-background rounded-full overflow-hidden">
-          <div className="absolute left-0 top-0 h-full bg-barColor rounded-full" style={{ width: '30%' }}>
+        <div className="relative border border-borderColor h-14 bg-background rounded-3xl overflow-hidden">
+          <div className=" h-full bg-borderColor rounded-3xl" style={{ width: '70%' }}>
+            <span className="absolute left-6 top-1/2 -translate-y-1/2 text-white text-xl">February</span>
+          </div>
+        </div>
+        <div className="relative border border-borderColor h-14 bg-background rounded-3xl overflow-hidden">
+          <div className=" h-full bg-borderColor rounded-3xl" style={{ width: '90%' }}>
+            <span className="absolute left-6 top-1/2 -translate-y-1/2 text-white text-xl">February</span>
+          </div>
+        </div>
+        <div className="relative border border-borderColor h-14 bg-background rounded-3xl overflow-hidden">
+          <div className=" h-full bg-primary rounded-3xl" style={{ width: '60%' }}>
             <span className="absolute left-6 top-1/2 -translate-y-1/2 text-white text-xl">February</span>
           </div>
         </div>
 
-        {/* Bar 2 */}
-        <div className="relative h-14 bg-background rounded-full overflow-hidden">
-          <div className="absolute left-0 top-0 h-full bg-barColor rounded-full" style={{ width: '60%' }}>
-            <span className="absolute left-6 top-1/2 -translate-y-1/2 text-white text-xl">February</span>
-          </div>
-        </div>
-
-        {/* Bar 3 - Current */}
-        <div className="relative h-14 bg-background rounded-full overflow-hidden">
-          <div className="absolute left-0 top-0 h-full bg-primary rounded-full" style={{ width: `${percentage}%` }}>
-            <span className="absolute left-6 top-1/2 -translate-y-1/2 text-white text-xl">February</span>
-          </div>
-        </div>
       </div>
     </CardContainer>
   );

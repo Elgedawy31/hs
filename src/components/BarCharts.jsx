@@ -24,7 +24,7 @@ const WorkHoursTracker = () => {
     if (active && payload && payload.length) {
       return (
         <CardContainer className="bg-[#FFF5E9] p-3 rounded-lg shadow-lg border-none">
-          <p className="text-[#FF6B00] font-bold">{payload[0].payload.day}</p>
+          <p className="text-primary font-bold">{payload[0].payload.day}</p>
           <p className="text-text font-medium">
             Working Hours: {payload[0].value}h
           </p>
@@ -99,7 +99,7 @@ const WorkHoursTracker = () => {
                         x={xPos}
                         y={yPos + 2}
                         textAnchor="middle"
-                        fill="#FF6B00"
+                        fill="#E76507"
                         fontSize={16}
                         fontWeight="bold"
                       >

@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAuth } from './contexts/AuthContext';
-import { useDispatch } from "react-redux";
 import { useTheme } from './contexts/ThemeContext';
 import Login from './pages/Login';
 

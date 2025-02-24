@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import CardContainer from '../../components/CardContainer'
-import UniHeading from '../../components/UniHeading'
+import CardContainer from '@components/CardContainer'
+import UniHeading from '@components/UniHeading'
 import { UserRoundPlus } from 'lucide-react'
-import EmployeeForm from '../../components/empolyees/EmployeeForm'
+import EmployeeForm from '@components/empolyees/EmployeeForm'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 

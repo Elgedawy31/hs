@@ -14,14 +14,14 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import ToastProvider from './components/CustomToast.jsx'
 import NotFound from './pages/NotFound.jsx'
-import Dashboard from './pages/Dashboard/Dashboard.jsx'
-import Screenshots from './pages/Screenshots.jsx'
-import Payment from './pages/Payment/Payment.jsx'
-import Bouns from './pages/Bouns/Bonus.jsx'
-import Employees from './pages/Empolyees/Employees.jsx'
-import AddEmployee from './pages/Empolyees/AddEmployee.jsx'
-import EditEmployee from './pages/Empolyees/EditEmployee.jsx'
-import EmployeeDetails from './pages/Empolyees/EmployeeDetails.jsx'
+import Dashboard from './pages/admin/Dashboard/Dashboard.jsx'
+import Screenshots from './pages/admin/Screenshots.jsx'
+import Payment from './pages/admin/Payment/Payment.jsx'
+import Bouns from './pages/admin/Bouns/Bonus.jsx'
+import Employees from './pages/admin/Empolyees/Employees.jsx'
+import AddEmployee from './pages/admin/Empolyees/AddEmployee.jsx'
+import EditEmployee from './pages/admin/Empolyees/EditEmployee.jsx'
+import EmployeeDetails from './pages/admin/Empolyees/EmployeeDetails.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated, user } = useAuth()

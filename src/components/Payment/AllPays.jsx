@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import UniTable from '../../components/UniTable';
-import UniHeading from '../../components/UniHeading';
+import UniTable from '@components/UniTable';
+import UniHeading from '@components/UniHeading';
 import { Users} from 'lucide-react';
-import CardContainer from '../../components/CardContainer';
+import CardContainer from '@components/CardContainer';
 
 function AllPays() {
      const [selectedRows, setSelectedRows] = useState([]);

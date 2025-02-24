@@ -1,8 +1,8 @@
 import React from 'react';
 import { Focus } from 'lucide-react';
-import UniHeading from '../components/UniHeading';
-import ScreenCard from '../components/screenshots/ScreenCard';
-import { useTheme } from '../contexts/ThemeContext';
+import UniHeading from '@components/UniHeading';
+import ScreenCard from '@components/screenshots/ScreenCard';
+import { useTheme } from '../../contexts/ThemeContext';
 
 export default function Screenshots() {
   const { theme } = useTheme();

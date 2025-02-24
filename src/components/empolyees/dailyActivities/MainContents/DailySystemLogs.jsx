@@ -1,6 +1,6 @@
 import React from 'react';
-import UniTable from '../../../../components/UniTable';
-import CardContainer from '../../../../components/CardContainer';
+import UniTable from '@components/UniTable';
+import CardContainer from '@components/CardContainer';
 
 export default function DailySystemLogs() {
   // Sample data based on the image

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import BonusHeading from "../../components/bouns/BonusHeading";
-import CardContainer from "../../components/CardContainer";
-import BounsList from "../../components/bouns/BounsList";
-import BonusForm from "../../components/bouns/BonusForm";
+import BonusHeading from "@components/bouns/BonusHeading";
+import CardContainer from "@components/CardContainer";
+import BounsList from "@components/bouns/BounsList";
+import BonusForm from "@components/bouns/BonusForm";
 
 
 const Bouns = () => {

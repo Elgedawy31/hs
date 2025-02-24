@@ -1,5 +1,5 @@
 import React from 'react';
-import CardContainer from '../../../../components/CardContainer';
+import CardContainer from '@components/CardContainer';
 import { LayoutGrid, Monitor } from 'lucide-react';
 
 export default function DailyAppsUsage() {

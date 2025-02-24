@@ -1,5 +1,5 @@
 import React from 'react';
-import UniCard from '../../components/UniCard';
+import UniCard from '@components/UniCard';
 import { BadgeDollarSignIcon, ClockArrowUpIcon, BookPlusIcon, CircleDollarSignIcon } from 'lucide-react';
 
 

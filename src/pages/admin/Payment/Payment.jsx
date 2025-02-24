@@ -1,8 +1,8 @@
 import React from 'react'
-import UniHeading from '../../components/UniHeading'
+import UniHeading from '@components/UniHeading'
 import { LucideFiles } from 'lucide-react';
-import PayCards from '../../components/Payment/PayCards';
-import AllPays from '../../components/Payment/AllPays';
+import PayCards from '@components/Payment/PayCards';
+import AllPays from '@components/Payment/AllPays';
 
 function Payment() {
   const handleClick = () => {

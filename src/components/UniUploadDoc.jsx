@@ -1,8 +1,7 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { Card, CardBody } from "@heroui/card";
-import { Upload, FileText, FileSpreadsheet, File, X, Image as ImageIcon } from "lucide-react";
+import { Upload, FileText, FileSpreadsheet, File, X, Image as ImageIcon, FileType } from "lucide-react";
 import { useDropzone } from "react-dropzone";
-import { AiFillFilePdf } from "react-icons/ai";
 import { Button } from "@heroui/button";
 import { truncateText } from "@/utils/cap";
 import { Tooltip } from "@heroui/tooltip";
@@ -145,7 +144,7 @@ function UniUploadDoc({
 
     switch (file.type.toLowerCase()) {
       case "pdf":
-        return <AiFillFilePdf className="w-6 h-6 text-red-500" />;
+        return <FileType className="w-6 h-6 text-red-500" />;
       case "doc":
       case "docx":
         return <FileText className="w-6 h-6 text-blue-500" />;

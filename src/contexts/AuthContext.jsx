@@ -12,7 +12,7 @@ const AuthContext = createContext({
 export function AuthProvider({ children }) {
   const defaultUser = {
     email:"example@gmail.com",
-    role: 'admin',
+    role: 'user',
     id: 1,
     name: 'John Doe',
   }

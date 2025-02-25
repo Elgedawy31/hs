@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Spline from "@splinetool/react-spline";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Logo from "../assets/logo.png"; // Import your logo
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import toast from "react-hot-toast";
 
 // Define validation schema with Zod
 const schema = z.object({
@@ -13,25 +16,29 @@ const schema = z.object({
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const { showToast } = useToast();
+  const { login , isAuthenticated } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({ resolver: zodResolver(schema) });
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
   const onSubmit = async (data) => {
     try {
       const result = await login(data.email, data.password);
       if (result.success) {
-        showToast("Login successful!", "success");
+        toast.success("Login successful!", "success");
         navigate("/");
       } else {
-        showToast(result.error || "Login failed", "error");
+        toast.error(result.error || "Login failed", "error");
       }
     } catch (error) {
-      showToast(error.message || "An error occurred", "error");
+      toast.error(error.message || "An error occurred", "error");
     }
   };
 

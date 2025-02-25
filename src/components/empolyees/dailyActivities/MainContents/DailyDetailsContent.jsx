@@ -9,7 +9,7 @@ const DetailCard = ({ title, value, icon }) => {
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <span className="text-2xl font-semibold">{value}</span>
-          <div className="text-primary bg-primary-50 rounded-full p-2">
+          <div className="text-primary bg-[#F8EEE6] rounded-full p-2">
             {icon}
           </div>
         </div>

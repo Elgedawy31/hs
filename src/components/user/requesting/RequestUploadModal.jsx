@@ -76,7 +76,7 @@ const RequestUploadModal = ({ isOpen, onClose }) => {
           placeholder="Enter request description"
           value={description}
           onChange={setDescription}
-          rows={3}
+          rows={6}
           required
         />
       </div>

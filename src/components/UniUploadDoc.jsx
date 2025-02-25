@@ -176,7 +176,7 @@ function UniUploadDoc({
               ${isDragActive ? "border-primary bg-secondPrimaryColor" : "border-borderColor hover:border-primary"}
               ${maxFiles > 0 && allFiles.length >= maxFiles ? "opacity-50 cursor-not-allowed" : ""}`}>
             <input {...getInputProps()} />
-            <Upload className="mx-auto mb-4 w-12 h-12 text-placeholderText" />
+            <Upload className="mx-auto mb-4 w-12 h-12 text-primary" />
             <p className="text-lg mb-2 text-hoverText">Drop files here or click to upload</p>
             {defaultDescription && <p className="text-sm text-placeholderText">{defaultDescription}</p>}
             {maxFiles > 0 && (

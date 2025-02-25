@@ -32,6 +32,7 @@ const AddModal = ({
   saveButtonText = 'Save',
   cancelButtonText = 'No',
   isLoading = false,
+  haveWidth = false,
   children
 }) => {
   const [step, setStep] = useState(initialStep);
@@ -51,10 +52,11 @@ const AddModal = ({
       isOpen={isOpen}
       onClose={onClose}
       size={size}
+      
       placement="center"
       classNames={{
         backdrop: "bg-black/50 backdrop-blur-sm animate-fadeIn",
-        base: "bg-body rounded-lg  max-h-[81vh]",
+        base: `bg-body rounded-lg  max-h-[81vh] ${haveWidth ? 'lg:min-w-[800px] w-full' : ''}`,
         header: "border-b border-borderColor px-6 py-4",
         body: "px-6 py-4 overflow-y-auto",
         footer: "px-6 py-4",

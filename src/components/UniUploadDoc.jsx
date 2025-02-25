@@ -3,8 +3,8 @@ import { Card, CardBody } from "@heroui/card";
 import { Upload, FileText, FileSpreadsheet, File, X, Image as ImageIcon, FileType } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "@heroui/button";
-import { truncateText } from "@/utils/cap";
 import { Tooltip } from "@heroui/tooltip";
+import { truncateText } from "../utils/truncate";
 
 const ACCEPTED_FILE_TYPES = {
   documents: {

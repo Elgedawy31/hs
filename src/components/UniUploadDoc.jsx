@@ -5,6 +5,7 @@ import { useDropzone } from "react-dropzone";
 import { Button } from "@heroui/button";
 import { Tooltip } from "@heroui/tooltip";
 import { truncateText } from "../utils/truncate";
+import { useTheme } from "../contexts/ThemeContext";
 
 const ACCEPTED_FILE_TYPES = {
   documents: {
@@ -44,6 +45,7 @@ function UniUploadDoc({
   existingFiles = [],
   onDeleteExisting,
 }) {
+  const { theme } = useTheme();
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [currentExistingFiles, setCurrentExistingFiles] = useState(existingFiles);
   const [allFiles, setAllFiles] = useState([]);
@@ -171,14 +173,14 @@ function UniUploadDoc({
           <div
             {...getRootProps()}
             className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
-              ${isDragActive ? "border-primary bg-primary/10" : "border-gray-300 hover:border-primary"}
+              ${isDragActive ? "border-primary bg-secondPrimaryColor" : "border-borderColor hover:border-primary"}
               ${maxFiles > 0 && allFiles.length >= maxFiles ? "opacity-50 cursor-not-allowed" : ""}`}>
             <input {...getInputProps()} />
-            <Upload className="mx-auto mb-4 w-12 h-12 text-gray-400" />
-            <p className="text-lg mb-2">Drop files here or click to upload</p>
-            {defaultDescription && <p className="text-sm text-gray-500">{defaultDescription}</p>}
+            <Upload className="mx-auto mb-4 w-12 h-12 text-placeholderText" />
+            <p className="text-lg mb-2 text-hoverText">Drop files here or click to upload</p>
+            {defaultDescription && <p className="text-sm text-placeholderText">{defaultDescription}</p>}
             {maxFiles > 0 && (
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-placeholderText mt-2">
                 Files: {allFiles.length} / {maxFiles}
               </p>
             )}
@@ -191,7 +193,7 @@ function UniUploadDoc({
           <h3 className="font-semibold mb-3">Required Documents:</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {requiredDocuments.map((doc, index) => (
-              <div key={index} className="text-sm text-gray-600">
+              <div key={index} className="text-sm text-placeholderText">
                 • {doc.label}
               </div>
             ))}
@@ -205,7 +207,7 @@ function UniUploadDoc({
             {allFiles.map((file, index) => (
               <li 
                 key={index}
-                className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg group">
+                className="flex items-center justify-between p-3 bg-background rounded-lg group">
                 <div className="flex items-center gap-2">
                   {getFileIcon(file)}
                   <Tooltip content={file.name} isDisabled={file.name.length < 50}>
@@ -213,11 +215,11 @@ function UniUploadDoc({
                   </Tooltip>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className="text-sm text-gray-500">{file.uploadDate || "Existing file"}</span>
+                  <span className="text-sm text-placeholderText">{file.uploadDate || "Existing file"}</span>
 
                   <Button
                     onPress={() => removeFile(index, index < currentExistingFiles.length)}
-                    className="p-0 rounded-full hover:bg-gray-200 text-gray-500 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
+                    className="p-0 rounded-full hover:bg-secondPrimaryColor text-placeholderText hover:text-primary transition-colors opacity-0 group-hover:opacity-100"
                     aria-label="Remove file"
                     size="sm">
                     <X className="w-4 h-4" />

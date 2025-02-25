@@ -1,21 +1,9 @@
 import React, { useState } from 'react'
-import { ListTodo, Pencil, Trash2 } from 'lucide-react'
+import { ListTodo } from 'lucide-react'
 import UniHeading from '../../UniHeading'
+import MemoCard from '../../../components/MemoCard'
 import MemoForm from './MemoForm'
 import DeleteConfirmation from '../../DeleteConfirmation'
-
-const getWarningTypeStyle = (type) => {
-  switch (type.toLowerCase()) {
-    case 'minor':
-      return 'text-success-500 bg-success-100 px-2 py-1 rounded';
-    case 'moderate':
-      return 'text-orange-500 bg-orange-100 px-2 py-1 rounded';
-    case 'final':
-      return 'text-danger bg-red-100 px-2 py-1 rounded';
-    default:
-      return 'text-gray-500 bg-gray-100 px-2 py-1 rounded';
-  }
-}
 
 function Memoes() {
   const [open, setOpen] = useState(false);
@@ -111,43 +99,12 @@ function Memoes() {
       />
 
       {memoData.map((memo, index) => (
-        <div key={index} className="bg-background rounded-lg border border-borderColor p-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <span className="text-primary font-medium">{memo.type}</span>
-              <span className={`${getWarningTypeStyle(memo.warningType)} font-medium`}>
-                {memo.warningType} Warning
-              </span>
-              <span className="text-placeholderText">{memo.date}</span>
-            </div>
-            <div className="flex gap-2">
-              <button 
-                className="hover:opacity-80"
-                onClick={() => handleEdit(memo)}
-              >
-                <Pencil size={17} className="text-text" />
-              </button>
-              <button 
-                className="text-danger hover:opacity-80"
-                onClick={() => handleDelete(memo)}
-              >
-                <Trash2 size={17} />
-              </button>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-placeholderText mb-2">Description</h3>
-              <p className="text-text">{memo.description}</p>
-            </div>
-
-            <div>
-              <h3 className="text-placeholderText mb-2">Required Action:</h3>
-              <p className="text-text">{memo.requiredAction}</p>
-            </div>
-          </div>
-        </div>
+        <MemoCard 
+          key={index}
+          memo={memo}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
       ))}
 
       <MemoForm 

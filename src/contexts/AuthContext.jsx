@@ -10,7 +10,13 @@ const AuthContext = createContext({
 })
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
+  const defaultUser = {
+    email:"example@gmail.com",
+    role: 'admin',
+    id: 1,
+    name: 'John Doe',
+  }
+  const [user, setUser] = useState(defaultUser)
   const [loading, setLoading] = useState(false) 
 
   const login = async (email, password) => {

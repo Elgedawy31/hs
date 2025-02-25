@@ -30,7 +30,7 @@ import Memo from './pages/user/Memo.jsx'
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated, user } = useAuth()
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/login" />
   }
 
   // Check for admin access if required

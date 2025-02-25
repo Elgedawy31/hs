@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import Loading from '../components/Loading'
+import { API_URL } from '../utils/constants'
 const AuthContext = createContext({
   user: null,
   loading: false,
@@ -9,47 +10,13 @@ const AuthContext = createContext({
 })
 
 export function AuthProvider({ children }) {
-  const defaultUser = {
-    name: "Default User",
-    email: "user@example.com",
-    role: "user"
-  }
-  const [user, setUser] = useState(defaultUser)
+  const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(false) 
-
-  const verifyConnection = async () => {
-    try {
-      const response = await fetch('/api/auth/verify', {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      if (data.success) {
-        let role ='user'
-        setUser({...data.user , role});
-        localStorage.setItem('user', JSON.stringify({...data.user , role}));
-        return;
-      }
-      throw new Error(data.error || 'Something went wrong!!');
-    } catch (error) {
-      setUser(null);
-      localStorage.removeItem('user');
-    } finally {
-      setLoading(false);
-    }
-  }
 
   const login = async (email, password) => {
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await  fetch(`${API_URL}/auth/login`, {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -79,7 +46,7 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      const response = await fetch('/api/auth/logout', {
+      const response = await  fetch(`${API_URL}/auth/logout`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -110,7 +77,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, isAuthenticated: true }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, isAuthenticated:true }}>
       {children}
     </AuthContext.Provider>
   )

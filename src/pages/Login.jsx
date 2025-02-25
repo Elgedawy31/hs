@@ -3,22 +3,38 @@ import Spline from "@splinetool/react-spline";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useAuth } from "../contexts/AuthContext";
+import { useToast } from "../components/CustomToast";
+import { useNavigate } from "react-router-dom";
 
 // Define validation schema with Zod
 const schema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(4, "Password must be at least 6 characters"),
 });
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const { showToast } = useToast();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({ resolver: zodResolver(schema) });
 
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
+  const onSubmit = async (data) => {
+    try {
+      const result = await login(data.email, data.password);
+      if (result.success) {
+        showToast("Login successful!", "success");
+        navigate("/");
+      } else {
+        showToast(result.error || "Login failed", "error");
+      }
+    } catch (error) {
+      showToast(error.message || "An error occurred", "error");
+    }
   };
 
   return (
@@ -50,8 +66,14 @@ const Login = () => {
           />
           {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
 
-          <button type="submit" className="mt-4 w-[70%] bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition">
-            Login
+          <button 
+            type="submit" 
+            disabled={isSubmitting}
+            className={`mt-4 w-[70%] text-white py-3 px-6 rounded-lg transition ${
+              isSubmitting ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+            }`}
+          >
+            {isSubmitting ? 'Logging in...' : 'Login'}
           </button>
         </form>
       </div>

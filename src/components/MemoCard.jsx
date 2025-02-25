@@ -1,6 +1,7 @@
 import React from 'react'
 import { Pencil, Trash2 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext';
+import CardContainer from './CardContainer';
 
 const getWarningTypeStyle = (type) => {
   switch (type.toLowerCase()) {
@@ -19,7 +20,7 @@ function MemoCard({ memo, onEdit, onDelete }) {
 const {user:{role}} = useAuth()
 
   return (
-    <div className="bg-background rounded-lg border border-borderColor p-6 space-y-4">
+    <CardContainer className="p-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <span className="text-primary font-medium">{memo.type}</span>
@@ -55,7 +56,7 @@ const {user:{role}} = useAuth()
           <p className="text-text">{memo.requiredAction}</p>
         </div>
       </div>
-    </div>
+    </CardContainer>
   )
 }
 

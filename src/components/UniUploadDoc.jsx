@@ -211,7 +211,7 @@ function UniUploadDoc({
                 <div className="flex items-center gap-2">
                   {getFileIcon(file)}
                   <Tooltip content={file.name} isDisabled={file.name.length < 50}>
-                    <span className="font-medium xs:text-xs"> {truncateText(file.name)} </span>
+                    <span className="font-medium text-text xs:text-xs"> {truncateText(file.name, 30, "...")} </span>
                   </Tooltip>
                 </div>
                 <div className="flex items-center gap-4">

@@ -11,7 +11,7 @@ const schema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-const Login = () => {
+const ForgetPassword = () => {
   const {
     register,
     handleSubmit,
@@ -24,7 +24,6 @@ const Login = () => {
 
   return (
     <div className="relative w-full h-screen flex items-center bg-black">
-      {/* Login Form Section - Positioned Left */}
       <div className="relative z-10 w-[400px] h-[600px] bg-gradient-to-b from-[#9c4f1458] to-[#2e2e2e] p-8 rounded-2xl shadow-xl text-white ml-16">
         {/* Logo */}
         <div className="flex  justify-center mb-4">
@@ -37,7 +36,8 @@ const Login = () => {
 
         {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-5">
-          <h2 className="text-2xl font-semibold text-left mb-6">Sign in</h2>
+          <h2 className="text-2xl font-semibold text-left mb-3">Forget Password</h2>
+          <p className="text-md font-normal text-left mb-6">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
           {/* Email Input */}
           <div>
             <label className="text-sm">E-mail Address</label>
@@ -50,29 +50,12 @@ const Login = () => {
             {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
           </div>
 
-          {/* Password Input */}
-          <div>
-            <label className="text-sm">Password</label>
-            <input
-              placeholder="Password"
-              type="password"
-              {...register("password")}
-              className="w-full mt-1 px-4 py-2 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-            {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password.message}</p>}
-          </div>
-
-          {/* Forgot Password */}
-          <div className="text-right text-sm">
-            <a href="/forget-password" className="text-orange-400 hover:underline">Forgot Password?</a>
-          </div>
-
           {/* Sign In Button */}
           <button
             type="submit"
             className="w-full bg-orange-500 py-2 rounded-md text-white font-semibold hover:bg-orange-600 transition"
           >
-            Sign in
+            Send
           </button>
         </form>
       </div>
@@ -85,4 +68,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgetPassword;

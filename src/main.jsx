@@ -26,6 +26,7 @@ import HomePage from './pages/user/HomePage.jsx'
 import Tracking from './pages/user/Tracking.jsx'
 import Requesting from './pages/user/Requesting.jsx'
 import Memo from './pages/user/Memo.jsx'
+import ForgetPassword from './pages/ForgetPassword.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated, user } = useAuth()
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />
+  },
+  {
+    path: '/forget-password',
+    element: <ForgetPassword />
   },
   {
     path: '/',

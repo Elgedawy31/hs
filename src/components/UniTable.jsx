@@ -41,8 +41,8 @@ const UniTable = ({ columns, data, actions, onRowSelect }) => {
     columns: [
       // User provided columns
       ...columns,
-      // Actions column
-      {
+      // Actions column (only if actions exist and not empty)
+      ...(actions && actions.length > 0 ? [{
         id: 'actions',
         header: '',
         cell: ({ row }) => (
@@ -112,7 +112,7 @@ const UniTable = ({ columns, data, actions, onRowSelect }) => {
           </div>
         ),
         size: 80,
-      },
+      }] : []),
     ],
     state: {
       rowSelection,

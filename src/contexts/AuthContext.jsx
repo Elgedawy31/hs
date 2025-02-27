@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
     id: 1,
     name: 'John Doe',
   }
-  const [user, setUser] = useState(defaultUser)
+  const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(false) 
 
   const login = async (email, password) => {
@@ -83,7 +83,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, isAuthenticated:true }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, isAuthenticated: !!user }}>
       {children}
     </AuthContext.Provider>
   )

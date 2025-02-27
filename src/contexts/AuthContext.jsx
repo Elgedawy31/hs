@@ -10,18 +10,12 @@ const AuthContext = createContext({
 })
 
 export function AuthProvider({ children }) {
-  const defaultUser = {
-    email:"example@gmail.com",
-    role: 'user',
-    id: 1,
-    name: 'John Doe',
-  }
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(false) 
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null)
+  const [loading, setLoading] = useState(false)
 
   const login = async (email, password) => {
     try {
-      const response = await  fetch(`${API_URL}/auth/login`, {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,9 +25,8 @@ export function AuthProvider({ children }) {
 
       const data = await response.json();
       if (data.success) {
-        let role = 'user'
-        localStorage.setItem('user', JSON.stringify({ ...data.user, role }))
-        setUser({ ...data.user, role });
+        localStorage.setItem('user', JSON.stringify({ ...data.user }))
+        setUser({ ...data.user });
         return {
           success: true,
           user: data.user
@@ -51,34 +44,14 @@ export function AuthProvider({ children }) {
   }
 
   const logout = async () => {
-    try {
-      const response = await  fetch(`${API_URL}/auth/logout`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
 
-      const data = await response.json();
-
-      if (data.success) {
-        localStorage.removeItem('user')
-        setUser(null)
-      }
-      throw new Error(data.message || 'Logout failed')
-    } catch (error) {
-      return {
-        success: false,
-        error: error.message || 'Failed to logout'
-      }
-    }
+    localStorage.removeItem('user')
+    setUser(null)
   }
-
 
   if (loading) {
     return (
-     <Loading />
+        <Loading />
     )
   }
 

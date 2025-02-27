@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useDispatch, useSelector } from 'react-redux';
+import { createNotification, resetNotificationState } from '../../store/reducers/notification';
 import AddModal from '../AddModal';
 import UniTextInput from '../UniTextInput';
+import toast from 'react-hot-toast';
 
 // Define Zod schema for form validation
 const notificationSchema = z.object({
   title: z.string()
     .min(3, 'Title must be at least 3 characters')
     .max(50, 'Title must not exceed 50 characters'),
-  description: z.string()
+  message: z.string()
     .min(10, 'Description must be at least 10 characters')
     .max(500, 'Description must not exceed 500 characters'),
-  selectedMember: z.string({
-    required_error: 'Please select at least one member'
-  })
+  recipients: z.array(z.string())
 });
 
 const memberOptions = [
@@ -26,28 +27,55 @@ const memberOptions = [
 ];
 
 const SendNotificationForm = ({ isOpen, onClose }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { loading, error, isCreated } = useSelector(state => state.notification);
   
-  const { handleSubmit, formState: { errors }, setValue, watch } = useForm({
+  const { handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
     resolver: zodResolver(notificationSchema),
     mode: 'onChange',
     defaultValues: {
       title: '',
-      description: '',
-      selectedMember: 'all'
+      message: '',
+      recipients: 'all'
     }
   });
 
   const values = watch();
 
-  const onSubmit = (data) => {
-    setIsLoading(true);
-    // TODO: Implement send notification logic
-    console.log('Form data:', data);
-    setTimeout(() => {
-      setIsLoading(false);
+  useEffect(() => {
+    // Close modal and reset form when notification is isCreatedfully sent
+    if (isCreated) {
+      reset();
       onClose();
-    }, 1000);
+      dispatch(resetNotificationState());
+    }
+  }, [isCreated, onClose, reset, dispatch]);
+
+  useEffect(() => {
+    // Reset form when modal is closed
+    if (error) {
+      toast.error(error);
+      dispatch(resetNotificationState());
+    }
+  }, [error]);
+
+  // Clean up on unmount
+  useEffect(() => {
+    return () => {
+      dispatch(resetNotificationState());
+    };
+  }, [dispatch]);
+
+  const onSubmit = (data) => {
+    // Format data for API
+    const notificationData = {
+      title: data.title,
+      message: data.message,
+      recipients: data.recipients
+    };
+    
+    // Dispatch the create notification action
+    dispatch(createNotification(notificationData));
   };
 
   return (
@@ -58,7 +86,7 @@ const SendNotificationForm = ({ isOpen, onClose }) => {
       onSave={handleSubmit(onSubmit)}
       saveButtonText="Send"
       cancelButtonText="Cancel"
-      isLoading={isLoading}
+      isLoading={loading}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <UniTextInput
@@ -74,9 +102,9 @@ const SendNotificationForm = ({ isOpen, onClose }) => {
           type="textarea"
           label="Description"
           placeholder="Enter notification description"
-          value={values.description || ''}
-          onChange={(value) => setValue('description', value, { shouldValidate: true })}
-          error={errors.description?.message}
+          value={values.message || ''}
+          onChange={(value) => setValue('message', value, { shouldValidate: true })}
+          error={errors.message?.message}
           required
           rows={3}
         />
@@ -84,11 +112,12 @@ const SendNotificationForm = ({ isOpen, onClose }) => {
         <UniTextInput
           type="select"
           label="TO"
+        multiple
           placeholder="Choose Members"
-          value={values.selectedMember || ''}
-          onChange={(value) => setValue('selectedMember', value, { shouldValidate: true })}
+          value={values.recipients || ''}
+          onChange={(value) => setValue('recipients', value, { shouldValidate: true })}
           options={memberOptions}
-          error={errors.selectedMember?.message}
+          error={errors.recipients?.message}
           required
         />
       </form>

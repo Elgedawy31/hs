@@ -32,13 +32,13 @@ const notificationSlice = createSlice({
     initialState: {
         loading: false,
         error: null,
-        success: false,
+        isCreated: false,
     },
     reducers: {
         resetNotificationState: (state) => {
             state.loading = false;
             state.error = null;
-            state.success = false;
+            state.isCreated = false;
         }
     },
     extraReducers: (builder) => {
@@ -46,17 +46,17 @@ const notificationSlice = createSlice({
             .addCase(createNotification.pending, (state) => {
                 state.loading = true;
                 state.error = null;
-                state.success = false;
+                state.isCreated = false;
             })
             .addCase(createNotification.fulfilled, (state) => {
                 state.loading = false;
                 state.error = null;
-                state.success = true;
+                state.isCreated = true;
             })
             .addCase(createNotification.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-                state.success = false;
+                state.isCreated = false;
             });
     },
 });

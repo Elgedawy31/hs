@@ -6,11 +6,13 @@ const AuthContext = createContext({
   loading: false,
   login: async () => { },
   logout: async () => { },
-  isAuthenticated: false
+  isAuthenticated: false,
+  token: null
 })
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null)
+  const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')) || null)
   const [loading, setLoading] = useState(false)
 
   const login = async (email, password) => {
@@ -26,7 +28,9 @@ export function AuthProvider({ children }) {
       const data = await response.json();
       if (data.success) {
         localStorage.setItem('user', JSON.stringify({ ...data.user }))
+        localStorage.setItem('token', JSON.stringify({ ...data.token }))
         setUser({ ...data.user });
+        setToken({ ...data.token });
         return {
           success: true,
           user: data.user
@@ -56,7 +60,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, isAuthenticated: !!user  , token }}>
       {children}
     </AuthContext.Provider>
   )

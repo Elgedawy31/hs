@@ -50,4 +50,3 @@ const {user} = useAuth();
 };
 
 export default Dashboard;
-c

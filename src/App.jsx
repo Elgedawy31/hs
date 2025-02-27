@@ -34,7 +34,7 @@ console.log(user)
        
         ">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        <main className="flex-1 md:pr-5 pr-0 " >
+        <main className="flex-1 pr-5 lg:pl-0 pl-5 " >
           <Outlet />
         </main>
       </div>

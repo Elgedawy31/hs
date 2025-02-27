@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useDispatch, useSelector } from 'react-redux';
 import { createNotification, resetNotificationState } from '../../store/reducers/notification';
+import { useAuth } from '../../contexts/AuthContext';
 import AddModal from '../AddModal';
 import UniTextInput from '../UniTextInput';
 import toast from 'react-hot-toast';
@@ -29,7 +30,8 @@ const memberOptions = [
 const SendNotificationForm = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const { loading, error, isCreated } = useSelector(state => state.notification);
-  
+  const { token } = useAuth();
+
   const { handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
     resolver: zodResolver(notificationSchema),
     mode: 'onChange',
@@ -73,9 +75,9 @@ const SendNotificationForm = ({ isOpen, onClose }) => {
       message: data.message,
       recipients: data.recipients
     };
-    
-    // Dispatch the create notification action
-    dispatch(createNotification(notificationData));
+
+    // Dispatch the create notification action with token
+    dispatch(createNotification({ notificationData, token }));
   };
 
   return (
@@ -112,7 +114,7 @@ const SendNotificationForm = ({ isOpen, onClose }) => {
         <UniTextInput
           type="select"
           label="TO"
-        multiple
+          multiple
           placeholder="Choose Members"
           value={values.recipients || ''}
           onChange={(value) => setValue('recipients', value, { shouldValidate: true })}

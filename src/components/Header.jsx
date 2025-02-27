@@ -155,7 +155,7 @@ export default function Header({ sidebarOpen, setSidebarOpen }) {
               border-borderColor py-1 top-full z-50 transition-all duration-300 ease-in-out 
               transform origin-top ${isDropdownOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'}`}
           >
-            <button
+            {/* <button
               onClick={() => navigate('/profile')}
               className="w-full text-left px-3 sm:px-4 py-2 text-sm text-text 
                 hover:bg-secondPrimaryColor flex items-center transition-all duration-300 
@@ -164,7 +164,7 @@ export default function Header({ sidebarOpen, setSidebarOpen }) {
               <UserIcon className="h-4 w-4 mr-2 transition-transform duration-300 
                 ease-in-out group-hover:rotate-12" />
               Profile
-            </button>
+            </button> */}
             {/* Theme Toggle for mobile */}
             <button
               onClick={useTheme().toggleTheme}

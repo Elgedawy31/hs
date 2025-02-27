@@ -5,10 +5,11 @@ import OnlineEmployees from '@components/dashboard/OnlineEmployees';
 import DashboardCards from '@components/dashboard/DashboardCards';
 import RecentLogs from '@components/dashboard/RecentLogs';
 import SendNotificationForm from '@components/dashboard/SendNotificationForm';
+import { useAuth } from '@contexts/AuthContext';
 
 const Dashboard = () => {
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
-
+const {user} = useAuth();
 
   const handleClick = () => {
     setIsNotificationModalOpen(true);
@@ -17,7 +18,7 @@ const Dashboard = () => {
       <> 
         <div className='space-y-4'>
           <div className="flex space-y-4">
-            <h1 className="text-xl font-medium">Good Morning <span className="text-xl font-meduim text-placeholderText">Admin !</span> </h1>
+            <h1 className="text-xl font-medium">Welcome <span className="text-xl font-meduim text-placeholderText">{user?.name ||'Admin'} !</span> </h1>
           </div>
           <div>
             <UniHeading 

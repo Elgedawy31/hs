@@ -7,6 +7,7 @@ import Logo from "../assets/logo.png"; // Import your logo
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import toast from "react-hot-toast";
+import { showErrorToast } from "../components/ErrorToast";
 
 // Define validation schema with Zod
 const schema = z.object({
@@ -37,10 +38,10 @@ const Login = () => {
         toast.success("Login successful!", "success");
         navigate("/");
       } else {
-        toast.error(result.error || "Login failed", "error");
+        showErrorToast(result.error);
       }
     } catch (error) {
-      toast.error(error.message || "An error occurred", "error");
+      showErrorToast(error);
     }
     finally
 

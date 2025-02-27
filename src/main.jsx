@@ -22,6 +22,7 @@ import Employees from './pages/admin/Empolyees/Employees.jsx'
 import AddEmployee from './pages/admin/Empolyees/AddEmployee.jsx'
 import EditEmployee from './pages/admin/Empolyees/EditEmployee.jsx'
 import EmployeeDetails from './pages/admin/Empolyees/EmployeeDetails.jsx'
+import { Toaster } from 'react-hot-toast'
 import HomePage from './pages/user/HomePage.jsx'
 import Tracking from './pages/user/Tracking.jsx'
 import Requesting from './pages/user/Requesting.jsx'
@@ -113,6 +114,43 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <ThemeProvider>
         <ToastProvider>
           <RouterProvider router={router} />
+          <Toaster
+            position="bottom-right"
+            toastOptions={{
+              duration: 3000,
+              style: {
+                background: "#333",
+                color: "#fff",
+                padding: "16px",
+                borderRadius: "8px",
+                fontSize: "14px",
+                maxWidth: "400px",
+                boxShadow: "0 3px 10px rgba(0, 0, 0, 0.1)",
+              },
+              success: {
+                icon: <CheckCircle size={18} color="#fafafa" />,
+                style: {
+                  background: "#10B981",
+                  color: "#ffffff",
+                  padding: "10px 20px",
+                },
+              },
+              error: {
+                icon: <XCircle size={18} color="#fafafa" />,
+                style: {
+                  background: "#e00a0a",
+                  color: "#ffffff",
+                  padding: "10px 20px",
+                },
+              },
+              loading: {
+                icon: <Info size={18} color="#3B82F6" />,
+                style: {
+                  background: "#3B82F6",
+                },
+              },
+            }}
+          />
         </ToastProvider>
       </ThemeProvider>
     </Provider>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Spline from "@splinetool/react-spline";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,11 +16,12 @@ const schema = z.object({
 
 const Login = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const { login , isAuthenticated } = useAuth();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const Login = () => {
     }
   }, [isAuthenticated, navigate]);
   const onSubmit = async (data) => {
+    setLoading(true);
     try {
       const result = await login(data.email, data.password);
       if (result.success) {
@@ -39,6 +41,11 @@ const Login = () => {
       }
     } catch (error) {
       toast.error(error.message || "An error occurred", "error");
+    }
+    finally
+
+    {
+      setLoading(false);
     }
   };
 
@@ -92,7 +99,7 @@ const Login = () => {
             type="submit"
             className="w-full bg-orange-500 py-2 rounded-md text-white font-semibold hover:bg-orange-600 transition"
           >
-            Sign in
+            {loading ? "Loading..." : "Sign In"}
           </button>
         </form>
       </div>

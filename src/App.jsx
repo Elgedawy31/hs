@@ -9,7 +9,7 @@ import Header from '@components/Header'
 import Sidebar from '@components/Sidebar';
 import ToastProvider from './components/CustomToast';
 function App() {
-  const { isAuthenticated , user } = useAuth();
+  const { isAuthenticated , token } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(
     false
   )
@@ -26,7 +26,7 @@ function App() {
       document.documentElement.style.setProperty(`--${key}`, value);
     });
   }, [theme]);
-console.log(user)
+console.log(token)
   return (
     <div className="min-h-screen flex flex-col bg-body text-text">
       <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />

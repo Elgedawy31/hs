@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_URL } from "../../utils/constants";
 
+
 // Create notification operation
 export const createNotification = createAsyncThunk(
     "notification/createNotification",
-    async (notificationData, { rejectWithValue }) => {
+    async (notificationData , { rejectWithValue }) => {
         try {
             const response = await fetch(`${API_URL}/notification`, {
                 method: "POST",

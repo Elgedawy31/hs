@@ -26,7 +26,6 @@ function App() {
       document.documentElement.style.setProperty(`--${key}`, value);
     });
   }, [theme]);
-console.log(token)
   return (
     <div className="min-h-screen flex flex-col bg-body text-text">
       <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />

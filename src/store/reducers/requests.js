@@ -76,8 +76,12 @@ export const createRequest = createAsyncThunk(
         formData.append('description', requestData.description);
         
         // Add files to FormData
-        requestData.files.forEach((file, index) => {
-          formData.append(`attachments`, file);
+        requestData.files.forEach((fileObj, index) => {
+          // Check if fileObj is a File object directly or wrapped in an object
+          const fileToUpload = fileObj instanceof File ? fileObj : fileObj.file;
+          if (fileToUpload) {
+            formData.append(`attachments`, fileToUpload);
+          }
         });
         
         // Set headers for FormData (no Content-Type, browser will set it)
@@ -131,8 +135,12 @@ export const updateRequest = createAsyncThunk(
         formData.append('description', requestData.description);
         
         // Add files to FormData
-        requestData.files.forEach((file, index) => {
-          formData.append(`attachments`, file);
+        requestData.files.forEach((fileObj, index) => {
+          // Check if fileObj is a File object directly or wrapped in an object
+          const fileToUpload = fileObj instanceof File ? fileObj : fileObj.file;
+          if (fileToUpload) {
+            formData.append(`attachments`, fileToUpload);
+          }
         });
         
         // Set headers for FormData (no Content-Type, browser will set it)

@@ -19,8 +19,11 @@ export const getAllNotifications = createAsyncThunk(
                     },
                 }
             );
-
+            
             const data = await response.json();
+            if(!data.success){
+            return rejectWithValue(data?.error|| data?.message || "Failed to get notifications");
+            }
             return data;
         } catch (err) {
             return rejectWithValue(err.message);
@@ -83,6 +86,7 @@ const notificationSlice = createSlice({
                 state.error = null;
             })
             .addCase(getAllNotifications.rejected, (state, action) => {
+
                 state.loading = false;
                 state.error = action.payload;
             })

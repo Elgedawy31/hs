@@ -4,7 +4,8 @@ import { Popover, PopoverTrigger, PopoverContent } from "@heroui/react"
 import { useTheme } from '../../../contexts/ThemeContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { useAuth } from '@contexts/AuthContext'
-import { getAllNotifications } from '../../../store/reducers/notification'
+import { getAllNotifications, resetNotificationState } from '../../../store/reducers/notification'
+import toast from 'react-hot-toast'
 
 // Mock notification data
 const mockNotifications = [
@@ -121,7 +122,15 @@ function NotificationBtn() {
       n.id === id ? { ...n, read: true } : n
     ))
   }
+
   
+  useEffect(() => {
+    // Reset form when modal is closed
+    if (error) {
+      toast.error(error);
+      dispatch(resetNotificationState());
+    }
+  }, [error]);
   return (
     <Popover placement="bottom-end"  isOpen={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger>

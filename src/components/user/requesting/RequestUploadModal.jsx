@@ -6,6 +6,9 @@ import UniTextInput from '../../UniTextInput';
 
 const requestTypes = [
   { value: 'leaves', label: 'Leaves' },
+  { value: 'support', label: 'Support' },
+  { value: 'payroll', label: 'Payroll' },
+  { value: 'attendance', label: 'Attendance' },
   { value: 'equipment', label: 'Equipment Request' },
   { value: 'other', label: 'Other' }
 ];

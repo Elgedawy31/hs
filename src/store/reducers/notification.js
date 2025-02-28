@@ -30,6 +30,34 @@ export const getAllNotifications = createAsyncThunk(
         }
     }
 );
+// Mark notification as seen operation
+export const markNotificationAsSeen = createAsyncThunk(
+    "notification/markNotificationAsSeen",
+    async ({ notificationId, token }, { rejectWithValue }) => {
+        try {
+            const response = await fetch(
+                `${API_URL}/${KEY}/${notificationId}/seen`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            
+            const data = await response.json();
+            if (!data.success) {
+                return rejectWithValue(data?.error || data?.message || "Failed to mark notification as seen");
+            }
+            
+            return { notificationId, data };
+        } catch (err) {
+            return rejectWithValue(err.message);
+        }
+    }
+);
+
 // Create notification operation
 export const createNotification = createAsyncThunk(
     "notification/createNotification",
@@ -121,6 +149,33 @@ const notificationSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
                 state.isCreated = false;
+            })
+            
+            // Mark notification as seen
+            .addCase(markNotificationAsSeen.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(markNotificationAsSeen.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+                
+                // Update the notification in the array
+                state.notifications = state.notifications.map(notification => 
+                    notification._id === action.payload.notificationId
+                        ? { ...notification, seen: true, seenAt: new Date().toISOString() }
+                        : notification
+                );
+                
+                // Update the count of unseen notifications if needed
+                const unseenCount = state.notifications.filter(n => !n.seen).length;
+                if (state.count !== unseenCount) {
+                    state.count = unseenCount;
+                }
+            })
+            .addCase(markNotificationAsSeen.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
             });
     },
 });

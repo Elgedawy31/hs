@@ -1,57 +1,12 @@
-import { Bell, Eye } from 'lucide-react'
+import { Bell, Eye, Loader } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import { Popover, PopoverTrigger, PopoverContent } from "@heroui/react"
 import { useTheme } from '../../../contexts/ThemeContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { useAuth } from '@contexts/AuthContext'
-import { getAllNotifications, resetNotificationState } from '../../../store/reducers/notification'
+import { getAllNotifications, markNotificationAsSeen, resetNotificationState } from '../../../store/reducers/notification'
 import toast from 'react-hot-toast'
 
-// Mock notification data
-const mockNotifications = [
-  {
-    id: 1,
-    title: 'Notification name here',
-    description: 'Lorem Ipsum is simply dummy text',
-    date: new Date(),
-    read: false
-  },
-  {
-    id: 2,
-    title: 'Notification name here',
-    description: 'Lorem Ipsum is simply dummy text',
-    date: new Date(),
-    read: false
-  },
-  {
-    id: 3,
-    title: 'Notification name here',
-    description: 'Lorem Ipsum is simply dummy text',
-    date: new Date(Date.now() - 86400000), // yesterday
-    read: true
-  },
-  {
-    id: 4,
-    title: 'Notification name here',
-    description: 'Lorem Ipsum is simply dummy text',
-    date: new Date(Date.now() - 86400000), // yesterday
-    read: true
-  },
-  {
-    id: 5,
-    title: 'Notification name here',
-    description: 'Lorem Ipsum is simply dummy text',
-    date: new Date(Date.now() - 172800000), // 2 days ago
-    read: true
-  },
-  {
-    id: 6,
-    title: 'Notification name here',
-    description: 'Lorem Ipsum is simply dummy text',
-    date: new Date(Date.now() - 604800000), // 1 week ago
-    read: true
-  }
-]
 
 // Helper function to determine if a date is today
 const isToday = (date) => {
@@ -75,51 +30,58 @@ function NotificationBtn() {
   const [isOpen, setIsOpen] = useState(false)
   const {token , user} = useAuth()
   const [activeTab, setActiveTab] = useState('all')
-  const [localNotifications, setLocalNotifications] = useState(mockNotifications)
-  
   const dispatch = useDispatch()
   const { notifications, loading, error } = useSelector(state => state.notification)
+  const [markingAsSeen, setMarkingAsSeen] = useState(null)
   
-  // Comment out API calls and use mock data only
   useEffect(() => {
-    // Get the token from localStorage or your auth context
-    
-    if (token) {
-      dispatch(getAllNotifications({ token , page: 1, limit: 10 , userId:user?.id }))
+    if (token && user?.id) {
+      dispatch(getAllNotifications({ token, page: 1, limit: 10, userId: user?.id }))
     }
-  }, [dispatch])
+  }, [dispatch, token, user?.id])
   
-  useEffect(() => {
-    console.log('Notifications from API:', notifications)
-    
-  }, [notifications])
+  // Calculate unread count from API notifications
+  const unreadCount = notifications ? notifications.filter(n => !n.seen).length : 0
   
-  // Use mock data only
-  useEffect(() => {
-    setLocalNotifications(mockNotifications)
-  }, [])
-  
-  const unreadCount = localNotifications.filter(n => !n.read).length
-  
+  // Filter notifications based on active tab
   const filteredNotifications = activeTab === 'all' 
-    ? localNotifications 
-    : localNotifications.filter(n => !n.read)
+    ? notifications || [] 
+    : (notifications || []).filter(n => !n.seen)
     
-  // Group notifications by time period
-  const todayNotifications = filteredNotifications.filter(n => isToday(n.date))
-  const yesterdayNotifications = filteredNotifications.filter(n => isYesterday(n.date))
-  const earlierNotifications = filteredNotifications.filter(n => !isToday(n.date) && !isYesterday(n.date))
-  
-  const markAllAsRead = () => {
-    // In a real app, this would call an API to mark all as read
-    setLocalNotifications(localNotifications.map(n => ({ ...n, read: true })))
+  // Helper function to parse date strings from API
+  const parseDate = (dateString) => {
+    return dateString ? new Date(dateString) : new Date()
   }
   
-  const markAsRead = (id) => {
-    // In a real app, this would call an API to mark a specific notification as read
-    setLocalNotifications(localNotifications.map(n => 
-      n.id === id ? { ...n, read: true } : n
-    ))
+  // Group notifications by time period
+  const todayNotifications = filteredNotifications.filter(n => isToday(parseDate(n.createdAt)))
+  const yesterdayNotifications = filteredNotifications.filter(n => isYesterday(parseDate(n.createdAt)))
+  const earlierNotifications = filteredNotifications.filter(n => 
+    !isToday(parseDate(n.createdAt)) && !isYesterday(parseDate(n.createdAt))
+  )
+  
+  // Mark all notifications as read
+  const markAllAsRead = () => {
+    // This would need to be implemented if needed
+    console.log('Mark all as read')
+  }
+  
+  // Mark a specific notification as seen
+  const markAsRead = (notificationId) => {
+    if (markingAsSeen) return; // Prevent multiple simultaneous requests
+    
+    setMarkingAsSeen(notificationId);
+    dispatch(markNotificationAsSeen({ notificationId, token }))
+      .unwrap()
+      .then(() => {
+        // Success - the reducer will update the state
+      })
+      .catch((error) => {
+        toast.error(error || 'Failed to mark notification as seen');
+      })
+      .finally(() => {
+        setMarkingAsSeen(null);
+      });
   }
 
   
@@ -173,26 +135,31 @@ function NotificationBtn() {
               <h3 className="px-4 py-2 text-sm font-medium text-placeholderText">Today</h3>
               {todayNotifications.map(notification => (
                 <div 
-                  key={notification.id} 
-                  className={`px-4 py-3 hover:bg-secondPrimaryColor/20  flex gap-3  hover:shadow-sm relative group ${!notification.read ? 'bg-secondPrimaryColor/10' : ''}`}
+                  key={notification._id} 
+                  className={`px-4 py-3 hover:bg-secondPrimaryColor/20  flex gap-3  hover:shadow-sm relative group ${!notification.seen ? 'bg-secondPrimaryColor/10' : ''}`}
                 >
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${!notification.read ? 'bg-secondPrimaryColor' : 'bg-secondPrimaryColor/50'}`}>
-                    <Bell size={20} className={!notification.read ? 'text-primary' : 'text-placeholderText'} />
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${!notification.seen ? 'bg-secondPrimaryColor' : 'bg-secondPrimaryColor/50'}`}>
+                    <Bell size={20} className={!notification.seen ? 'text-primary' : 'text-placeholderText'} />
                   </div>
                   <div className="flex-grow">
                     <h4 className="text-sm font-medium text-text">{notification.title}</h4>
-                    <p className="text-xs text-placeholderText">{notification.description}</p>
+                    <p className="text-xs text-placeholderText">{notification.message}</p>
                   </div>
-                  {!notification.read && (
+                  {!notification.seen && (
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
-                        markAsRead(notification.id);
+                        markAsRead(notification._id);
                       }}
                       className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-primary/80"
                       title="Mark as read"
+                      disabled={markingAsSeen === notification._id}
                     >
-                      <Eye size={16} className="text-white" />
+                      {markingAsSeen === notification._id ? (
+                        <Loader size={16} className="text-white animate-spin" />
+                      ) : (
+                        <Eye size={16} className="text-white" />
+                      )}
                     </button>
                   )}
                 </div>
@@ -206,26 +173,31 @@ function NotificationBtn() {
               <h3 className="px-4 py-2 text-sm font-medium text-placeholderText">Yesterday</h3>
               {yesterdayNotifications.map(notification => (
                 <div 
-                  key={notification.id} 
-                  className={`px-4 py-3 hover:bg-secondPrimaryColor/20  flex gap-3  hover:shadow-sm relative group ${!notification.read ? 'bg-secondPrimaryColor/10' : ''}`}
+                  key={notification._id} 
+                  className={`px-4 py-3 hover:bg-secondPrimaryColor/20  flex gap-3  hover:shadow-sm relative group ${!notification.seen ? 'bg-secondPrimaryColor/10' : ''}`}
                 >
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${!notification.read ? 'bg-secondPrimaryColor' : 'bg-secondPrimaryColor/50'}`}>
-                    <Bell size={20} className={!notification.read ? 'text-primary' : 'text-placeholderText'} />
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${!notification.seen ? 'bg-secondPrimaryColor' : 'bg-secondPrimaryColor/50'}`}>
+                    <Bell size={20} className={!notification.seen ? 'text-primary' : 'text-placeholderText'} />
                   </div>
                   <div className="flex-grow">
                     <h4 className="text-sm font-medium text-text">{notification.title}</h4>
-                    <p className="text-xs text-placeholderText">{notification.description}</p>
+                    <p className="text-xs text-placeholderText">{notification.message}</p>
                   </div>
-                  {!notification.read && (
+                  {!notification.seen && (
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
-                        markAsRead(notification.id);
+                        markAsRead(notification._id);
                       }}
                       className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-primary/80"
                       title="Mark as read"
+                      disabled={markingAsSeen === notification._id}
                     >
-                      <Eye size={16} className="text-white" />
+                      {markingAsSeen === notification._id ? (
+                        <Loader size={16} className="text-white animate-spin" />
+                      ) : (
+                        <Eye size={16} className="text-white" />
+                      )}
                     </button>
                   )}
                 </div>
@@ -239,26 +211,31 @@ function NotificationBtn() {
               <h3 className="px-4 py-2 text-sm font-medium text-placeholderText">Earlier</h3>
               {earlierNotifications.map(notification => (
                 <div 
-                  key={notification.id} 
-                  className={`px-4 py-3 hover:bg-secondPrimaryColor/20  flex gap-3  hover:shadow-sm relative group ${!notification.read ? 'bg-secondPrimaryColor/10' : ''}`}
+                  key={notification._id} 
+                  className={`px-4 py-3 hover:bg-secondPrimaryColor/20  flex gap-3  hover:shadow-sm relative group ${!notification.seen ? 'bg-secondPrimaryColor/10' : ''}`}
                 >
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${!notification.read ? 'bg-secondPrimaryColor' : 'bg-secondPrimaryColor/50'}`}>
-                    <Bell size={20} className={!notification.read ? 'text-primary' : 'text-placeholderText'} />
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${!notification.seen ? 'bg-secondPrimaryColor' : 'bg-secondPrimaryColor/50'}`}>
+                    <Bell size={20} className={!notification.seen ? 'text-primary' : 'text-placeholderText'} />
                   </div>
                   <div className="flex-grow">
                     <h4 className="text-sm font-medium text-text">{notification.title}</h4>
-                    <p className="text-xs text-placeholderText">{notification.description}</p>
+                    <p className="text-xs text-placeholderText">{notification.message}</p>
                   </div>
-                  {!notification.read && (
+                  {!notification.seen && (
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
-                        markAsRead(notification.id);
+                        markAsRead(notification._id);
                       }}
                       className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-primary/80"
                       title="Mark as read"
+                      disabled={markingAsSeen === notification._id}
                     >
-                      <Eye size={16} className="text-white" />
+                      {markingAsSeen === notification._id ? (
+                        <Loader size={16} className="text-white animate-spin" />
+                      ) : (
+                        <Eye size={16} className="text-white" />
+                      )}
                     </button>
                   )}
                 </div>

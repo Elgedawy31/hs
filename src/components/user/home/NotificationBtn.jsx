@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useAuth } from '@contexts/AuthContext'
 import { getAllNotifications, markNotificationAsSeen, resetNotificationState } from '../../../store/reducers/notification'
 import toast from 'react-hot-toast'
+import UniPagination from '../../../components/UniPagination'
 
 
 // Helper function to determine if a date is today
@@ -31,14 +32,15 @@ function NotificationBtn() {
   const {token , user} = useAuth()
   const [activeTab, setActiveTab] = useState('all')
   const dispatch = useDispatch()
-  const { notifications, loading, error } = useSelector(state => state.notification)
+  const { notifications, loading, error, pagination } = useSelector(state => state.notification)
   const [markingAsSeen, setMarkingAsSeen] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
   
   useEffect(() => {
     if (token && user?.id) {
-      dispatch(getAllNotifications({ token, page: 1, limit: 10, userId: user?.id }))
+      dispatch(getAllNotifications({ token, page: currentPage, limit: 10, userId: user?.id }))
     }
-  }, [dispatch, token, user?.id])
+  }, [dispatch, token, user?.id, currentPage])
   
   // Calculate unread count from API notifications
   const unreadCount = notifications ? notifications.filter(n => !n.seen).length : 0
@@ -82,6 +84,11 @@ function NotificationBtn() {
       .finally(() => {
         setMarkingAsSeen(null);
       });
+  }
+  
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   }
 
   
@@ -247,6 +254,27 @@ function NotificationBtn() {
           {filteredNotifications.length === 0 && (
             <div className="py-8 text-center">
               <p className="text-placeholderText">No notifications</p>
+            </div>
+          )}
+          
+          {/* Pagination */}
+          {pagination && pagination.totalPages > 1 && (
+            <div className="py-4 flex justify-center border-t border-borderColor">
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <Loader size={20} className="text-primary animate-spin" />
+                </div>
+              ) : (
+                <UniPagination
+                  currentPage={pagination.currentPage}
+                  totalPages={pagination.totalPages}
+                  onPageChange={handlePageChange}
+                  isCompact
+                  showControls
+                  size="sm"
+                  color="primary"
+                />
+              )}
             </div>
           )}
         </div>

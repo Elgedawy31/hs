@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { createRequest, resetRequestsState } from '../../../store/reducers/requests';
 import AddModal from '../../AddModal';
 import UniUploadDoc from '../../UniUploadDoc';
 import UniTextInput from '../../UniTextInput';
@@ -20,35 +22,49 @@ const priorities = [
 ];
 
 const RequestUploadModal = ({ isOpen, onClose }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { loading: isLoading, isCreated, error } = useSelector((state) => state.requests);
+  
   const [requestType, setRequestType] = useState('leaves');
   const [priority, setPriority] = useState('high');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [files, setFiles] = useState([]);
 
-  const handleSubmit = () => {
-    setIsLoading(true);
-    // TODO: Implement request submission logic
-    console.log('Request data:', {
-      type: requestType,
-      priority,
-      title,
-      description,
-      files
-    });
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      onClose();
-      // Reset form
+  // Reset form when modal is closed or after successful submission
+  React.useEffect(() => {
+    if (!isOpen) {
       setRequestType('leaves');
       setPriority('high');
       setTitle('');
       setDescription('');
       setFiles([]);
-    }, 1000);
+      dispatch(resetRequestsState());
+    }
+  }, [isOpen, dispatch]);
+
+  // Close modal after successful submission
+  React.useEffect(() => {
+    if (isCreated) {
+      onClose();
+    }
+  }, [isCreated, onClose]);
+
+  const handleSubmit = () => {
+    // Get token from localStorage or auth context
+    const token = localStorage.getItem('token') || '';
+    
+    // Create request data object
+    const requestData = {
+      type: requestType,
+      priority,
+      title,
+      description,
+      files
+    };
+    
+    // Dispatch create request action
+    dispatch(createRequest({ requestData, token }));
   };
 
   const handleFilesChange = (newFiles) => {

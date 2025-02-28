@@ -1,4 +1,4 @@
-import { Bell } from 'lucide-react'
+import { Bell, Eye } from 'lucide-react'
 import React, { useState } from 'react'
 import { Popover, PopoverTrigger, PopoverContent } from "@heroui/react"
 import { useTheme } from '../../../contexts/ThemeContext'
@@ -70,12 +70,13 @@ function NotificationBtn() {
   const { theme } = useTheme()
   const [isOpen, setIsOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('all')
+  const [notifications, setNotifications] = useState(mockNotifications)
   
-  const unreadCount = mockNotifications.filter(n => !n.read).length
+  const unreadCount = notifications.filter(n => !n.read).length
   
   const filteredNotifications = activeTab === 'all' 
-    ? mockNotifications 
-    : mockNotifications.filter(n => !n.read)
+    ? notifications 
+    : notifications.filter(n => !n.read)
     
   // Group notifications by time period
   const todayNotifications = filteredNotifications.filter(n => isToday(n.date))
@@ -84,13 +85,20 @@ function NotificationBtn() {
   
   const markAllAsRead = () => {
     // In a real app, this would call an API to mark all as read
-    console.log('Mark all as read')
+    setNotifications(notifications.map(n => ({ ...n, read: true })))
+  }
+  
+  const markAsRead = (id) => {
+    // In a real app, this would call an API to mark a specific notification as read
+    setNotifications(notifications.map(n => 
+      n.id === id ? { ...n, read: true } : n
+    ))
   }
   
   return (
     <Popover placement="bottom-end"  isOpen={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger>
-        <div className='relative w-[48px] h-[48px] bg-[#F8EEE6] cursor-pointer duration-300 hover:bg-primary text-primary hover:text-text hover:scale-105 rounded-full flex items-center justify-center'>
+        <div className='relative w-[48px] h-[48px] bg-[#F8EEE6] cursor-pointer duration-300 hover:bg-primary text-primary hover:text-white hover:scale-105 rounded-full flex items-center justify-center'>
           <Bell size={24} />
           {unreadCount > 0 && (
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -115,12 +123,12 @@ function NotificationBtn() {
               Unread ({unreadCount})
             </button>
           </div>
-          <button 
+          {/* <button 
             className="text-primary text-sm hover:underline"
             onClick={markAllAsRead}
           >
             Mark all as read
-          </button>
+          </button> */}
         </div>
         
         <div className="max-h-[400px] overflow-y-auto">
@@ -131,15 +139,27 @@ function NotificationBtn() {
               {todayNotifications.map(notification => (
                 <div 
                   key={notification.id} 
-                  className={`px-4 py-3 hover:bg-secondPrimaryColor/20 cursor-pointer flex gap-3 ${!notification.read ? 'bg-secondPrimaryColor/10' : ''}`}
+                  className={`px-4 py-3 hover:bg-secondPrimaryColor/20  flex gap-3  hover:shadow-sm relative group ${!notification.read ? 'bg-secondPrimaryColor/10' : ''}`}
                 >
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${!notification.read ? 'bg-secondPrimaryColor' : 'bg-secondPrimaryColor/50'}`}>
                     <Bell size={20} className={!notification.read ? 'text-primary' : 'text-placeholderText'} />
                   </div>
-                  <div>
+                  <div className="flex-grow">
                     <h4 className="text-sm font-medium text-text">{notification.title}</h4>
                     <p className="text-xs text-placeholderText">{notification.description}</p>
                   </div>
+                  {!notification.read && (
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        markAsRead(notification.id);
+                      }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-primary/80"
+                      title="Mark as read"
+                    >
+                      <Eye size={16} className="text-white" />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -152,15 +172,27 @@ function NotificationBtn() {
               {yesterdayNotifications.map(notification => (
                 <div 
                   key={notification.id} 
-                  className={`px-4 py-3 hover:bg-secondPrimaryColor/20 cursor-pointer flex gap-3 ${!notification.read ? 'bg-secondPrimaryColor/10' : ''}`}
+                  className={`px-4 py-3 hover:bg-secondPrimaryColor/20  flex gap-3  hover:shadow-sm relative group ${!notification.read ? 'bg-secondPrimaryColor/10' : ''}`}
                 >
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${!notification.read ? 'bg-secondPrimaryColor' : 'bg-secondPrimaryColor/50'}`}>
                     <Bell size={20} className={!notification.read ? 'text-primary' : 'text-placeholderText'} />
                   </div>
-                  <div>
+                  <div className="flex-grow">
                     <h4 className="text-sm font-medium text-text">{notification.title}</h4>
                     <p className="text-xs text-placeholderText">{notification.description}</p>
                   </div>
+                  {!notification.read && (
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        markAsRead(notification.id);
+                      }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-primary/80"
+                      title="Mark as read"
+                    >
+                      <Eye size={16} className="text-white" />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -173,15 +205,27 @@ function NotificationBtn() {
               {earlierNotifications.map(notification => (
                 <div 
                   key={notification.id} 
-                  className={`px-4 py-3 hover:bg-secondPrimaryColor/20 cursor-pointer flex gap-3 ${!notification.read ? 'bg-secondPrimaryColor/10' : ''}`}
+                  className={`px-4 py-3 hover:bg-secondPrimaryColor/20  flex gap-3  hover:shadow-sm relative group ${!notification.read ? 'bg-secondPrimaryColor/10' : ''}`}
                 >
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${!notification.read ? 'bg-secondPrimaryColor' : 'bg-secondPrimaryColor/50'}`}>
                     <Bell size={20} className={!notification.read ? 'text-primary' : 'text-placeholderText'} />
                   </div>
-                  <div>
+                  <div className="flex-grow">
                     <h4 className="text-sm font-medium text-text">{notification.title}</h4>
                     <p className="text-xs text-placeholderText">{notification.description}</p>
                   </div>
+                  {!notification.read && (
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        markAsRead(notification.id);
+                      }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-primary/80"
+                      title="Mark as read"
+                    >
+                      <Eye size={16} className="text-white" />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>

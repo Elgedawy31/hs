@@ -109,7 +109,12 @@ const router = createBrowserRouter([
   }
 ])
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+// Check if the root element already has a React root associated with it
+const rootElement = document.getElementById('root');
+const root = ReactDOM.createRoot(rootElement);
+
+// Render the application
+root.render(
   <AuthProvider>
     <Provider store={store}>
       <ThemeProvider>
@@ -156,4 +161,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </ThemeProvider>
     </Provider>
   </AuthProvider>
-)
+);

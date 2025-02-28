@@ -64,6 +64,12 @@ const notificationSlice = createSlice({
         loading: false,
         error: null,
         isCreated: false,
+        pagination: {
+            currentPage: 1,
+            totalPages: 1,
+            total: 0,
+            limit: 10
+        }
     },
     reducers: {
         resetNotificationState: (state) => {
@@ -84,6 +90,15 @@ const notificationSlice = createSlice({
                 state.notifications = action.payload.notifications;
                 state.count = action.payload.count;
                 state.error = null;
+                // Update pagination information
+                if (action.payload.pagination) {
+                    state.pagination = {
+                        currentPage: action.payload.pagination.currentPage || 1,
+                        totalPages: action.payload.pagination.totalPages || 1,
+                        total: action.payload.pagination.total || 0,
+                        limit: action.payload.pagination.limit || 10
+                    };
+                }
             })
             .addCase(getAllNotifications.rejected, (state, action) => {
 

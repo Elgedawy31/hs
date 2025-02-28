@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import HomeCard from '../../components/user/bonus/HomeCard'
 import CardContainer from '../../components/CardContainer'
 import { CircleCheckBig, ClockAlert, StepForward } from 'lucide-react'
-// import WorkHoursTracker from '../../components/BarCharts'
+import WorkHoursTracker from '../../components/BarCharts'
 import CompletedHours from '../../components/CompeletedHours'
 import extractName from '../../utils/extractName'
 import NotificationBtn from '../../components/user/home/NotificationBtn'
@@ -36,7 +36,7 @@ function HomePage() {
 
       <div className="grid grid-cols-3 gap-4">
         <div className=' col-span-2'>
-          {/* <WorkHoursTracker /> */}
+          <WorkHoursTracker />
         </div>
         <div className=' col-span-1'>
 

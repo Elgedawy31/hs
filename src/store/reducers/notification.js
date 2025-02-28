@@ -7,10 +7,10 @@ const KEY = "notifications";
 // Get all notifications operation
 export const getAllNotifications = createAsyncThunk(
     "notification/getAllNotifications",
-    async ({ token, page=1, limit=20 }, { rejectWithValue }) => {
+    async ({ token, page=1, limit=20 , userId}, { rejectWithValue }) => {
         try {
             const response = await fetch(
-                `${API_URL}/${KEY}?page=${page}&limit=${limit}`,
+                `${API_URL}/${KEY}?page=${page}&limit=${limit}&userId=${userId}`,
                 {
                     method: "GET",
                     headers: {

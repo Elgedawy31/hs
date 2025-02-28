@@ -73,32 +73,31 @@ const isYesterday = (date) => {
 function NotificationBtn() {
   const { theme } = useTheme()
   const [isOpen, setIsOpen] = useState(false)
-  const {token } = useAuth()
+  const {token , user} = useAuth()
   const [activeTab, setActiveTab] = useState('all')
   const [localNotifications, setLocalNotifications] = useState(mockNotifications)
   
   const dispatch = useDispatch()
   const { notifications, loading, error } = useSelector(state => state.notification)
   
+  // Comment out API calls and use mock data only
   useEffect(() => {
     // Get the token from localStorage or your auth context
     
     if (token) {
-      dispatch(getAllNotifications({ token }))
+      dispatch(getAllNotifications({ token , page: 1, limit: 10 , userId:user?.id }))
     }
   }, [dispatch])
   
   useEffect(() => {
-    // Log the notifications from the API
     console.log('Notifications from API:', notifications)
     
-    // If we have notifications from the API and they're in the expected format,
-    // we could replace the mock data with real data
-    if (notifications && notifications.length > 0) {
-      // This would need to be adjusted based on the actual API response structure
-      setLocalNotifications(notifications)
-    }
   }, [notifications])
+  
+  // Use mock data only
+  useEffect(() => {
+    setLocalNotifications(mockNotifications)
+  }, [])
   
   const unreadCount = localNotifications.filter(n => !n.read).length
   

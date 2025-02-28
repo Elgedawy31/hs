@@ -3,6 +3,30 @@ import { API_URL } from "../../utils/constants";
 
 
 const KEY = "notifications";
+
+// Get all notifications operation
+export const getAllNotifications = createAsyncThunk(
+    "notification/getAllNotifications",
+    async ({ token, page=1, limit=20 }, { rejectWithValue }) => {
+        try {
+            const response = await fetch(
+                `${API_URL}/${KEY}?page=${page}&limit=${limit}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const data = await response.json();
+            return data;
+        } catch (err) {
+            return rejectWithValue(err.message);
+        }
+    }
+);
 // Create notification operation
 export const createNotification = createAsyncThunk(
     "notification/createNotification",
@@ -32,6 +56,8 @@ export const createNotification = createAsyncThunk(
 const notificationSlice = createSlice({
     name: "notification",
     initialState: {
+        notifications: [],
+        count: 0,
         loading: false,
         error: null,
         isCreated: false,
@@ -45,6 +71,23 @@ const notificationSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // Get all notifications
+            .addCase(getAllNotifications.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getAllNotifications.fulfilled, (state, action) => {
+                state.loading = false;
+                state.notifications = action.payload.notifications;
+                state.count = action.payload.count;
+                state.error = null;
+            })
+            .addCase(getAllNotifications.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            
+            // Create notification
             .addCase(createNotification.pending, (state) => {
                 state.loading = true;
                 state.error = null;

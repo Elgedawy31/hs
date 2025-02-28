@@ -1,7 +1,10 @@
 import { Bell, Eye } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Popover, PopoverTrigger, PopoverContent } from "@heroui/react"
 import { useTheme } from '../../../contexts/ThemeContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { useAuth } from '@contexts/AuthContext'
+import { getAllNotifications } from '../../../store/reducers/notification'
 
 // Mock notification data
 const mockNotifications = [
@@ -69,14 +72,38 @@ const isYesterday = (date) => {
 function NotificationBtn() {
   const { theme } = useTheme()
   const [isOpen, setIsOpen] = useState(false)
+  const {token } = useAuth()
   const [activeTab, setActiveTab] = useState('all')
-  const [notifications, setNotifications] = useState(mockNotifications)
+  const [localNotifications, setLocalNotifications] = useState(mockNotifications)
   
-  const unreadCount = notifications.filter(n => !n.read).length
+  const dispatch = useDispatch()
+  const { notifications, loading, error } = useSelector(state => state.notification)
+  
+  useEffect(() => {
+    // Get the token from localStorage or your auth context
+    
+    if (token) {
+      dispatch(getAllNotifications({ token }))
+    }
+  }, [dispatch])
+  
+  useEffect(() => {
+    // Log the notifications from the API
+    console.log('Notifications from API:', notifications)
+    
+    // If we have notifications from the API and they're in the expected format,
+    // we could replace the mock data with real data
+    if (notifications && notifications.length > 0) {
+      // This would need to be adjusted based on the actual API response structure
+      setLocalNotifications(notifications)
+    }
+  }, [notifications])
+  
+  const unreadCount = localNotifications.filter(n => !n.read).length
   
   const filteredNotifications = activeTab === 'all' 
-    ? notifications 
-    : notifications.filter(n => !n.read)
+    ? localNotifications 
+    : localNotifications.filter(n => !n.read)
     
   // Group notifications by time period
   const todayNotifications = filteredNotifications.filter(n => isToday(n.date))
@@ -85,12 +112,12 @@ function NotificationBtn() {
   
   const markAllAsRead = () => {
     // In a real app, this would call an API to mark all as read
-    setNotifications(notifications.map(n => ({ ...n, read: true })))
+    setLocalNotifications(localNotifications.map(n => ({ ...n, read: true })))
   }
   
   const markAsRead = (id) => {
     // In a real app, this would call an API to mark a specific notification as read
-    setNotifications(notifications.map(n => 
+    setLocalNotifications(localNotifications.map(n => 
       n.id === id ? { ...n, read: true } : n
     ))
   }

@@ -100,7 +100,7 @@ export const createRequest = createAsyncThunk(
       });
 
       const data = await response.json();
-      if (!data.success || data.error) {
+      if (!data._id || data.error) {
         return rejectWithValue(data.error || "Failed to create request");
       }
 
@@ -132,7 +132,7 @@ export const updateRequest = createAsyncThunk(
         
         // Add files to FormData
         requestData.files.forEach((file, index) => {
-          formData.append(`files`, file);
+          formData.append(`attachments`, file);
         });
         
         // Set headers for FormData (no Content-Type, browser will set it)

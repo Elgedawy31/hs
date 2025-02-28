@@ -7,6 +7,7 @@ import { CircleCheckBig, ClockAlert, StepForward } from 'lucide-react'
 import WorkHoursTracker from '../../components/BarCharts'
 import CompletedHours from '../../components/CompeletedHours'
 import extractName from '../../utils/extractName'
+import NotificationBtn from '../../components/user/home/NotificationBtn'
 
 function HomePage() {
   const { user } = useAuth()
@@ -22,9 +23,10 @@ function HomePage() {
         <div className="flex items-center gap-2">
           {/* <img src="https://i.pravatar.cc/150?u=a04258114e29026708c"
             alt="" className='w-[42px] h-[42px] rounded-full ' /> */}
-          <h1 className="text-xl font-medium">Welcome <span className="text-xl  capitalize font-meduim text-placeholderText">{extractName(user?.email)}!</span> </h1>
+          <h1 className="text-xl font-medium">Welcome <span className="text-xl  capitalize font-meduim text-placeholderText">{extractName(user?.email)} !</span> </h1>
 
         </div>
+        <NotificationBtn />
       </div>
       <div className="grid grid-cols-3 gap-8">
         <HomeCard Icon={StepForward} title='Tracked Time' description='167 h 19 m' />

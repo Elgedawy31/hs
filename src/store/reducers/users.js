@@ -20,7 +20,7 @@ export const getAllUsers = createAsyncThunk(
       );
 
       const data = await response.json();
-      if(!data.success){
+      if(!data.count){
         return rejectWithValue(data?.error|| data?.message || "Failed to get notifications");
         }
 

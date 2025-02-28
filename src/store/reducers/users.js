@@ -6,12 +6,10 @@ const KEY = "users";
 // Get all users operation
 export const getAllUsers = createAsyncThunk(
   "users/getAllUsers",
-  async ({ token, page, limit }, { rejectWithValue }) => {
+  async ({ token, page=1, limit=20 }, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `${API_URL}/${KEY}${page && `?page=${page}`} ${
-          limit && `&limit=${limit}`
-        }`,
+        `${API_URL}/${KEY}?page=${page}&limit=${limit}`,
         {
           method: "GET",
           headers: {
@@ -22,9 +20,6 @@ export const getAllUsers = createAsyncThunk(
       );
 
       const data = await response.json();
-      if (!data.success || data.error) {
-        return rejectWithValue(data.error || "Failed to fetch users");
-      }
 
       return data;
     } catch (err) {
@@ -163,8 +158,8 @@ const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Get all users
       .addCase(getAllUsers.pending, (state) => {
+        console.log('state', state);
         state.loading = true;
         state.error = null;
       })

@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useDispatch, useSelector } from 'react-redux';
 import { createNotification, resetNotificationState } from '../../store/reducers/notification';
+import { getAllUsers } from '../../store/reducers/users';
 import { useAuth } from '../../contexts/AuthContext';
 import AddModal from '../AddModal';
 import UniTextInput from '../UniTextInput';
@@ -20,16 +21,10 @@ const notificationSchema = z.object({
   recipients: z.array(z.string())
 });
 
-const memberOptions = [
-  { value: 'all', label: 'All employee' },
-  { value: 'dev', label: 'Developers' },
-  { value: 'design', label: 'Designers' },
-  { value: 'marketing', label: 'Marketing' }
-];
-
 const SendNotificationForm = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const { loading, error, isCreated } = useSelector(state => state.notification);
+  const { users } = useSelector(state => state.users);
   const { token } = useAuth();
 
   const { handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
@@ -48,6 +43,7 @@ const SendNotificationForm = ({ isOpen, onClose }) => {
     // Close modal and reset form when notification is isCreatedfully sent
     if (isCreated) {
       reset();
+      toast.success('Notification sent successfully!');
       onClose();
       dispatch(resetNotificationState());
     }
@@ -60,6 +56,11 @@ const SendNotificationForm = ({ isOpen, onClose }) => {
       dispatch(resetNotificationState());
     }
   }, [error]);
+
+  // Fetch all users when component mounts
+  useEffect(() => {
+    dispatch(getAllUsers({ token ,page:1, limit: 10000 }));
+  }, [dispatch, token]);
 
   // Clean up on unmount
   useEffect(() => {
@@ -77,9 +78,11 @@ const SendNotificationForm = ({ isOpen, onClose }) => {
     };
 
     // Dispatch the create notification action with token
-    dispatch(createNotification({ notificationData, token }));
+    dispatch(createNotification({ notificationData, token  }));
   };
 
+
+  console.log('users', users);
   return (
     <AddModal
       isOpen={isOpen}
@@ -118,7 +121,12 @@ const SendNotificationForm = ({ isOpen, onClose }) => {
           placeholder="Choose Members"
           value={values.recipients || ''}
           onChange={(value) => setValue('recipients', value, { shouldValidate: true })}
-          options={memberOptions}
+          options={[
+            ...users.map(user => ({ 
+              value: user._id, 
+              label: `${user?.userId?.name?.first} ${user?.userId?.name?.last}`   || 'Unknown User'
+            }))
+          ]}
           error={errors.recipients?.message}
           required
         />

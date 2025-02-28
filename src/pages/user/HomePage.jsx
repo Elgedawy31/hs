@@ -6,6 +6,7 @@ import CardContainer from '../../components/CardContainer'
 import { CircleCheckBig, ClockAlert, StepForward } from 'lucide-react'
 import WorkHoursTracker from '../../components/BarCharts'
 import CompletedHours from '../../components/CompeletedHours'
+import extractName from '../../utils/extractName'
 
 function HomePage() {
   const { user } = useAuth()
@@ -19,9 +20,9 @@ function HomePage() {
     <CardContainer className='p-6 space-y-10'>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img src="https://i.pravatar.cc/150?u=a04258114e29026708c"
-            alt="" className='w-[42px] h-[42px] rounded-full ' />
-          <h1 className="text-xl font-medium">Good Morning <span className="text-xl font-meduim text-placeholderText">Gedawy !</span> </h1>
+          {/* <img src="https://i.pravatar.cc/150?u=a04258114e29026708c"
+            alt="" className='w-[42px] h-[42px] rounded-full ' /> */}
+          <h1 className="text-xl font-medium">Welcome <span className="text-xl  capitalize font-meduim text-placeholderText">{extractName(user?.email)}!</span> </h1>
 
         </div>
       </div>

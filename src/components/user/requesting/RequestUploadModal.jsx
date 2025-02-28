@@ -10,9 +10,17 @@ const requestTypes = [
   { value: 'other', label: 'Other' }
 ];
 
+const priorities = [
+  { value: 'high', label: 'High' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'low', label: 'Low' }
+];
+
 const RequestUploadModal = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [requestType, setRequestType] = useState('leaves');
+  const [priority, setPriority] = useState('high');
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [files, setFiles] = useState([]);
 
@@ -21,6 +29,8 @@ const RequestUploadModal = ({ isOpen, onClose }) => {
     // TODO: Implement request submission logic
     console.log('Request data:', {
       type: requestType,
+      priority,
+      title,
       description,
       files
     });
@@ -31,6 +41,8 @@ const RequestUploadModal = ({ isOpen, onClose }) => {
       onClose();
       // Reset form
       setRequestType('leaves');
+      setPriority('high');
+      setTitle('');
       setDescription('');
       setFiles([]);
     }, 1000);
@@ -52,6 +64,16 @@ const RequestUploadModal = ({ isOpen, onClose }) => {
       haveWidth={true}
     >
       <div className="flex flex-col gap-6">
+        
+         <UniTextInput
+          type="text"
+          label="Title"
+          placeholder="Enter request title"
+          value={title}
+          onChange={setTitle}
+          required
+        />
+        
         <UniTextInput
           type="select"
           label="Request Type"
@@ -60,6 +82,17 @@ const RequestUploadModal = ({ isOpen, onClose }) => {
           options={requestTypes}
           required
         />
+
+        <UniTextInput
+          type="select"
+          label="Priority"
+          value={priority}
+          onChange={setPriority}
+          options={priorities}
+          required
+        />
+
+       
 
         <UniUploadDoc
           title=""

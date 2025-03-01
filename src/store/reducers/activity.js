@@ -31,7 +31,7 @@ export const getActivityMetrics = createAsyncThunk(
 );
 // Get metrics operation for cards
 export const getActivityMetricsForCards = createAsyncThunk(
-    "activity/getActivityMetrics",
+    "activity/getActivityMetricsForCards",
     async ({ token, from, to, userId }, { rejectWithValue }) => {
         try {
             const response = await fetch(
@@ -377,7 +377,6 @@ const activitySlice = createSlice({
                 state.metricsLoading = false;
                 state.metricsError = action.payload;
             })
-            // Get activity metrics
             .addCase(getActivityMetricsForCards.pending, (state) => {
                 state.metricsLoading = true;
                 state.metricsError = null;

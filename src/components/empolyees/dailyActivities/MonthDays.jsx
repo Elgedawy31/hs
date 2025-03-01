@@ -37,22 +37,30 @@ const MonthDays = ({ currentDate }) => {
   const generateMonthDays = () => {
     const daysInMonth = currentDate.daysInMonth();
     let days = [];
+    const today = dayjs();
     
     // Generate all days of the month
     for (let i = 1; i <= daysInMonth; i++) {
       const dayDate = currentDate.date(i);
+      const isFutureDate = dayDate.isAfter(today, 'day');
+      
       days.push({
         dayName: dayDate.format('ddd'),
         dayNumber: i,
-        time: generateRandomTime()
+        time: isFutureDate ? null : generateRandomTime(),
+        isFuture: isFutureDate
       });
     }
     setMonthDays(days);
     
     // Reset to start of month when month changes
     setStartIndex(0);
-    // Update active index to first day of month
-    setActiveIndex(0);
+    // Update active index to first day of month or current day if in current month
+    if (currentDate.month() === today.month() && currentDate.year() === today.year()) {
+      setActiveIndex(today.date() - 1);
+    } else {
+      setActiveIndex(0);
+    }
   };
 
   const generateRandomTime = () => {
@@ -82,6 +90,11 @@ const MonthDays = ({ currentDate }) => {
   };
 
   const handleDayClick = (index) => {
+    // Don't allow selecting future dates
+    if (monthDays[index]?.isFuture) {
+      return;
+    }
+    
     setActiveIndex(index);
     // Center the clicked day if possible
     const newStartIndex = Math.min(
@@ -120,7 +133,8 @@ const MonthDays = ({ currentDate }) => {
             <div
               key={startIndex + index}
               onClick={() => handleDayClick(startIndex + index)}
-              className={`transform transition-all duration-300 ease-in-out cursor-pointer
+              className={`transform transition-all duration-300 ease-in-out 
+                ${day.isFuture ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}
                 ${startIndex + index === activeIndex ? 'scale-110 shadow-lg z-10' : 'scale-100'}
                 ${slideDirection === 1 ? '-translate-x-full' : slideDirection === -1 ? 'translate-x-full' : 'translate-x-0'}
               `}
@@ -128,6 +142,7 @@ const MonthDays = ({ currentDate }) => {
               <div
                 className={`w-full sm:w-28 md:w-32 h-32 rounded-lg p-4 flex flex-col items-center justify-center
                   ${startIndex + index === activeIndex ? 'bg-background border-2 border-primary' : 'bg-background'}
+                  ${day.isFuture ? 'border border-gray-300' : ''}
                 `}
               >
                 <span className={`text-sm ${startIndex + index === activeIndex ? 'text-primary' : 'text-placeholderText'}`}>
@@ -138,6 +153,8 @@ const MonthDays = ({ currentDate }) => {
                 </span>
                 {startIndex + index === activeIndex ? (
                   <span className="w-2 h-2 bg-primary rounded-full" />
+                ) : day.isFuture ? (
+                  <span className="text-sm text-gray-400">00:00</span>
                 ) : (
                   <span className={`text-sm ${getTimeColor(day.time)}`}>
                     {day.time}

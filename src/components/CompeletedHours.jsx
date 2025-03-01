@@ -29,7 +29,7 @@ const CompletedHours = () => {
       token, 
       from, 
       to, 
-      userId: '67bf76c68ce30f5e198237a0' 
+      userId: user.id 
     }))
     .then(result => {
       console.log('Activity metrics for months:', result.payload);

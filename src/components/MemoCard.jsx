@@ -5,16 +5,18 @@ import CardContainer from './CardContainer';
 
 const getWarningTypeStyle = (type) => {
   switch (type.toLowerCase()) {
-    case 'minor':
+    case 'green':
       return 'text-success-500 bg-success-100 px-2 py-1 rounded';
-    case 'moderate':
+    case 'yellow':
       return 'text-orange-500 bg-orange-100 px-2 py-1 rounded';
-    case 'final':
+    case 'red':
       return 'text-danger bg-red-100 px-2 py-1 rounded';
     default:
       return 'text-gray-500 bg-gray-100 px-2 py-1 rounded';
   }
 }
+
+const REACT_APP_API_URL = 'http://localhost:5000'
 
 function MemoCard({ memo, onEdit, onDelete }) {
 const {user:{role}} = useAuth()
@@ -52,9 +54,30 @@ const {user:{role}} = useAuth()
         </div>
 
         <div>
+          <h3 className="text-placeholderText mb-2">Attachments</h3>
+          {!memo.attachments || memo.attachments.length === 0 ? (
+            <p className=" text-placeholderText/20 italic">No attachments</p>
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              {memo.attachments.map((attachment, index) => (
+                <a 
+                  key={index}
+                  href={attachment.startsWith('http') ? attachment : `${REACT_APP_API_URL}/uploads/${attachment}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-3 py-1  rounded-md  underline transition-colors"
+                >
+                  <span className="text-sm">{attachment.split('/').pop()}</span>
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* <div>
           <h3 className="text-placeholderText mb-2">Required Action:</h3>
           <p className="text-text">{memo.requiredAction}</p>
-        </div>
+        </div> */}
       </div>
     </CardContainer>
   )

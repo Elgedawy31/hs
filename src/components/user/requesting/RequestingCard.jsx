@@ -85,12 +85,12 @@ function RequestingCard({ request }) {
             </div>
           )}
           
-          {request.updatedAt && (
+          {/* {request.updatedAt && (
             <div className="flex items-center gap-2">
               <Clock size={16} />
               <span>Updated: {formatDate(request.updatedAt)}</span>
             </div>
-          )}
+          )} */}
           
           {request.priority && (
             <div className="flex items-center gap-2">

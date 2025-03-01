@@ -96,7 +96,7 @@ const UniPagination = ({
   if (totalPages <= 1) return null;
   
   return (
-    <nav className={`flex items-center justify-center gap-1 ${className}`} aria-label="Pagination">
+    <nav className={`flex items-center justify-center gap-1 ${className} overflow-hidden`} aria-label="Pagination">
       {/* Previous button */}
       {showControls && (
         <button

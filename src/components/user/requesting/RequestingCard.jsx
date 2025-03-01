@@ -100,7 +100,7 @@ function RequestingCard({ request }) {
           )}
         </div>
         
-        {request.attachments && request.attachments.length > 0 && (
+        {/* {request.attachments && request.attachments.length > 0 && (
           <div className="mt-4">
             <h4 className="text-sm font-medium mb-2 flex items-center gap-2">
               <FileText size={16} />
@@ -108,7 +108,7 @@ function RequestingCard({ request }) {
             </h4>
             <div className="flex flex-wrap gap-2">
               {request.attachments.map((attachment, index) => (
-                <div key={index} className="text-xs bg-gray-100 rounded-md px-2 py-1">
+                <div key={index} className="text-xs  text-placeholderText rounded-md px-2 py-1">
                   {typeof attachment === 'string' 
                     ? attachment.split('/').pop() 
                     : attachment.name || `File ${index + 1}`}
@@ -116,7 +116,7 @@ function RequestingCard({ request }) {
               ))}
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </CardContainer>
   )

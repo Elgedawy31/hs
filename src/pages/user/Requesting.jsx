@@ -15,7 +15,7 @@ import NoDataMsg from '../../components/NoDataMsg'
 function Requesting() {
   const [open, setOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
-  const [limit] = useState(10)
+  const [limit] = useState(5)
   
   const dispatch = useDispatch()
   const { user, token } = useAuth()
@@ -35,7 +35,7 @@ function Requesting() {
   useEffect(() => {
     if (user && token) {
       dispatch(getUserRequests({ 
-        userId: user._id, 
+        userId: user.id, 
         token, 
         page: currentPage, 
         limit 

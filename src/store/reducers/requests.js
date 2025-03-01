@@ -216,7 +216,7 @@ export const getUserRequests = createAsyncThunk(
       );
 
       const data = await response.json();
-      if(!data.count){
+      if(!data.requests){
         return rejectWithValue(data?.error|| data?.message || "Failed to get user requests");
       }
 

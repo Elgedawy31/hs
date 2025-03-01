@@ -112,7 +112,7 @@ function NotificationBtn() {
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-[350px] p-0 bg-background border border-borderColor rounded-lg shadow-xl">
-        <div className="flex items-center justify-between border-b border-borderColor px-4 py-3">
+        <div className="flex items-center w-full justify-between border-b border-borderColor px-4 py-3">
           <div className="flex gap-4">
             <button 
               className={`text-sm font-medium ${activeTab === 'all' ? 'text-primary' : 'text-placeholderText'}`}
@@ -135,7 +135,7 @@ function NotificationBtn() {
           </button> */}
         </div>
         
-        <div className="max-h-[400px] overflow-y-auto">
+        <div className="max-h-[400px] w-full overflow-y-auto">
           {/* Today's notifications */}
           {todayNotifications.length > 0 && (
             <div className="py-2">

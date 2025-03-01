@@ -36,8 +36,12 @@ function Tracking() {
   };
 
   useEffect(() => {
-    const fromDate = dayjs().subtract(7, 'day');
-    const toDate = dayjs();
+    const fromDate = currentMonth.startOf('month');
+    
+    // If current month is selected, use today as toDate
+    // If previous month is selected, use last day of that month
+    const isCurrentMonth = currentMonth.month() === dayjs().month() && currentMonth.year() === dayjs().year();
+    const toDate = isCurrentMonth ? dayjs() : currentMonth.endOf('month');
 
     const from = fromDate.format('M-D-YYYY');
     const to = toDate.format('M-D-YYYY');
@@ -48,13 +52,15 @@ function Tracking() {
       to,
       userId: user.id
     }))
-  }, [dispatch, token, user.id]);
+  }, [dispatch, token, user.id, currentMonth]);
+
+  
   return (
     <>
       {metricsLoading ? <Loading /> : <CardContainer className='space-y-8'>
         <Timer />
 
-        <CalendarHeader onMonthChange={handleMonthChange} />
+        <CalendarHeader currentMonth={currentMonth} onMonthChange={handleMonthChange} />
 
         <MonthDays currentDate={currentMonth} />
         <CustomTabs

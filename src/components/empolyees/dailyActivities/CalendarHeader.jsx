@@ -2,17 +2,15 @@ import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 
-const CalendarHeader = ({ onMonthChange }) => {
-  const [currentDate, setCurrentDate] = useState(dayjs());
+const CalendarHeader = ({ currentMonth, onMonthChange }) => {
   const [slideDirection, setSlideDirection] = useState(0);
 
-  const isCurrentMonth = currentDate.format('YYYY-MM') === dayjs().format('YYYY-MM');
+  const isCurrentMonth = currentMonth.format('YYYY-MM') === dayjs().format('YYYY-MM');
 
   const handlePrevMonth = () => {
     setSlideDirection(-1);
     setTimeout(() => {
-      const newDate = currentDate.subtract(1, 'month');
-      setCurrentDate(newDate);
+      const newDate = currentMonth.subtract(1, 'month');
       onMonthChange(newDate);
       setSlideDirection(0);
     }, 150);
@@ -22,8 +20,7 @@ const CalendarHeader = ({ onMonthChange }) => {
     if (isCurrentMonth) return;
     setSlideDirection(1);
     setTimeout(() => {
-      const newDate = currentDate.add(1, 'month');
-      setCurrentDate(newDate);
+      const newDate = currentMonth.add(1, 'month');
       onMonthChange(newDate);
       setSlideDirection(0);
     }, 150);
@@ -39,10 +36,10 @@ const CalendarHeader = ({ onMonthChange }) => {
               <h1 className="text-xl font-semibold text-primary">Nouran's Working hour</h1>
             </div>
           </div>
-          <div className="text-placeholderText text-sm">
+          {/* <div className="text-placeholderText text-sm">
             <span className="mr-2">This Week</span>
             <span className="text-primary">27:56:07</span>
-          </div>
+          </div> */}
         </div>
         <div className="flex items-center gap-2">
           <ChevronLeft 
@@ -57,7 +54,7 @@ const CalendarHeader = ({ onMonthChange }) => {
                 opacity: slideDirection === 0 ? 1 : 0
               }}
             >
-              {currentDate.format('MMM YYYY')}
+              {currentMonth.format('MMM YYYY')}
             </span>
           </div>
           <ChevronRight 

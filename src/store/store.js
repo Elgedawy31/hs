@@ -4,6 +4,7 @@ import notificationReducer from './reducers/notification';
 import usersReducer from './reducers/users';
 import requestsReducer from './reducers/requests';
 import warningReducer from './reducers/warning';
+import activityReducer from './reducers/activity';
 
 export const store = configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
         notification: notificationReducer,
         users: usersReducer,
         requests: requestsReducer,
-        warning: warningReducer
+        warning: warningReducer,
+        activity: activityReducer
     }
 });

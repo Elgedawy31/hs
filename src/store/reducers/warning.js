@@ -20,7 +20,7 @@ export const getAllWarnings = createAsyncThunk(
             );
             
             const data = await response.json();
-            if(!data.success){
+            if(!data.warnings){
                 return rejectWithValue(data?.error || data?.message || "Failed to get warnings");
             }
             return data;
@@ -100,7 +100,7 @@ export const createWarning = createAsyncThunk(
             });
             
             const data = await response.json();
-            if (!data.success || data.error) {
+            if (!data?._id) {
                 return rejectWithValue(data.error || "Failed to create warning");
             }
             
@@ -126,7 +126,7 @@ export const updateWarning = createAsyncThunk(
             });
             
             const data = await response.json();
-            if (!data.success || data.error) {
+            if (!data?._id) {
                 return rejectWithValue(data.error || "Failed to update warning");
             }
             
@@ -151,7 +151,7 @@ export const deleteWarning = createAsyncThunk(
             });
             
             const data = await response.json();
-            if (!data.success || data.error) {
+            if (!data?._id) {
                 return rejectWithValue(data.error || "Failed to delete warning");
             }
             

@@ -1,36 +1,50 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ListTodo } from 'lucide-react'
 import UniHeading from '../../components/UniHeading'
 import MemoCard from '../../components/MemoCard'
 import CardContainer from '../../components/CardContainer'
 import { useAuth } from '../../contexts/AuthContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllWarnings } from '../../store/reducers/warning'
+import Loading from '../../components/Loading'
+import ErrorMessage from '../../components/ErrorMessage'
+import UniPagination from '../../components/UniPagination'
+import NoDataMsg from '../../components/NoDataMsg'
 
 function Memo() {
-  const memoData = [
-    {
-      type: 'Attendance Warning',
-      warningType: 'Final',
-      date: '30/6/2025',
-      description: 'Repeated late arrivals in the past month',
-      requiredAction: 'Improve punctuality within next 30 days'
-    },
-    {
-      type: 'Performance Warning',
-      warningType: 'Minor',
-      date: '25/6/2025',
-      description: 'Missed project deadline by 2 days',
-      requiredAction: 'Ensure timely project completion'
-    },
-    {
-      type: 'Conduct Warning',
-      warningType: 'Moderate',
-      date: '28/6/2025',
-      description: 'Inappropriate communication with team members',
-      requiredAction: 'Maintain professional communication standards'
-    }
-  ]
+  const { user, token } = useAuth()
+  const dispatch = useDispatch()
+  const { warnings, loading, error, pagination } = useSelector((state) => state.warning)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [limit] = useState(10)
 
-  // Dummy handlers (no actual functionality needed)
+  useEffect(() => {
+    if (token && user?.id) {
+      dispatch(getAllWarnings({ 
+        token, 
+        page: currentPage, 
+        limit, 
+        userId: user.id 
+      }))
+    }
+  }, [dispatch, token, user, currentPage, limit])
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+  }
+
+  // Map warnings to the format expected by MemoCard
+  const formattedWarnings = warnings.map(warning => ({
+    type: warning.title,
+    warningType: warning.level,
+    date: new Date(warning.createdAt || Date.now()).toLocaleDateString(),
+    description: warning.description,
+    requiredAction: warning.requiredAction || 'No specific action required',
+    _id: warning._id,
+    issuedBy: warning.issuedBy,
+    attachments: warning.attachments
+  }))
+
   const handleEdit = (memo) => {
     console.log('Edit memo:', memo)
   }
@@ -40,21 +54,39 @@ function Memo() {
   }
 
   return (
-    <CardContainer className="space-y-4 p-6">
+    <CardContainer className="space-y-4 p-6 min-h-[90vh]">
       <UniHeading 
         icon={ListTodo} 
-        text="My Memoes" 
+        text="My Warnings" 
         showButton={false}
       />
 
-      {memoData.map((memo, index) => (
-        <MemoCard 
-          key={index}
-          memo={memo}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
-      ))}
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <ErrorMessage message={error} />
+      ) : formattedWarnings.length === 0 ? (
+        <NoDataMsg message="No warnings found" />
+      ) : (
+        <>
+          {formattedWarnings.map((memo) => (
+            <MemoCard 
+              key={memo._id || Math.random()}
+              memo={memo}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
+          
+          {pagination && pagination.totalPages > 1 && (
+            <UniPagination 
+              currentPage={pagination.currentPage}
+              totalPages={pagination.totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </>
+      )}
     </CardContainer>
   )
 }

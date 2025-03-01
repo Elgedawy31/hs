@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import dayjs from 'dayjs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const MonthDays = ({ currentDate, metricsData }) => {
+const MonthDays = ({ currentDate, metricsData, onActiveDayChange }) => {
   const [monthDays, setMonthDays] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState(0);
@@ -115,6 +115,14 @@ const MonthDays = ({ currentDate, metricsData }) => {
     }
     
     setActiveIndex(index);
+    
+    // Notify parent component about the active day change
+    if (onActiveDayChange) {
+      // Create a dayjs object for the active day
+      const activeDay = currentDate.date(monthDays[index].dayNumber);
+      onActiveDayChange(activeDay);
+    }
+    
     // Center the clicked day if possible
     const newStartIndex = Math.min(
       Math.max(index - Math.floor(visibleCards / 2), 0),

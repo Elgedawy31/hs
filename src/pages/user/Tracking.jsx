@@ -17,6 +17,7 @@ import Loading from '../../components/Loading';
 
 function Tracking() {
   const [currentMonth, setCurrentMonth] = useState(dayjs());
+  const [activeDay, setActiveDay] = useState(dayjs());
   const { user, token } = useAuth();
   const { metrics, metricsLoading, metricsError } = useSelector(state => state.activity);
 
@@ -34,6 +35,19 @@ function Tracking() {
   const handleMonthChange = (newDate) => {
     setCurrentMonth(newDate);
   };
+
+  const handleActiveDayChange = (day) => {
+    setActiveDay(day);
+  };
+
+  // Update activeDay when month changes
+  useEffect(() => {
+    // If current month is the same as activeDay's month, keep the day
+    // Otherwise set to first day of the month
+    if (currentMonth.month() !== activeDay.month() || currentMonth.year() !== activeDay.year()) {
+      setActiveDay(currentMonth.date(1));
+    }
+  }, [currentMonth, activeDay]);
 
   useEffect(() => {
     const fromDate = currentMonth.startOf('month');
@@ -54,7 +68,6 @@ function Tracking() {
     }))
   }, [dispatch, token, user.id, currentMonth]);
 
-  console.log('metrics', metrics);
   
   return (
     <>
@@ -63,17 +76,21 @@ function Tracking() {
 
         <CalendarHeader currentMonth={currentMonth} onMonthChange={handleMonthChange} />
 
-        <MonthDays currentDate={currentMonth} metricsData={metrics[0]} />
+        <MonthDays 
+          currentDate={currentMonth} 
+          metricsData={metrics[0]} 
+          onActiveDayChange={handleActiveDayChange} 
+        />
         <CustomTabs
           tabs={tabs}
           activeTab={activeTab}
           onChange={setActiveTab}
         />
         <div className="mt-4">
-          {activeTab === "details" && <TrackingDetailsTab />}
-          {activeTab === "screenshots" && <TrackingScreenshots />}
-          {activeTab === "systemLogs" && <TrackingSystemLogs />}
-          {activeTab === "apps" && <TrackingAppTab />}
+          {activeTab === "details" && <TrackingDetailsTab activeDay={activeDay.format('MM-DD-YYYY')} />}
+          {activeTab === "screenshots" && <TrackingScreenshots activeDay={activeDay.format('MM-DD-YYYY')} />}
+          {activeTab === "systemLogs" && <TrackingSystemLogs activeDay={activeDay.format('MM-DD-YYYY')} />}
+          {activeTab === "apps" && <TrackingAppTab activeDay={activeDay.format('MM-DD-YYYY')} />}
         </div >
       </CardContainer>}
     </>

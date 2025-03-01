@@ -1,22 +1,176 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Line, ComposedChart, ResponsiveContainer, Label, Tooltip } from 'recharts';
 import CardContainer from './CardContainer';
 import { useTheme } from '../contexts/ThemeContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAuth } from '../contexts/AuthContext';
+import { getActivityMetrics } from '../store/reducers/activity';
+import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+// Extend dayjs with plugins
+dayjs.extend(localizedFormat);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+import { secondsToHours } from '../utils/general';
 
 const WorkHoursTracker = () => {
+  const dispatch = useDispatch();
+  const { metrics, metricsLoading } = useSelector(state => state.activity);
+  const { user, token } = useAuth();
+  const [chartData, setChartData] = useState([]);
 
-  const {currentTheme} = useTheme()
-  const isDark = currentTheme === 'dark'
+  // Add direct console log to see metrics data structure
+  console.log('Raw metrics data:', metrics);
   
-  // Sample data for work hours
-  const data = [
-    { day: 'Sun', hours: 6, label: '6 h' },
-    { day: 'Mon', hours: 8, label: '8 h' },
-    { day: 'Tue', hours: 3, label: '3 h' },
-    { day: 'Wed', hours: 8, label: '8 h' },
-    { day: 'Thu', hours: 10, label: '10 h' },
+  // Debug function to help analyze the structure
+  const debugMetricsStructure = (data) => {
+    if (!data) return;
+    
+    console.log("DEBUG - Metrics Structure:");
+    console.log("Type:", typeof data);
+    console.log("Is Array:", Array.isArray(data));
+    
+    if (Array.isArray(data)) {
+      console.log("Array length:", data.length);
+      if (data.length > 0) {
+        console.log("First item:", data[0]);
+        console.log("First item keys:", Object.keys(data[0]));
+      }
+    } else if (typeof data === 'object') {
+      console.log("Object keys:", Object.keys(data));
+      
+      // Check for details property
+      if (data.details) {
+        console.log("Details type:", typeof data.details);
+        console.log("Details is Array:", Array.isArray(data.details));
+        
+        if (Array.isArray(data.details)) {
+          console.log("Details length:", data.details.length);
+          if (data.details.length > 0) {
+            console.log("First detail item:", data.details[0]);
+            console.log("First detail keys:", Object.keys(data.details[0]));
+          }
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    // Get date from 7 days ago
+    const fromDate = dayjs().subtract(7, 'day');
+    // Get today's date
+    const toDate = dayjs();
+    
+    // Format dates as M-D-YYYY
+    const from = fromDate.format('M-D-YYYY');
+    const to = toDate.format('M-D-YYYY');
+    
+    // Dispatch the action to get metrics
+    dispatch(getActivityMetrics({ 
+      token, 
+      from, 
+      to, 
+      userId: user.id 
+    }))
+    .then(result => {
+      console.log('Activity metrics data for chart:', result.payload);
+    });
+  }, [dispatch, token, user.id]);
+
+  useEffect(() => {
+    if (!metricsLoading && metrics) {
+      console.log("Processing metrics data:", metrics);
+      
+      // Based on user feedback, metrics is an array with a single object
+      // We need to access it using metrics[0]
+      if (Array.isArray(metrics) && metrics.length > 0) {
+        console.log("Accessing metrics[0]:", metrics[0]);
+        console.log("Details array:", metrics[0].details);
+        
+        // Debug the structure of metrics[0]
+        debugMetricsStructure(metrics[0]);
+        
+        // Create an array for all days of the week
+        const daysOfWeek = [
+          { day: 'Sun', fullName: 'Sunday', dayIndex: 0 },
+          { day: 'Mon', fullName: 'Monday', dayIndex: 1 },
+          { day: 'Tue', fullName: 'Tuesday', dayIndex: 2 },
+          { day: 'Wed', fullName: 'Wednesday', dayIndex: 3 },
+          { day: 'Thu', fullName: 'Thursday', dayIndex: 4 },
+          { day: 'Fri', fullName: 'Friday', dayIndex: 5 },
+          { day: 'Sat', fullName: 'Saturday', dayIndex: 6 }
+        ];
+        
+        // Initialize data with 0 hours for all days
+        const initialData = daysOfWeek.map(day => ({
+          day: day.day,
+          hours: 0,
+          label: '0 h'
+        }));
+        
+        // Process the details array from metrics[0]
+        if (metrics[0].details && Array.isArray(metrics[0].details) && metrics[0].details.length > 0) {
+          console.log("Processing details array with length:", metrics[0].details.length);
+          
+          // Loop through each detail
+          metrics[0].details.forEach((detail, index) => {
+            console.log(`Processing detail ${index}:`, detail);
+            
+            if (detail && detail.date) {
+              try {
+                // Simple date parsing - just get the day of week
+                const date = new Date(detail.date);
+                const dayOfWeek = date.getDay(); // 0 = Sunday, 1 = Monday, etc.
+                
+                console.log(`Date: ${detail.date}, Day of week: ${dayOfWeek} (${daysOfWeek[dayOfWeek].fullName})`);
+                
+                // Get the hours (convert from seconds)
+                const hours = detail.totalTimeLogged ? secondsToHours(detail.totalTimeLogged) : 0;
+                const roundedHours = Math.round(hours * 10) / 10; // Round to 1 decimal place
+                
+                console.log(`Hours for ${daysOfWeek[dayOfWeek].fullName}: ${roundedHours} (from ${detail.totalTimeLogged} seconds)`);
+                
+                // Update our data array
+                initialData[dayOfWeek].hours = roundedHours;
+                initialData[dayOfWeek].label = `${roundedHours} h`;
+                
+                console.log(`Updated data for ${daysOfWeek[dayOfWeek].fullName}:`, initialData[dayOfWeek]);
+              } catch (error) {
+                console.error(`Error processing detail ${index}:`, error);
+              }
+            } else {
+              console.warn(`Detail ${index} has no date:`, detail);
+            }
+          });
+        } else {
+          console.warn("No details array found in metrics[0] or it's empty");
+        }
+        
+        // Log the final data we're using for the chart
+        console.log("Final chart data:", initialData);
+        
+        // Update state with our processed data
+        setChartData(initialData);
+      } else {
+        console.log("Metrics is not an array or is empty:", metrics);
+      }
+    } else {
+      console.log("Metrics not loaded yet or no metrics data:", { metricsLoading, metrics });
+    }
+  }, [metrics, metricsLoading]);
+
+  // Use chartData if available, otherwise use empty data
+  const data = chartData.length > 0 ? chartData : [
+    { day: 'Sun', hours: 0, label: '0 h' },
+    { day: 'Mon', hours: 0, label: '0 h' },
+    { day: 'Tue', hours: 0, label: '0 h' },
+    { day: 'Wed', hours: 0, label: '0 h' },
+    { day: 'Thu', hours: 0, label: '0 h' },
     { day: 'Fri', hours: 0, label: '0 h' },
-    { day: 'Sat', hours: 3, label: '3 h' },
+    { day: 'Sat', hours: 0, label: '0 h' },
   ];
 
   // Custom tooltip component

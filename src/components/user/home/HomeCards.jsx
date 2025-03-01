@@ -13,8 +13,8 @@ function HomeCards() {
   const { user , token} = useAuth()
   
   useEffect(() => {
-    // Get the first day of the current month
-    const fromDate = dayjs().startOf('month')
+    // Get the date from one month ago
+    const fromDate = dayjs().subtract(1, 'month')
     // Get the current day
     const toDate = dayjs()
     

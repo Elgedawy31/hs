@@ -16,7 +16,7 @@ const getWarningTypeStyle = (type) => {
   }
 }
 
-const REACT_APP_API_URL = 'http://localhost:5000'
+const REACT_APP_API_URL = 'https://trackingApp.s3.us-east-2.amazonaws.com'
 
 function MemoCard({ memo, onEdit, onDelete }) {
 const {user:{role}} = useAuth()
@@ -62,7 +62,7 @@ const {user:{role}} = useAuth()
               {memo.attachments.map((attachment, index) => (
                 <a 
                   key={index}
-                  href={attachment.startsWith('http') ? attachment : `${REACT_APP_API_URL}/uploads/${attachment}`}
+                  href={attachment.startsWith('http') ? attachment : `${REACT_APP_API_URL}/${attachment}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-3 py-1  rounded-md  underline transition-colors"

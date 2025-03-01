@@ -8,6 +8,7 @@ import WorkHoursTracker from '../../components/BarCharts'
 import CompletedHours from '../../components/CompeletedHours'
 import extractName from '../../utils/extractName'
 import NotificationBtn from '../../components/user/home/NotificationBtn'
+import HomeCards from '../../components/user/home/HomeCards'
 
 function HomePage() {
   const { user } = useAuth()
@@ -28,11 +29,7 @@ function HomePage() {
         </div>
         <NotificationBtn />
       </div>
-      <div className="grid grid-cols-3 gap-8">
-        <HomeCard Icon={StepForward} title='Tracked Time' description='167 h 19 m' />
-        <HomeCard Icon={CircleCheckBig} title='Producitity' description='167 h 19 m' />
-        <HomeCard Icon={ClockAlert} title='Overtime' description='16 h' />
-      </div>
+     <HomeCards />
 
       <div className="grid grid-cols-3 gap-4">
         <div className=' col-span-2'>

@@ -1,47 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { InboxIcon } from '@heroicons/react/24/outline'
 import CardContainer from '@components/CardContainer'
 import RequestingHeader from '../../components/user/requesting/RequestingHeader'
 import RequestUploadModal from '../../components/user/requesting/RequestUploadModal'
 import RequestingCard from '../../components/user/requesting/RequestingCard'
+import UniPagination from '../../components/UniPagination'
+import Loading from '../../components/Loading'
+import ErrorMessage from '../../components/ErrorMessage'
+import { getUserRequests, resetRequestsState } from '../../store/reducers/requests'
+import { useAuth } from '../../contexts/AuthContext'
+import NoDataMsg from '../../components/NoDataMsg'
 
 function Requesting() {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [limit] = useState(10)
   
-  // Sample request data
-  const requests = [
-    {
-      id: 1,
-      type: 'Annual leaves',
-      description: 'Friend\'s Wedding Celebration',
-      dateRange: '10 Apr 2025 to 13 Apr 2025',
-      duration: '3 Days',
-      status: 'Pending'
-    },
-    {
-      id: 2,
-      type: 'Annual leaves',
-      description: 'Friend\'s Wedding Celebration',
-      dateRange: '10 Apr 2025 to 13 Apr 2025',
-      duration: '3 Days',
-      status: 'Pending'
-    },
-    {
-      id: 3,
-      type: 'Annual leaves',
-      description: 'Friend\'s Wedding Celebration',
-      dateRange: '10 Apr 2025 to 13 Apr 2025',
-      duration: '3 Days',
-      status: 'Approved'
-    },
-    {
-      id: 4,
-      type: 'Equipment Request',
-      description: 'Friend\'s Wedding Celebration',
-      dateRange: '10 Apr 2025 to 13 Apr 2025',
-      duration: '3 Days',
-      status: 'Deny'
+  const dispatch = useDispatch()
+  const { user, token } = useAuth()
+  const { requests, loading, error, count } = useSelector((state) => state.requests)
+  
+  const totalPages = Math.ceil(count / limit)
+  
+  useEffect(() => {
+    if (user && token) {
+      dispatch(getUserRequests({ 
+        userId: user.id, 
+        token, 
+        page: currentPage, 
+        limit 
+      }))
     }
-  ]
+    
+    return () => {
+      dispatch(resetRequestsState())
+    }
+  }, [dispatch, user, token, currentPage, limit])
+  
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+  }
   
   const handleCloseModal = () => {
     setOpen(false)
@@ -51,11 +50,38 @@ function Requesting() {
     <div className='space-y-8'>
       <RequestingHeader onAddClick={() => setOpen(true)} />
 
-      <CardContainer className="space-y-4 p-6">
-        {requests.map(request => (
-          <RequestingCard key={request.id} request={request} />
-        ))}
-      </CardContainer>
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <ErrorMessage message={error} />
+      ) : (
+        <>
+          {requests && requests.length > 0 ? (
+            <CardContainer className="space-y-4 p-6">
+              {requests.map(request => (
+                <RequestingCard key={request._id || request.id} request={request} />
+              ))}
+            </CardContainer>
+          ) : (
+            <NoDataMsg 
+              title="No requests found" 
+              description="You haven't submitted any requests yet"
+              additionalMessage="Create a new request by clicking the 'Add Request' button above"
+              icon={InboxIcon}
+            />
+          )}
+          
+          {totalPages > 1 && (
+            <div className="flex justify-center mt-6">
+              <UniPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          )}
+        </>
+      )}
 
       <RequestUploadModal 
         isOpen={open} 

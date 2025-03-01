@@ -6,10 +6,10 @@ const KEY = "requests";
 // Get all requests operation
 export const getAllRequests = createAsyncThunk(
   "requests/getAllRequests",
-  async ({ token, page=1, limit=20 }, { rejectWithValue }) => {
+  async ({ token, page=1, limit=20 , userId }, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `${API_URL}/${KEY}?page=${page}&limit=${limit}`,
+        `${API_URL}/${KEY}?page=${page}&limit=${limit}&userId=${userId}`,
         {
           method: "GET",
           headers: {
@@ -20,9 +20,9 @@ export const getAllRequests = createAsyncThunk(
       );
 
       const data = await response.json();
-      if(!data.count){
-        return rejectWithValue(data?.error|| data?.message || "Failed to get requests");
-      }
+      // if(!data.requests){
+      //   return rejectWithValue(data?.error|| data?.message || "Failed to get requests");
+      // }
 
       return data;
     } catch (err) {
@@ -205,7 +205,7 @@ export const getUserRequests = createAsyncThunk(
   async ({ userId, token, page=1, limit=20 }, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `${API_URL}/${KEY}/user/${userId}?page=${page}&limit=${limit}`,
+        `${API_URL}/${KEY}?page=${page}&limit=${limit}&userId=${userId}`,
         {
           method: "GET",
           headers: {
@@ -276,7 +276,6 @@ const requestsSlice = createSlice({
       .addCase(getAllRequests.fulfilled, (state, action) => {
         state.loading = false;
         state.requests = action.payload.requests;
-        state.count = action.payload.count;
         state.error = null;
       })
       .addCase(getAllRequests.rejected, (state, action) => {

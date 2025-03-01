@@ -56,6 +56,33 @@ export const getActivityMetricsForCards = createAsyncThunk(
     }
 );
 
+// Get metrics operation for months
+export const getActivityMetricsForMonths = createAsyncThunk(
+    "activity/getActivityMetricsForMonths",
+    async ({ token, from, to, userId }, { rejectWithValue }) => {
+        try {
+            const response = await fetch(
+                `${API_URL}/${KEY}/metrics?from=${from}&to=${to}&userId=${userId}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            
+            const data = await response.json();
+            if(!data){
+                return rejectWithValue("Failed to get metrics data");
+            }
+            return data;
+        } catch (err) {
+            return rejectWithValue(err.message);
+        }
+    }
+);
+
 // Get all activities operation
 export const getAllActivities = createAsyncThunk(
     "activity/getAllActivities",
@@ -236,6 +263,22 @@ const activitySlice = createSlice({
             overtimeHours: 0,
             details: []
         },
+        metricsForMonths: {
+            month: 0,
+            year: 0,
+            totalDays: 0,
+            avgTimeLogged: 0,
+            avgTimeActive: 0,
+            avgBreakTime: 0,
+            avgInactiveTime: 0,
+            totalTimeLogged: 0,
+            totalTimeActive: 0,
+            totalBreakTime: 0,
+            totalInactiveTime: 0,
+            productivityRate: 0,
+            overtimeHours: 0,
+            details: []
+        },
         metricsLoading: false,
         metricsError: null
     },
@@ -387,6 +430,20 @@ const activitySlice = createSlice({
                 state.metricsError = null;
             })
             .addCase(getActivityMetricsForCards.rejected, (state, action) => {
+                state.metricsLoading = false;
+                state.metricsError = action.payload;
+            })
+            // Get activity metrics for months
+            .addCase(getActivityMetricsForMonths.pending, (state) => {
+                state.metricsLoading = true;
+                state.metricsError = null;
+            })
+            .addCase(getActivityMetricsForMonths.fulfilled, (state, action) => {
+                state.metricsLoading = false;
+                state.metricsForMonths = action.payload;
+                state.metricsError = null;
+            })
+            .addCase(getActivityMetricsForMonths.rejected, (state, action) => {
                 state.metricsLoading = false;
                 state.metricsError = action.payload;
             })

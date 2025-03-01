@@ -1,39 +1,26 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 
-const Timer = ({ startTime }) => {
-  const [time, setTime] = useState(() => {
-    if (!startTime) return { hours: 0, minutes: 0, seconds: 0 };
-    
-    const [hours, minutes, seconds] = startTime.split(':').map(Number);
-    return { hours, minutes, seconds };
-  });
+const Timer = ({ time }) => {
+  // Parse the time if it's provided as a string (e.g., "01:30:45")
+  let hours = 0, minutes = 0, seconds = 0;
+  
+  if (time) {
+    if (typeof time === 'string') {
+      [hours, minutes, seconds] = time.split(':').map(Number);
+    } else if (typeof time === 'object' && time !== null) {
+      // If time is provided as an object with hours, minutes, seconds properties
+      hours = time.hours || 0;
+      minutes = time.minutes || 0;
+      seconds = time.seconds || 0;
+    } else if (typeof time === 'number') {
+      // If time is provided as seconds
+      hours = Math.floor(time / 3600);
+      minutes = Math.floor((time % 3600) / 60);
+      seconds = time % 60;
+    }
+  }
 
-  useEffect(() => {
-    const updateTimer = () => {
-      setTime(prevTime => {
-        let { hours, minutes, seconds } = prevTime;
-        
-        seconds += 1;
-        
-        if (seconds === 60) {
-          seconds = 0;
-          minutes += 1;
-        }
-        
-        if (minutes === 60) {
-          minutes = 0;
-          hours += 1;
-        }
-        
-        return { hours, minutes, seconds };
-      });
-    };
-
-    const timer = setInterval(updateTimer, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const displayTime = `${String(time.hours).padStart(2, '0')}:${String(time.minutes).padStart(2, '0')}:${String(time.seconds).padStart(2, '0')}`;
+  const displayTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
   return (
     <div className="flex justify-center items-center">

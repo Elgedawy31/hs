@@ -19,7 +19,7 @@ function Tracking() {
   const [currentMonth, setCurrentMonth] = useState(dayjs());
   const [activeDay, setActiveDay] = useState(dayjs());
   const { user, token } = useAuth();
-  const { metrics, metricsLoading, metricsError } = useSelector(state => state.activity);
+  const { metrics, metricsLoading } = useSelector(state => state.activity);
 
   const dispatch = useDispatch();
 
@@ -69,10 +69,16 @@ function Tracking() {
   }, [dispatch, token, user.id, currentMonth]);
 
   
+  // Extract total tracked time from metrics for the Timer component
+  const getTotalTrackedTime = () => {
+    if (!metrics || !metrics[0]) return 0;
+    return metrics[0]?.totalTimeLogged || 0;
+  };
+
   return (
     <>
       {metricsLoading ? <Loading /> : <CardContainer className='space-y-8'>
-        <Timer />
+        <Timer time={getTotalTrackedTime()} />
 
         <CalendarHeader currentMonth={currentMonth} onMonthChange={handleMonthChange} />
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import dayjs from 'dayjs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const MonthDays = ({ currentDate }) => {
+const MonthDays = ({ currentDate, metricsData }) => {
   const [monthDays, setMonthDays] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState(0);
@@ -32,7 +32,7 @@ const MonthDays = ({ currentDate }) => {
 
   useEffect(() => {
     generateMonthDays();
-  }, [currentDate]); // Re-generate days when currentDate prop changes
+  }, [currentDate, metricsData]); // Re-generate days when currentDate or metricsData changes
 
   const generateMonthDays = () => {
     const daysInMonth = currentDate.daysInMonth();
@@ -44,10 +44,29 @@ const MonthDays = ({ currentDate }) => {
       const dayDate = currentDate.date(i);
       const isFutureDate = dayDate.isAfter(today, 'day');
       
+      // Find if there's data for this day in metrics
+      let timeForDay = "00:00";
+      if (metricsData && metricsData.details && !isFutureDate) {
+        const dayData = metricsData.details.find(detail => {
+          const detailDate = dayjs(detail.date);
+          return detailDate.date() === i && 
+                 detailDate.month() === currentDate.month() && 
+                 detailDate.year() === currentDate.year();
+        });
+        
+        if (dayData && dayData.totalTimeActive > 0) {
+          // Convert seconds to hours:minutes format
+          const totalMinutes = Math.floor(dayData.totalTimeActive / 60);
+          const hours = Math.floor(totalMinutes / 60);
+          const minutes = totalMinutes % 60;
+          timeForDay = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        }
+      }
+      
       days.push({
         dayName: dayDate.format('ddd'),
         dayNumber: i,
-        time: isFutureDate ? null : generateRandomTime(),
+        time: isFutureDate ? null : timeForDay,
         isFuture: isFutureDate
       });
     }

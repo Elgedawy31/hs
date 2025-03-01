@@ -54,6 +54,7 @@ function Tracking() {
     }))
   }, [dispatch, token, user.id, currentMonth]);
 
+  console.log('metrics', metrics);
   
   return (
     <>
@@ -62,7 +63,7 @@ function Tracking() {
 
         <CalendarHeader currentMonth={currentMonth} onMonthChange={handleMonthChange} />
 
-        <MonthDays currentDate={currentMonth} />
+        <MonthDays currentDate={currentMonth} metricsData={metrics[0]} />
         <CustomTabs
           tabs={tabs}
           activeTab={activeTab}

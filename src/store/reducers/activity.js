@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_URL } from "../../utils/constants";
 
-const KEY = "activities";
+const KEY = "activity";
 
 // Get metrics operation
 export const getActivityMetrics = createAsyncThunk(

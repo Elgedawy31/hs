@@ -291,7 +291,8 @@ const requestsSlice = createSlice({
       .addCase(getUserRequests.fulfilled, (state, action) => {
         state.loading = false;
         state.requests = action.payload.requests;
-        state.count = action.payload.count;
+        state.pagination = action.payload.pagination;
+        state.count = action.payload.pagination?.totalCount || 0;
         state.error = null;
       })
       .addCase(getUserRequests.rejected, (state, action) => {

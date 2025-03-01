@@ -19,14 +19,23 @@ function Requesting() {
   
   const dispatch = useDispatch()
   const { user, token } = useAuth()
-  const { requests, loading, error, count } = useSelector((state) => state.requests)
+  const { requests, loading, error, pagination } = useSelector((state) => state.requests)
   
-  const totalPages = Math.ceil(count / limit)
+  // Use pagination values from the API response
+  const totalPages = pagination?.totalPages || 1
+  const apiCurrentPage = pagination?.currentPage ? Number(pagination.currentPage) : 1
+  
+  // Update local state if API returns a different page
+  useEffect(() => {
+    if (pagination?.currentPage && Number(pagination.currentPage) !== currentPage) {
+      setCurrentPage(Number(pagination.currentPage))
+    }
+  }, [pagination])
   
   useEffect(() => {
     if (user && token) {
       dispatch(getUserRequests({ 
-        userId: user.id, 
+        userId: user._id, 
         token, 
         page: currentPage, 
         limit 
@@ -74,7 +83,7 @@ function Requesting() {
           {totalPages > 1 && (
             <div className="flex justify-center mt-6">
               <UniPagination
-                currentPage={currentPage}
+                currentPage={apiCurrentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
               />

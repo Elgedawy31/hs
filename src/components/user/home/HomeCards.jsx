@@ -5,12 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useAuth } from '@contexts/AuthContext'
 import { getActivityMetrics } from '../../../store/reducers/activity'
 import dayjs from 'dayjs'
-
-// Helper function to convert seconds to hours
-const secondsToHours = (seconds) => {
-  if (!seconds) return '0';
-  return (seconds / 3600).toFixed(2);
-}
+import { secondsToHours } from '../../../utils/general'
 
 function HomeCards() {
   const dispatch = useDispatch()

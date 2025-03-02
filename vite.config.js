@@ -21,6 +21,9 @@ export default defineConfig({
       '@pages': '/src/pages',
       '@assets':'/src/assets',
       '@contexts':'/src/contexts',
+      '@store':'/src/store',
+      '@utils':'/src/utils',
+      '@hooks':'/src/hooks',
     }
   },
   server:{

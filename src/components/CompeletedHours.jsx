@@ -49,12 +49,30 @@ const CompletedHours = () => {
         currentMonth.format('MMMM')
       ];
       
-      // Calculate max hours based on days in month (8 hours per working day)
-      const daysInCurrentMonth = currentMonth.daysInMonth();
-      const daysInLastMonth = lastMonth.daysInMonth();
-      const daysInTwoMonthsAgo = twoMonthsAgo.daysInMonth();
+      // Calculate max hours based on working days in month (excluding weekends)
+      const maxHoursPerDay = 8; // 8 hours per working day
       
-      const maxHoursPerDay = 8; // 8 hours per day as per feedback
+      // Function to count weekdays (Monday-Friday) in a month
+      const countWeekdaysInMonth = (date) => {
+        const daysInMonth = date.daysInMonth();
+        let weekdayCount = 0;
+        
+        for (let day = 1; day <= daysInMonth; day++) {
+          const currentDate = date.date(day);
+          const dayOfWeek = currentDate.day(); // 0 is Sunday, 6 is Saturday
+          
+          // Count only weekdays (Monday-Friday: 1-5)
+          if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+            weekdayCount++;
+          }
+        }
+        
+        return weekdayCount;
+      };
+      
+      const weekdaysInCurrentMonth = countWeekdaysInMonth(currentMonth);
+      const weekdaysInLastMonth = countWeekdaysInMonth(lastMonth);
+      const weekdaysInTwoMonthsAgo = countWeekdaysInMonth(twoMonthsAgo);
       
       // Group details by month
       const monthlyData = {};
@@ -93,8 +111,9 @@ const CompletedHours = () => {
         const monthKey = monthDate.format('YYYY-MM');
         const monthData = monthlyData[monthKey] || { totalTimeLogged: 0 };
         
-        const daysInMonth = monthDate.daysInMonth();
-        const maxHoursInMonth = daysInMonth * maxHoursPerDay;
+        // Count weekdays for this month
+        const weekdaysInMonth = countWeekdaysInMonth(monthDate);
+        const maxHoursInMonth = weekdaysInMonth * maxHoursPerDay;
         const totalHours = secondsToHours(monthData.totalTimeLogged);
         const percentage = Math.min((totalHours / maxHoursInMonth) * 100, 100);
         

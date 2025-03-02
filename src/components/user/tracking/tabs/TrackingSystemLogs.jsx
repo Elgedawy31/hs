@@ -1,239 +1,82 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import UniTable from '@components/UniTable';
 import CardContainer from '@components/CardContainer';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllLogs } from '../../../../store/reducers/logs';
+import { useAuth } from '../../../../contexts/AuthContext';
+import Loading from '@components/Loading';
+import UniPagination from '@components/UniPagination';
+import dayjs from 'dayjs';
+import NoDataMsg from '@components/NoDataMsg';
 
-export default function TrackingSystemLogs({activeDay}) {
-  // Sample data based on the image
-  const data = [
-    {
-      id: 1,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Screenshot',
-      description: 'User is now active'
-    },
-    {
-      id: 2,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Login',
-      description: 'User is now active'
-    },
-    {
-      id: 3,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Screenshot',
-      description: 'User is now active'
-    },
-    {
-      id: 4,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-    {
-      id: 5,
-      name: 'Nouran Khaled',
-      ipAddress: '30/1 8:30',
-      timeStamp: '30/1 8:30',
-      type: 'Using App',
-      description: 'User is now active'
-    },
-  ];
+export default function TrackingSystemLogs({ activeDay }) {
+  const dispatch = useDispatch();
+  const { token } = useAuth();
+  const { logs, loading, error, pagination } = useSelector(state => state.logs);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    // Reset to first page when activeDay changes
+    setCurrentPage(1);
+  }, [activeDay]);
+
+  useEffect(() => {
+    // Fetch logs with activeDay as both startDate and endDate
+    dispatch(getAllLogs({
+      token,
+      page: currentPage,
+      limit: 10,
+      // startDate: activeDay,
+      // endDate: activeDay
+    }));
+  }, [dispatch, token, activeDay, currentPage]);
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Format timestamp to a readable format
+  const formatTimestamp = (timestamp) => {
+    if (!timestamp) return '';
+    return dayjs(timestamp).format('MM/DD HH:mm');
+  };
 
   // Column definitions
   const columns = [
     {
-      accessorKey: 'name',
+      accessorKey: 'userId.name.first',
       header: 'Name',
       size: 150,
+      cell: ({ row }) => {
+        console.log(row)
+        const firstName = row.original.userId?.userId?.name?.first || '';
+        const lastName = row.original.userId?.userId?.name?.last || '';
+        return `${firstName} ${lastName}`;
+      }
     },
     {
       accessorKey: 'ipAddress',
-      header: 'Ip address',
+      header: 'IP Address',
       size: 150,
     },
     {
-      accessorKey: 'timeStamp',
+      accessorKey: 'timestamp',
       header: 'Time stamp',
       size: 150,
+      cell: ({ row }) => formatTimestamp(row.original.timestamp),
     },
     {
-      accessorKey: 'type',
+      accessorKey: 'module',
       header: 'Type',
       size: 150,
       cell: ({ row }) => {
-        const type = row.original.type;
+        const type = row.original.module;
         const colors = {
-          Screenshot: 'text-blue-500',
-          Login: 'text-green-500',
-          'Using App': 'text-purple-500'
+          screenshot: 'text-blue-500',
+          login: 'text-green-500',
+          activity: 'text-purple-500',
+          access:'text-yellow-500',
         };
         return (
           <span className={colors[type] || 'text-gray-500'}>
@@ -248,13 +91,35 @@ export default function TrackingSystemLogs({activeDay}) {
       size: 200,
     },
   ];
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <NoDataMsg message={`Error loading logs: ${error}`} />;
+  }
+
+  if (!logs || logs.length === 0) {
+    return <NoDataMsg message="No logs found for this day" />;
+  }
+
   return (
     <CardContainer>
       <UniTable
         columns={columns}
-        data={data}
+        data={logs}
         actions={[]}
       />
+      {pagination.totalPages > 1 && (
+        <div className="mt-4 flex justify-center">
+          <UniPagination
+            currentPage={pagination.currentPage}
+            totalPages={pagination.totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      )}
     </CardContainer>
   );
 }

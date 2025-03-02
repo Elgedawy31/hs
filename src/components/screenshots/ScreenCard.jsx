@@ -3,7 +3,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { Avatar } from "@heroui/react";
 import { LaptopMinimalCheck } from 'lucide-react';
 
-function ScreenCard({ screenshot, user, timestamp, type }) {
+function ScreenCard({ screenshot, user, timestamp, type , showName=true}) {
   const { theme } = useTheme();
 
   return (
@@ -15,12 +15,13 @@ function ScreenCard({ screenshot, user, timestamp, type }) {
         <img 
           src={screenshot} 
           alt="Screenshot" 
-          className="w-full h-full object-cover"
+          className={`w-full h-full object-cover transition-all duration-300 transform group-hover:scale-105`}
         />
       </div>
       
       <div className="p-3 space-y-3">
-        <div className="flex items-center gap-3">
+        {
+          showName && <div className="flex items-center gap-3">
           <Avatar
             src={user.avatar}
             alt={user.name}
@@ -33,6 +34,7 @@ function ScreenCard({ screenshot, user, timestamp, type }) {
             {user.name}
           </h3>
         </div>
+        }
         <div className="flex items-center justify-between">
           <div className="flex items-center  gap-2">
             <LaptopMinimalCheck  size={16} className='text-primary' />

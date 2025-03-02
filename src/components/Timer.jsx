@@ -37,23 +37,7 @@ const Timer = ({ activeDay }) => {
       setTimerSeconds(0);
     }
   }, [data]);
-  
-  // Timer increment effect - only runs if isRunning is true
-  useEffect(() => {
-    let interval = null;
-    
-    if (isRunning) {
-      interval = setInterval(() => {
-        setTimerSeconds(prevSeconds => prevSeconds + 1);
-      }, 1000);
-    } else if (!isRunning && interval) {
-      clearInterval(interval);
-    }
-    
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isRunning]);
+;
   
   // Convert seconds to hours, minutes, seconds
   const hours = Math.floor(timerSeconds / 3600);

@@ -53,25 +53,50 @@ const MonthDays = ({ currentDate, metricsData, onActiveDayChange }) => {
         
         if (Array.isArray(metricsData)) {
           // New structure: metricsData is an array of metric objects
-          // Find the metric object for the current month/year
-          const metricForMonth = metricsData.find(metric => 
-            metric.month === currentDate.month() + 1 && metric.year === currentDate.year()
-          );
-          
-          if (metricForMonth && metricForMonth.details) {
-            // Find the day data in the details array
-            dayData = metricForMonth.details.find(detail => {
-              // Parse the date in UTC and convert to local time for comparison
-              const detailDate = dayjs(detail.date);
-              // Log the date for debugging
-              console.log('Detail date:', detail.date, 'Parsed:', detailDate.format('YYYY-MM-DD'), 'Day:', detailDate.date(), 'Looking for day:', i);
+          // Check all metric objects for the current day, not just the one matching the current month
+          for (const metric of metricsData) {
+            if (metric.details && Array.isArray(metric.details)) {
+              // Find the day data in the details array
+              const foundDayData = metric.details.find(detail => {
+                // Parse the date in UTC
+                const detailDate = dayjs(detail.date);
+                const detailDay = detailDate.date();
+                const detailMonth = detailDate.month() + 1; // dayjs months are 0-indexed
+                const detailYear = detailDate.year();
+                
+                // Log the date for debugging
+                console.log(`Detail date: ${detail.date}, Day: ${detailDay}, Month: ${detailMonth}, Year: ${detailYear}, Looking for day: ${i}, month: ${currentDate.month() + 1}, year: ${currentDate.year()}`);
+                
+                // Check if this detail matches the current day we're looking for
+                const matchesDay = detailDay === i;
+                const matchesMonth = detailMonth === currentDate.month() + 1;
+                const matchesYear = detailYear === currentDate.year();
+                
+                // Also check for timezone edge cases (late evening UTC might be next day local)
+                const isLateEveningPreviousDay = 
+                  detailDay === i - 1 && 
+                  detailMonth === currentDate.month() + 1 && 
+                  detailYear === currentDate.year() && 
+                  detailDate.hour() >= 20;
+                
+                // For month boundaries, check if it's the last day of previous month
+                const isMonthBoundary = 
+                  i === 1 && // First day of month
+                  detailDate.month() + 1 === currentDate.month() && // Previous month
+                  detailDate.year() === currentDate.year() && // Same year
+                  detailDate.date() === detailDate.daysInMonth() && // Last day of that month
+                  detailDate.hour() >= 20; // Late evening
+                
+                return (matchesDay && matchesMonth && matchesYear) || 
+                       isLateEveningPreviousDay || 
+                       isMonthBoundary;
+              });
               
-              // Check if the local date matches the current day
-              return detailDate.date() === i || 
-                     // Also check if the UTC date + 1 day matches (for timezone edge cases)
-                     (detailDate.add(1, 'day').date() === i && 
-                      detailDate.hour() >= 20); // If UTC time is late evening
-            });
+              if (foundDayData) {
+                dayData = foundDayData;
+                break; // Stop searching once we find a match
+              }
+            }
           }
         } else if (metricsData && metricsData.details) {
           // Old structure: metricsData is a single object with details array

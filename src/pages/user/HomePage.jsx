@@ -19,7 +19,7 @@ function HomePage() {
     }
   }, [user])
   return (
-    <CardContainer className='p-6 space-y-10'>
+    <CardContainer className='p-6 space-y-10 min-w-[420px] overflow-auto'>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           {/* <img src="https://i.pravatar.cc/150?u=a04258114e29026708c"

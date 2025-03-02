@@ -70,7 +70,7 @@ function HomeCards() {
   const totalMetrics = calculateTotalMetrics();
 
   return (
-    <div className="grid grid-cols-3 gap-8">
+    <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
       <HomeCard 
         Icon={StepForward} 
         title='Tracked Time' 

@@ -11,7 +11,7 @@ function ScreenCard({ screenshot, user, timestamp, type , showName=true}) {
       className="w-full rounded-2xl overflow-hidden border transition-all duration-300 hover:shadow-sm group"
       style={{ borderColor: theme.borderColor, backgroundColor: theme.background }}
     >
-      <div className="aspect-video w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
+      <div className=" w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
         <img 
           src={screenshot} 
           alt="Screenshot" 

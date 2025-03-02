@@ -61,8 +61,16 @@ const MonthDays = ({ currentDate, metricsData, onActiveDayChange }) => {
           if (metricForMonth && metricForMonth.details) {
             // Find the day data in the details array
             dayData = metricForMonth.details.find(detail => {
+              // Parse the date in UTC and convert to local time for comparison
               const detailDate = dayjs(detail.date);
-              return detailDate.date() === i;
+              // Log the date for debugging
+              console.log('Detail date:', detail.date, 'Parsed:', detailDate.format('YYYY-MM-DD'), 'Day:', detailDate.date(), 'Looking for day:', i);
+              
+              // Check if the local date matches the current day
+              return detailDate.date() === i || 
+                     // Also check if the UTC date + 1 day matches (for timezone edge cases)
+                     (detailDate.add(1, 'day').date() === i && 
+                      detailDate.hour() >= 20); // If UTC time is late evening
             });
           }
         } else if (metricsData && metricsData.details) {

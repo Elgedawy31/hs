@@ -6,6 +6,7 @@ import DashboardCards from '@components/dashboard/DashboardCards';
 import RecentLogs from '@components/dashboard/RecentLogs';
 import SendNotificationForm from '@components/dashboard/SendNotificationForm';
 import { useAuth } from '@contexts/AuthContext';
+import extractName from '../../../utils/extractName';
 
 const Dashboard = () => {
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
@@ -18,7 +19,7 @@ const {user} = useAuth();
       <> 
         <div className='space-y-4'>
           <div className="flex space-y-4">
-            <h1 className="text-xl font-medium">Welcome <span className="text-xl font-meduim text-placeholderText">{user?.name ||'Admin'} !</span> </h1>
+            <h1 className="text-xl font-medium">Welcome <span className="text-xl font-meduim text-placeholderText">{extractName(user.email)} !</span> </h1>
           </div>
           <div>
             <UniHeading 

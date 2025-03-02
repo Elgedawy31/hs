@@ -33,7 +33,7 @@ const CalendarHeader = ({ currentMonth, onMonthChange }) => {
           <div className="flex items-center gap-2 mb-1">
             <Calendar className="w-6 h-6 text-primary" />
             <div>
-              <h1 className="text-xl font-semibold text-primary">Nouran's Working hour</h1>
+              <h1 className="text-xl font-semibold text-primary">Working hours</h1>
             </div>
           </div>
           {/* <div className="text-placeholderText text-sm">

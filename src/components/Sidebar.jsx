@@ -49,12 +49,22 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
   return (
     <aside
       className={`
-        fixed inset-y-0 z-50 flex w-[16rem] sm:w-[17rem] lg:w-[18rem] flex-col bg-body lg:relative
+        fixed inset-y-0 sm:-top-6 -top-0 z-50 flex w-[16rem] sm:w-[17rem] lg:w-[18rem] flex-col bg-body lg:relative sm:mt-6 md:mt-6  
         transition-all duration-500 ease-in-out transform
         lg:translate-x-0 lg:opacity-100 lg:scale-100
         ${sidebarOpen ? 'translate-x-[-20px] opacity-100 scale-100' : '-translate-x-full opacity-0 scale-95'}`}
     >
-      <div className="flex flex-1 flex-col overflow-y-auto">
+      <div className="relative lg:hidden">
+        <button 
+          onClick={() => setSidebarOpen(false)} 
+          className="absolute right-3 top-3 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-text" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+          </svg>
+        </button>
+      </div>
+      <div className="flex flex-1 flex-col overflow-y-auto ml-2 lg:ml-0 mt-12 lg:mt-0">
         <nav className="flex-1 space-y-0.5 sm:space-y-1 w-[85%] sm:w-[80%] mx-auto">
           {user?.role === 'user' ? (
             <>

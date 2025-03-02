@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-const Timer = () => {
+const Timer = ({activeDay}) => {
   const { metricsForCards, metricsLoadingForCards } = useSelector(state => state.activity)
   const data = metricsForCards[0] || {};
 

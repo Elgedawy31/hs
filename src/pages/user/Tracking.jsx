@@ -70,17 +70,10 @@ function Tracking() {
   }, [dispatch, token, user.id, currentMonth]);
 
   
-  // Extract total tracked time from metrics for the Timer component
-  const getTotalTrackedTime = () => {
-    if (!metrics || !Array.isArray(metrics) || metrics.length === 0) return 0;
-    // Return totalTimeLogged from the first metrics entry
-    return metrics[0]?.totalTimeLogged || 0;
-  };
-
   return (
     <>
       {metricsLoading ? <Loading /> : <CardContainer className='space-y-8'>
-        <Timer time={getTotalTrackedTime()} />
+        <Timer activeDay={activeDay} />
 
         <CalendarHeader currentMonth={currentMonth} onMonthChange={handleMonthChange} />
 

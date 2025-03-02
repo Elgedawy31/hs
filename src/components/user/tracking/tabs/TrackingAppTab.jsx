@@ -13,31 +13,9 @@ function TrackingAppTab({ activeDay }) {
   const { user, token } = useAuth();
   
   useEffect(() => {
-    // Parse the activeDay using dayjs
-    const activeDayDate = dayjs(activeDay, 'MM-DD-YYYY');
+    const from = activeDay;
+    const to = activeDay;
     
-    // Check if it's the first day of the month
-    const isFirstDayOfMonth = activeDayDate.date() === 1;
-    
-    let targetDate;
-    if (isFirstDayOfMonth) {
-      // If it's the first day of the month, use the last day of the previous month
-      targetDate = activeDayDate.subtract(1, 'day');
-    } else {
-      // Otherwise, use the previous day
-      targetDate = activeDayDate.subtract(1, 'day');
-    }
-    
-    // Format the target date as M-D-YYYY for the API
-    const formattedDate = targetDate.format('M-D-YYYY');
-    
-    // Use the same date for both from and to
-    const from = formattedDate;
-    const to = formattedDate;
-    
-    console.log(`Using date: ${formattedDate} for activeDay: ${activeDay}`);
-    
-    // Dispatch the action to get app stats for the specific day
     dispatch(getAppStats({ 
       token, 
       from, 

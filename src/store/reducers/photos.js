@@ -33,9 +33,6 @@ export const getAllPhotos = createAsyncThunk(
             );
             
             const data = await response.json();
-            if(!data.success){
-                return rejectWithValue(data?.error|| data?.message || "Failed to get photos");
-            }
             return data;
         } catch (err) {
             return rejectWithValue(err.message);

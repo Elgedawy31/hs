@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Line, ComposedChart, ResponsiveContainer, Label, Tooltip } from 'recharts';
 import CardContainer from './CardContainer';
-import { useTheme } from '../contexts/ThemeContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '../contexts/AuthContext';
 import { getActivityMetrics } from '../store/reducers/activity';
@@ -9,12 +8,19 @@ import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import { secondsToHours } from '../utils/general';
 
 // Extend dayjs with plugins
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);
 dayjs.extend(timezone);
-import { secondsToHours } from '../utils/general';
+
+// Helper function to convert decimal hours to hours and minutes format
+const formatHoursToHM = (decimalHours) => {
+  const hours = Math.floor(decimalHours);
+  const minutes = Math.round((decimalHours - hours) * 60);
+  return `${hours}h ${minutes}m`;
+};
 
 const WorkHoursTracker = () => {
   const dispatch = useDispatch();
@@ -22,41 +28,6 @@ const WorkHoursTracker = () => {
   const { user, token } = useAuth();
   const [chartData, setChartData] = useState([]);
 
-  // Add direct console log to see metrics data structure
-  console.log('Raw metrics data:', metrics);
-  
-  // Debug function to help analyze the structure
-  const debugMetricsStructure = (data) => {
-    if (!data) return;
-    
-    console.log("DEBUG - Metrics Structure:");
-    console.log("Type:", typeof data);
-    console.log("Is Array:", Array.isArray(data));
-    
-    if (Array.isArray(data)) {
-      console.log("Array length:", data.length);
-      if (data.length > 0) {
-        console.log("First item:", data[0]);
-        console.log("First item keys:", Object.keys(data[0]));
-      }
-    } else if (typeof data === 'object') {
-      console.log("Object keys:", Object.keys(data));
-      
-      // Check for details property
-      if (data.details) {
-        console.log("Details type:", typeof data.details);
-        console.log("Details is Array:", Array.isArray(data.details));
-        
-        if (Array.isArray(data.details)) {
-          console.log("Details length:", data.details.length);
-          if (data.details.length > 0) {
-            console.log("First detail item:", data.details[0]);
-            console.log("First detail keys:", Object.keys(data.details[0]));
-          }
-        }
-      }
-    }
-  };
 
   // Function to get month name from month number
   const getMonthName = (monthNum) => {
@@ -83,19 +54,13 @@ const WorkHoursTracker = () => {
       from, 
       to, 
       userId: user.id 
-    }))
-    .then(result => {
-      console.log('Activity metrics data for chart:', result.payload);
-    });
+    }));
   }, [dispatch, token, user.id]);
 
   useEffect(() => {
     if (!metricsLoading && metrics) {
-      console.log("Processing metrics data:", metrics);
-      
       // Check if metrics is an array
       if (Array.isArray(metrics) && metrics.length > 0) {
-        console.log("Processing metrics array with length:", metrics.length);
         
         // Create an array for all days of the week
         const allDaysOfWeek = [
@@ -110,7 +75,6 @@ const WorkHoursTracker = () => {
         
         // Get today's day of week
         const today = new Date().getDay(); // 0 = Sunday, 1 = Monday, etc.
-        console.log(`Today is ${allDaysOfWeek[today].fullName}`);
         
         // Reorder days so that today is the last day
         // For example, if today is Wednesday (3), the order will be:
@@ -127,7 +91,6 @@ const WorkHoursTracker = () => {
           daysOfWeek.push(allDaysOfWeek[i]);
         }
         
-        console.log("Reordered days of week:", daysOfWeek.map(d => d.day).join(', '));
         
         // Initialize data with 0 hours for all days
         const initialData = daysOfWeek.map(day => ({
@@ -142,16 +105,11 @@ const WorkHoursTracker = () => {
         
         // Process all months in the metrics array
         metrics.forEach(monthData => {
-          // Debug the structure of each month's data
-          debugMetricsStructure(monthData);
-          
           // Process the details array from each month
           if (monthData.details && Array.isArray(monthData.details) && monthData.details.length > 0) {
-            console.log(`Processing details array for month ${monthData.month}/${monthData.year} with length:`, monthData.details.length);
             
             // Loop through each detail (daily data)
             monthData.details.forEach((detail, index) => {
-              console.log(`Processing detail ${index}:`, detail);
               
               if (detail && detail.date) {
                 try {
@@ -163,7 +121,6 @@ const WorkHoursTracker = () => {
                   const dayDataIndex = initialData.findIndex(d => d.dayIndex === dayOfWeekIndex);
                   
                   if (dayDataIndex !== -1) {
-                    console.log(`Date: ${detail.date}, Day of week: ${dayOfWeekIndex} (${initialData[dayDataIndex].fullName})`);
                     
                     // Get the hours (convert from seconds)
                     const hours = detail.totalTimeLogged ? secondsToHours(detail.totalTimeLogged) : 0;
@@ -172,19 +129,18 @@ const WorkHoursTracker = () => {
                     initialData[dayDataIndex].hours += hours;
                     initialData[dayDataIndex].count += 1;
                     
-                    console.log(`Added ${hours}h to ${initialData[dayDataIndex].fullName}, new total: ${initialData[dayDataIndex].hours}h over ${initialData[dayDataIndex].count} days`);
                   } else {
-                    console.warn(`Could not find day of week ${dayOfWeekIndex} in reordered array`);
+                    // Could not find day of week in reordered array
                   }
                 } catch (error) {
-                  console.error(`Error processing detail ${index}:`, error);
+                  // Error handling without console.log
                 }
               } else {
-                console.warn(`Detail ${index} has no date:`, detail);
+                // Skip details without date
               }
             });
           } else {
-            console.warn(`No details array found in month ${monthData.month}/${monthData.year} or it's empty`);
+            // Skip months without details
           }
         });
         
@@ -197,16 +153,14 @@ const WorkHoursTracker = () => {
           }
         });
         
-        // Log the final data we're using for the chart
-        console.log("Final chart data:", initialData);
         
         // Update state with our processed data
         setChartData(initialData);
       } else {
-        console.log("Metrics is not an array or is empty:", metrics);
+        // Metrics is not an array or is empty
       }
     } else {
-      console.log("Metrics not loaded yet or no metrics data:", { metricsLoading, metrics });
+      // Metrics not loaded yet
     }
   }, [metrics, metricsLoading]);
 
@@ -220,7 +174,6 @@ const WorkHoursTracker = () => {
     { day: 'Fri', hours: 0, label: '0 h' },
     { day: 'Sat', hours: 0, label: '0 h' },
   ];
-  console.log(metrics);
   // Custom tooltip component
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -229,7 +182,7 @@ const WorkHoursTracker = () => {
         <CardContainer className="bg-[#FFF5E9] p-3 rounded-lg shadow-lg border-none">
           <p className="text-primary font-bold">{data.fullName}</p>
           <p className="text-text font-medium">
-            Avg Working Hours: {payload[0].value}h
+            Avg Working Hours: {formatHoursToHM(payload[0].value)}
           </p>
           {data.count > 0 && (
             <p className="text-text font-medium">

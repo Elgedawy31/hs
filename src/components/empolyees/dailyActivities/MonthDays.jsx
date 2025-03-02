@@ -46,13 +46,34 @@ const MonthDays = ({ currentDate, metricsData, onActiveDayChange }) => {
       
       // Find if there's data for this day in metrics
       let timeForDay = "00:00";
-      if (metricsData && metricsData.details && !isFutureDate) {
-        const dayData = metricsData.details.find(detail => {
-          const detailDate = dayjs(detail.date);
-          return detailDate.date() === i && 
-                 detailDate.month() === currentDate.month() && 
-                 detailDate.year() === currentDate.year();
-        });
+      
+      // Check if metricsData is an array (new structure) or has details property (old structure)
+      if (!isFutureDate) {
+        let dayData = null;
+        
+        if (Array.isArray(metricsData)) {
+          // New structure: metricsData is an array of metric objects
+          // Find the metric object for the current month/year
+          const metricForMonth = metricsData.find(metric => 
+            metric.month === currentDate.month() + 1 && metric.year === currentDate.year()
+          );
+          
+          if (metricForMonth && metricForMonth.details) {
+            // Find the day data in the details array
+            dayData = metricForMonth.details.find(detail => {
+              const detailDate = dayjs(detail.date);
+              return detailDate.date() === i;
+            });
+          }
+        } else if (metricsData && metricsData.details) {
+          // Old structure: metricsData is a single object with details array
+          dayData = metricsData.details.find(detail => {
+            const detailDate = dayjs(detail.date);
+            return detailDate.date() === i && 
+                   detailDate.month() === currentDate.month() && 
+                   detailDate.year() === currentDate.year();
+          });
+        }
         
         if (dayData && dayData.totalTimeActive > 0) {
           // Convert seconds to hours:minutes format

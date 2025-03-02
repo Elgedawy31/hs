@@ -50,7 +50,8 @@ function Tracking() {
   }, [currentMonth, activeDay]);
 
   useEffect(() => {
-    const fromDate = currentMonth.startOf('month');
+    // Get the last day of the previous month
+    const fromDate = currentMonth.subtract(1, 'month').endOf('month');
     
     // If current month is selected, use today as toDate
     // If previous month is selected, use last day of that month
@@ -71,7 +72,8 @@ function Tracking() {
   
   // Extract total tracked time from metrics for the Timer component
   const getTotalTrackedTime = () => {
-    if (!metrics || !metrics[0]) return 0;
+    if (!metrics || !Array.isArray(metrics) || metrics.length === 0) return 0;
+    // Return totalTimeLogged from the first metrics entry
     return metrics[0]?.totalTimeLogged || 0;
   };
 
@@ -84,7 +86,7 @@ function Tracking() {
 
         <MonthDays 
           currentDate={currentMonth} 
-          metricsData={metrics[0]} 
+          metricsData={metrics} 
           onActiveDayChange={handleActiveDayChange} 
         />
         <CustomTabs

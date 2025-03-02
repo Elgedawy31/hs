@@ -186,21 +186,9 @@ function RecentLogs() {
 
   const actions = [
     {
-      label: 'Edit',
-      onClick: (row) => {
-        console.log('Edit:', row);
-      },
-    },
-    {
       label: 'Delete',
       onClick: (row) => {
         console.log('Delete:', row);
-      },
-    },
-    {
-      label: 'View Details',
-      onClick: (row) => {
-        console.log('View Details:', row);
       },
     },
   ];

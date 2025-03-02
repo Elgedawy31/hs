@@ -93,7 +93,7 @@ export default function TrackingSystemLogs({ activeDay }) {
   ];
 
   if (loading) {
-    return <Loading />;
+    return <Loading className='min-h-[50vh]' />;
   }
 
   if (error) {

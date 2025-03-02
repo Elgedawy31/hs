@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default function Loading() {
+export default function Loading({ className='min-h-[80vh]' }) {
   return (
-    <div className="flex items-center justify-center min-h-[80vh]">
+    <div className={`flex items-center justify-center  ${className}`}>
       <div className="relative">
         {/* Main circle pulse */}
         <div className="absolute -inset-2">

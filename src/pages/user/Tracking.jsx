@@ -68,7 +68,9 @@ function Tracking() {
       userId: user.id
     }))
   }, [dispatch, token, user.id, currentMonth]);
-
+useEffect(() => {
+  setActiveTab('details')
+} , [currentMonth , activeDay])
   
   return (
     <>

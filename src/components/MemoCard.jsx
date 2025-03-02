@@ -23,15 +23,17 @@ const {user:{role}} = useAuth()
 
   return (
     <CardContainer className="p-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <span className="text-primary font-medium">{memo.type}</span>
-          <span className={`${getWarningTypeStyle(memo.warningType)} font-medium`}>
-            {memo.warningType} Warning
-          </span>
-          <span className="text-placeholderText">{memo.date}</span>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+          <div className="flex flex-wrap gap-2">
+            <span className="text-primary font-medium">{memo.type}</span>
+            <span className={`${getWarningTypeStyle(memo.warningType)} font-medium`}>
+              {memo.warningType} Warning
+            </span>
+          </div>
+          <span className="text-placeholderText text-sm">{memo.date}</span>
         </div>
-       {role ==='admin' && <div className="flex gap-2">
+       {role ==='admin' && <div className="flex gap-2 self-end sm:self-auto">
           <button 
             className="hover:opacity-80"
             onClick={() => onEdit(memo)}

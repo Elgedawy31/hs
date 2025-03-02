@@ -2,6 +2,7 @@ import React from 'react'
 import { Pencil, Trash2 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext';
 import CardContainer from './CardContainer';
+import { IMAGE_URL } from '../utils/constants';
 
 const getWarningTypeStyle = (type) => {
   switch (type.toLowerCase()) {
@@ -16,7 +17,6 @@ const getWarningTypeStyle = (type) => {
   }
 }
 
-const REACT_APP_API_URL = 'https://devglobaltracker.s3.us-east-2.amazonaws.com'
 
 function MemoCard({ memo, onEdit, onDelete }) {
 const {user:{role}} = useAuth()
@@ -62,7 +62,7 @@ const {user:{role}} = useAuth()
               {memo.attachments.map((attachment, index) => (
                 <a 
                   key={index}
-                  href={attachment.startsWith('http') ? attachment : `${REACT_APP_API_URL}/${attachment}`}
+                  href={attachment.startsWith('http') ? attachment : `${IMAGE_URL}/${attachment}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-3 py-1  rounded-md  underline transition-colors"

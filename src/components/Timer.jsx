@@ -1,23 +1,19 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-const Timer = ({ time }) => {
-  // Parse the time if it's provided as a string (e.g., "01:30:45")
+const Timer = () => {
+  const { metricsForCards, metricsLoadingForCards } = useSelector(state => state.activity)
+  const data = metricsForCards[0] || {};
+
+  // Use totalTimeLogged from metricsForCards (in seconds)
   let hours = 0, minutes = 0, seconds = 0;
   
-  if (time) {
-    if (typeof time === 'string') {
-      [hours, minutes, seconds] = time.split(':').map(Number);
-    } else if (typeof time === 'object' && time !== null) {
-      // If time is provided as an object with hours, minutes, seconds properties
-      hours = time.hours || 0;
-      minutes = time.minutes || 0;
-      seconds = time.seconds || 0;
-    } else if (typeof time === 'number') {
-      // If time is provided as seconds
-      hours = Math.floor(time / 3600);
-      minutes = Math.floor((time % 3600) / 60);
-      seconds = time % 60;
-    }
+  if (data && data.totalTimeLogged !== undefined) {
+    const totalSeconds = data.totalTimeLogged;
+    // Convert seconds to hours, minutes, seconds
+    hours = Math.floor(totalSeconds / 3600);
+    minutes = Math.floor((totalSeconds % 3600) / 60);
+    seconds = totalSeconds % 60;
   }
 
   const displayTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;

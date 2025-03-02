@@ -100,6 +100,15 @@ function TrackingDetailsTab({activeDay}) {
   // Get the aggregated metrics
   const totalMetrics = calculateTotalMetrics();
   
+  // Function to convert seconds to hours:minutes format (HH:MM)
+  const secondsToHoursMinutes = (seconds) => {
+    if (!seconds) return "0h";
+    const totalMinutes = Math.floor(seconds / 60);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return `${hours}h ${minutes.toString().padStart(2, '0')}m`;
+  };
+  
   return (
     <>
     {
@@ -109,35 +118,35 @@ function TrackingDetailsTab({activeDay}) {
       {/* Tracked time */}
       <DetailCard
         title="Tracked time"
-        value={metricsLoadingForCards ? "0h" : `${secondsToHours(totalMetrics.totalTimeLogged)}h`}
+        value={metricsLoadingForCards ? "0h" : `${secondsToHoursMinutes(totalMetrics.totalTimeLogged)}`}
         icon={<Play className="w-5 h-5" />}
       />
 
       {/* Productivity */}
       <DetailCard
         title="Productivity"
-        value={metricsLoadingForCards ? "0h" : `${secondsToHours(totalMetrics.totalTimeActive)}h`}
+        value={metricsLoadingForCards ? "0h" : `${secondsToHoursMinutes(totalMetrics.totalTimeActive)}`}
         icon={<MonitorSmartphone className="w-5 h-5" />}
       />
 
       {/* Unproductivity */}
       <DetailCard
         title="Unproductivity"
-        value={metricsLoadingForCards ? "0h" : `${secondsToHours(totalMetrics.totalInactiveTime)}h`}
+        value={metricsLoadingForCards ? "0h" : `${secondsToHoursMinutes(totalMetrics.totalInactiveTime)}`}
         icon={<Moon className="w-5 h-5" />}
       />
 
       {/* Break Time */}
       <DetailCard
         title="Break Time"
-        value={metricsLoadingForCards ? "0h" : `${secondsToHours(totalMetrics.totalBreakTime)}h`}
+        value={metricsLoadingForCards ? "0h" : `${secondsToHoursMinutes(totalMetrics.totalBreakTime)}`}
         icon={<Coffee className="w-5 h-5" />}
       />
 
       {/* Overtime */}
       <DetailCard
         title="Overtime"
-        value={metricsLoadingForCards ? "0h" : `+${secondsToHours(totalMetrics.overtime)}h`}
+        value={metricsLoadingForCards ? "00:00" : `+${secondsToHoursMinutes(totalMetrics.overtime)}`}
         icon={<Clock className="w-5 h-5" />}
       />
 

@@ -76,7 +76,7 @@ const logsSlice = createSlice({
             currentPage: 1,
             totalPages: 1,
             total: 0,
-            limit: 20
+            limit: 10
         }
     },
     reducers: {

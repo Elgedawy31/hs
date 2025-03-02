@@ -108,9 +108,9 @@ const MonthDays = ({ currentDate, metricsData, onActiveDayChange }) => {
           });
         }
         
-        if (dayData && dayData.totalTimeActive > 0) {
+        if (dayData && dayData.totalTimeLogged > 0) {
           // Convert seconds to hours:minutes format
-          const totalMinutes = Math.floor(dayData.totalTimeActive / 60);
+          const totalMinutes = Math.floor(dayData.totalTimeLogged / 60);
           const hours = Math.floor(totalMinutes / 60);
           const minutes = totalMinutes % 60;
           timeForDay = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;

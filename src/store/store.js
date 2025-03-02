@@ -7,6 +7,7 @@ import warningReducer from './reducers/warning';
 import activityReducer from './reducers/activity';
 import PhotosReducer from './reducers/photos';
 import logsReducer from './reducers/logs';
+import appsReducer from './reducers/apps';
 
 export const store = configureStore({
     reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
         warning: warningReducer,
         activity: activityReducer,
         photos: PhotosReducer,
-        logs: logsReducer
+        logs: logsReducer,
+        apps: appsReducer
     }
 });

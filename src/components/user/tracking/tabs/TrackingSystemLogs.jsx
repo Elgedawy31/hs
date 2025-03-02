@@ -2,7 +2,7 @@ import React from 'react';
 import UniTable from '@components/UniTable';
 import CardContainer from '@components/CardContainer';
 
-export default function TrackingSystemLogs() {
+export default function TrackingSystemLogs({activeDay}) {
   // Sample data based on the image
   const data = [
     {

@@ -73,11 +73,6 @@ const {user:{role}} = useAuth()
             </div>
           )}
         </div>
-
-        {/* <div>
-          <h3 className="text-placeholderText mb-2">Required Action:</h3>
-          <p className="text-text">{memo.requiredAction}</p>
-        </div> */}
       </div>
     </CardContainer>
   )

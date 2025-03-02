@@ -1,8 +1,9 @@
 import React from 'react'
 import ScreenCard from '@components/screenshots/ScreenCard';
 
-function TrackingScreenshots() {
-
+function TrackingScreenshots(
+  { activeDay }
+) {
   const screenshots = [
     {
       id: 1,

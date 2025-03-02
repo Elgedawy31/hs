@@ -6,10 +6,23 @@ const KEY = "photos";
 // Get all photos operation
 export const getAllPhotos = createAsyncThunk(
     "photos/getAllPhotos",
-    async ({ token, page=1, limit=20 }, { rejectWithValue }) => {
+    async ({ token, page=1, limit=20 , userId , startDate , endDate }, { rejectWithValue }) => {
         try {
+            let url = `${API_URL}/${KEY}?page=${page}&limit=${limit}`;
+                        
+                        // Add date filters if provided
+                        if (startDate) {
+                            url += `&startDate=${startDate}`;
+                        }
+                        if (endDate) {
+                            url += `&endDate=${endDate}`;
+                        }
+                        if (userId) {
+                            url += `&userId=${userId}`;
+                        }
+                        
             const response = await fetch(
-                `${API_URL}/${KEY}?page=${page}&limit=${limit}`,
+                url,
                 {
                     method: "GET",
                     headers: {

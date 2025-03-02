@@ -7,11 +7,12 @@ import { getAllPhotos } from '@store/reducers/photos';
 import { IMAGE_URL } from '@utils/constants';
 import Loading from '@components/Loading';
 import NoDataMsg from '@components/NoDataMsg';
+import { useAuth } from '../../../../contexts/AuthContext';
 
 function TrackingScreenshots({ activeDay }) {
   const dispatch = useDispatch();
   const { photos, loading, error, pagination } = useSelector((state) => state.photos);
-  const { token, user } = useSelector((state) => state.auth);
+  const { token, user } = useAuth()
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {

@@ -7,14 +7,23 @@ import { getActivityMetricsForCards } from '../../../store/reducers/activity'
 import dayjs from 'dayjs'
 import { secondsToHours } from '../../../utils/general'
 
+// Function to convert seconds to hours:minutes format (HH:MM)
+const secondsToHoursMinutes = (seconds) => {
+  if (!seconds) return "0h";
+  const totalMinutes = Math.floor(seconds / 60);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return `${hours}h ${minutes.toString().padStart(2, '0')}m`;
+};
+
 function HomeCards() {
   const dispatch = useDispatch()
   const { metricsForCards, metricsLoadingForCards } = useSelector(state => state.activity)
   const { user , token} = useAuth()
   
   useEffect(() => {
-    // Get the date from one month ago
-    const fromDate = dayjs().subtract(1, 'month')
+    // Get the date from the last day of previous month
+    const fromDate = dayjs().startOf('month').subtract(1, 'day')
     // Get the current day
     const toDate = dayjs()
     
@@ -65,17 +74,17 @@ function HomeCards() {
       <HomeCard 
         Icon={StepForward} 
         title='Tracked Time' 
-        description={metricsLoadingForCards ? '0 h' : `${secondsToHours(totalMetrics.totalTimeLogged)} h`} 
+        description={metricsLoadingForCards ? '0h' : secondsToHoursMinutes(totalMetrics.totalTimeLogged)} 
       />
       <HomeCard 
         Icon={CircleCheckBig} 
         title='Productivity' 
-        description={metricsLoadingForCards ? '0 h' : `${secondsToHours(totalMetrics.totalTimeActive)} h`} 
+        description={metricsLoadingForCards ? '0h' : secondsToHoursMinutes(totalMetrics.totalTimeActive)} 
       />
       <HomeCard 
         Icon={ClockAlert} 
         title='Overtime' 
-        description={metricsLoadingForCards ? '0 h' : `${secondsToHours(totalMetrics.overtime)} h`} 
+        description={metricsLoadingForCards ? '0h' : secondsToHoursMinutes(totalMetrics.overtime)} 
       />
     </div>
   )

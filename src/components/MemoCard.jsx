@@ -16,7 +16,7 @@ const getWarningTypeStyle = (type) => {
   }
 }
 
-const REACT_APP_API_URL = 'https://trackingApp.s3.us-east-2.amazonaws.com'
+const REACT_APP_API_URL = 'https://devglobaltracker.s3.us-east-2.amazonaws.com'
 
 function MemoCard({ memo, onEdit, onDelete }) {
 const {user:{role}} = useAuth()

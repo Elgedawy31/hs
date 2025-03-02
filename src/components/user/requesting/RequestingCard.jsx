@@ -2,6 +2,7 @@ import React from 'react'
 import CardContainer from '../../CardContainer'
 import { Calendar, Clock, FileText, Flag, Tag } from 'lucide-react'
 import dayjs from 'dayjs'
+import { IMAGE_URL } from '../../../utils/constants'
 
 const getStatusStyle = (status) => {
   switch (status?.toLowerCase()) {
@@ -99,24 +100,26 @@ function RequestingCard({ request }) {
             </div>
           )}
         </div>
-        
-        {/* {request.attachments && request.attachments.length > 0 && (
-          <div className="mt-4">
-            <h4 className="text-sm font-medium mb-2 flex items-center gap-2">
-              <FileText size={16} />
-              Attachments ({request.attachments.length})
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {request.attachments.map((attachment, index) => (
-                <div key={index} className="text-xs  text-placeholderText rounded-md px-2 py-1">
-                  {typeof attachment === 'string' 
-                    ? attachment.split('/').pop() 
-                    : attachment.name || `File ${index + 1}`}
-                </div>
-              ))}
-            </div>
-          </div>
-        )} */}
+       <div>
+                <h3 className="text-placeholderText mb-2">Attachments</h3>
+                {!request.attachments || request.attachments.length === 0 ? (
+                  <p className=" text-placeholderText/20 italic">No attachments</p>
+                ) : (
+                  <div className="flex flex-wrap gap-2">
+                    {request.attachments.map((attachment, index) => (
+                      <a 
+                        key={index}
+                        href={attachment.startsWith('http') ? attachment : `${IMAGE_URL}/${attachment}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-3 py-1  rounded-md  underline transition-colors"
+                      >
+                        <span className="text-sm">{attachment.split('/').pop()}</span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
       </div>
     </CardContainer>
   )

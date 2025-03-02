@@ -5,6 +5,8 @@ import usersReducer from './reducers/users';
 import requestsReducer from './reducers/requests';
 import warningReducer from './reducers/warning';
 import activityReducer from './reducers/activity';
+import PhotosReducer from './reducers/photos';
+import logsReducer from './reducers/logs';
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +15,8 @@ export const store = configureStore({
         users: usersReducer,
         requests: requestsReducer,
         warning: warningReducer,
-        activity: activityReducer
+        activity: activityReducer,
+        photos: PhotosReducer,
+        logs: logsReducer
     }
 });

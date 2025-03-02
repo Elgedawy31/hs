@@ -1,7 +1,13 @@
 import { Plus, LogOut, Play, MonitorSmartphone, Moon, Coffee, Clock, LogIn } from 'lucide-react';
 
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useAuth } from '@contexts/AuthContext'
+import { getActivityMetricsForCards } from '../../../../store/reducers/activity'
+import { secondsToHours } from '../../../../utils/general'
+import dayjs from 'dayjs'
 import CardContainer from '../../../CardContainer';
+import Loading from '../../../Loading';
 
 const DetailCard = ({ title, value, icon }) => {
   return (
@@ -20,46 +26,123 @@ const DetailCard = ({ title, value, icon }) => {
 };
 
 function TrackingDetailsTab({activeDay}) {
-  console.log('activeDay', activeDay);
+  const dispatch = useDispatch()
+  const { metricsForCards, metricsLoadingForCards } = useSelector(state => state.activity)
+  const { user, token } = useAuth()
+  
+  useEffect(() => {
+    // Parse the activeDay using dayjs
+    const activeDayDate = dayjs(activeDay, 'MM-DD-YYYY')
+    
+    // Check if it's the first day of the month
+    const isFirstDayOfMonth = activeDayDate.date() === 1
+    
+    let targetDate
+    if (isFirstDayOfMonth) {
+      // If it's the first day of the month, use the last day of the previous month
+      targetDate = activeDayDate.subtract(1, 'day')
+    } else {
+      // Otherwise, use the previous day
+      targetDate = activeDayDate.subtract(1, 'day')
+    }
+    
+    // Format the target date as M-D-YYYY for the API
+    const formattedDate = targetDate.format('M-D-YYYY')
+    
+    // Use the same date for both from and to
+    const from = formattedDate
+    const to = formattedDate
+    
+    console.log(`Using date: ${formattedDate} for activeDay: ${activeDay}`)
+    
+    // Dispatch the action to get metrics for the specific day
+    dispatch(getActivityMetricsForCards({ 
+      token, 
+      from, 
+      to, 
+      userId: user.id 
+    }))
+    .then(result => {
+      console.log('Activity metrics data for day:', result.payload)
+    })
+  }, [dispatch, token, user.id, activeDay])
+
+  // Function to calculate total metrics from all data
+  const calculateTotalMetrics = () => {
+    if (!metricsForCards || !Array.isArray(metricsForCards) || metricsForCards.length === 0) {
+      return {
+        totalTimeLogged: 0,
+        totalTimeActive: 0,
+        totalInactiveTime: 0,
+        totalBreakTime: 0,
+        overtime: 0
+      };
+    }
+
+    // Aggregate data from all entries
+    return metricsForCards.reduce((totals, data) => {
+      return {
+        totalTimeLogged: totals.totalTimeLogged + (data?.totalTimeLogged || 0),
+        totalTimeActive: totals.totalTimeActive + (data?.totalTimeActive || 0),
+        totalInactiveTime: totals.totalInactiveTime + (data?.totalInactiveTime || 0),
+        totalBreakTime: totals.totalBreakTime + (data?.totalBreakTime || 0),
+        overtime: totals.overtime + (data?.overtime || 0)
+      };
+    }, {
+      totalTimeLogged: 0,
+      totalTimeActive: 0,
+      totalInactiveTime: 0,
+      totalBreakTime: 0,
+      overtime: 0
+    });
+  };
+
+  // Get the aggregated metrics
+  const totalMetrics = calculateTotalMetrics();
+  
   return (
-     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <>
+    {
+      metricsLoadingForCards ? <Loading /> :
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
-        {/* Tracked time */}
-        <DetailCard
-          title="Tracked time"
-          value="8h 45m"
-          icon={<Play className="w-5 h-5" />}
-        />
+      {/* Tracked time */}
+      <DetailCard
+        title="Tracked time"
+        value={metricsLoadingForCards ? "0h" : `${secondsToHours(totalMetrics.totalTimeLogged)}h`}
+        icon={<Play className="w-5 h-5" />}
+      />
 
-        {/* Productivity */}
-        <DetailCard
-          title="Productivity"
-          value="8h 30m"
-          icon={<MonitorSmartphone className="w-5 h-5" />}
-        />
+      {/* Productivity */}
+      <DetailCard
+        title="Productivity"
+        value={metricsLoadingForCards ? "0h" : `${secondsToHours(totalMetrics.totalTimeActive)}h`}
+        icon={<MonitorSmartphone className="w-5 h-5" />}
+      />
 
-        {/* Unproductivity */}
-        <DetailCard
-          title="Unproductivity"
-          value="30m"
-          icon={<Moon className="w-5 h-5" />}
-        />
+      {/* Unproductivity */}
+      <DetailCard
+        title="Unproductivity"
+        value={metricsLoadingForCards ? "0h" : `${secondsToHours(totalMetrics.totalInactiveTime)}h`}
+        icon={<Moon className="w-5 h-5" />}
+      />
 
-        {/* Break Time */}
-        <DetailCard
-          title="Break Time"
-          value="23m"
-          icon={<Coffee className="w-5 h-5" />}
-        />
+      {/* Break Time */}
+      <DetailCard
+        title="Break Time"
+        value={metricsLoadingForCards ? "0h" : `${secondsToHours(totalMetrics.totalBreakTime)}h`}
+        icon={<Coffee className="w-5 h-5" />}
+      />
 
-        {/* Overtime */}
-        <DetailCard
-          title="Overtime"
-          value="+23m"
-          icon={<Clock className="w-5 h-5" />}
-        />
+      {/* Overtime */}
+      <DetailCard
+        title="Overtime"
+        value={metricsLoadingForCards ? "0h" : `+${secondsToHours(totalMetrics.overtime)}h`}
+        icon={<Clock className="w-5 h-5" />}
+      />
 
-      </div>
+    </div>
+    }</>
   )
 }
 

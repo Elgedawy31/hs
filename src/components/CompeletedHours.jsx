@@ -5,7 +5,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '../contexts/AuthContext';
 import { getActivityMetricsForMonths } from '../store/reducers/activity';
 import dayjs from 'dayjs';
-import { secondsToHours } from '../utils/general';
+
+// Function to convert seconds to hours:minutes format (HH:MM)
+const secondsToHoursMinutes = (seconds) => {
+  if (!seconds) return "0h";
+  const totalMinutes = Math.floor(seconds / 60);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return `${hours}h ${minutes.toString().padStart(2, '0')}m`;
+};
 
 const CompletedHours = () => {
   const dispatch = useDispatch();
@@ -114,17 +122,22 @@ const CompletedHours = () => {
         // Count weekdays for this month
         const weekdaysInMonth = countWeekdaysInMonth(monthDate);
         const maxHoursInMonth = weekdaysInMonth * maxHoursPerDay;
-        const totalHours = secondsToHours(monthData.totalTimeLogged);
-        const percentage = Math.min((totalHours / maxHoursInMonth) * 100, 100);
+        // Get seconds for percentage calculation
+        const totalHoursInSeconds = monthData.totalTimeLogged || 0;
+        const totalHoursFormatted = secondsToHoursMinutes(totalHoursInSeconds);
+        // For percentage calculation, convert to decimal hours
+        const totalHoursDecimal = totalHoursInSeconds / 3600;
+        const percentage = Math.min((totalHoursDecimal / maxHoursInMonth) * 100, 100);
         
         return {
           month: monthName,
-          hours: totalHours,
+          hours: totalHoursFormatted,
           percentage: percentage
         };
       });
       
-      setMonthsData(processedData);
+      // Reverse the order so the current month is at the top
+      setMonthsData([...processedData].reverse());
       
       // Log the processed data for debugging
       console.log('Processed months data:', processedData);
@@ -149,11 +162,11 @@ const CompletedHours = () => {
           monthsData.map((data, index) => (
             <div key={index} className="relative border border-borderColor h-14 bg-background rounded-3xl overflow-hidden">
               <div 
-                className={`h-full ${index === 2 ? 'bg-primary' : 'bg-borderColor'} rounded-3xl`} 
+                className={`h-full ${index === 0 ? 'bg-primary' : 'bg-borderColor'} rounded-3xl`} 
                 style={{ width: `${data.percentage}%` }}
               >
                 <span className="absolute left-6 top-1/2 -translate-y-1/2 text-text text-xl">
-                  {data.month} ({data.hours}h)
+                  {data.month} ({data.hours})
                 </span>
               </div>
             </div>

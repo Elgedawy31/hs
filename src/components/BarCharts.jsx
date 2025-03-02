@@ -58,6 +58,15 @@ const WorkHoursTracker = () => {
     }
   };
 
+  // Function to get month name from month number
+  const getMonthName = (monthNum) => {
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    return months[monthNum - 1] || 'Unknown';
+  };
+
   useEffect(() => {
     // Get date from 7 days ago
     const fromDate = dayjs().subtract(7, 'day');
@@ -84,17 +93,12 @@ const WorkHoursTracker = () => {
     if (!metricsLoading && metrics) {
       console.log("Processing metrics data:", metrics);
       
-      // Based on user feedback, metrics is an array with a single object
-      // We need to access it using metrics[0]
+      // Check if metrics is an array
       if (Array.isArray(metrics) && metrics.length > 0) {
-        console.log("Accessing metrics[0]:", metrics[0]);
-        console.log("Details array:", metrics[0].details);
-        
-        // Debug the structure of metrics[0]
-        debugMetricsStructure(metrics[0]);
+        console.log("Processing metrics array with length:", metrics.length);
         
         // Create an array for all days of the week
-        const daysOfWeek = [
+        const allDaysOfWeek = [
           { day: 'Sun', fullName: 'Sunday', dayIndex: 0 },
           { day: 'Mon', fullName: 'Monday', dayIndex: 1 },
           { day: 'Tue', fullName: 'Tuesday', dayIndex: 2 },
@@ -104,50 +108,94 @@ const WorkHoursTracker = () => {
           { day: 'Sat', fullName: 'Saturday', dayIndex: 6 }
         ];
         
+        // Get today's day of week
+        const today = new Date().getDay(); // 0 = Sunday, 1 = Monday, etc.
+        console.log(`Today is ${allDaysOfWeek[today].fullName}`);
+        
+        // Reorder days so that today is the last day
+        // For example, if today is Wednesday (3), the order will be:
+        // Thursday (4), Friday (5), Saturday (6), Sunday (0), Monday (1), Tuesday (2), Wednesday (3)
+        const daysOfWeek = [];
+        
+        // Add days after today
+        for (let i = today + 1; i < 7; i++) {
+          daysOfWeek.push(allDaysOfWeek[i]);
+        }
+        
+        // Add days before and including today
+        for (let i = 0; i <= today; i++) {
+          daysOfWeek.push(allDaysOfWeek[i]);
+        }
+        
+        console.log("Reordered days of week:", daysOfWeek.map(d => d.day).join(', '));
+        
         // Initialize data with 0 hours for all days
         const initialData = daysOfWeek.map(day => ({
           day: day.day,
+          fullName: day.fullName,
+          dayIndex: day.dayIndex,
           hours: 0,
-          label: '0 h'
+          count: 0, // Count of days processed for this day of week
+          label: '0 h',
+          isToday: day.dayIndex === today
         }));
         
-        // Process the details array from metrics[0]
-        if (metrics[0].details && Array.isArray(metrics[0].details) && metrics[0].details.length > 0) {
-          console.log("Processing details array with length:", metrics[0].details.length);
+        // Process all months in the metrics array
+        metrics.forEach(monthData => {
+          // Debug the structure of each month's data
+          debugMetricsStructure(monthData);
           
-          // Loop through each detail
-          metrics[0].details.forEach((detail, index) => {
-            console.log(`Processing detail ${index}:`, detail);
+          // Process the details array from each month
+          if (monthData.details && Array.isArray(monthData.details) && monthData.details.length > 0) {
+            console.log(`Processing details array for month ${monthData.month}/${monthData.year} with length:`, monthData.details.length);
             
-            if (detail && detail.date) {
-              try {
-                // Simple date parsing - just get the day of week
-                const date = new Date(detail.date);
-                const dayOfWeek = date.getDay(); // 0 = Sunday, 1 = Monday, etc.
-                
-                console.log(`Date: ${detail.date}, Day of week: ${dayOfWeek} (${daysOfWeek[dayOfWeek].fullName})`);
-                
-                // Get the hours (convert from seconds)
-                const hours = detail.totalTimeLogged ? secondsToHours(detail.totalTimeLogged) : 0;
-                const roundedHours = Math.round(hours * 10) / 10; // Round to 1 decimal place
-                
-                console.log(`Hours for ${daysOfWeek[dayOfWeek].fullName}: ${roundedHours} (from ${detail.totalTimeLogged} seconds)`);
-                
-                // Update our data array
-                initialData[dayOfWeek].hours = roundedHours;
-                initialData[dayOfWeek].label = `${roundedHours} h`;
-                
-                console.log(`Updated data for ${daysOfWeek[dayOfWeek].fullName}:`, initialData[dayOfWeek]);
-              } catch (error) {
-                console.error(`Error processing detail ${index}:`, error);
+            // Loop through each detail (daily data)
+            monthData.details.forEach((detail, index) => {
+              console.log(`Processing detail ${index}:`, detail);
+              
+              if (detail && detail.date) {
+                try {
+                  // Parse the date to get the day of week
+                  const date = new Date(detail.date);
+                  const dayOfWeekIndex = date.getDay(); // 0 = Sunday, 1 = Monday, etc.
+                  
+                  // Find the corresponding day in our reordered array
+                  const dayDataIndex = initialData.findIndex(d => d.dayIndex === dayOfWeekIndex);
+                  
+                  if (dayDataIndex !== -1) {
+                    console.log(`Date: ${detail.date}, Day of week: ${dayOfWeekIndex} (${initialData[dayDataIndex].fullName})`);
+                    
+                    // Get the hours (convert from seconds)
+                    const hours = detail.totalTimeLogged ? secondsToHours(detail.totalTimeLogged) : 0;
+                    
+                    // Add to our running total for this day of week
+                    initialData[dayDataIndex].hours += hours;
+                    initialData[dayDataIndex].count += 1;
+                    
+                    console.log(`Added ${hours}h to ${initialData[dayDataIndex].fullName}, new total: ${initialData[dayDataIndex].hours}h over ${initialData[dayDataIndex].count} days`);
+                  } else {
+                    console.warn(`Could not find day of week ${dayOfWeekIndex} in reordered array`);
+                  }
+                } catch (error) {
+                  console.error(`Error processing detail ${index}:`, error);
+                }
+              } else {
+                console.warn(`Detail ${index} has no date:`, detail);
               }
-            } else {
-              console.warn(`Detail ${index} has no date:`, detail);
-            }
-          });
-        } else {
-          console.warn("No details array found in metrics[0] or it's empty");
-        }
+            });
+          } else {
+            console.warn(`No details array found in month ${monthData.month}/${monthData.year} or it's empty`);
+          }
+        });
+        
+        // Calculate averages and format labels
+        initialData.forEach(dayData => {
+          if (dayData.count > 0) {
+            // Calculate average hours for this day of week
+            dayData.hours = Math.round((dayData.hours / dayData.count) * 10) / 10;
+            dayData.label = `${dayData.hours} h`;
+          }
+        });
         
         // Log the final data we're using for the chart
         console.log("Final chart data:", initialData);
@@ -172,16 +220,22 @@ const WorkHoursTracker = () => {
     { day: 'Fri', hours: 0, label: '0 h' },
     { day: 'Sat', hours: 0, label: '0 h' },
   ];
-
+  console.log(metrics);
   // Custom tooltip component
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
+      const data = payload[0].payload;
       return (
         <CardContainer className="bg-[#FFF5E9] p-3 rounded-lg shadow-lg border-none">
-          <p className="text-primary font-bold">{payload[0].payload.day}</p>
+          <p className="text-primary font-bold">{data.fullName}</p>
           <p className="text-text font-medium">
-            Working Hours: {payload[0].value}h
+            Avg Working Hours: {payload[0].value}h
           </p>
+          {data.count > 0 && (
+            <p className="text-text font-medium">
+              Based on {data.count} {data.count === 1 ? 'day' : 'days'}
+            </p>
+          )}
         </CardContainer>
       );
     }
@@ -214,7 +268,7 @@ const WorkHoursTracker = () => {
             {/* Bar chart */}
             <Bar 
               dataKey="hours" 
-              fill="#FAF3E7" 
+              fill="#FFF5E9"
               radius={[10, 10, 10, 10]} 
               barSize={40} 
               isAnimationActive={true}

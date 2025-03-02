@@ -9,7 +9,7 @@ import { secondsToHours } from '../utils/general';
 
 const CompletedHours = () => {
   const dispatch = useDispatch();
-  const { metricsForMonths, metricsLoading } = useSelector(state => state.activity);
+  const { metricsForMonths, metricsLoadingForMonths } = useSelector(state => state.activity);
   const { user, token } = useAuth();
   const [monthsData, setMonthsData] = useState([]);
   const max = 160; // Maximum hours expected per month
@@ -34,7 +34,7 @@ const CompletedHours = () => {
     .then(result => {
       console.log('Activity metrics for months:', result.payload);
     });
-  }, [dispatch, token, user]);
+  }, [dispatch, token, user.id]);
 
   useEffect(() => {
     if (metricsForMonths && Array.isArray(metricsForMonths) && metricsForMonths.length > 0) {
@@ -49,9 +49,6 @@ const CompletedHours = () => {
         currentMonth.format('MMMM')
       ];
       
-      // Get the metrics data (always use the first element as per feedback)
-      const metricsData = metricsForMonths[0];
-      
       // Calculate max hours based on days in month (8 hours per working day)
       const daysInCurrentMonth = currentMonth.daysInMonth();
       const daysInLastMonth = lastMonth.daysInMonth();
@@ -62,23 +59,28 @@ const CompletedHours = () => {
       // Group details by month
       const monthlyData = {};
       
-      if (metricsData && metricsData.details && Array.isArray(metricsData.details)) {
-        metricsData.details.forEach(detail => {
-          if (detail.date) {
-            const date = dayjs(detail.date);
-            const monthKey = date.format('YYYY-MM');
-            
-            if (!monthlyData[monthKey]) {
-              monthlyData[monthKey] = {
-                totalTimeLogged: 0,
-                totalTimeActive: 0,
-                month: date.month() + 1, // 1-12
-                year: date.year()
-              };
-            }
-            
-            monthlyData[monthKey].totalTimeLogged += detail.totalTimeLogged || 0;
-            monthlyData[monthKey].totalTimeActive += detail.totalTimeActive || 0;
+      // Process all metrics data from the array
+      if (metricsForMonths && Array.isArray(metricsForMonths)) {
+        metricsForMonths.forEach(metricsData => {
+          if (metricsData && metricsData.details && Array.isArray(metricsData.details)) {
+            metricsData.details.forEach(detail => {
+              if (detail.date) {
+                const date = dayjs(detail.date);
+                const monthKey = date.format('YYYY-MM');
+                
+                if (!monthlyData[monthKey]) {
+                  monthlyData[monthKey] = {
+                    totalTimeLogged: 0,
+                    totalTimeActive: 0,
+                    month: date.month() + 1, // 1-12
+                    year: date.year()
+                  };
+                }
+                
+                monthlyData[monthKey].totalTimeLogged += detail.totalTimeLogged || 0;
+                monthlyData[monthKey].totalTimeActive += detail.totalTimeActive || 0;
+              }
+            });
           }
         });
       }
@@ -122,7 +124,7 @@ const CompletedHours = () => {
 
       {/* Progress bars */}
       <div className="space-y-6">
-        {metricsLoading ? (
+        {metricsLoadingForMonths ? (
           <div className="text-center py-6">Loading...</div>
         ) : (
           monthsData.map((data, index) => (

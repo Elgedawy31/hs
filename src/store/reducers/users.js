@@ -2,6 +2,35 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_URL } from "../../utils/constants";
 
 const KEY = "users";
+const SYSTEM_KEY = "system";
+
+// Get all system users operation
+export const getAllSystemUsers = createAsyncThunk(
+  "users/getAllSystemUsers",
+  async ({ token, page=1, limit=20 }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `${API_URL}/${SYSTEM_KEY}?page=${page}&limit=${limit}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+      if(!data.count){
+        return rejectWithValue(data?.error|| data?.message || "Failed to get system users");
+      }
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
 
 // Get all users operation
 export const getAllUsers = createAsyncThunk(
@@ -137,6 +166,7 @@ const usersSlice = createSlice({
   name: "users",
   initialState: {
     users: [],
+    systemUsers: [],
     count: 0,
     selectedUser: null,
     loading: false,
@@ -161,6 +191,22 @@ const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Get all system users
+      .addCase(getAllSystemUsers.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllSystemUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.systemUsers = action.payload.users;
+        state.error = null;
+      })
+      .addCase(getAllSystemUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // Get all users
       .addCase(getAllUsers.pending, (state) => {
         console.log('state', state);
         state.loading = true;

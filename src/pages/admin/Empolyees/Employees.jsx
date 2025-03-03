@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllUsers, deleteUser, resetUsersState } from '../../../store/reducers/users';
+import { useAuth } from '../../../contexts/AuthContext';
 import UniTable from '@components/UniTable';
 import UniHeading from '@components/UniHeading';
 import UniCard from '@components/UniCard';
@@ -6,133 +9,48 @@ import { UsersRound, UserCheck, Briefcase, Building2 } from 'lucide-react';
 import CardContainer from '@components/CardContainer';
 import { useNavigate } from 'react-router-dom';
 import DeleteConfirmation from '@components/DeleteConfirmation';
+import Loading from '../../../components/Loading';
+import NoDataMsg from '../../../components/NoDataMsg';
+import UniPagination from '../../../components/UniPagination';
 
 export default function Employees() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { token } = useAuth();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState(null);
-  // Sample data
-  const data = [
-    {
-      id: 1,
-      name: 'Nouran Khaled',
-      status: 'Break',
-      hoursToday: '6H 30M',
-      productiveHours: '7 h',
-    },
-    {
-      id: 2,
-      name: 'John Doe',
-      status: 'Active',
-      hoursToday: '5H 45M',
-      productiveHours: '5 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Inactive',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-  ];
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  
+  // Get users data from Redux store
+  const { users, loading, error, count, isDeleted } = useSelector((state) => state.users);
+  
+  // Fetch users on component mount
+  useEffect(() => {
+    if (token) {
+      dispatch(getAllUsers({ token, page: currentPage, limit }));
+    }
+  }, [dispatch, token, currentPage, limit]);
+  
+  // Reset state when component unmounts
+  useEffect(() => {
+    return () => {
+      dispatch(resetUsersState());
+    };
+  }, [dispatch]);
+  
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+  
+  // Reset state after successful deletion
+  useEffect(() => {
+    if (isDeleted) {
+      dispatch(resetUsersState());
+      dispatch(getAllUsers({ token, page: currentPage, limit }));
+    }
+  }, [isDeleted, dispatch, token, currentPage, limit]);
 
   // Column definitions
   const columns = [
@@ -140,35 +58,50 @@ export default function Employees() {
       accessorKey: 'name',
       header: 'Name',
       size: 200,
+      cell: ({ row }) => {
+        const name = row.original.userId?.name;
+        return name ? `${name.first || ''} ${name.last || ''}` : 'N/A';
+      }
     },
     {
-      accessorKey: 'status',
+      accessorKey: 'email',
+      header: 'Email',
+      size: 200,
+      cell: ({ row }) => {
+        return row.original.userId?.email || 'N/A';
+      }
+    },
+    {
+      accessorKey: 'role',
+      header: 'Role',
+      size: 120,
+      cell: ({ row }) => {
+        return row.original.userId?.role || 'N/A';
+      }
+    },
+    {
+      accessorKey: 'isActive',
       header: 'Status',
       size: 120,
       cell: ({ row }) => {
-        const status = row.original.status;
-        const colors = {
-          Break: 'text-orange-500',
-          Active: 'text-green-500',
-          Inactive: 'text-red-500',
-        };
+        const isActive = row.original?.isActive || false;
         return (
-          <span className={colors[status]}>
-            {status}
+          <span className={isActive ? 'text-green-500' : 'text-red-500'}>
+            {isActive ? 'Active' : 'Inactive'}
           </span>
         );
       },
     },
     {
-      accessorKey: 'hoursToday',
-      header: 'Hours Today',
-      size: 150,
+      accessorKey: 'dailyWorkingHours',
+      header: 'Daily Hours',
+      size: 120,
     },
     {
-      accessorKey: 'productiveHours',
-      header: 'Productive hours',
-      size: 150,
-    },
+      accessorKey: 'paymentInterval',
+      header: 'Payment',
+      size: 120,
+    }
   ];
 
   // Action menu items
@@ -178,8 +111,9 @@ export default function Employees() {
   };
 
   const confirmDelete = () => {
-    console.log('Deleting employee:', employeeToDelete);
-    // Here you would typically make an API call to delete the employee
+    if (employeeToDelete && token) {
+      dispatch(deleteUser({ userId: employeeToDelete._id || employeeToDelete.userId?._id, token }));
+    }
     setShowDeleteModal(false);
     setEmployeeToDelete(null);
   };
@@ -188,7 +122,7 @@ export default function Employees() {
     {
       label: 'Edit',
       onClick: (row) => {
-       navigate('edit/'+row.id)
+       navigate('edit/'+(row._id || row.userId?._id))
       },
     },
     {
@@ -201,7 +135,7 @@ export default function Employees() {
       label: 'Details',
       onClick: (row) => {
         console.log('Viewing details for:', row);
-        navigate(`${row.id}`)
+        navigate(`${row._id || row.userId?._id}`)
        },
     },
   ];
@@ -221,22 +155,22 @@ export default function Employees() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
         <UniCard 
           title="Total Employees" 
-          value="50"
+          value={count || 0}
           icon={UsersRound}
         />
         <UniCard 
           title="Active Now" 
-          value="4"
+          value={users?.filter(user => user?.isActive )?.length || 0}
           icon={UserCheck}
         />
         <UniCard 
           title="On Leave" 
-          value="5"
+          value={users?.filter(user => !user.isActive )?.length || 0}
           icon={Briefcase}
         />
         <UniCard 
-          title="Departments" 
-          value="4"
+          title="Working Days" 
+          value={users?.[0]?.weeklyWorkingDays || 5}
           icon={Building2}
         />
       </div>
@@ -244,19 +178,36 @@ export default function Employees() {
       <UniHeading icon={UsersRound} text="All Employees" showButton buttonText='Add New Emplyee' onButtonClick={handleClick} />
 
       <CardContainer>
-        <UniTable
-          columns={columns}
-          data={data}
-          actions={actions}
-          onRowSelect={handleRowSelect}
-        />
+        {loading ? (
+         <Loading />
+        ) : error ? (
+         <NoDataMsg title="Failed to load employees" description="An error occurred while loading employees. Please try again later." />
+        ) : (
+          <>
+            <UniTable
+              columns={columns}
+              data={users || []}
+              actions={actions}
+              onRowSelect={handleRowSelect}
+            />
+            <div className="mt-4 flex justify-center">
+              <UniPagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(count / limit)}
+                onPageChange={handlePageChange}
+                color="primary"
+                size="md"
+              />
+            </div>
+          </>
+        )}
       </CardContainer>
 
       <DeleteConfirmation
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={confirmDelete}
-        folderName={employeeToDelete?.name}
+        folderName={employeeToDelete?.userId?.name?.first + ' ' + employeeToDelete?.userId?.name?.last}
         title="Delete Employee"
       />
     </div>

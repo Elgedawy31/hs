@@ -302,7 +302,7 @@ const usersSlice = createSlice({
         state.message = action.payload.message;
         // Remove the user from the users array
         state.users = state.users.filter(
-          (user) => user.userId !== action.payload.userId
+          (user) => user._id !== action.payload.userId
         );
         state.count -= 1;
         // Clear selectedUser if it's the deleted user

@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllUsers } from '../../store/reducers/users';
+import { useAuth } from '../../contexts/AuthContext';
 import UniTextInput from "../UniTextInput";
 import CardContainer from '../CardContainer';
 import UniBtn from '../UniBtn';
@@ -12,7 +15,8 @@ const bonusSchema = z.object({
   name: z.string().min(3, "Bonus name must be at least 3 characters"),
   type: z.enum(["misc", "project", "holiday", "overtime"]),
   description: z.string().optional(),
-  amount: z.string().optional(),
+  fixedAmount: z.string().optional(),
+  users: z.array(z.string()).min(1, "At least one user must be selected"),
   overtimeRates: z.array(
     z.object({
       fromHours: z.string(),
@@ -21,7 +25,7 @@ const bonusSchema = z.object({
     })
   ).optional(),
 }).refine((data) => {
-  if ((data.type === "misc" || data.type === "project" || data.type === "holiday") && !data.amount) {
+  if ((data.type === "misc" || data.type === "project" || data.type === "holiday") && !data.fixedAmount) {
     return false;
   }
   if (data.type === "overtime" && (!data.overtimeRates || data.overtimeRates.length === 0)) {
@@ -33,13 +37,23 @@ const bonusSchema = z.object({
 });
 
 const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
+  const dispatch = useDispatch();
+  const { users } = useSelector(state => state.users);
+  const { token } = useAuth();
+
+  useEffect(() => {
+    // Fetch all users when component mounts
+    dispatch(getAllUsers({ token, page: 1, limit: 10000 }));
+  }, [dispatch, token]);
+
   const { handleSubmit, watch, reset, setValue, formState: { errors } } = useForm({
     resolver: zodResolver(bonusSchema),
     defaultValues: {
       name: "",
       description: "",
       type: "misc",
-      amount: "",
+      fixedAmount: "",
+      users: [],
       overtimeRates: [
         {
           fromHours: "0",
@@ -106,21 +120,37 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
           onChange={(value) => setValue('description', value, { shouldValidate: true })}
         />
 
+        {/* Users select field */}
+        <UniTextInput
+          type="select"
+          label="Users"
+          multiple
+          placeholder="Select Users"
+          value={values.users || []}
+          onChange={(value) => setValue('users', value, { shouldValidate: true })}
+          options={users?.map(user => ({ 
+            value: user._id, 
+            label: `${user?.userId?.name?.first} ${user?.userId?.name?.last}` || 'Unknown User'
+          })) || []}
+          error={errors.users?.message}
+          required
+        />
+
         {/* Conditional Fields Based on Bonus Type */}
         {(bonusType === "misc" || bonusType === "project" || bonusType === "holiday") && (
           <UniTextInput
             label="Fixed Amount"
             type="number"
             placeholder="Enter amount"
-            value={values.amount || ''}
-            onChange={(value) => setValue('amount', value, { shouldValidate: true })}
-            error={errors.amount?.message}
+            value={values.fixedAmount || ''}
+            onChange={(value) => setValue('fixedAmount', value, { shouldValidate: true })}
+            error={errors.fixedAmount?.message}
             required
           />
         )}
 
         {bonusType === "overtime" && (
-          <CardContainer className="space-y-4">
+          <div className="space-y-3 border p-3 rounded-md">
             <h3 className="font-medium">Overtime Rates</h3>
             {values.overtimeRates?.map((rate, index) => (
               <div key={index} className="grid grid-cols-3 gap-2">
@@ -188,7 +218,7 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
                 />
               )}
             </div>
-          </CardContainer>
+          </div>
         )}
 
         {/* Buttons */}

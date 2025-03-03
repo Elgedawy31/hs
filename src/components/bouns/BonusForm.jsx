@@ -39,7 +39,7 @@ const bonusSchema = z.object({
 const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
   const dispatch = useDispatch();
   const { users } = useSelector(state => state.users);
-  const { token } = useAuth();
+  const { token , user:{id}} = useAuth();
 
   useEffect(() => {
     // Fetch all users when component mounts
@@ -128,7 +128,7 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
           placeholder="Select Users"
           value={values.users || []}
           onChange={(value) => setValue('users', value, { shouldValidate: true })}
-          options={users?.map(user => ({ 
+          options={users?.filter(user => user?._id !== id).map(user => ({ 
             value: user._id, 
             label: `${user?.userId?.name?.first} ${user?.userId?.name?.last}` || 'Unknown User'
           })) || []}

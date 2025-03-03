@@ -7,6 +7,7 @@ import activityReducer from './reducers/activity';
 import PhotosReducer from './reducers/photos';
 import logsReducer from './reducers/logs';
 import appsReducer from './reducers/apps';
+import bonusesReducer from './reducers/bonuses';
 
 export const store = configureStore({
     reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
         activity: activityReducer,
         photos: PhotosReducer,
         logs: logsReducer,
-        apps: appsReducer
+        apps: appsReducer,
+        bonuses: bonusesReducer
     }
 });

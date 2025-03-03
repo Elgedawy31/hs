@@ -11,14 +11,16 @@ import Loading from "@components/Loading";
 const Bouns = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingBonus, setEditingBonus] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit] = useState(2);
   const dispatch = useDispatch();
   const { token } = useAuth();
-  const { loading, isCreated, isUpdated } = useSelector(state => state.bonuses);
+  const { loading, isCreated, isUpdated, pagination } = useSelector(state => state.bonuses);
 
   useEffect(() => {
-    // Fetch all bonuses when component mounts
-    dispatch(getAllBonuses({ token }));
-  }, [dispatch, token]);
+    // Fetch all bonuses when component mounts or page changes
+    dispatch(getAllBonuses({ token, page: currentPage, limit }));
+  }, [dispatch, token, currentPage, limit]);
 
   useEffect(() => {
     // Close form and reset state when bonus is created or updated successfully
@@ -35,6 +37,10 @@ const Bouns = () => {
     } else {
       dispatch(createBonus({ bonusData: data, token }));
     }
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   const handleEdit = (bonus) => {
@@ -64,7 +70,12 @@ const Bouns = () => {
           />
         )}
 
-        <BounsList onEdit={handleEdit} /></>}
+        <BounsList 
+          onEdit={handleEdit} 
+          currentPage={pagination?.currentPage || 1}
+          totalPages={pagination?.totalPages || 1}
+          onPageChange={handlePageChange}
+        /></>}
       </div>
     </>
   );

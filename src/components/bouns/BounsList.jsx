@@ -8,8 +8,9 @@ import CardContainer from '../CardContainer';
 import UniHeading from '../UniHeading';
 import NoDataMsg from '../NoDataMsg';
 import DeleteConfirmation from '../DeleteConfirmation';
+import UniPagination from '../UniPagination';
 
-function BounsList({ onEdit }) {
+function BounsList({ onEdit, currentPage, totalPages, onPageChange }) {
   const dispatch = useDispatch();
   const { token } = useAuth();
   const { bonuses  } = useSelector(state => state.bonuses || {});
@@ -83,6 +84,17 @@ function BounsList({ onEdit }) {
         ) : (
           <NoDataMsg message="No bonuses found" />
         )}
+        {bonuses && bonuses.length > 0 && (
+          <div className="mt-4 flex justify-center">
+            <UniPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              color="primary"
+              size="md"
+            />
+          </div>
+        )}
       </div>
 
       {deleteModalOpen && (
@@ -99,7 +111,10 @@ function BounsList({ onEdit }) {
 }
 
 BounsList.propTypes = {
-  onEdit: PropTypes.func
+  onEdit: PropTypes.func,
+  currentPage: PropTypes.number,
+  totalPages: PropTypes.number,
+  onPageChange: PropTypes.func
 };
 
 export default BounsList;

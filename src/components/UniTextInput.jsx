@@ -168,6 +168,7 @@ const UniTextInput = ({
                   : 'bg-white border-[#E4E5E7] text-[#101010]'
                 }
                 border animate-menuEnter origin-top backdrop-blur-sm
+                max-h-[200px] overflow-y-auto
               `}>
                 {options.map((option) => (
                   <div

@@ -25,7 +25,7 @@ const SendNotificationForm = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const { loading, error, isCreated } = useSelector(state => state.notification);
   const { users } = useSelector(state => state.users);
-  const { token } = useAuth();
+  const { token , user:{id}} = useAuth();
 
   const { handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
     resolver: zodResolver(notificationSchema),
@@ -121,7 +121,7 @@ const SendNotificationForm = ({ isOpen, onClose }) => {
           value={values.recipients || ''}
           onChange={(value) => setValue('recipients', value, { shouldValidate: true })}
           options={[
-            ...users.map(user => ({ 
+            ...users.filter(user => user._id !==id).map(user => ({ 
               value: user._id, 
               label: `${user?.userId?.name?.first} ${user?.userId?.name?.last}`   || 'Unknown User'
             }))

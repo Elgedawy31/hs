@@ -1,77 +1,97 @@
-import React, { useState }  from 'react'
-import { PlusCircle, Pencil, Trash, Trash2 } from "lucide-react";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { PlusCircle, Pencil, Trash2 } from "lucide-react";
+import { deleteBonus } from '../../store/reducers/bonuses';
+import { useAuth } from '../../contexts/AuthContext';
 import CardContainer from '../CardContainer';
 import UniHeading from '../UniHeading';
-
+import NoDataMsg from '../NoDataMsg';
+import DeleteConfirmation from '../DeleteConfirmation';
 
 function BounsList() {
+  const dispatch = useDispatch();
+  const { token } = useAuth();
+  const { bonuses  } = useSelector(state => state.bonuses || {});
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedBonusId, setSelectedBonusId] = useState(null);
 
-   const handleDelete = (id) => {
-    setBonuses(bonuses.filter((bonus) => bonus.id !== id));
+  const handleDeleteClick = (id) => {
+    setSelectedBonusId(id);
+    setDeleteModalOpen(true);
   };
-    const [bonuses, setBonuses] = useState([
-      {
-        id: 1,
-        title: "Over time",
-        description: "Per hour worked beyond regular hours to 24 hour over time",
-        type: "Over Time",
-        percentage: "120%",
-      },
-      {
-        id: 2,
-        title: "Over time",
-        description: "Per hour worked beyond regular hours to 24 hour over time",
-        type: "Over Time",
-        percentage: "120%",
-      },
-      {
-        id: 3,
-        title: "Over time",
-        description: "Per hour worked beyond regular hours to 24 hour over time",
-        type: "Over Time",
-        percentage: "120%",
-      },
-    ]);
+
+  const handleDelete = () => {
+    if (selectedBonusId) {
+      dispatch(deleteBonus({ bonusId: selectedBonusId, token }));
+      setDeleteModalOpen(false);
+    }
+  };
+
+  const handleEdit = (bonus) => {
+    // TODO: Implement edit functionality
+    console.log("Edit bonus:", bonus);
+  };
   return (
     <div>
-
       <div className="space-y-4">
         <UniHeading
           icon={PlusCircle}
           text="Bonus Configuration"
-          
         />
-        {bonuses.map((bonus) => (
-          <CardContainer key={bonus.id} className=" p-4 rounded-lg border border-borderColor flex justify-between items-center">
-            <div>
-              <h4 className="text-lg text-text font-medium">{bonus.title}</h4>
-              <p className="text-placeholderText text-sm">{bonus.description}</p>
-              <div className="mt-2 flex gap-2">
-                <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded text-sm">
-                  {bonus.type}
-                </span>
-                <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-sm">
-                  {bonus.percentage}
-                </span>
+        
+        {bonuses && bonuses.length > 0 ? (
+          bonuses.map((bonus) => (
+            <CardContainer key={bonus._id} className="p-4 rounded-lg border border-borderColor flex justify-between items-center">
+              <div>
+                <h4 className="text-lg text-text font-medium">{bonus.name}</h4>
+                <p className="text-placeholderText text-sm">{bonus.description}</p>
+                <div className="mt-2 flex gap-2">
+                  <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded text-sm capitalize">
+                    {bonus.type}
+                  </span>
+                  {bonus.type === "overtime" ? (
+                    <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-sm">
+                      {bonus.overtimeRates && bonus.overtimeRates.length > 0 
+                        ? `${bonus.overtimeRates[0].rate}%` 
+                        : "Variable Rate"}
+                    </span>
+                  ) : (
+                    <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-sm">
+                      ${bonus.fixedAmount}
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="flex gap-2">
-              <button 
-                className="hover:opacity-80"
-                onClick={() => handleEdit(bonus)}
-              >
-                <Pencil size={17} className="text-text" />
-              </button>
-              <button 
-                className="text-danger hover:opacity-80"
-                onClick={() => handleDelete(bonus.id)}
-              >
-                <Trash2 size={17} />
-              </button>
-            </div>
-          </CardContainer>
-        ))}
+              <div className="flex gap-2">
+                <button 
+                  className="hover:opacity-80"
+                  onClick={() => handleEdit(bonus)}
+                >
+                  <Pencil size={17} className="text-text" />
+                </button>
+                <button 
+                  className="text-danger hover:opacity-80"
+                  onClick={() => handleDeleteClick(bonus._id)}
+                >
+                  <Trash2 size={17} />
+                </button>
+              </div>
+            </CardContainer>
+          ))
+        ) : (
+          <NoDataMsg message="No bonuses found" />
+        )}
       </div>
+
+      {deleteModalOpen && (
+        <DeleteConfirmation
+          isOpen={deleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          onConfirm={handleDelete}
+          title="Delete Bonus"
+          message="Are you sure you want to delete this bonus? This action cannot be undone."
+        />
+      )}
     </div>
   )
 }

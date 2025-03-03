@@ -17,6 +17,7 @@ const bonusSchema = z.object({
   description: z.string().optional(),
   fixedAmount: z.string().optional(),
   users: z.array(z.string()).min(1, "At least one user must be selected"),
+  paymentInterval: z.enum(["weekly", "monthly", "semi-annually", "annually", "on-demand"]).default("monthly"),
   overtimeRates: z.array(
     z.object({
       fromHours: z.string(),
@@ -36,7 +37,7 @@ const bonusSchema = z.object({
   message: "Required fields are missing based on the selected bonus type.",
 });
 
-const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
+const BonusForm = ({ onClose, onSubmit: onSubmitProp, editMode = false, initialData = null }) => {
   const dispatch = useDispatch();
   const { users } = useSelector(state => state.users);
   const { token , user:{id}} = useAuth();
@@ -48,12 +49,13 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
 
   const { handleSubmit, watch, reset, setValue, formState: { errors } } = useForm({
     resolver: zodResolver(bonusSchema),
-    defaultValues: {
+    defaultValues: initialData || {
       name: "",
       description: "",
       type: "misc",
       fixedAmount: "",
       users: [],
+      paymentInterval: "monthly",
       overtimeRates: [
         {
           fromHours: "0",
@@ -70,6 +72,20 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
   const onSubmit = (data) => {
     // Format the data before submitting
     const formattedData = { ...data };
+    
+    // Convert fixedAmount to number if present
+    if (formattedData.fixedAmount) {
+      formattedData.fixedAmount = Number(formattedData.fixedAmount);
+    }
+    
+    // Convert overtime rates to numbers
+    if (formattedData.overtimeRates) {
+      formattedData.overtimeRates = formattedData.overtimeRates.map(rate => ({
+        fromHours: Number(rate.fromHours),
+        toHours: Number(rate.toHours),
+        rate: Number(rate.rate)
+      }));
+    }
     
     // Only include overtimeRates if the type is overtime
     if (data.type !== "overtime") {
@@ -108,6 +124,23 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
             { value: "project", label: "Project" },
             { value: "holiday", label: "Holiday" },
             { value: "overtime", label: "Overtime" }
+          ]}
+        />
+
+        {/* Payment Interval */}
+        <UniTextInput
+          label="Payment Interval"
+          type="select"
+          value={values.paymentInterval || 'monthly'}
+          onChange={(value) => setValue('paymentInterval', value, { shouldValidate: true })}
+          error={errors.paymentInterval?.message}
+          required
+          options={[
+            { value: "weekly", label: "Weekly" },
+            { value: "monthly", label: "Monthly" },
+            { value: "semi-annually", label: "Semi-Annually" },
+            { value: "annually", label: "Annually" },
+            { value: "on-demand", label: "On-Demand" }
           ]}
         />
 
@@ -229,7 +262,7 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
             className="!bg-transparent !text-text border"
           />
           <UniBtn
-            text="Add"
+            text={editMode ? "Update" : "Add"}
             type="submit"
             className='text-white'
           />
@@ -241,7 +274,9 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
 
 BonusForm.propTypes = {
   onClose: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  editMode: PropTypes.bool,
+  initialData: PropTypes.object
 };
 
 export default BonusForm;

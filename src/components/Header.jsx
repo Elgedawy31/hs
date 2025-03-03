@@ -13,7 +13,6 @@ import { useTheme } from '../contexts/ThemeContext';
 import logo from '../assets/logo.png'
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setEmails } from '../store/reducers/email';
 import {useAuth} from "@src/contexts/AuthContext";
 
 
@@ -22,7 +21,6 @@ export default function Header({ sidebarOpen, setSidebarOpen }) {
   const newFolderRef = useRef(null)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);;
-  const {allEmails} = useSelector(state => state.box);
   const dispatch = useDispatch();
     const { user } = useAuth()
   
@@ -61,8 +59,7 @@ export default function Header({ sidebarOpen, setSidebarOpen }) {
   }
 
   const handleFilterEamils = (e) => {
-    const filteredEmails = allEmails.filter(email => email.subject.toLowerCase().includes(e.target.value.toLowerCase()));
-    dispatch(setEmails(filteredEmails));
+    console.log(e.target.value)
   }
 
   return (

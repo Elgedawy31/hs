@@ -18,8 +18,8 @@ function TrackingScreenshots({ activeDay }) {
   useEffect(() => {
     if (activeDay && token) {
       // Format the activeDay to ISO string for API
-      const startDate = dayjs(activeDay).startOf('day').toISOString();
-      const endDate = dayjs(activeDay).endOf('day').toISOString();
+      const startDate = activeDay
+      const endDate= activeDay
       
       dispatch(getAllPhotos({
         token,

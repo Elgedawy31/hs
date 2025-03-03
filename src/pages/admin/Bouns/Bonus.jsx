@@ -12,7 +12,7 @@ const Bouns = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const dispatch = useDispatch();
   const { token } = useAuth();
-  const { loading, error, isCreated } = useSelector(state => state.bonuses);
+  const { loading, isCreated } = useSelector(state => state.bonuses);
 
   useEffect(() => {
     // Fetch all bonuses when component mounts
@@ -40,6 +40,7 @@ const Bouns = () => {
         </CardContainer>
 
       {loading && <Loading />}
+       {!loading && <>
         {isFormOpen && (
           <BonusForm 
             onClose={() => setIsFormOpen(false)}
@@ -47,7 +48,7 @@ const Bouns = () => {
           />
         )}
 
-        <BounsList />
+        <BounsList /></>}
       </div>
     </>
   );

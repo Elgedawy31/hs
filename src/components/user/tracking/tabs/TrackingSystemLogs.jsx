@@ -26,8 +26,8 @@ export default function TrackingSystemLogs({ activeDay }) {
       token,
       page: currentPage,
       limit: 10,
-      // startDate: activeDay,
-      // endDate: activeDay
+      startDate: activeDay,
+      endDate: activeDay
     }));
   }, [dispatch, token, activeDay, currentPage]);
 

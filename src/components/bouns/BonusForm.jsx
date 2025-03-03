@@ -47,9 +47,20 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp, editMode = false, initialD
     dispatch(getAllUsers({ token, page: 1, limit: 10000 }));
   }, [dispatch, token]);
 
+  // Prepare initial data - ensure fixedAmount is a string
+  const preparedInitialData = initialData ? {
+    ...initialData,
+    fixedAmount: initialData.fixedAmount?.toString() || "",
+    overtimeRates: initialData.overtimeRates?.map(rate => ({
+      fromHours: rate.fromHours?.toString() || "0",
+      toHours: rate.toHours?.toString() || "0",
+      rate: rate.rate?.toString() || "100"
+    })) || []
+  } : null;
+
   const { handleSubmit, watch, reset, setValue, formState: { errors } } = useForm({
     resolver: zodResolver(bonusSchema),
-    defaultValues: initialData || {
+    defaultValues: preparedInitialData || {
       name: "",
       description: "",
       type: "misc",

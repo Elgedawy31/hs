@@ -26,7 +26,7 @@ export const getAllSystemUsers = createAsyncThunk(
 
       return data;
     } catch (err) {
-      return rejectWithValue(err.message);
+      return rejectWithValue(err?.message);
     }
   }
 );
@@ -99,8 +99,8 @@ export const createUser = createAsyncThunk(
       });
 
       const data = await response.json();
-      if (!data.success || data.error) {
-        return rejectWithValue(data.error || "Failed to create user");
+      if (!data?._id) {
+        return rejectWithValue(data?.error ||data?.message || "Failed to create user");
       }
 
       return data.user;

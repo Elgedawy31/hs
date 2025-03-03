@@ -53,6 +53,7 @@ const EmployeeWorkInfo = ({
             <UniTextInput
               label="Weekly Working Days"
               type="number"
+              max={7}
               placeholder="Enter number of working days"
               value={data.weeklyWorkingDays || ""}
               onChange={(value) => onChange?.("weeklyWorkingDays", value)}
@@ -65,6 +66,7 @@ const EmployeeWorkInfo = ({
             <UniTextInput
               label="Daily Working Hours"
               type="number"
+              max={24}
               placeholder="Enter working hours per day"
               value={data.dailyWorkingHours || ""}
               onChange={(value) => onChange?.("dailyWorkingHours", value)}
@@ -77,6 +79,7 @@ const EmployeeWorkInfo = ({
             <UniTextInput
               label="Annual Leaves"
               type="number"
+              max={365}
               placeholder="Enter annual leaves"
               value={data.annualLeavs || ""}
               onChange={(value) => onChange?.("annualLeavs", value)}

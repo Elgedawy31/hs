@@ -9,27 +9,22 @@ import UniBtn from '../UniBtn';
 
 // Define Zod Schema
 const bonusSchema = z.object({
-  bonusName: z.string().min(3, "Bonus name must be at least 3 characters"),
-  bonusType: z.enum(["MISC Bonus", "Percentage of salary", "Over Time", "Specific Bonus"]),
+  name: z.string().min(3, "Bonus name must be at least 3 characters"),
+  type: z.enum(["misc", "project", "holiday", "overtime"]),
   description: z.string().optional(),
-  fixedRate: z.string().optional(),
-  rateOfSalary: z.string().optional(),
-  hourlyRate: z.string().optional(),
-  fromHours: z.string().optional(),
-  toHours: z.string().optional(),
-  specificAmount: z.string().optional(),
-  selectedOption: z.array(z.string()).optional(),
+  amount: z.string().optional(),
+  overtimeRates: z.array(
+    z.object({
+      fromHours: z.string(),
+      toHours: z.string(),
+      rate: z.string(),
+    })
+  ).optional(),
 }).refine((data) => {
-  if (data.bonusType === "MISC Bonus" && !data.fixedRate) {
+  if ((data.type === "misc" || data.type === "project" || data.type === "holiday") && !data.amount) {
     return false;
   }
-  if (data.bonusType === "Percentage of salary" && !data.rateOfSalary) {
-    return false;
-  }
-  if (data.bonusType === "Over Time" && (!data.hourlyRate || !data.fromHours || !data.toHours)) {
-    return false;
-  }
-  if (data.bonusType === "Specific Bonus" && (!data.specificAmount || !data.selectedOption?.length)) {
+  if (data.type === "overtime" && (!data.overtimeRates || data.overtimeRates.length === 0)) {
     return false;
   }
   return true;
@@ -41,24 +36,33 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
   const { handleSubmit, watch, reset, setValue, formState: { errors } } = useForm({
     resolver: zodResolver(bonusSchema),
     defaultValues: {
-      bonusName: "",
+      name: "",
       description: "",
-      bonusType: "MISC Bonus",
-      fixedRate: "",
-      rateOfSalary: "10%",
-      hourlyRate: "",
-      fromHours: "",
-      toHours: "",
-      specificAmount: "",
-      selectedOption: [],
+      type: "misc",
+      amount: "",
+      overtimeRates: [
+        {
+          fromHours: "0",
+          toHours: "0",
+          rate: "100"
+        }
+      ],
     },
   });
 
   const values = watch();
-  const bonusType = values.bonusType;
+  const bonusType = values.type;
 
   const onSubmit = (data) => {
-    onSubmitProp(data);
+    // Format the data before submitting
+    const formattedData = { ...data };
+    
+    // Only include overtimeRates if the type is overtime
+    if (data.type !== "overtime") {
+      delete formattedData.overtimeRates;
+    }
+    
+    onSubmitProp(formattedData);
     reset();
   };
 
@@ -68,182 +72,123 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp }) => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         {/* Bonus Name */}
         <UniTextInput
-          label="Bonus Name"
+          label="Name"
           type="text"
           placeholder="Bonus Name"
-          value={values.bonusName || ''}
-          onChange={(value) => setValue('bonusName', value, { shouldValidate: true })}
-          error={errors.bonusName?.message}
+          value={values.name || ''}
+          onChange={(value) => setValue('name', value, { shouldValidate: true })}
+          error={errors.name?.message}
           required
         />
 
         {/* Bonus Type Dropdown */}
         <UniTextInput
-          label="Bonus Type"
+          label="Type"
           type="select"
-          value={values.bonusType || ''}
-          onChange={(value) => setValue('bonusType', value, { shouldValidate: true })}
-          error={errors.bonusType?.message}
+          value={values.type || ''}
+          onChange={(value) => setValue('type', value, { shouldValidate: true })}
+          error={errors.type?.message}
           required
           options={[
-            { value: "MISC Bonus", label: "MISC Bonus" },
-            { value: "Percentage of salary", label: "Percentage of salary" },
-            { value: "Over Time", label: "Over Time" },
-            { value: "Specific Bonus", label: "Specific Bonus" }
+            { value: "misc", label: "Misc" },
+            { value: "project", label: "Project" },
+            { value: "holiday", label: "Holiday" },
+            { value: "overtime", label: "Overtime" }
           ]}
         />
 
+        {/* Description field for all types */}
+        <UniTextInput
+          label="Description"
+          type="text"
+          placeholder="Description"
+          value={values.description || ''}
+          onChange={(value) => setValue('description', value, { shouldValidate: true })}
+        />
+
         {/* Conditional Fields Based on Bonus Type */}
-        {bonusType === "MISC Bonus" && (
-          <>
-            <UniTextInput
-              label="Fixed Rate"
-              type="text"
-              placeholder="Fixed Rate"
-              value={values.fixedRate || ''}
-              onChange={(value) => setValue('fixedRate', value, { shouldValidate: true })}
-              error={errors.fixedRate?.message}
-              required
-            />
-            <UniTextInput
-              label="Description"
-              type="text"
-              placeholder="Description"
-              value={values.description || ''}
-              onChange={(value) => setValue('description', value, { shouldValidate: true })}
-            />
-            <UniTextInput
-              label="To"
-              type="select"
-              placeholder="Select Employee"
-              value={values.selectedOption || []}
-              onChange={(value) => setValue('selectedOption', value, { shouldValidate: true })}
-              error={errors.selectedOption?.message}
-              required
-              multiple={true}
-              options={[
-                { value: "Nancy Mahmoud", label: "Nancy Mahmoud" },
-                { value: "Mohamed Elgedawy", label: "Mohamed Elgedawy" },
-                { value: "Noran Khaled", label: "Noran Khaled" },
-                { value: "Mohamed Ramadan", label: "Mohamed Ramadan" }
-              ]}
-            />
-          </>
+        {(bonusType === "misc" || bonusType === "project" || bonusType === "holiday") && (
+          <UniTextInput
+            label="Fixed Amount"
+            type="number"
+            placeholder="Enter amount"
+            value={values.amount || ''}
+            onChange={(value) => setValue('amount', value, { shouldValidate: true })}
+            error={errors.amount?.message}
+            required
+          />
         )}
 
-        {bonusType === "Percentage of salary" && (
-          <>
-            <UniTextInput
-              label="Rate of Salary"
-              type="text"
-              placeholder="Rate of Salary"
-              value={values.rateOfSalary || ''}
-              onChange={(value) => setValue('rateOfSalary', value, { shouldValidate: true })}
-              error={errors.rateOfSalary?.message}
-              required
-            />
-            <UniTextInput
-              label="Description"
-              type="text"
-              placeholder="Description"
-              value={values.description || ''}
-              onChange={(value) => setValue('description', value, { shouldValidate: true })}
-            />
-            <UniTextInput
-              label="To"
-              type="select"
-              placeholder="Select Employee"
-              value={values.selectedOption || []}
-              onChange={(value) => setValue('selectedOption', value, { shouldValidate: true })}
-              error={errors.selectedOption?.message}
-              required
-              multiple={true}
-              options={[
-                { value: "Nancy Mahmoud", label: "Nancy Mahmoud" },
-                { value: "Mohamed Elgedawy", label: "Mohamed Elgedawy" },
-                { value: "Noran Khaled", label: "Noran Khaled" },
-                { value: "Mohamed Ramadan", label: "Mohamed Ramadan" }
-              ]}
-            />
-          </>
-        )}
-
-        {bonusType === "Over Time" && (
-          <>
-            <UniTextInput
-              label="Hourly Rate"
-              type="number"
-              placeholder="Hourly Rate"
-              value={values.hourlyRate || ''}
-              onChange={(value) => setValue('hourlyRate', value, { shouldValidate: true })}
-              error={errors.hourlyRate?.message}
-              required
-            />
-            <UniTextInput
-              label="From Number of Overtime Hours"
-              type="number"
-              placeholder="From Number of Overtime Hours"
-              value={values.fromHours || ''}
-              onChange={(value) => setValue('fromHours', value, { shouldValidate: true })}
-              error={errors.fromHours?.message}
-              required
-            />
-            <UniTextInput
-              label="To Number of Overtime Hours"
-              type="number"
-              placeholder="To Number of Overtime Hours"
-              value={values.toHours || ''}
-              onChange={(value) => setValue('toHours', value, { shouldValidate: true })}
-              error={errors.toHours?.message}
-              required
-            />
-            <UniTextInput
-              label="To"
-              type="select"
-              placeholder="Select Employee"
-              value={values.selectedOption || []}
-              onChange={(value) => setValue('selectedOption', value, { shouldValidate: true })}
-              error={errors.selectedOption?.message}
-              required
-              multiple={true}
-              options={[
-                { value: "Nancy Mahmoud", label: "Nancy Mahmoud" },
-                { value: "Mohamed Elgedawy", label: "Mohamed Elgedawy" },
-                { value: "Noran Khaled", label: "Noran Khaled" },
-                { value: "Mohamed Ramadan", label: "Mohamed Ramadan" }
-              ]}
-            />
-          </>
-        )}
-
-        {bonusType === "Specific Bonus" && (
-          <>
-            <UniTextInput
-              label="Amount"
-              type="number"
-              placeholder="Amount"
-              value={values.specificAmount || ''}
-              onChange={(value) => setValue('specificAmount', value, { shouldValidate: true })}
-              error={errors.specificAmount?.message}
-              required
-            />
-            <UniTextInput
-              label="To"
-              type="select"
-              placeholder="Select Employee"
-              value={values.selectedOption || []}
-              onChange={(value) => setValue('selectedOption', value, { shouldValidate: true })}
-              error={errors.selectedOption?.message}
-              required
-              multiple={true}
-              options={[
-                { value: "Nancy Mahmoud", label: "Nancy Mahmoud" },
-                { value: "Mohamed Elgedawy", label: "Mohamed Elgedawy" },
-                { value: "Noran Khaled", label: "Noran Khaled" },
-                { value: "Mohamed Ramadan", label: "Mohamed Ramadan" }
-              ]}
-            />
-          </>
+        {bonusType === "overtime" && (
+          <CardContainer className="space-y-4">
+            <h3 className="font-medium">Overtime Rates</h3>
+            {values.overtimeRates?.map((rate, index) => (
+              <div key={index} className="grid grid-cols-3 gap-2">
+                <UniTextInput
+                  label="From Hours"
+                  type="number"
+                  placeholder="From Hours"
+                  value={rate.fromHours || ''}
+                  onChange={(value) => {
+                    const newRates = [...values.overtimeRates];
+                    newRates[index].fromHours = value;
+                    setValue('overtimeRates', newRates, { shouldValidate: true });
+                  }}
+                  error={errors.overtimeRates?.[index]?.fromHours?.message}
+                  required
+                />
+                <UniTextInput
+                  label="To Hours"
+                  type="number"
+                  placeholder="To Hours"
+                  value={rate.toHours || ''}
+                  onChange={(value) => {
+                    const newRates = [...values.overtimeRates];
+                    newRates[index].toHours = value;
+                    setValue('overtimeRates', newRates, { shouldValidate: true });
+                  }}
+                  error={errors.overtimeRates?.[index]?.toHours?.message}
+                  required
+                />
+                <UniTextInput
+                  label="Rate (%)"
+                  type="number"
+                  placeholder="Rate"
+                  value={rate.rate || ''}
+                  onChange={(value) => {
+                    const newRates = [...values.overtimeRates];
+                    newRates[index].rate = value;
+                    setValue('overtimeRates', newRates, { shouldValidate: true });
+                  }}
+                  error={errors.overtimeRates?.[index]?.rate?.message}
+                  required
+                />
+              </div>
+            ))}
+            <div className="flex gap-2">
+              <UniBtn
+                text="Add Rate"
+                onClick={() => {
+                  const newRates = [...(values.overtimeRates || []), { fromHours: "", toHours: "", rate: "" }];
+                  setValue('overtimeRates', newRates);
+                }}
+                className="!bg-transparent !text-text border"
+                type="button"
+              />
+              {values.overtimeRates?.length > 1 && (
+                <UniBtn
+                  text="Remove Rate"
+                  onClick={() => {
+                    const newRates = [...values.overtimeRates];
+                    newRates.pop();
+                    setValue('overtimeRates', newRates, { shouldValidate: true });
+                  }}
+                  className="!bg-red-500 text-white"
+                  type="button"
+                />
+              )}
+            </div>
+          </CardContainer>
         )}
 
         {/* Buttons */}

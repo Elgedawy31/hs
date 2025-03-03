@@ -82,7 +82,6 @@ const SendNotificationForm = ({ isOpen, onClose }) => {
   };
 
 
-  console.log('users', users);
   return (
     <AddModal
       isOpen={isOpen}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import dayjs from 'dayjs';
@@ -21,7 +21,7 @@ const UniDateRangePicker = ({
   minValue,
   maxValue,
 }) => {
-  const { currentTheme } = useTheme();
+  const { currentTheme, theme } = useTheme();
   const isDarkMode = currentTheme === 'dark';
   
   // State for the date range
@@ -42,6 +42,13 @@ const UniDateRangePicker = ({
       const today = new Date();
       setDateRange([today, today]);
     }
+  }, []);
+
+  // Function to filter out future dates
+  const isNotFutureDate = useCallback((date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date <= today;
   }, []);
 
   // Handle date changes
@@ -66,15 +73,10 @@ const UniDateRangePicker = ({
     `,
     datePickerInput: `
       w-full rounded-lg text-sm px-3 py-2 border-b-2
-      ${isDarkMode 
-        ? 'bg-[#151515] text-[#e6e6e6] placeholder-[#a0a0a1] border-[#2d2d2d]' 
-        : 'bg-white text-[#101010] placeholder-[#525253] border-[#E4E5E7]'
-      }
+      bg-background text-text placeholder-placeholderText border-borderColor
       ${errorMessage 
         ? 'border-red-500 focus:border-red-500' 
-        : isDarkMode 
-          ? 'focus:border-[#4f6bcc]'
-          : 'focus:border-[#264699]'
+        : `focus:border-primary`
       } 
       ${isDisabled 
         ? 'opacity-50 cursor-not-allowed' 
@@ -92,25 +94,34 @@ const UniDateRangePicker = ({
       .react-datepicker {
         font-family: inherit;
         border-radius: 0.5rem;
-        border: 1px solid ${isDarkMode ? '#2d2d2d' : '#E4E5E7'};
-        background-color: ${isDarkMode ? '#151515' : 'white'};
+        border: 1px solid ${theme.borderColor};
+        background-color: ${theme.background};
       }
       .react-datepicker__header {
-        background-color: ${isDarkMode ? '#1a1a2e' : '#ECEDFF'};
-        border-bottom: 1px solid ${isDarkMode ? '#2d2d2d' : '#E4E5E7'};
+        background-color: ${theme.secondPrimaryColor};
+        border-bottom: 1px solid ${theme.borderColor};
+        color: ${theme.text};
+      }
+      .react-datepicker__current-month, 
+      .react-datepicker-time__header, 
+      .react-datepicker-year-header {
+        color: ${theme.text};
+      }
+      .react-datepicker__day--disabled {
+        color: ${isDarkMode ? '#444444' : '#ccc'};
       }
       .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
-        color: ${isDarkMode ? '#e6e6e6' : '#101010'};
+        color: ${theme.text};
       }
       .react-datepicker__day:hover {
-        background-color: ${isDarkMode ? '#2d2d2d' : '#ECEDFF'};
+        background-color: ${theme.secondPrimaryColor};
       }
       .react-datepicker__day--selected, .react-datepicker__day--in-range {
-        background-color: ${isDarkMode ? '#4f6bcc' : '#264699'};
+        background-color: ${theme.primary};
         color: white;
       }
       .react-datepicker__day--keyboard-selected {
-        background-color: ${isDarkMode ? '#4f6bcc' : '#264699'};
+        background-color: ${theme.primary};
         color: white;
       }
       .react-datepicker__input-container input {
@@ -118,15 +129,15 @@ const UniDateRangePicker = ({
         padding: 0.5rem;
         border-radius: 0.375rem;
         border-bottom-width: 2px;
-        border-color: ${isDarkMode ? '#2d2d2d' : '#E4E5E7'};
-        background-color: ${isDarkMode ? '#151515' : 'white'};
-        color: ${isDarkMode ? '#e6e6e6' : '#101010'};
+        border-color: ${theme.borderColor};
+        background-color: ${theme.background};
+        color: ${theme.text};
         font-size: 0.875rem;
         line-height: 1.25rem;
         outline: none;
       }
       .react-datepicker__input-container input:focus {
-        border-color: ${isDarkMode ? '#4f6bcc' : '#264699'};
+        border-color: ${theme.primary};
       }
       .react-datepicker__triangle {
         display: none;
@@ -137,19 +148,11 @@ const UniDateRangePicker = ({
     return () => {
       document.head.removeChild(style);
     };
-  }, [isDarkMode]);
+  }, [isDarkMode, theme]);
 
   return (
-    <div className={`space-y-1 ${className}`}>
-      {label && labelPlacement === "outside" && (
-        <label className={`block text-sm font-medium mb-1.5
-          ${isDarkMode ? 'text-[#e6e6e6]' : 'text-[#101010]'}`}>
-          {label}
-          {isRequired && <span className="text-red-500 ml-1">*</span>}
-        </label>
-      )}
-      
-      <div className={customStyles.datePickerContainer}>
+    <div className={`space-y-1 ${className} flex items-center justify-end`}>
+      <div className={`${customStyles.datePickerContainer}`}>
         <DatePicker
           selectsRange={true}
           startDate={startDate}
@@ -162,6 +165,7 @@ const UniDateRangePicker = ({
           required={isRequired}
           minDate={minValue ? new Date(minValue.toString()) : undefined}
           maxDate={maxValue ? new Date(maxValue.toString()) : undefined}
+          filterDate={isNotFutureDate}
           className={customStyles.datePickerInput}
           calendarClassName={isDarkMode ? 'dark-theme' : 'light-theme'}
         />

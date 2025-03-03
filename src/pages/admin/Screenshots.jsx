@@ -28,6 +28,19 @@ export default function Screenshots() {
     end: today
   });
 
+  const CustomHead=() => {
+    return <div className="flex justify-between items-center">
+    <UniHeading icon={Focus} text="Screenshots" />
+    <div className="w-72">
+      <UniDateRangePicker
+        label="Date Range"
+        value={dateRange}
+        onChange={handleDateRangeChange}
+      />
+    </div>
+  </div>
+  }
+
   useEffect(() => {
     if (token) {
       // Format dates as MM-DD-YYYY for API
@@ -65,7 +78,7 @@ export default function Screenshots() {
   if (loading) {
     return (
       <div className="">
-        <UniHeading icon={Focus} text="Screenshots" />
+         <CustomHead />
         <Loading />
       </div>
     );
@@ -74,7 +87,7 @@ export default function Screenshots() {
   if (error) {
     return (
       <div className="">
-        <UniHeading icon={Focus} text="Screenshots" />
+       <CustomHead />
         <NoDataMsg message={error} />
       </div>
     );
@@ -83,7 +96,7 @@ export default function Screenshots() {
   if (!photos || photos.length === 0) {
     return (
       <div className="">
-        <UniHeading icon={Focus} text="Screenshots" />
+         <CustomHead />
         <NoDataMsg message="No screenshots available for today" />
       </div>
     );
@@ -91,17 +104,8 @@ export default function Screenshots() {
 
   return (
     <div className="">
-      <div className="flex justify-between items-center">
-        <UniHeading icon={Focus} text="Screenshots" />
-        <div className="w-72">
-          <UniDateRangePicker
-            label="Date Range"
-            value={dateRange}
-            onChange={handleDateRangeChange}
-          />
-        </div>
-      </div>
       
+      <CustomHead />
       <div className="mt-6 h-[calc(100vh-180px)] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {photos.map(photo => (

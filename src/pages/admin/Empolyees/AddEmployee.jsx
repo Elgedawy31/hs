@@ -7,11 +7,13 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { createUser, resetUsersState } from '@store/reducers/users'
+import { useAuth } from '../../../contexts/AuthContext'
 
 function AddEmployee() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { loading, error, isCreated } = useSelector((state) => state.users)
+    const {token} = useAuth()
     
     // Reset users state when component unmounts
     useEffect(() => {
@@ -24,7 +26,7 @@ function AddEmployee() {
     useEffect(() => {
         if (isCreated) {
             toast.success('Employee added successfully')
-            navigate('/employees')
+            navigate(-1)
         }
         
         if (error) {
@@ -33,7 +35,6 @@ function AddEmployee() {
     }, [isCreated, error, navigate])
 
     const handleSubmit = async (data) => {
-        const token = localStorage.getItem('token')
         dispatch(createUser({ userData: data, token }))
     }
 

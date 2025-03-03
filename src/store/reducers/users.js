@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_URL } from "../../utils/constants";
 
 const KEY = "users";
-const SYSTEM_KEY = "system";
 
 // Get all system users operation
 export const getAllSystemUsers = createAsyncThunk(
@@ -10,7 +9,7 @@ export const getAllSystemUsers = createAsyncThunk(
   async ({ token, page=1, limit=20 }, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `${API_URL}/${SYSTEM_KEY}?page=${page}&limit=${limit}`,
+        `${API_URL}/${KEY}/system?page=${page}&limit=${limit}`,
         {
           method: "GET",
           headers: {
@@ -21,7 +20,7 @@ export const getAllSystemUsers = createAsyncThunk(
       );
 
       const data = await response.json();
-      if(!data.count){
+      if(!data.users){
         return rejectWithValue(data?.error|| data?.message || "Failed to get system users");
       }
 

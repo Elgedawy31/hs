@@ -150,8 +150,8 @@ export const deleteUser = createAsyncThunk(
       });
 
       const data = await response.json();
-      if (!data.success || data.error) {
-        return rejectWithValue(data.error || "Failed to delete user");
+      if (!data?.message) {
+        return rejectWithValue(data?.error || data?.message || "Failed to delete user");
       }
 
       return { userId, message: data.message };
@@ -296,6 +296,7 @@ const usersSlice = createSlice({
         state.message = null;
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
+        console.log('action.payload', action.payload);
         state.loading = false;
         state.error = null;
         state.isDeleted = true;

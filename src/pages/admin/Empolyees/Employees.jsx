@@ -95,7 +95,7 @@ export default function Employees() {
     {
       accessorKey: 'dailyWorkingHours',
       header: 'Daily Hours',
-      size: 120,
+      size: 150,
     },
     {
       accessorKey: 'paymentInterval',

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { PlusCircle, Pencil, Trash2 } from "lucide-react";
 import { deleteBonus } from '../../store/reducers/bonuses';
@@ -8,7 +9,7 @@ import UniHeading from '../UniHeading';
 import NoDataMsg from '../NoDataMsg';
 import DeleteConfirmation from '../DeleteConfirmation';
 
-function BounsList() {
+function BounsList({ onEdit }) {
   const dispatch = useDispatch();
   const { token } = useAuth();
   const { bonuses  } = useSelector(state => state.bonuses || {});
@@ -28,8 +29,9 @@ function BounsList() {
   };
 
   const handleEdit = (bonus) => {
-    // TODO: Implement edit functionality
-    console.log("Edit bonus:", bonus);
+    if (onEdit) {
+      onEdit(bonus);
+    }
   };
   return (
     <div>
@@ -96,4 +98,8 @@ function BounsList() {
   )
 }
 
-export default BounsList
+BounsList.propTypes = {
+  onEdit: PropTypes.func
+};
+
+export default BounsList;

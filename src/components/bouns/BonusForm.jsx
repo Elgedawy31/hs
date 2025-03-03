@@ -98,7 +98,7 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp, editMode = false, initialD
 
   return (
     <CardContainer className="">
-      <h2 className="text-lg font-medium mb-2">Add Bonus</h2>
+      <h2 className="text-lg font-medium mb-2">{editMode ? "Edit Bonus" : "Add Bonus"}</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         {/* Bonus Name */}
         <UniTextInput

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBonuses, createBonus, resetBonusesState } from "@store/reducers/bonuses";
+import { getAllBonuses, createBonus, updateBonus, resetBonusesState } from "@store/reducers/bonuses";
 import { useAuth } from "@contexts/AuthContext";
 import BonusHeading from "@components/bouns/BonusHeading";
 import CardContainer from "@components/CardContainer";
@@ -10,9 +10,10 @@ import Loading from "@components/Loading";
 
 const Bouns = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingBonus, setEditingBonus] = useState(null);
   const dispatch = useDispatch();
   const { token } = useAuth();
-  const { loading, isCreated } = useSelector(state => state.bonuses);
+  const { loading, isCreated, isUpdated } = useSelector(state => state.bonuses);
 
   useEffect(() => {
     // Fetch all bonuses when component mounts
@@ -20,15 +21,25 @@ const Bouns = () => {
   }, [dispatch, token]);
 
   useEffect(() => {
-    // Close form and reset state when bonus is created successfully
-    if (isCreated) {
+    // Close form and reset state when bonus is created or updated successfully
+    if (isCreated || isUpdated) {
       setIsFormOpen(false);
+      setEditingBonus(null);
       dispatch(resetBonusesState());
     }
-  }, [isCreated, dispatch]);
+  }, [isCreated, isUpdated, dispatch]);
 
   const handleSubmit = (data) => {
-    dispatch(createBonus({ bonusData: data, token }));
+    if (editingBonus) {
+      dispatch(updateBonus({ bonusId: editingBonus._id, bonusData: data, token }));
+    } else {
+      dispatch(createBonus({ bonusData: data, token }));
+    }
+  };
+
+  const handleEdit = (bonus) => {
+    setEditingBonus(bonus);
+    setIsFormOpen(true);
   };
 
   return (
@@ -43,12 +54,17 @@ const Bouns = () => {
        {!loading && <>
         {isFormOpen && (
           <BonusForm 
-            onClose={() => setIsFormOpen(false)}
+            onClose={() => {
+              setIsFormOpen(false);
+              setEditingBonus(null);
+            }}
             onSubmit={handleSubmit}
+            editMode={!!editingBonus}
+            initialData={editingBonus}
           />
         )}
 
-        <BounsList /></>}
+        <BounsList onEdit={handleEdit} /></>}
       </div>
     </>
   );

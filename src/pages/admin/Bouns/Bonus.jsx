@@ -33,13 +33,13 @@ const Bouns = () => {
 
   return (
     <>
-      {loading && <Loading />}
       
       <div className="space-y-4 min-h-screen">
         <CardContainer>
-          <BonusHeading onAddClick={() => setIsFormOpen(true)} />
+          <BonusHeading onAddClick={loading ? () => {} : () => setIsFormOpen(true)} />
         </CardContainer>
 
+      {loading && <Loading />}
         {isFormOpen && (
           <BonusForm 
             onClose={() => setIsFormOpen(false)}

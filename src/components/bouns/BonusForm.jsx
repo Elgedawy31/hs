@@ -54,7 +54,7 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp, editMode = false, initialD
     overtimeRates: initialData.overtimeRates?.map(rate => ({
       fromHours: rate.fromHours?.toString() || "0",
       toHours: rate.toHours?.toString() || "0",
-      rate: rate.rate?.toString() || "100"
+      rate: rate.rate?.toString() || "150"
     })) || []
   } : null;
 
@@ -71,7 +71,7 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp, editMode = false, initialD
         {
           fromHours: "0",
           toHours: "0",
-          rate: "100"
+          rate: "150"
         }
       ],
     },
@@ -194,7 +194,7 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp, editMode = false, initialD
         )}
 
         {bonusType === "overtime" && (
-          <div className="space-y-3 border p-3 rounded-md">
+          <CardContainer className="space-y-4">
             <h3 className="font-medium">Overtime Rates</h3>
             {values.overtimeRates?.map((rate, index) => (
               <div key={index} className="grid grid-cols-3 gap-2">
@@ -225,10 +225,12 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp, editMode = false, initialD
                   required
                 />
                 <UniTextInput
-                  label="Rate (%)"
+                  label="Rate (%) - Can exceed 100%"
                   type="number"
                   placeholder="Rate"
                   value={rate.rate || ''}
+                  min={100}
+                  max={999}
                   onChange={(value) => {
                     const newRates = [...values.overtimeRates];
                     newRates[index].rate = value;
@@ -243,7 +245,7 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp, editMode = false, initialD
               <UniBtn
                 text="Add Rate"
                 onClick={() => {
-                  const newRates = [...(values.overtimeRates || []), { fromHours: "", toHours: "", rate: "" }];
+                  const newRates = [...(values.overtimeRates || []), { fromHours: "", toHours: "", rate: "150" }];
                   setValue('overtimeRates', newRates);
                 }}
                 className="!bg-transparent !text-text border"
@@ -262,7 +264,7 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp, editMode = false, initialD
                 />
               )}
             </div>
-          </div>
+          </CardContainer>
         )}
 
         {/* Buttons */}

@@ -6,41 +6,46 @@ import { useParams } from 'react-router-dom'
 import DeleteConfirmation from '../../DeleteConfirmation'
 import AllowancesForm from './AllowancesForm'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateUser } from '../../../store/reducers/users'
+import { getOneUser, resetUsersState, updateUser } from '../../../store/reducers/users'
 import { useAuth } from '../../../contexts/AuthContext'
 import { toast } from 'react-hot-toast'
 
 function Allowances() {
   const [open, setOpen] = useState(false);
   const [selectedAllowance, setSelectedAllowance] = useState(null);
+  const [selectedAllowanceIndex, setSelectedAllowanceIndex] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [allowanceToDelete, setAllowanceToDelete] = useState(null);
-  const { selectedUser } = useSelector((state) => state.users)
+  const [allowanceToDeleteIndex, setAllowanceToDeleteIndex] = useState(null);
+  const { selectedUser, isUpdated } = useSelector((state) => state.users)
   const [allowances, setAllowances] = useState([])
   const dispatch = useDispatch()
   const { token } = useAuth()
+  const { id } = useParams()
   const [loading, setLoading] = useState(false)
-
   
   const handleClick = () => {
     setIsEdit(false);
     setSelectedAllowance(null);
+    setSelectedAllowanceIndex(null);
     setOpen(true);
   }
 
   const handleClose = () => {
     setOpen(false);
     setSelectedAllowance(null);
+    setSelectedAllowanceIndex(null);
     setIsEdit(false);
   }
 
-  const handleEdit = (allowance) => {
+  const handleEdit = (allowance, index) => {
     setIsEdit(true);
     setSelectedAllowance({
       ...allowance,
       value: allowance.value.toString()
     });
+    setSelectedAllowanceIndex(index);
     setOpen(true);
   }
 
@@ -48,8 +53,7 @@ function Allowances() {
     setLoading(true);
     // Create a new allowance object
     const newAllowance = {
-      ...data,
-      id: Date.now().toString() // Generate a temporary ID
+      ...data
     };
     
     // Create a copy of the current allowances array and add the new allowance
@@ -78,9 +82,9 @@ function Allowances() {
   const handleUpdate = (data) => {
     setLoading(true);
     // Create a copy of the current allowances array
-    const updatedAllowances = allowances.map(allowance => 
-      allowance.id === selectedAllowance.id ? { ...data, id: selectedAllowance.id } : allowance
-    );
+    const updatedAllowances = [...allowances];
+    // Update the allowance at the selected index
+    updatedAllowances[selectedAllowanceIndex] = { ...data };
     
     // Update the user with the modified allowances array
     dispatch(updateUser({
@@ -102,15 +106,16 @@ function Allowances() {
       });
   }
 
-  const handleDelete = (allowance) => {
+  const handleDelete = (allowance, index) => {
     setAllowanceToDelete(allowance);
+    setAllowanceToDeleteIndex(index);
     setShowDeleteModal(true);
   }
 
-  const handleConfirmDelete = () => {
-    setLoading(true);
+  const handleConfirmDelete = () => {   setLoading(true);
     // Create a copy of the current allowances array without the deleted allowance
-    const updatedAllowances = allowances.filter(allowance => allowance.id !== allowanceToDelete.id);
+    const updatedAllowances = [...allowances];
+    updatedAllowances.splice(allowanceToDeleteIndex, 1);
     
     // Update the user with the modified allowances array
     dispatch(updateUser({
@@ -124,6 +129,7 @@ function Allowances() {
         setAllowances(updatedAllowances);
         setShowDeleteModal(false);
         setAllowanceToDelete(null);
+        setAllowanceToDeleteIndex(null);
       })
       .catch((error) => {
         toast.error(error || 'Failed to delete allowance');
@@ -136,16 +142,21 @@ function Allowances() {
   const handleCancelDelete = () => {
     setShowDeleteModal(false);
     setAllowanceToDelete(null);
+    setAllowanceToDeleteIndex(null);
   }
 
-useEffect(() => {
+  useEffect(() => {
+    if(selectedUser && selectedUser.allowances){
+      setAllowances(selectedUser.allowances || []);
+    }
+  }, [selectedUser])
 
-  if(selectedUser){
-    setAllowances(selectedUser.allowances)
-  }
-}
-, [selectedUser])
-
+  useEffect(() => {
+    if (id && token) {
+        dispatch(getOneUser({ userId: id, token }))
+        dispatch(resetUsersState())
+    }
+  }, [dispatch, id, isUpdated])
 
   return (
     <div className='space-y-6'>
@@ -173,13 +184,13 @@ useEffect(() => {
                 <div className="flex gap-2">
                   <button 
                     className="hover:opacity-80"
-                    onClick={() => handleEdit(allowance)}
+                    onClick={() => handleEdit(allowance, index)}
                   >
                     <Pencil size={17} className='text-text' />
                   </button>
                   <button 
                     className="text-danger hover:opacity-80"
-                    onClick={() => handleDelete(allowance)}
+                    onClick={() => handleDelete(allowance, index)}
                   >
                     <Trash2 size={17} />
                   </button>

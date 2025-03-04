@@ -11,7 +11,7 @@ import Loading from '../../../components/Loading';
 
 function EmployeeDetails() {
   const [activeTab, setActiveTab] = useState("details");
-  const { selectedUser, loading, error } = useSelector((state) => state.users)
+  const { loading } = useSelector((state) => state.users)
   
   const {id} = useParams();
   const dispatch = useDispatch()

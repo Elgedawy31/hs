@@ -78,7 +78,7 @@ function Memoes() {
       title: memo.type,
       level: memo.warningType.toLowerCase(),
       description: memo.description,
-      requiredAction: memo.requiredAction
+      attachments: memo.attachments
     });
     setOpen(true);
   }

@@ -58,6 +58,8 @@ const MemoForm = ({ isOpen, onClose, onSubmit, initialValues = {
     onSubmit(data);
   };
 
+  console.log('initialValues',initialValues)
+
   return (
     <AddModal
       isOpen={isOpen}

@@ -116,7 +116,7 @@ export const updateUser = createAsyncThunk(
   async ({ userId, userData, token }, { rejectWithValue }) => {
     try {
       const response = await fetch(`${API_URL}/${KEY}/${userId}`, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -125,8 +125,8 @@ export const updateUser = createAsyncThunk(
       });
 
       const data = await response.json();
-      if (!data.success || data.error) {
-        return rejectWithValue(data.error || "Failed to update user");
+      if (!data._id) {
+        return rejectWithValue(data?.error ||data?.message || "Failed to update user");
       }
 
       return data.user;

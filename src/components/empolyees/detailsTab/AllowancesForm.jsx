@@ -10,14 +10,15 @@ const allowanceSchema = z.object({
   name: z.string()
     .min(3, 'Name must be at least 3 characters')
     .max(50, 'Name must not exceed 50 characters'),
-  type: z.string()
-    .min(1, 'Type is required'),
-  rate: z.string()
-    .min(1, 'Rate is required')
-    .refine((val) => !isNaN(val) && Number(val) > 0, 'Rate must be greater than 0')
+  value: z.string()
+    .min(1, 'Value is required')
+    .refine((val) => !isNaN(val) && Number(val) > 0, 'Value must be greater than 0'),
+  paymentInterval: z.enum(['weekly', 'monthly', 'semi-annually', 'annually'], {
+    errorMap: () => ({ message: 'Please select a payment interval' })
+  })
 });
 
-const AllowancesForm = ({ isOpen, onClose, onSubmit, initialValues = { name: '', type: '', rate: '' }, isEdit }) => {
+const AllowancesForm = ({ isOpen, onClose, onSubmit, initialValues = { name: '', value: '', paymentInterval: 'monthly' }, isEdit }) => {
   const [isLoading, setIsLoading] = useState(false);
   
   const { handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
@@ -60,26 +61,28 @@ const AllowancesForm = ({ isOpen, onClose, onSubmit, initialValues = { name: '',
         />
 
         <UniTextInput
-          type="select"
-          label="Allowance Type"
-          placeholder="Select type"
-          value={values.type || ''}
-          onChange={(value) => setValue('type', value, { shouldValidate: true })}
-          error={errors.type?.message}
-          options={[
-            { value: 'Fixed', label: 'Fixed' },
-            { value: 'Percentage', label: 'Percentage' }
-          ]}
+          type="number"
+          label="Value"
+          placeholder="Enter value"
+          value={values.value || ''}
+          onChange={(value) => setValue('value', value, { shouldValidate: true })}
+          error={errors.value?.message}
           required
         />
 
         <UniTextInput
-          type="number"
-          label="Fixed / Rate"
-          placeholder="Enter rate"
-          value={values.rate || ''}
-          onChange={(value) => setValue('rate', value, { shouldValidate: true })}
-          error={errors.rate?.message}
+          type="select"
+          label="Payment Interval"
+          placeholder="Select payment interval"
+          value={values.paymentInterval || ''}
+          onChange={(value) => setValue('paymentInterval', value, { shouldValidate: true })}
+          error={errors.paymentInterval?.message}
+          options={[
+            { value: 'weekly', label: 'Weekly' },
+            { value: 'monthly', label: 'Monthly' },
+            { value: 'semi-annually', label: 'Semi-Annually' },
+            { value: 'annually', label: 'Annually' }
+          ]}
           required
         />
       </form>

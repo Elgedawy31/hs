@@ -33,7 +33,7 @@ function Allowances() {
     setIsEdit(true);
     setSelectedAllowance({
       ...allowance,
-      rate: allowance.rate.toString()
+      value: allowance.value.toString()
     });
     setOpen(true);
   }
@@ -95,7 +95,7 @@ useEffect(() => {
                     {allowance.name}
                   </h3>
                   <p className="text-sm text-gray-500">
-                    {allowance.type}
+                    {allowance.paymentInterval}
                   </p>
                 </div>
                 <div className="flex gap-2">
@@ -114,7 +114,7 @@ useEffect(() => {
                 </div>
               </div>
               <p className="text-base font-[600] text-text">
-                {allowance.type === 'Fixed' ? `$${allowance.rate}` : `${allowance.rate}%`}
+                ${allowance.value}
               </p>
             </div>
           )) : (
@@ -129,7 +129,7 @@ useEffect(() => {
         isOpen={open}
         onClose={handleClose}
         onSubmit={isEdit ? handleUpdate : handleAdd}
-        initialValues={selectedAllowance || { name: '', type: '', rate: '' }}
+        initialValues={selectedAllowance || { name: '', value: '', paymentInterval: 'monthly' }}
         isEdit={isEdit}
       />
 

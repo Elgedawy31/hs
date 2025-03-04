@@ -202,7 +202,7 @@ function Allowances() {
             </div>
           )) : (
             <p className="text-base text-center py-5 font-medium text-placeholderText">
-              No allowances found for this employee
+              No Allowances found for this employee
             </p>
           )}
         </div>

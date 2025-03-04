@@ -93,10 +93,9 @@ export const createWarning = createAsyncThunk(
             const response = await fetch(`${API_URL}/${KEY}`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify(warningData),
+                body: warningData,
             });
             
             const data = await response.json();
@@ -151,11 +150,11 @@ export const deleteWarning = createAsyncThunk(
             });
             
             const data = await response.json();
-            if (!data?._id) {
+            if (!data?.message) {
                 return rejectWithValue(data.error || "Failed to delete warning");
             }
             
-            return { warningId };
+            return { warningId , message: data.message };
         } catch (err) {
             return rejectWithValue(err.message);
         }

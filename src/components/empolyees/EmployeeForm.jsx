@@ -52,7 +52,7 @@ const EmployeeForm = ({ onSubmit, loading = false, initialValues = {} , MainIcon
   // Update form values when initialValues change
   useEffect(() => {
     if (Object.keys(initialValues).length > 0) {
-      setValue("userId", initialValues.userId || "");
+      setValue("userId", initialValues.userId?._id || "");
       setValue("weeklyWorkingDays", initialValues.weeklyWorkingDays || "");
       setValue("dailyWorkingHours", initialValues.dailyWorkingHours || "");
       setValue("annualLeavs", initialValues.annualLeavs || "");

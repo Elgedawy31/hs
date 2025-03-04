@@ -29,6 +29,7 @@ function DetailsTab() {
         <EmployeeWorkInfo 
           data={employeeWorkData}
           disabled={true}
+          showtSelectedUser={false}
         />
         <Bonus />
         <Allowances />

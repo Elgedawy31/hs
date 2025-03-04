@@ -11,7 +11,8 @@ const EmployeeWorkInfo = ({
   data = {}, 
   disabled = false,
   onChange,
-  errors = {}
+  errors = {} ,
+  showtSelectedUser=true
 }) => {
   const { systemUsers } = useSelector(state => state.users);
   
@@ -22,27 +23,32 @@ const EmployeeWorkInfo = ({
   return (
     <div className="space-y-6">
       {/* User Selection Section */}
-      <UniHeading text="User Information" icon={BriefcaseBusiness} className="mb-6" />
+     
+     {
+      showtSelectedUser&& <div className='space-y-6'>
+       <UniHeading text="User Information" icon={BriefcaseBusiness} className="mb-6" />
       <CardContainer>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="md:col-span-2">
-            <UniTextInput
-              label="Select User"
-              type="select"
-              placeholder="Select a user"
-              value={data.userId || ""}
-              onChange={(value) => onChange?.("userId", value)}
-              options={systemUsers.map(user => ({ 
-                value: user._id, 
-                label: `${user?.name?.first} ${user?.name?.last}` || 'Unknown User'
-              }))}
-              error={errors.userId?.message}
-              disabled={disabled}
-              required
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="md:col-span-2">
+          <UniTextInput
+            label="Select User"
+            type="select"
+            placeholder="Select a user"
+            value={data.userId || ""}
+            onChange={(value) => onChange?.("userId", value)}
+            options={systemUsers.map(user => ({ 
+              value: user._id, 
+              label: `${user?.name?.first} ${user?.name?.last}` || 'Unknown User'
+            }))}
+            error={errors.userId?.message}
+            disabled={disabled}
+            required
             />
-          </div>
         </div>
-      </CardContainer>
+      </div>
+    </CardContainer>
+            </div>
+     }
 
       {/* Working Information Section */}
       <UniHeading text="Working Information" icon={BriefcaseBusiness} className="mb-6" />

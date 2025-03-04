@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CardContainer from '../../CardContainer'
 import EmployeeWorkInfo from '../EmployeeWorkInfo'
 import Info from '../detailsTab/Info'
@@ -12,14 +12,23 @@ import { useSelector } from 'react-redux'
 function DetailsTab() {
 
   const { selectedUser } = useSelector((state) => state.users)
+  const [NewSeelctedUser, setNewSeelctedUser] = useState({});
   
-  const employeeWorkData = {
-    weeklyWorkingDays: "5",
-    dailyWorkingHours: "8",
-    dailyBreakMinutes: "60",
-    salary: "10000",
-    paymentPeriod: "Month"
-  };
+
+      useEffect(() => {
+          if(selectedUser){
+             setNewSeelctedUser({
+              ...selectedUser,
+              weeklyWorkingDays: selectedUser.weeklyWorkingDays?.toString() || "",
+              dailyWorkingHours: selectedUser.dailyWorkingHours?.toString() || "",
+              annualLeavs: selectedUser.annualLeavs?.toString() || "",
+              weekEnd: selectedUser.weekEnd || [],
+              salary: selectedUser.salary?.toString() || "",
+              paymentInterval: selectedUser.paymentInterval || "monthly",
+              paymentPeriod: selectedUser.paymentPeriod?.toString() || "",
+             })
+          }
+      } , [selectedUser])
 
   return (
     <CardContainer className='p-4 space-y-6'>
@@ -27,7 +36,7 @@ function DetailsTab() {
         <MonthlyDashboard />
         <PersonalInformation user={selectedUser?.userId ||{}} />
         <EmployeeWorkInfo 
-          data={employeeWorkData}
+          data={NewSeelctedUser}
           disabled={true}
           showtSelectedUser={false}
         />

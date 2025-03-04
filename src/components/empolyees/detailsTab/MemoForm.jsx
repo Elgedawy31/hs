@@ -58,18 +58,6 @@ const MemoForm = ({ isOpen, onClose, onSubmit, initialValues = {
     onSubmit(data);
   };
 
-  useEffect(() => {
-    if (isCreated) {
-      toast.success('Memo created successfully!');
-      onClose();
-      dispatch(resetWarningState());
-    }
-    if (error) {
-      toast.error(error);
-      dispatch(resetWarningState());
-    }
-  }, [isCreated, error, dispatch]);
-
   return (
     <AddModal
       isOpen={isOpen}

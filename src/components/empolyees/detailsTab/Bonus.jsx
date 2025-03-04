@@ -62,7 +62,6 @@ function Bonuces() {
       <UniHeading 
         icon={BadgeDollarSign} 
         text="Bonus" 
-        showButton
         buttonText='Add Bouns'
         onButtonClick={handleClick}
       />
@@ -75,20 +74,6 @@ function Bonuces() {
                 <h3 className="text-placeholderText text-base font-[500]">
                   {bonus.title}
                 </h3>
-                <div className="flex gap-2">
-                  <button 
-                    className="hover:opacity-80"
-                    onClick={() => handleEdit(bonus)}
-                  >
-                    <Pencil size={17} className='text-text' />
-                  </button>
-                  <button 
-                    className="text-danger hover:opacity-80"
-                    onClick={() => handleDelete(bonus)}
-                  >
-                    <Trash2 size={17} />
-                  </button>
-                </div>
               </div>
               <p className="text-base font-[600] text-text">${bonus.amount}</p>
             </div>

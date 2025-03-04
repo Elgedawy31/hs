@@ -116,17 +116,16 @@ export const updateWarning = createAsyncThunk(
     async ({ warningId, warningData, token }, { rejectWithValue }) => {
         try {
             const response = await fetch(`${API_URL}/${KEY}/${warningId}`, {
-                method: "PATCH",
+                method: "PUT",
                 headers: {
-                    "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify(warningData),
+                body: warningData,
             });
             
             const data = await response.json();
             if (!data?._id) {
-                return rejectWithValue(data.error || "Failed to update warning");
+                return rejectWithValue(data.error || data?.message || "Failed to update warning");
             }
             
             return data.warning;

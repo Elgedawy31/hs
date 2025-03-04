@@ -12,7 +12,7 @@ const Bouns = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingBonus, setEditingBonus] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit] = useState(2);
+  const [limit] = useState(5);
   const dispatch = useDispatch();
   const { token } = useAuth();
   const { loading, isCreated, isUpdated, pagination } = useSelector(state => state.bonuses);

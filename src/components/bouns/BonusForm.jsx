@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSelector, useDispatch } from 'react-redux';
-import { getAllUsers } from '../../store/reducers/users';
-import { useAuth } from '../../contexts/AuthContext';
 import UniTextInput from "../UniTextInput";
 import CardContainer from '../CardContainer';
 import UniBtn from '../UniBtn';
@@ -16,7 +13,6 @@ const bonusSchema = z.object({
   type: z.enum(["misc", "project", "holiday", "overtime"]),
   description: z.string().optional(),
   fixedAmount: z.string().optional(),
-  users: z.array(z.string()).min(1, "At least one user must be selected"),
   paymentInterval: z.enum(["weekly", "monthly", "semi-annually", "annually", "on-demand"]).default("monthly"),
   overtimeRates: z.array(
     z.object({
@@ -38,15 +34,6 @@ const bonusSchema = z.object({
 });
 
 const BonusForm = ({ onClose, onSubmit: onSubmitProp, editMode = false, initialData = null }) => {
-  const dispatch = useDispatch();
-  const { users } = useSelector(state => state.users);
-  const { token , user:{id}} = useAuth();
-
-  useEffect(() => {
-    // Fetch all users when component mounts
-    dispatch(getAllUsers({ token, page: 1, limit: 10000 }));
-  }, [dispatch, token]);
-
   // Prepare initial data - ensure fixedAmount is a string
   const preparedInitialData = initialData ? {
     ...initialData,
@@ -65,7 +52,6 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp, editMode = false, initialD
       description: "",
       type: "misc",
       fixedAmount: "",
-      users: [],
       paymentInterval: "monthly",
       overtimeRates: [
         {
@@ -162,22 +148,6 @@ const BonusForm = ({ onClose, onSubmit: onSubmitProp, editMode = false, initialD
           placeholder="Description"
           value={values.description || ''}
           onChange={(value) => setValue('description', value, { shouldValidate: true })}
-        />
-
-        {/* Users select field */}
-        <UniTextInput
-          type="select"
-          label="Users"
-          multiple
-          placeholder="Select Users"
-          value={values.users || []}
-          onChange={(value) => setValue('users', value, { shouldValidate: true })}
-          options={users?.filter(user => user?._id !== id).map(user => ({ 
-            value: user._id, 
-            label: `${user?.userId?.name?.first} ${user?.userId?.name?.last}` || 'Unknown User'
-          })) || []}
-          error={errors.users?.message}
-          required
         />
 
         {/* Conditional Fields Based on Bonus Type */}

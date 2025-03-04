@@ -3,47 +3,26 @@ import React, { useState } from 'react'
 import UniHeading from '../../UniHeading'
 import { BadgeDollarSign, Pencil, Trash2 } from 'lucide-react'
 import CardContainer from '../../CardContainer'
-import { useParams } from 'react-router-dom'
-import BonucesForm from './BonucesForm'
+import { useNavigate, useParams } from 'react-router-dom'
 import DeleteConfirmation from '../../DeleteConfirmation'
 
 function Bonuces() {
   const {id} = useParams()
-  const [open, setOpen] = useState(false);
-  const [selectedBonus, setSelectedBonus] = useState(null);
-  const [isEdit, setIsEdit] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [bonusToDelete, setBonusToDelete] = useState(null);
+  const navigate = useNavigate();
   
   const handleClick = () => {
-    setIsEdit(false);
-    setSelectedBonus(null);
-    setOpen(true);
+ navigate('/dashboard/bonus')
   }
 
-  const handleClose = () => {
-    setOpen(false);
-    setSelectedBonus(null);
-    setIsEdit(false);
-  }
 
   const handleEdit = (bonus) => {
-    setIsEdit(true);
-    setSelectedBonus({
-      ...bonus,
-      amount: bonus.amount.toString()
-    });
-    setOpen(true);
-  }
-
-  const handleAdd = (data) => {
-    console.log('Adding new bonus:', data);
-    // Here you would typically make an API call to save the bonus
-  }
-
-  const handleUpdate = (data) => {
-    console.log('Updating bonus:', data);
-    // Here you would typically make an API call to update the bonus
+    // setIsEdit(true);
+    // setSelectedBonus({
+    //   ...bonus,
+    //   amount: bonus.amount.toString()
+    // });
   }
 
   const handleDelete = (bonus) => {
@@ -116,14 +95,6 @@ function Bonuces() {
           ))}
         </div>
       </CardContainer>
-
-      <BonucesForm 
-        isOpen={open} 
-        onClose={handleClose}
-        onSubmit={isEdit ? handleUpdate : handleAdd}
-        initialValues={selectedBonus || { title: '', amount: '' }}
-        isEdit={isEdit}
-      />
 
       <DeleteConfirmation 
         isOpen={showDeleteModal}

@@ -126,17 +126,17 @@ export default function Employees() {
       },
     },
     {
-      label: 'Delete',
-      onClick: (row) => {
-        handleDelete(row);
-      },
-    },
-    {
       label: 'Details',
       onClick: (row) => {
         console.log('Viewing details for:', row);
         navigate(`${row._id || row.userId?._id}`)
-       },
+      },
+    },
+    {
+      label: 'Delete',
+      onClick: (row) => {
+        handleDelete(row);
+      },
     },
   ];
 

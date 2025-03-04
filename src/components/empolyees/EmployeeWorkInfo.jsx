@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import CardContainer from "../CardContainer";
 import UniHeading from "../UniHeading";
 import UniTextInput from "../UniTextInput";
-import { BriefcaseBusiness, BadgeDollarSign, Calendar } from "lucide-react";
+import { BriefcaseBusiness, BadgeDollarSign, Calendar, Award } from "lucide-react";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSystemUsers } from '../../store/reducers/users';
+import { getAllBonuses } from '../../store/reducers/bonuses';
 import { useAuth } from '../../contexts/AuthContext';
 
 const EmployeeWorkInfo = ({ 
@@ -15,6 +16,14 @@ const EmployeeWorkInfo = ({
   showtSelectedUser=true
 }) => {
   const { systemUsers } = useSelector(state => state.users);
+  const { bonuses } = useSelector(state => state.bonuses);
+  const dispatch = useDispatch();
+  const { token } = useAuth();
+  
+  // Fetch bonuses when component mounts
+  useEffect(() => {
+    dispatch(getAllBonuses({ token }));
+  }, [dispatch, token]);
   
   // For debugging
   useEffect(() => {
@@ -49,6 +58,29 @@ const EmployeeWorkInfo = ({
     </CardContainer>
             </div>
      }
+
+      {/* Bonuses Section */}
+      <UniHeading text="Bonuses" icon={Award} className="mb-6" />
+      <CardContainer>
+        <div className="grid grid-cols-1 gap-6">
+          <div>
+            <UniTextInput
+              label="Assign Bonuses"
+              type="select"
+              multiple
+              placeholder="Select bonuses to assign"
+              value={data.bonuses || []}
+              onChange={(value) => onChange?.("bonuses", value)}
+              options={bonuses.map(bonus => ({ 
+                value: bonus._id, 
+                label: bonus.title || 'Unnamed Bonus'
+              }))}
+              error={errors.bonuses?.message}
+              disabled={disabled}
+            />
+          </div>
+        </div>
+      </CardContainer>
 
       {/* Working Information Section */}
       <UniHeading text="Working Information" icon={BriefcaseBusiness} className="mb-6" />

@@ -13,6 +13,9 @@ const employeeSchema = z.object({
   // User Information
   userId: z.string().min(1, "Please select a user"),
   
+  // Bonuses Information
+  bonuses: z.array(z.string()).optional(),
+  
   // Working Information
   weeklyWorkingDays: z.string().regex(/^\d+$/, "Weekly working days must be a valid number"),
   dailyWorkingHours: z.string().regex(/^\d+$/, "Daily working hours must be a valid number"),
@@ -39,6 +42,7 @@ const EmployeeForm = ({ onSubmit, loading = false, initialValues = {} , MainIcon
     mode: "onChange",
     defaultValues: {
       userId: initialValues.userId || "",
+      bonuses: initialValues.bonuses || [],
       weeklyWorkingDays: initialValues.weeklyWorkingDays || "",
       dailyWorkingHours: initialValues.dailyWorkingHours || "",
       annualLeavs: initialValues.annualLeavs || "",
@@ -53,6 +57,7 @@ const EmployeeForm = ({ onSubmit, loading = false, initialValues = {} , MainIcon
   useEffect(() => {
     if (Object.keys(initialValues).length > 0) {
       setValue("userId", initialValues.userId?._id || "");
+      setValue("bonuses", initialValues.bonuses || []);
       setValue("weeklyWorkingDays", initialValues.weeklyWorkingDays || "");
       setValue("dailyWorkingHours", initialValues.dailyWorkingHours || "");
       setValue("annualLeavs", initialValues.annualLeavs || "");

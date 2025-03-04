@@ -18,8 +18,7 @@ const allowanceSchema = z.object({
   })
 });
 
-const AllowancesForm = ({ isOpen, onClose, onSubmit, initialValues = { name: '', value: '', paymentInterval: 'monthly' }, isEdit }) => {
-  const [isLoading, setIsLoading] = useState(false);
+const AllowancesForm = ({ isOpen, onClose, onSubmit, initialValues = { name: '', value: '', paymentInterval: 'monthly' }, isEdit, isLoading = false }) => {
   
   const { handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
     resolver: zodResolver(allowanceSchema),
@@ -34,10 +33,7 @@ const AllowancesForm = ({ isOpen, onClose, onSubmit, initialValues = { name: '',
   }, [initialValues, reset]);
 
   const handleFormSubmit = (data) => {
-    setIsLoading(true);
     onSubmit(data);
-    setIsLoading(false);
-    onClose();
   };
 
   return (

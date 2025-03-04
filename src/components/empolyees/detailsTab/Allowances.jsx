@@ -5,7 +5,10 @@ import CardContainer from '../../CardContainer'
 import { useParams } from 'react-router-dom'
 import DeleteConfirmation from '../../DeleteConfirmation'
 import AllowancesForm from './AllowancesForm'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { updateUser } from '../../../store/reducers/users'
+import { useAuth } from '../../../contexts/AuthContext'
+import { toast } from 'react-hot-toast'
 
 function Allowances() {
   const [open, setOpen] = useState(false);
@@ -14,7 +17,10 @@ function Allowances() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [allowanceToDelete, setAllowanceToDelete] = useState(null);
   const { selectedUser } = useSelector((state) => state.users)
-  const [allowanceData, setAllowanceData] = useState([])
+  const [allowances, setAllowances] = useState([])
+  const dispatch = useDispatch()
+  const { token } = useAuth()
+  const [loading, setLoading] = useState(false)
 
   
   const handleClick = () => {
@@ -39,15 +45,61 @@ function Allowances() {
   }
 
   const handleAdd = (data) => {
-    console.log('Adding new allowance:', data);
-    // Here you would typically make an API call to save the allowance
-    handleClose();
+    setLoading(true);
+    // Create a new allowance object
+    const newAllowance = {
+      ...data,
+      id: Date.now().toString() // Generate a temporary ID
+    };
+    
+    // Create a copy of the current allowances array and add the new allowance
+    const updatedAllowances = [...allowances, newAllowance];
+    
+    // Update the user with the new allowances array
+    dispatch(updateUser({
+      userId: selectedUser._id,
+      userData: { allowances: updatedAllowances },
+      token
+    }))
+      .unwrap()
+      .then(() => {
+        toast.success('Allowance added successfully');
+        setAllowances(updatedAllowances);
+        handleClose();
+      })
+      .catch((error) => {
+        toast.error(error || 'Failed to add allowance');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   const handleUpdate = (data) => {
-    console.log('Updating allowance:', data);
-    // Here you would typically make an API call to update the allowance
-    handleClose();
+    setLoading(true);
+    // Create a copy of the current allowances array
+    const updatedAllowances = allowances.map(allowance => 
+      allowance.id === selectedAllowance.id ? { ...data, id: selectedAllowance.id } : allowance
+    );
+    
+    // Update the user with the modified allowances array
+    dispatch(updateUser({
+      userId: selectedUser._id,
+      userData: { allowances: updatedAllowances },
+      token
+    }))
+      .unwrap()
+      .then(() => {
+        toast.success('Allowance updated successfully');
+        setAllowances(updatedAllowances);
+        handleClose();
+      })
+      .catch((error) => {
+        toast.error(error || 'Failed to update allowance');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   const handleDelete = (allowance) => {
@@ -56,9 +108,29 @@ function Allowances() {
   }
 
   const handleConfirmDelete = () => {
-    console.log('Deleting allowance:', allowanceToDelete);
-    setShowDeleteModal(false);
-    setAllowanceToDelete(null);
+    setLoading(true);
+    // Create a copy of the current allowances array without the deleted allowance
+    const updatedAllowances = allowances.filter(allowance => allowance.id !== allowanceToDelete.id);
+    
+    // Update the user with the modified allowances array
+    dispatch(updateUser({
+      userId: selectedUser._id,
+      userData: { allowances: updatedAllowances },
+      token
+    }))
+      .unwrap()
+      .then(() => {
+        toast.success('Allowance deleted successfully');
+        setAllowances(updatedAllowances);
+        setShowDeleteModal(false);
+        setAllowanceToDelete(null);
+      })
+      .catch((error) => {
+        toast.error(error || 'Failed to delete allowance');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   const handleCancelDelete = () => {
@@ -69,7 +141,7 @@ function Allowances() {
 useEffect(() => {
 
   if(selectedUser){
-    setAllowanceData(selectedUser.allowances)
+    setAllowances(selectedUser.allowances)
   }
 }
 , [selectedUser])
@@ -86,8 +158,8 @@ useEffect(() => {
       />
 
       <CardContainer>
-        <div className={allowanceData?.length >0 && 'grid grid-cols-1 md:grid-cols-2 gap-6'}>
-          {allowanceData?.length > 0 ? allowanceData.map((allowance, index) => (
+        <div className={allowances?.length >0 && 'grid grid-cols-1 md:grid-cols-2 gap-6'}>
+          {allowances?.length > 0 ? allowances.map((allowance, index) => (
             <div key={index} className="flex flex-col">
               <div className="flex justify-between items-center mb-3">
                 <div>
@@ -131,6 +203,7 @@ useEffect(() => {
         onSubmit={isEdit ? handleUpdate : handleAdd}
         initialValues={selectedAllowance || { name: '', value: '', paymentInterval: 'monthly' }}
         isEdit={isEdit}
+        isLoading={loading}
       />
 
       <DeleteConfirmation 

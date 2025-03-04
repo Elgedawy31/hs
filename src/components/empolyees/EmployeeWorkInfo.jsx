@@ -13,13 +13,7 @@ const EmployeeWorkInfo = ({
   onChange,
   errors = {}
 }) => {
-  const dispatch = useDispatch();
   const { systemUsers } = useSelector(state => state.users);
-  const { token } = useAuth();
-
-  useEffect(() => {
-    dispatch(getAllSystemUsers({ token, page: 1, limit: 10000 }));
-  }, [dispatch, token]);
   return (
     <div className="space-y-6">
       {/* User Selection Section */}

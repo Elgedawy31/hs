@@ -9,6 +9,7 @@ import { useAuth } from '../../../contexts/AuthContext'
 import { toast } from 'react-hot-toast'
 import Loading from '@components/Loading'
 import NoDataMsg from '@components/NoDataMsg'
+import { getAllSystemUsers } from '../../../store/reducers/users'
 
 function EditEmployee() {
     const { id } = useParams()
@@ -44,7 +45,9 @@ function EditEmployee() {
             toast.error(error)
         }
     }, [isUpdated, error, navigate])
-    
+    useEffect(() => {
+        dispatch(getAllSystemUsers({ token, page: 1, limit: 10000 }));
+      }, [dispatch, token]);
     // Format initial values for the form
     const getInitialValues = () => {
         if (!selectedUser) return {}
@@ -90,13 +93,13 @@ function EditEmployee() {
 
     return (
         <CardContainer className={'p-6 space-y-4'}>
-            {/* <EmployeeForm 
+            <EmployeeForm 
                 MainIcon={UserRoundPen}
                 MainHead='Edit Employee Information'
                 onSubmit={handleSubmit}
                 loading={loading}
                 initialValues={getInitialValues()}
-            /> */}
+            />
         </CardContainer>
     )
 }

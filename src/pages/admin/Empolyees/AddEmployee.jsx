@@ -8,6 +8,7 @@ import { toast } from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { createUser, resetUsersState } from '@store/reducers/users'
 import { useAuth } from '../../../contexts/AuthContext'
+import { getAllSystemUsers } from '../../../store/reducers/users'
 
 function AddEmployee() {
     const navigate = useNavigate()
@@ -33,7 +34,9 @@ function AddEmployee() {
             toast.error(error)
         }
     }, [isCreated, error, navigate])
-
+    useEffect(() => {
+        dispatch(getAllSystemUsers({ token, page: 1, limit: 10000 }));
+      }, [dispatch, token]);
     const handleSubmit = async (data) => {
         dispatch(createUser({ userData: data, token }))
     }

@@ -39,6 +39,7 @@ function DetailsTab() {
           data={NewSeelctedUser}
           disabled={true}
           showtSelectedUser={false}
+          showBonuses={false}
         />
         <Bonus />
         <Allowances />

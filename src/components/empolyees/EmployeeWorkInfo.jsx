@@ -13,7 +13,8 @@ const EmployeeWorkInfo = ({
   disabled = false,
   onChange,
   errors = {} ,
-  showtSelectedUser=true
+  showtSelectedUser=true ,
+  showBonuses=true
 }) => {
   const { systemUsers } = useSelector(state => state.users);
   const { bonuses } = useSelector(state => state.bonuses);
@@ -60,7 +61,9 @@ const EmployeeWorkInfo = ({
      }
 
       {/* Bonuses Section */}
-      <UniHeading text="Bonuses" icon={Award} className="mb-6" />
+    {
+      showBonuses &&<div className='space-y-6'>
+          <UniHeading text="Bonuses" icon={Award} className="mb-6" />
       <CardContainer>
         <div className="grid grid-cols-1 gap-6">
           <div>
@@ -81,6 +84,8 @@ const EmployeeWorkInfo = ({
           </div>
         </div>
       </CardContainer>
+      </div> 
+    }
 
       {/* Working Information Section */}
       <UniHeading text="Working Information" icon={BriefcaseBusiness} className="mb-6" />

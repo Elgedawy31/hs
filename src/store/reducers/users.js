@@ -73,8 +73,8 @@ export const getOneUser = createAsyncThunk(
       });
 
       const data = await response.json();
-      if (!data.success || data.error) {
-        return rejectWithValue(data.error || "Failed to fetch user");
+      if (!data?._id) {
+        return rejectWithValue(data?.error || data?.message || "Failed to fetch user");
       }
 
       return data.user;

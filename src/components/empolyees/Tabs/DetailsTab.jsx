@@ -7,9 +7,12 @@ import PersonalInformation from '../detailsTab/PersonalInformation'
 import Bonus from '../detailsTab/Bonus'
 import Allowances from '../detailsTab/Allowances'
 import Memoes from '../detailsTab/Memoes'
+import { useSelector } from 'react-redux'
 
 function DetailsTab() {
-  // Sample employee work data
+
+  const { selectedUser } = useSelector((state) => state.users)
+  
   const employeeWorkData = {
     weeklyWorkingDays: "5",
     dailyWorkingHours: "8",

@@ -15,10 +15,9 @@ function Info() {
 
       <CardContainer>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <img
+          <div className="flex items-center">
+            <Avatar
               className="w-24 h-24 rounded-full object-cover" 
-              src="https://i.pravatar.cc/150?u=a04258114e29026708c"
             />
             <div className="flex flex-col">
               <h2 className="text-base font-[600] text-text ">Nouran Khaled</h2>

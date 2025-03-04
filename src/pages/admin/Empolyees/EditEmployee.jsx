@@ -62,6 +62,7 @@ function EditEmployee() {
             salary: selectedUser.salary?.toString() || "",
             paymentInterval: selectedUser.paymentInterval || "monthly",
             paymentPeriod: selectedUser.paymentPeriod?.toString() || "",
+            bonuses: selectedUser.bonuses?.map(ele => ele.id) || [],
            })
         }
     } , [selectedUser])

@@ -73,7 +73,7 @@ const EmployeeWorkInfo = ({
               onChange={(value) => onChange?.("bonuses", value)}
               options={bonuses.map(bonus => ({ 
                 value: bonus._id, 
-                label: bonus.title || 'Unnamed Bonus'
+                label: bonus.name || 'Unnamed Bonus'
               }))}
               error={errors.bonuses?.message}
               disabled={disabled}

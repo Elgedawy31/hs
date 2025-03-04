@@ -70,7 +70,7 @@ function Bonuces() {
                   {bonus.name}
                 </h3>
               </div>
-              <p className="text-base font-[600] text-text">${bonus.value}</p>
+              <p className="text-base font-[600] text-text">{bonus.description}</p>
             </div>
           )):   <p className="text-base text-center py-5 font-medium text-placeholderText">
           No Bonuses found for this employee

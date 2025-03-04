@@ -78,7 +78,7 @@ function Memoes() {
       title: memo.type,
       level: memo.warningType.toLowerCase(),
       description: memo.description,
-      attachments: memo.attachments
+      attachments: memo.attachments || [] // Ensure attachments is never null
     });
     setOpen(true);
   }

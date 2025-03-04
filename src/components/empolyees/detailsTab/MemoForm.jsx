@@ -8,6 +8,7 @@ import UniUploadDoc from '../../UniUploadDoc';
 import { resetWarningState } from '../../../store/reducers/warning';
 import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
+import { IMAGE_URL } from '../../../utils/constants';
 
 const levelOptions = [
   { value: 'green', label: 'Green' },
@@ -33,10 +34,12 @@ const MemoForm = ({ isOpen, onClose, onSubmit, initialValues = {
   level: 'moderate', 
   description: '', 
   requiredAction: '',
-  files: []
+  files: [],
+  attachments: []
 }, isEdit }) => {
   const { loading, isCreated , error } = useSelector((state) => state.warning)
   const dispatch = useDispatch();
+  const [existingFiles, setExistingFiles] = useState([]);
   
   const { handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
     resolver: zodResolver(memoSchema),
@@ -45,6 +48,36 @@ const MemoForm = ({ isOpen, onClose, onSubmit, initialValues = {
   });
 
   const values = watch();
+
+  // Process attachments into the format expected by UniUploadDoc
+  useEffect(() => {
+    // Ensure attachments exists and is an array before processing
+    const attachments = initialValues?.attachments || [];
+    
+    if (attachments.length > 0) {
+      const formattedFiles = attachments.map(attachment => {
+        if (!attachment) return null; // Skip null/undefined attachments
+        
+        const fileName = attachment.split('/').pop();
+        const fileType = fileName.split('.').pop() || '';
+        return {
+          name: fileName,
+          url: attachment.startsWith('http') ? attachment : `${IMAGE_URL}/${attachment}`,
+          type: fileType,
+          uploadDate: 'Existing file',
+          // Store the original attachment string for reference
+          originalAttachment: attachment
+        };
+      }).filter(Boolean); // Remove any null entries
+      
+      setExistingFiles(formattedFiles);
+      
+      // Initialize the files value with existing files
+      setValue('files', formattedFiles, { shouldValidate: true });
+    } else {
+      setExistingFiles([]);
+    }
+  }, [initialValues, setValue]);
 
   React.useEffect(() => {
     reset(initialValues);
@@ -101,6 +134,16 @@ const MemoForm = ({ isOpen, onClose, onSubmit, initialValues = {
           description="Support for single or bulk upload. Strictly prohibit from uploading company data or other banned files"
           showFileList={true}
           error={errors.files?.message}
+          existingFiles={existingFiles}
+          onDeleteExisting={(file) => {
+            // Remove the file from existingFiles
+            setExistingFiles(prev => prev.filter(f => f.url !== file.url));
+            // Update the form value
+            const updatedFiles = values.files.filter(f => 
+              !("url" in f) || f.url !== file.url
+            );
+            setValue('files', updatedFiles, { shouldValidate: true });
+          }}
         />
         <UniTextInput
           type="textarea"

@@ -61,17 +61,20 @@ const {user:{role}} = useAuth()
             <p className=" text-placeholderText/20 italic">No attachments</p>
           ) : (
             <div className="flex flex-wrap gap-2">
-              {memo.attachments.map((attachment, index) => (
-                <a 
-                  key={index}
-                  href={attachment.startsWith('http') ? attachment : `${IMAGE_URL}/${attachment}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center px-3 py-1  rounded-md  underline transition-colors"
-                >
-                  <span className="text-sm">{attachment.split('/').pop()}</span>
-                </a>
-              ))}
+              {memo.attachments.map((attachment, index) => {
+                if (!attachment) return null; // Skip null/undefined attachments
+                return (
+                  <a 
+                    key={index}
+                    href={attachment.startsWith('http') ? attachment : `${IMAGE_URL}/${attachment}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-1 rounded-md underline transition-colors"
+                  >
+                    <span className="text-sm">{attachment.split('/').pop()}</span>
+                  </a>
+                );
+              })}
             </div>
           )}
         </div>

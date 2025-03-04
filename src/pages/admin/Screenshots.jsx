@@ -113,7 +113,7 @@ export default function Screenshots() {
               key={photo._id}
               screenshot={`${IMAGE_URL}/${photo.filename}`}
               user={{
-                name: photo.userId?.userId?.name?.first + ' ' + photo.userId?.userId?.name?.last,
+                name: photo.userId?.userId?.fullName || 'Unknown User',
                 avatar: null
               }}
               type={photo.deviceId ? 'Desktop Screenshot' : 'Mobile Screenshot'}

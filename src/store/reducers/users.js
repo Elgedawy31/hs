@@ -77,7 +77,7 @@ export const getOneUser = createAsyncThunk(
         return rejectWithValue(data?.error || data?.message || "Failed to fetch user");
       }
 
-      return data.user;
+      return data;
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -103,7 +103,7 @@ export const createUser = createAsyncThunk(
         return rejectWithValue(data?.error ||data?.message || "Failed to create user");
       }
 
-      return data.user;
+      return data;
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -129,7 +129,7 @@ export const updateUser = createAsyncThunk(
         return rejectWithValue(data?.error ||data?.message || "Failed to update user");
       }
 
-      return data.user;
+      return data;
     } catch (err) {
       return rejectWithValue(err.message);
     }

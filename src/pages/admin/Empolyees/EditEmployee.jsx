@@ -50,6 +50,7 @@ function EditEmployee() {
       }, [dispatch, token]);
     // Format initial values for the form
     const getInitialValues = () => {
+        console.log(selectedUser)
         if (!selectedUser) return {}
         
         return {

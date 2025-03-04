@@ -95,7 +95,7 @@ const MemoForm = ({ isOpen, onClose, onSubmit, initialValues = {
           title=""
           fileType="all"
           onFilesChange={handleFilesChange}
-          maxFiles={5}
+          maxFiles={1}
           description="Support for single or bulk upload. Strictly prohibit from uploading company data or other banned files"
           showFileList={true}
           error={errors.files?.message}

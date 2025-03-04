@@ -5,7 +5,7 @@ import MemoCard from '../../../components/MemoCard'
 import MemoForm from './MemoForm'
 import DeleteConfirmation from '../../DeleteConfirmation'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllWarnings, deleteWarning, createWarning, resetWarningState } from '../../../store/reducers/warning'
+import { getAllWarnings, deleteWarning, createWarning, updateWarning, resetWarningState } from '../../../store/reducers/warning'
 import { useAuth } from '../../../contexts/AuthContext'
 import Loading from '../../Loading'
 import ErrorMessage from '../../ErrorMessage'
@@ -18,7 +18,7 @@ function Memoes() {
   const { token } = useAuth()
   const dispatch = useDispatch()
   const {id} = useParams()
-  const { warnings, loading, error, pagination, isDeleted, isCreated } = useSelector((state) => state.warning)
+  const { warnings, loading, error, pagination, isDeleted, isCreated, isUpdated } = useSelector((state) => state.warning)
   const [currentPage, setCurrentPage] = useState(1)
   const [limit] = useState(10)
   const [open, setOpen] = useState(false);
@@ -36,12 +36,16 @@ function Memoes() {
         userId:id
       }))
     }
-  }, [dispatch, token, id, currentPage, limit, isDeleted, isCreated])
-
-  // Handle success and error states for creating a warning
+  }, [dispatch, token, id, currentPage, limit, isDeleted, isCreated, isUpdated])
+  // Handle success and error states for creating and updating a warning
   useEffect(() => {
     if (isCreated) {
       toast.success('Memo created successfully!');
+      handleClose();
+      dispatch(resetWarningState());
+    }
+    if (isUpdated) {
+      toast.success('Memo updated successfully!');
       handleClose();
       dispatch(resetWarningState());
     }
@@ -49,7 +53,7 @@ function Memoes() {
       toast.error(error);
       dispatch(resetWarningState());
     }
-  }, [isCreated, error, dispatch]);
+  }, [isCreated, isUpdated, error, dispatch]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page)
@@ -70,8 +74,9 @@ function Memoes() {
   const handleEdit = (memo) => {
     setIsEdit(true);
     setSelectedMemo({
+      id: memo._id,
       title: memo.type,
-      severity: memo.warningType.toLowerCase(),
+      level: memo.warningType.toLowerCase(),
       description: memo.description,
       requiredAction: memo.requiredAction
     });
@@ -94,9 +99,13 @@ function Memoes() {
     formData.append('level', data.level);
     formData.append('description', data.description);
     formData.append('userId', id);
-    if (data.files) {
-      data.files.forEach(file => {
-        formData.append('attachments', file);
+    if(data.files){
+      data.files.forEach((fileObj, index) => {
+        // Check if fileObj is a File object directly or wrapped in an object
+        const fileToUpload = fileObj instanceof File ? fileObj : fileObj.file;
+        if (fileToUpload) {
+          formData.append(`attachments`, fileToUpload);
+        }
       });
     }
 
@@ -107,8 +116,28 @@ function Memoes() {
 
   const handleUpdate = (data) => {
     console.log('Updating memo:', data);
-    // Here you would typically make an API call to update the memo
-    handleClose();
+    
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('level', data.level);
+    formData.append('description', data.description);
+    formData.append('userId', id);
+    if (data.files) {
+      data.files.forEach((fileObj, index) => {
+        // Check if fileObj is a File object directly or wrapped in an object
+        const fileToUpload = fileObj instanceof File ? fileObj : fileObj.file;
+        if (fileToUpload) {
+          formData.append(`attachments`, fileToUpload);
+        }
+      });
+    }
+    
+    // Dispatch update warning action
+    dispatch(updateWarning({
+      warningId: selectedMemo.id,
+      warningData: formData,
+      token
+    }));
   }
 
   const handleDelete = (memo) => {

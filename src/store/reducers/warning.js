@@ -293,12 +293,6 @@ const warningSlice = createSlice({
                 state.error = null;
                 state.isUpdated = true;
                 
-                // Update the warning in the array
-                state.warnings = state.warnings.map(warning => 
-                    warning._id === action.payload._id
-                        ? action.payload
-                        : warning
-                );
                 
                 // Update currentWarning if it's the one being updated
                 if (state.currentWarning && state.currentWarning._id === action.payload._id) {

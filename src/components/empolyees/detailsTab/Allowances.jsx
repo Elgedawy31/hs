@@ -1,18 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import UniHeading from '../../UniHeading'
 import { BadgeDollarSign, Pencil, Trash2 } from 'lucide-react'
 import CardContainer from '../../CardContainer'
 import { useParams } from 'react-router-dom'
 import DeleteConfirmation from '../../DeleteConfirmation'
 import AllowancesForm from './AllowancesForm'
+import { useSelector } from 'react-redux'
 
 function Allowances() {
-  const {id} = useParams()
   const [open, setOpen] = useState(false);
   const [selectedAllowance, setSelectedAllowance] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [allowanceToDelete, setAllowanceToDelete] = useState(null);
+  const { selectedUser } = useSelector((state) => state.users)
+  const [allowanceData, setAllowanceData] = useState([])
+
   
   const handleClick = () => {
     setIsEdit(false);
@@ -54,7 +57,6 @@ function Allowances() {
 
   const handleConfirmDelete = () => {
     console.log('Deleting allowance:', allowanceToDelete);
-    // Here you would typically make an API call to delete the allowance
     setShowDeleteModal(false);
     setAllowanceToDelete(null);
   }
@@ -64,18 +66,14 @@ function Allowances() {
     setAllowanceToDelete(null);
   }
 
-  const allowanceData = [
-    {
-      name: "Transportation",
-      type: "Fixed",
-      rate: 500
-    },
-    {
-      name: "Housing",
-      type: "Percentage",
-      rate: 10
-    }
-  ]
+useEffect(() => {
+
+  if(selectedUser){
+    setAllowanceData(selectedUser.allowances)
+  }
+}
+, [selectedUser])
+
 
   return (
     <div className='space-y-6'>
@@ -88,8 +86,8 @@ function Allowances() {
       />
 
       <CardContainer>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {allowanceData.map((allowance, index) => (
+        <div className={allowanceData?.length >0 && 'grid grid-cols-1 md:grid-cols-2 gap-6'}>
+          {allowanceData?.length > 0 ? allowanceData.map((allowance, index) => (
             <div key={index} className="flex flex-col">
               <div className="flex justify-between items-center mb-3">
                 <div>
@@ -119,7 +117,11 @@ function Allowances() {
                 {allowance.type === 'Fixed' ? `$${allowance.rate}` : `${allowance.rate}%`}
               </p>
             </div>
-          ))}
+          )) : (
+            <p className="text-base text-center py-5 font-medium text-placeholderText">
+              No allowances found for this employee
+            </p>
+          )}
         </div>
       </CardContainer>
 

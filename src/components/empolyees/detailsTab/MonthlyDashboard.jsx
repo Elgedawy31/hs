@@ -18,7 +18,7 @@ const secondsToHoursAndMinutes = (seconds) => {
   return { hours, minutes };
 };
 
-function MonthlyDashboard({showHeader=true, userId}) {
+function MonthlyDashboard({showHeader=true}) {
   const dispatch = useDispatch()
   const { metricsForMonths, metricsLoadingForMonths } = useSelector(state => state.activity)
   const {id} = useParams()
@@ -46,9 +46,9 @@ function MonthlyDashboard({showHeader=true, userId}) {
     })
   }, [dispatch, token, id])
 
-  // Function to calculate total metrics from all months
+  // Function to get metrics from the data
   const calculateTotalMetrics = () => {
-    if (!metricsForMonths || !Array.isArray(metricsForMonths) || metricsForMonths.length === 0) {
+    if (!metricsForMonths) {
       return {
         totalTimeLogged: 0,
         totalTimeActive: 0,
@@ -56,18 +56,12 @@ function MonthlyDashboard({showHeader=true, userId}) {
       };
     }
 
-    // Aggregate data from all months
-    return metricsForMonths.reduce((totals, monthData) => {
-      return {
-        totalTimeLogged: totals.totalTimeLogged + (monthData?.totalTimeLogged || 0),
-        totalTimeActive: totals.totalTimeActive + (monthData?.totalTimeActive || 0),
-        overtime: totals.overtime + (monthData?.overtime || 0)
-      };
-    }, {
-      totalTimeLogged: 0,
-      totalTimeActive: 0,
-      overtime: 0
-    });
+    // Data is now an object with metrics at the top level
+    return {
+      totalTimeLogged: metricsForMonths.totalTimeLogged || 0,
+      totalTimeActive: metricsForMonths.totalTimeActive || 0,
+      overtime: metricsForMonths.overtime || 0
+    };
   };
 
   // Get the aggregated metrics

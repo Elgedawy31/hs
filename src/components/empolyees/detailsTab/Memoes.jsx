@@ -1,16 +1,45 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ListTodo } from 'lucide-react'
 import UniHeading from '../../UniHeading'
 import MemoCard from '../../../components/MemoCard'
 import MemoForm from './MemoForm'
 import DeleteConfirmation from '../../DeleteConfirmation'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllWarnings, deleteWarning } from '../../../store/reducers/warning'
+import { useAuth } from '../../../contexts/AuthContext'
+import Loading from '../../Loading'
+import ErrorMessage from '../../ErrorMessage'
+import NoDataMsg from '../../NoDataMsg'
+import UniPagination from '../../UniPagination'
+import { useParams } from 'react-router-dom'
 
 function Memoes() {
+  const { token } = useAuth()
+  const dispatch = useDispatch()
+  const {id} = useParams()
+  const { warnings, loading, error, pagination, isDeleted } = useSelector((state) => state.warning)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [limit] = useState(10)
   const [open, setOpen] = useState(false);
   const [selectedMemo, setSelectedMemo] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [memoToDelete, setMemoToDelete] = useState(null);
+
+  useEffect(() => {
+    if (token && id) {
+      dispatch(getAllWarnings({ 
+        token, 
+        page: currentPage, 
+        limit, 
+        userId:id
+      }))
+    }
+  }, [dispatch, token, id, currentPage, limit, isDeleted])
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+  }
 
   const handleClick = () => {
     setIsEdit(false);
@@ -53,8 +82,12 @@ function Memoes() {
   }
 
   const handleConfirmDelete = () => {
-    console.log('Deleting memo:', memoToDelete);
-    // Here you would typically make an API call to delete the memo
+    if (token && memoToDelete?._id) {
+      dispatch(deleteWarning({
+        warningId: memoToDelete._id,
+        token
+      }));
+    }
     setShowDeleteModal(false);
     setMemoToDelete(null);
   }
@@ -64,29 +97,17 @@ function Memoes() {
     setMemoToDelete(null);
   }
 
-  const memoData = [
-    {
-      type: 'Attendance Warning',
-      warningType: 'Final',
-      date: '30/6/2025',
-      description: 'Repeated late arrivals in the past month',
-      requiredAction: 'Improve punctuality within next 30 days'
-    },
-    {
-      type: 'Attendance Warning',
-      warningType: 'Minor',
-      date: '25/6/2025',
-      description: 'Late arrival on Monday',
-      requiredAction: 'Ensure timely arrival'
-    },
-    {
-      type: 'Attendance Warning',
-      warningType: 'Moderate',
-      date: '28/6/2025',
-      description: 'Multiple late arrivals this week',
-      requiredAction: 'Maintain consistent arrival time'
-    }
-  ]
+  // Map warnings to the format expected by MemoCard
+  const formattedWarnings = warnings.map(warning => ({
+    type: warning.title,
+    warningType: warning.level,
+    date: new Date(warning.createdAt || Date.now()).toLocaleDateString(),
+    description: warning.description,
+    requiredAction: warning.requiredAction || 'No specific action required',
+    _id: warning._id,
+    issuedBy: warning.issuedBy,
+    attachments: warning.attachments
+  }))
 
   return (
     <div className="space-y-4">
@@ -98,14 +119,32 @@ function Memoes() {
         onButtonClick={handleClick}
       />
 
-      {memoData.map((memo, index) => (
-        <MemoCard 
-          key={index}
-          memo={memo}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
-      ))}
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <ErrorMessage message={error} />
+      ) : formattedWarnings.length === 0 ? (
+        <NoDataMsg message="No warnings found for this employee" />
+      ) : (
+        <>
+          {formattedWarnings.map((memo) => (
+            <MemoCard 
+              key={memo._id || Math.random()}
+              memo={memo}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
+          
+          {pagination && pagination.totalPages > 1 && (
+            <UniPagination 
+              currentPage={pagination.currentPage}
+              totalPages={pagination.totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </>
+      )}
 
       <MemoForm 
         isOpen={open}

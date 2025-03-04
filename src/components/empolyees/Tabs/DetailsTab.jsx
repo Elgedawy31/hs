@@ -42,7 +42,7 @@ function DetailsTab() {
         />
         <Bonus />
         <Allowances />
-        <Memoes />
+        <Memoes userId={selectedUser?.userId?._id} />
     </CardContainer>
   )
 }

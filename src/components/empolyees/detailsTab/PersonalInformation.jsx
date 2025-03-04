@@ -9,7 +9,7 @@ function PersonalInformation() {
   const navigate = useNavigate()
   const {id} = useParams()
   const handleClick = () => {
-    navigate(`/employees/edit/${id}`)
+    navigate(`/dashboard/employees/edit/${id}`)
   }
   return (
     <div className='space-y-6'>

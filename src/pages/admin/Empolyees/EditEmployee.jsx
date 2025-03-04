@@ -10,6 +10,7 @@ import { toast } from 'react-hot-toast'
 import Loading from '@components/Loading'
 import NoDataMsg from '@components/NoDataMsg'
 import { getAllSystemUsers } from '../../../store/reducers/users'
+import { select } from '@heroui/theme'
 
 function EditEmployee() {
     const { id } = useParams()
@@ -19,6 +20,7 @@ function EditEmployee() {
     
     // Get user data from Redux store
     const { selectedUser, loading, error, isUpdated } = useSelector((state) => state.users)
+    const [NewSeelctedUser, setNewSeelctedUser] = useState({});
     
     // Fetch user data on component mount
     useEffect(() => {
@@ -49,11 +51,9 @@ function EditEmployee() {
         dispatch(getAllSystemUsers({ token, page: 1, limit: 10000 }));
       }, [dispatch, token]);
     // Format initial values for the form
-    const getInitialValues = () => {
-        if (!selectedUser) return {}
-        
-        return {
-            userId: selectedUser.userId?._id || selectedUser._id,
+    useEffect(() => {
+        if(selectedUser){
+           setNewSeelctedUser({
             weeklyWorkingDays: selectedUser.weeklyWorkingDays?.toString() || "",
             dailyWorkingHours: selectedUser.dailyWorkingHours?.toString() || "",
             annualLeavs: selectedUser.annualLeavs?.toString() || "",
@@ -61,8 +61,10 @@ function EditEmployee() {
             salary: selectedUser.salary?.toString() || "",
             paymentInterval: selectedUser.paymentInterval || "monthly",
             paymentPeriod: selectedUser.paymentPeriod?.toString() || "",
+            ...selectedUser
+           })
         }
-    }
+    } , [selectedUser])
 
     const handleSubmit = async (data) => {
         dispatch(updateUser({ 
@@ -98,7 +100,7 @@ function EditEmployee() {
                 MainHead='Edit Employee Information'
                 onSubmit={handleSubmit}
                 loading={loading}
-                initialValues={getInitialValues()}
+                initialValues={NewSeelctedUser}
             />
         </CardContainer>
     )

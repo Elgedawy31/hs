@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import CardContainer from '@components/CardContainer'
 import { UserRoundPen } from 'lucide-react'
 import EmployeeForm from '@components/empolyees/EmployeeForm'
@@ -54,6 +54,7 @@ function EditEmployee() {
     useEffect(() => {
         if(selectedUser){
            setNewSeelctedUser({
+            ...selectedUser,
             weeklyWorkingDays: selectedUser.weeklyWorkingDays?.toString() || "",
             dailyWorkingHours: selectedUser.dailyWorkingHours?.toString() || "",
             annualLeavs: selectedUser.annualLeavs?.toString() || "",
@@ -61,11 +62,9 @@ function EditEmployee() {
             salary: selectedUser.salary?.toString() || "",
             paymentInterval: selectedUser.paymentInterval || "monthly",
             paymentPeriod: selectedUser.paymentPeriod?.toString() || "",
-            ...selectedUser
            })
         }
     } , [selectedUser])
-
     const handleSubmit = async (data) => {
         dispatch(updateUser({ 
             userId: id, 

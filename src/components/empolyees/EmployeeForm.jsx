@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import UniTextInput from "../UniTextInput";
 import UniBtn from "../UniBtn";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CardContainer from "../CardContainer";
 import UniHeading from "../UniHeading";
@@ -48,6 +48,20 @@ const EmployeeForm = ({ onSubmit, loading = false, initialValues = {} , MainIcon
       paymentPeriod: initialValues.paymentPeriod || "",
     }
   });
+
+  // Update form values when initialValues change
+  useEffect(() => {
+    if (Object.keys(initialValues).length > 0) {
+      setValue("userId", initialValues.userId || "");
+      setValue("weeklyWorkingDays", initialValues.weeklyWorkingDays || "");
+      setValue("dailyWorkingHours", initialValues.dailyWorkingHours || "");
+      setValue("annualLeavs", initialValues.annualLeavs || "");
+      setValue("weekEnd", initialValues.weekEnd || []);
+      setValue("salary", initialValues.salary || "");
+      setValue("paymentInterval", initialValues.paymentInterval || "monthly");
+      setValue("paymentPeriod", initialValues.paymentPeriod || "");
+    }
+  }, [initialValues, setValue]);
 
   const values = watch();
 

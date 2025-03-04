@@ -14,6 +14,11 @@ const EmployeeWorkInfo = ({
   errors = {}
 }) => {
   const { systemUsers } = useSelector(state => state.users);
+  
+  // For debugging
+  useEffect(() => {
+    console.log("EmployeeWorkInfo data:", data);
+  }, [data]);
   return (
     <div className="space-y-6">
       {/* User Selection Section */}

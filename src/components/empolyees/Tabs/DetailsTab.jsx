@@ -33,7 +33,7 @@ function DetailsTab() {
   return (
     <CardContainer className='p-4 space-y-6'>
         <Info user={selectedUser?.userId || {}} isActive={selectedUser?.isActive}/>
-        <MonthlyDashboard />
+        <MonthlyDashboard userId={selectedUser?.userId?._id} />
         <PersonalInformation user={selectedUser?.userId ||{}} />
         <EmployeeWorkInfo 
           data={NewSeelctedUser}

@@ -25,7 +25,7 @@ function DetailsTab() {
     <CardContainer className='p-4 space-y-6'>
         <Info user={selectedUser?.userId || {}} isActive={selectedUser?.isActive}/>
         <MonthlyDashboard />
-        <PersonalInformation />
+        <PersonalInformation user={selectedUser?.userId ||{}} />
         <EmployeeWorkInfo 
           data={employeeWorkData}
           disabled={true}

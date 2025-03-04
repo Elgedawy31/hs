@@ -23,7 +23,7 @@ function DetailsTab() {
 
   return (
     <CardContainer className='p-4 space-y-6'>
-        <Info />
+        <Info user={selectedUser?.userId || {}} isActive={selectedUser?.isActive}/>
         <MonthlyDashboard />
         <PersonalInformation />
         <EmployeeWorkInfo 

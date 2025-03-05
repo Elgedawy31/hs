@@ -31,7 +31,9 @@ function DashboardCards() {
     });
     
     eventSource.addEventListener('activity', (event) => {
+      // save this on redux store 
       console.log('activity', event.data);
+
       try {
         const data = JSON.parse(event.data);
         if (data && data.activeUsers !== undefined) {

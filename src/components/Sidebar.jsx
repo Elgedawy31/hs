@@ -109,11 +109,11 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 label="Screenshots"
                 path="dashboard/screenshots"
               />
-              <MenuItem
+              {/* <MenuItem
                 icon={CreditCardIcon}
                 label="Payment"
                 path="dashboard/payment"
-              />
+              /> */}
               <MenuItem
                 icon={StarIcon}
                 label="Bonus"

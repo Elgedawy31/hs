@@ -93,10 +93,10 @@ const router = createBrowserRouter([
         path: 'dashboard/screenshots',
         element: <ProtectedRoute requireAdmin={true}><Screenshots /></ProtectedRoute>
       },
-      {
-        path: 'dashboard/payment',
-        element: <ProtectedRoute requireAdmin={true}><Payment /></ProtectedRoute>
-      },
+      // {
+      //   path: 'dashboard/payment',
+      //   element: <ProtectedRoute requireAdmin={true}><Payment /></ProtectedRoute>
+      // },
       {
         path: 'dashboard/bonus',
         element: <ProtectedRoute requireAdmin={true}><Bouns /></ProtectedRoute>

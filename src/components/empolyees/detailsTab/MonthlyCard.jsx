@@ -9,7 +9,7 @@ function MonthlyCard({ hours, minutes, label, icon: Icon, prefix = '' }) {
             {prefix}{hours} h {minutes > 0 ? `${minutes} m` : ''}
           </h3>
         </div>
-        <div className={`w-[38px] h-[38px] rounded-full bg-[#EBF3FF] flex items-center justify-center`}>
+        <div className={`w-[38px] h-[38px] rounded-full bg-[#F8EEE6] flex items-center justify-center`}>
           <Icon className="w-[22px] h-[22px] text-primary " />
         </div>
       </div>

@@ -35,20 +35,13 @@ const AddManuallyCard = ({ onClick }) => {
   );
 };
 
-function DailyDetailsContent() {
+function DailyDetailsContent({acitveDay}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Add Manually Card */}
         <AddManuallyCard onClick={() => setIsModalOpen(true)} />
-
-        {/* Today's in time */}
-        <DetailCard
-          title="Today's in time"
-          value="9:16 AM"
-          icon={<LogIn className="w-5 h-5" />}
-        />
 
         {/* Tracked time */}
         <DetailCard
@@ -85,12 +78,6 @@ function DailyDetailsContent() {
           icon={<Clock className="w-5 h-5" />}
         />
 
-        {/* Last Checkout */}
-        <DetailCard
-          title="Last Checkout"
-          value="8h 30m"
-          icon={<LogOut className="w-5 h-5" />}
-        />
       </div>
 
       {/* Add Time Manually Form */}

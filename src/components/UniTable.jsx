@@ -2,6 +2,7 @@ import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel } fro
 import { useState, useEffect } from 'react'
 import Checkbox from './Checkbox'
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@heroui/react"
+import NoDataMsg from './NoDataMsg'
 
 const UniTable = ({ columns, data, actions, onRowSelect }) => {
   const [rowSelection, setRowSelection] = useState({})
@@ -84,9 +85,20 @@ const UniTable = ({ columns, data, actions, onRowSelect }) => {
     }
   }, [rowSelection])
 
+  // Check if data is empty, null, or undefined
+  const hasNoData = !data || data.length === 0
+
   return (
     <div className="overflow-visible">
-      <table className="min-w-full divide-y divide-borderColor">
+      {hasNoData ? (
+        <NoDataMsg 
+          title="No data available"
+          description="There is no data to display in this table"
+          additionalMessage="Try changing your filters or check back later"
+        />
+      ) : (
+        <>
+          <table className="min-w-full divide-y divide-borderColor">
         <thead className="bg-body border-b border-borderColor">
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
@@ -155,6 +167,8 @@ const UniTable = ({ columns, data, actions, onRowSelect }) => {
           </button>
         </div>
       </div>
+        </>
+      )}
     </div>
   )
 }

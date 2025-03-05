@@ -40,11 +40,12 @@ const CompletedHours = () => {
       userId: user.id 
     }))
     .then(result => {
+      console.log('Activity metrics for months:', result.payload);
     });
   }, [dispatch, token, user.id]);
 
   useEffect(() => {
-    if (metricsForMonths && typeof metricsForMonths === 'object' && metricsForMonths.details && Array.isArray(metricsForMonths.details) && metricsForMonths.details.length > 0) {
+    if (metricsForMonths && Array.isArray(metricsForMonths) && metricsForMonths.length > 0) {
       // Process the data for display
       const currentMonth = dayjs();
       const lastMonth = dayjs().subtract(1, 'month');
@@ -84,24 +85,28 @@ const CompletedHours = () => {
       // Group details by month
       const monthlyData = {};
       
-      // Process details array directly from the metrics object
-      if (metricsForMonths.details && Array.isArray(metricsForMonths.details)) {
-        metricsForMonths.details.forEach(detail => {
-          if (detail.date) {
-            const date = dayjs(detail.date);
-            const monthKey = date.format('YYYY-MM');
-            
-            if (!monthlyData[monthKey]) {
-              monthlyData[monthKey] = {
-                totalTimeLogged: 0,
-                totalTimeActive: 0,
-                month: date.month() + 1, // 1-12
-                year: date.year()
-              };
-            }
-            
-            monthlyData[monthKey].totalTimeLogged += detail.totalTimeLogged || 0;
-            monthlyData[monthKey].totalTimeActive += detail.totalTimeActive || 0;
+      // Process all metrics data from the array
+      if (metricsForMonths && Array.isArray(metricsForMonths)) {
+        metricsForMonths.forEach(metricsData => {
+          if (metricsData && metricsData.details && Array.isArray(metricsData.details)) {
+            metricsData.details.forEach(detail => {
+              if (detail.date) {
+                const date = dayjs(detail.date);
+                const monthKey = date.format('YYYY-MM');
+                
+                if (!monthlyData[monthKey]) {
+                  monthlyData[monthKey] = {
+                    totalTimeLogged: 0,
+                    totalTimeActive: 0,
+                    month: date.month() + 1, // 1-12
+                    year: date.year()
+                  };
+                }
+                
+                monthlyData[monthKey].totalTimeLogged += detail.totalTimeLogged || 0;
+                monthlyData[monthKey].totalTimeActive += detail.totalTimeActive || 0;
+              }
+            });
           }
         });
       }
@@ -135,6 +140,8 @@ const CompletedHours = () => {
       setMonthsData([...processedData].reverse());
       
       // Log the processed data for debugging
+      console.log('Processed months data:', processedData);
+      console.log('Monthly grouped data:', monthlyData);
     }
   }, [metricsForMonths]);
 

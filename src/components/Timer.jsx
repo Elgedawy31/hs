@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 
 const Timer = ({ activeDay }) => {
   const { metricsForCards, metricsLoadingForCards } = useSelector(state => state.activity);
-  const data = metricsForCards && typeof metricsForCards === 'object' ? metricsForCards : {};
+  const data = metricsForCards[0] || {};
   
   // Initialize state for the timer
   const [timerSeconds, setTimerSeconds] = useState(0);
@@ -26,6 +26,7 @@ const Timer = ({ activeDay }) => {
     // Only run the timer if it's today
     setIsRunning(isSameDay);
     
+    console.log('Timer: Active day is today?', isSameDay);
   }, [activeDay]);
   
   // Initialize timer with data from Redux store

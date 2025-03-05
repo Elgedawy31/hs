@@ -17,7 +17,7 @@ function DashboardCards() {
     });
     eventSource.connect();
     eventSource.addEventListener('activity', (event) => {
-        console.log(event.data);
+        console.log('activity',event.data);
     });
 
     eventSource.addEventListener('error',(err)=>{

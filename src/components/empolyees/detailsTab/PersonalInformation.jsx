@@ -25,12 +25,12 @@ function PersonalInformation({user}) {
         <div className="grid grid-cols-2 gap-8">
           <div className="space-y-2">
             <h3 className="text-placeholderText text-base font-[500]">First Name</h3>
-            <p className="text-base font-medium text-text ont-[600]">{user?.name?.first}</p>
+            <p className="text-base font-medium text-text ont-[600]">{user?.fullName?.split(' ')[0] ||'UnKnown'}</p>
           </div>
           
           <div className="space-y-2">
             <h3 className="text-placeholderText text-base font-[500]">Last Name</h3>
-            <p className="text-base font-medium text-text ont-[600]">{user?.name?.last}</p>
+            <p className="text-base font-medium text-text ont-[600]">{user?.fullName?.split(' ')[1] || 'UnKnown'}</p>
           </div>
 
           <div className="space-y-2">

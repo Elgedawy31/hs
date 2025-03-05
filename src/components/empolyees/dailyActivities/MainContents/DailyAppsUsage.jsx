@@ -1,46 +1,65 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAuth } from '@contexts/AuthContext';
+import { getAppStats } from '../../../../store/reducers/apps';
 import CardContainer from '@components/CardContainer';
-import { LayoutGrid, Monitor } from 'lucide-react';
+import Loading from '@components/Loading';
+import { LayoutGrid } from 'lucide-react';
+import NoDataMsg from '@components/NoDataMsg';
+import { useParams } from 'react-router-dom';
 
-export default function DailyAppsUsage() {
-  const apps = [
-    {
-      name: 'Figma',
-      hours: '4 h 43 m',
-    },
-    {
-      name: 'Youtube',
-      hours: '30 m',
-    },
-    {
-      name: 'Claude',
-      hours: '1 h 3 m',
-    },
-    {
-      name: 'X-box App',
-      hours: '1 h 3 m',
-    },
-    {
-      name: 'Google meet',
-      hours: '1 h 3 m',
-    },
-    {
-      name: 'Chrome',
-      hours: '1 h 3 m',
-    },
-    {
-      name: 'Brave',
-      hours: '1 h 3 m',
-    },
-    {
-      name: 'Chat GPT',
-      hours: '1 h 3 m',
-    },
-    {
-      name: 'Others',
-      hours: '1 h 3 m',
+export default function DailyAppsUsage({ activeDay }) {
+  const dispatch = useDispatch();
+  const { apps, loading, error } = useSelector(state => state.apps);
+  const { token } = useAuth();
+  const { id } = useParams(); // Get the employee ID from URL params
+  
+  useEffect(() => {
+    const from = activeDay;
+    const to = activeDay;
+    
+    dispatch(getAppStats({ 
+      token, 
+      from, 
+      to, 
+      userId: id // Use the employee ID from URL params
+    }));
+  }, [dispatch, token, id, activeDay]);
+  
+  // Function to convert seconds to hours:minutes:seconds format
+  const formatTimeDisplay = (seconds) => {
+    if (!seconds) return "0s";
+    
+    const totalMinutes = Math.floor(seconds / 60);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    const remainingSeconds = seconds % 60;
+    
+    // If we have hours, show hours and minutes
+    if (hours > 0) {
+      return `${hours}h ${minutes.toString().padStart(2, '0')}m`;
     }
-  ];
+    
+    // If we have minutes but no hours, show minutes and seconds
+    if (minutes > 0) {
+      return `${minutes}m ${remainingSeconds.toString().padStart(2, '0')}s`;
+    }
+    
+    // If we have only seconds, show just seconds
+    return `${remainingSeconds}s`;
+  };
+
+  if (loading) {
+    return <Loading className='min-h-[50vh]' />;
+  }
+
+  if (error) {
+    return <NoDataMsg message={`Error loading app stats: ${error}`} />;
+  }
+
+  if (!apps || apps.length === 0) {
+    return <NoDataMsg message="No app usage data found for this day" />;
+  }
 
   return (
     <CardContainer>
@@ -51,12 +70,14 @@ export default function DailyAppsUsage() {
             key={index}
           >
             <div className="flex items-center gap-2">
-            <LayoutGrid className="w-9 h-9 text-primary" />
-            <h3 className="text-placeholderText font-medium">{app.name}</h3>
+              <LayoutGrid className="w-9 h-9 text-primary" />
+              <h3 className="text-placeholderText font-medium">{app.appName}</h3>
             </div>
 
             <div className="flex-1">
-              <p className="text-text text-2xl font-semibold mt-3">{app.hours}</p>
+              <p className="text-text text-2xl font-semibold mt-3">
+                {formatTimeDisplay(app.timeSpent)}
+              </p>
             </div>
           </CardContainer>
         ))}

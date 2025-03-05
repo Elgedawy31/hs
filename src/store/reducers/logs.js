@@ -6,7 +6,7 @@ const KEY = "logs";
 // Get all logs operation
 export const getAllLogs = createAsyncThunk(
     "logs/getAllLogs",
-    async ({ token, page=1, limit=20, startDate, endDate }, { rejectWithValue }) => {
+    async ({ token, page=1, limit=20, startDate, endDate , userId }, { rejectWithValue }) => {
         try {
             let url = `${API_URL}/${KEY}?page=${page}&limit=${limit}`;
             
@@ -16,6 +16,9 @@ export const getAllLogs = createAsyncThunk(
             }
             if (endDate) {
                 url += `&endDate=${endDate}`;
+            }
+            if (userId) {
+                url += `&userId=${userId}`;
             }
             
             const response = await fetch(

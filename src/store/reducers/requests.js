@@ -188,8 +188,8 @@ export const deleteRequest = createAsyncThunk(
       });
 
       const data = await response.json();
-      if (!data.success || data.error) {
-        return rejectWithValue(data.error || "Failed to delete request");
+      if (!data.message) {
+        return rejectWithValue(data.message || data.error || "Failed to delete request");
       }
 
       return { requestId, message: data.message };

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {useAuth} from '@contexts/AuthContext';
 import { z } from 'zod';
-import { createRequest, resetRequestsState } from '../../../store/reducers/requests';
+import { createRequest, updateRequest, resetRequestsState } from '../../../store/reducers/requests';
 import AddModal from '../../AddModal';
 import UniUploadDoc from '../../UniUploadDoc';
 import UniTextInput from '../../UniTextInput';
@@ -41,9 +41,9 @@ const priorities = [
   { value: 'low', label: 'Low' }
 ];
 
-const RequestUploadModal = ({ isOpen, onClose }) => {
+const RequestUploadModal = ({ isOpen, onClose, request = null }) => {
   const dispatch = useDispatch();
-  const { loading: isLoading, isCreated, error } = useSelector((state) => state.requests);
+  const { loading: isLoading, isCreated, isUpdated, error } = useSelector((state) => state.requests);
   const { token } = useAuth();
   
   // Initialize React Hook Form with Zod validation
@@ -51,34 +51,60 @@ const RequestUploadModal = ({ isOpen, onClose }) => {
     resolver: zodResolver(requestSchema),
     mode: 'onChange',
     defaultValues: {
-      title: '',
-      type: 'leave',
-      priority: 'high',
-      description: '',
-      files: []
+      title: request?.title || '',
+      type: request?.type || 'leave',
+      priority: request?.priority || 'high',
+      description: request?.description || '',
+      files: request?.attachments ? 
+        request.attachments.map(url => ({ 
+          name: url.split('/').pop(),
+          url: url
+        })) : []
     }
   });
 
   // Watch form values for controlled components
   const values = watch();
 
-  // Reset form when modal is closed
+  // Reset form when modal is closed or when request prop changes
   useEffect(() => {
     if (!isOpen) {
       reset();
       dispatch(resetRequestsState());
+    } else if (request) {
+      // Pre-fill form with request data when editing
+      reset({
+        title: request.title || '',
+        type: request.type || 'leave',
+        priority: request.priority || 'high',
+        description: request.description || '',
+        files: request.attachments ? 
+          request.attachments.map(url => ({ 
+            name: url.split('/').pop(),
+            url: url
+          })) : []
+      });
+    } else {
+      // Reset form when creating a new request
+      reset({
+        title: '',
+        type: 'leave',
+        priority: 'high',
+        description: '',
+        files: []
+      });
     }
-  }, [isOpen, dispatch, reset]);
+  }, [isOpen, request, dispatch, reset]);
 
   // Handle successful submission
   useEffect(() => {
-    if (isCreated) {
+    if (isCreated || isUpdated) {
       reset();
-      toast.success('Request submitted successfully!');
+      toast.success(isCreated ? 'Request submitted successfully!' : 'Request updated successfully!');
       onClose();
       dispatch(resetRequestsState());
     }
-  }, [isCreated, onClose, reset, dispatch]);
+  }, [isCreated, isUpdated, onClose, reset, dispatch]);
 
   // Handle errors
   useEffect(() => {
@@ -89,10 +115,17 @@ const RequestUploadModal = ({ isOpen, onClose }) => {
   }, [error, dispatch]);
 
   const onSubmit = (data) => {
-    // Get token from localStorage or auth context
-    
-    // Dispatch create request action
-    dispatch(createRequest({ requestData: data, token }));
+    if (request) {
+      // Update existing request
+      dispatch(updateRequest({ 
+        requestId: request._id || request.id, 
+        requestData: data, 
+        token 
+      }));
+    } else {
+      // Create new request
+      dispatch(createRequest({ requestData: data, token }));
+    }
   };
 
   const handleFilesChange = (newFiles) => {
@@ -100,12 +133,12 @@ const RequestUploadModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <AddModal
+      <AddModal
       isOpen={isOpen}
       onClose={onClose}
-      title="New Request"
+      title={request ? "Edit Request" : "New Request"}
       onSave={handleSubmit(onSubmit)}
-      saveButtonText="Submit Request"
+      saveButtonText={request ? "Update Request" : "Submit Request"}
       cancelButtonText="Cancel"
       isLoading={isLoading}
       haveWidth={true}
@@ -168,7 +201,8 @@ const RequestUploadModal = ({ isOpen, onClose }) => {
 
 RequestUploadModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  request: PropTypes.object
 };
 
 export default RequestUploadModal;

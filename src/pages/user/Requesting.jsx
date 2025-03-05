@@ -16,6 +16,7 @@ function Requesting() {
   const [open, setOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [limit] = useState(5)
+  const [editingRequest, setEditingRequest] = useState(null)
   
   const dispatch = useDispatch()
   const { user, token } = useAuth()
@@ -53,6 +54,12 @@ function Requesting() {
   
   const handleCloseModal = () => {
     setOpen(false)
+    setEditingRequest(null)
+  }
+  
+  const handleEditRequest = (request) => {
+    setEditingRequest(request)
+    setOpen(true)
   }
 
   return (
@@ -68,7 +75,11 @@ function Requesting() {
           {requests && requests.length > 0 ? (
             <CardContainer className="space-y-4 p-6">
               {requests.map(request => (
-                <RequestingCard key={request._id || request.id} request={request} />
+                <RequestingCard 
+                  key={request._id || request.id} 
+                  request={request} 
+                  onEdit={handleEditRequest}
+                />
               ))}
             </CardContainer>
           ) : (
@@ -94,7 +105,8 @@ function Requesting() {
 
       <RequestUploadModal 
         isOpen={open} 
-        onClose={handleCloseModal} 
+        onClose={handleCloseModal}
+        request={editingRequest}
       />
     </div>
   )

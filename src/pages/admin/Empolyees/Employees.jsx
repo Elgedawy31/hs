@@ -206,7 +206,7 @@ export default function Employees() {
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={confirmDelete}
-        folderName={employeeToDelete?.userId?.name?.first + ' ' + employeeToDelete?.userId?.name?.last}
+        folderName={employeeToDelete?.userId?.fullName}
         title="Delete Employee"
       />
     </div>

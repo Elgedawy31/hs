@@ -28,7 +28,6 @@ const requestSchema = z.object({
 });
 
 const requestTypes = [
-  { value: 'leave', label: 'Leave' },
   { value: 'support', label: 'Support' },
   { value: 'payroll', label: 'Payroll' },
   { value: 'attendance', label: 'Attendance' },
@@ -54,7 +53,7 @@ const RequestUploadModal = ({ isOpen, onClose, request = null }) => {
     mode: 'onChange',
     defaultValues: {
       title: request?.title || '',
-      type: request?.type || 'leave',
+      type: request?.type || 'support',
       priority: request?.priority || 'high',
       description: request?.description || '',
       files: []
@@ -104,7 +103,7 @@ const RequestUploadModal = ({ isOpen, onClose, request = null }) => {
       // Pre-fill form with request data when editing
       reset({
         title: request.title || '',
-        type: request.type || 'leave',
+        type: request.type || 'support',
         priority: request.priority || 'high',
         description: request.description || '',
         files: []
@@ -113,7 +112,7 @@ const RequestUploadModal = ({ isOpen, onClose, request = null }) => {
       // Reset form when creating a new request
       reset({
         title: '',
-        type: 'leave',
+        type: 'support',
         priority: 'high',
         description: '',
         files: []
@@ -182,7 +181,7 @@ const RequestUploadModal = ({ isOpen, onClose, request = null }) => {
         <UniTextInput
           type="select"
           label="Request Type"
-          value={values.type || 'leave'}
+          value={values.type || 'support'}
           onChange={(value) => setValue('type', value, { shouldValidate: true })}
           options={requestTypes}
           error={errors.type?.message}

@@ -58,7 +58,15 @@ function Requesting() {
   }
   
   const handleEditRequest = (request) => {
-    setEditingRequest(request)
+    // Format the request data similar to how Memoes.jsx formats memo data
+    setEditingRequest({
+      id: request._id || request.id,
+      title: request.title,
+      type: request.type,
+      priority: request.priority,
+      description: request.description,
+      attachments: request.attachments || [] // Ensure attachments is never null
+    })
     setOpen(true)
   }
 

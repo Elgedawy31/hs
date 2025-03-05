@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -10,6 +10,7 @@ import AddModal from '../../AddModal';
 import UniUploadDoc from '../../UniUploadDoc';
 import UniTextInput from '../../UniTextInput';
 import toast from 'react-hot-toast';
+import { IMAGE_URL } from '../../../utils/constants';
 
 // Define Zod schema for form validation
 const requestSchema = z.object({
@@ -45,6 +46,7 @@ const RequestUploadModal = ({ isOpen, onClose, request = null }) => {
   const dispatch = useDispatch();
   const { loading: isLoading, isCreated, isUpdated, error } = useSelector((state) => state.requests);
   const { token } = useAuth();
+  const [existingFiles, setExistingFiles] = useState([]);
   
   // Initialize React Hook Form with Zod validation
   const { handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
@@ -55,22 +57,49 @@ const RequestUploadModal = ({ isOpen, onClose, request = null }) => {
       type: request?.type || 'leave',
       priority: request?.priority || 'high',
       description: request?.description || '',
-      files: request?.attachments ? 
-        request.attachments.map(url => ({ 
-          name: url.split('/').pop(),
-          url: url
-        })) : []
+      files: []
     }
   });
 
   // Watch form values for controlled components
   const values = watch();
 
+  // Process attachments into the format expected by UniUploadDoc
+  useEffect(() => {
+    // Ensure attachments exists and is an array before processing
+    const attachments = request?.attachments || [];
+    
+    if (attachments.length > 0) {
+      const formattedFiles = attachments.map(attachment => {
+        if (!attachment) return null; // Skip null/undefined attachments
+        
+        const fileName = attachment.split('/').pop();
+        const fileType = fileName.split('.').pop() || '';
+        return {
+          name: fileName,
+          url: attachment.startsWith('http') ? attachment : `${IMAGE_URL}/${attachment}`,
+          type: fileType,
+          uploadDate: 'Existing file',
+          // Store the original attachment string for reference
+          originalAttachment: attachment
+        };
+      }).filter(Boolean); // Remove any null entries
+      
+      setExistingFiles(formattedFiles);
+      
+      // Initialize the files value with existing files
+      setValue('files', formattedFiles, { shouldValidate: true });
+    } else {
+      setExistingFiles([]);
+    }
+  }, [request, setValue]);
+
   // Reset form when modal is closed or when request prop changes
   useEffect(() => {
     if (!isOpen) {
       reset();
       dispatch(resetRequestsState());
+      setExistingFiles([]);
     } else if (request) {
       // Pre-fill form with request data when editing
       reset({
@@ -78,11 +107,7 @@ const RequestUploadModal = ({ isOpen, onClose, request = null }) => {
         type: request.type || 'leave',
         priority: request.priority || 'high',
         description: request.description || '',
-        files: request.attachments ? 
-          request.attachments.map(url => ({ 
-            name: url.split('/').pop(),
-            url: url
-          })) : []
+        files: []
       });
     } else {
       // Reset form when creating a new request
@@ -182,6 +207,16 @@ const RequestUploadModal = ({ isOpen, onClose, request = null }) => {
           description="Support for single or bulk upload. Strictly prohibit from uploading company data or other banned files"
           showFileList={true}
           error={errors.files?.message}
+          existingFiles={existingFiles}
+          onDeleteExisting={(file) => {
+            // Remove the file from existingFiles
+            setExistingFiles(prev => prev.filter(f => f.url !== file.url));
+            // Update the form value
+            const updatedFiles = values.files.filter(f => 
+              !("url" in f) || f.url !== file.url
+            );
+            setValue('files', updatedFiles, { shouldValidate: true });
+          }}
         />
 
         <UniTextInput

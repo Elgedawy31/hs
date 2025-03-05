@@ -11,7 +11,7 @@ import { updateOnlineUsers } from '../../store/reducers/onlineUsers';
 function DashboardCards() {
   const { token } = useAuth();
   const dispatch = useDispatch();
-  const { activeUsers } = useSelector(state => state.onlineUsers);
+  const { sseData } = useSelector(state => state.onlineUsers);
   const eventSourceRef = useRef(null);
 
   useEffect(() => {
@@ -34,8 +34,6 @@ function DashboardCards() {
     });
     
     eventSource.addEventListener('activity', (event) => {
-      console.log('activity', event.data);
-
       try {
         const data = JSON.parse(event.data);
         if (data) {
@@ -60,7 +58,7 @@ function DashboardCards() {
       }
     };
   }, [token, dispatch]); // Re-connect if token changes or dispatch function changes
-   
+   console.log(sseData)
   return (
     <div className="p-4 space-y-6">
       
@@ -72,7 +70,7 @@ function DashboardCards() {
         />
         <UniCard 
           title="Active Now" 
-          value={activeUsers.toString()}
+          value={0}
           icon={UserCheck}
         />
         <UniCard 

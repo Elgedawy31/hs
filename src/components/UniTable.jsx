@@ -38,7 +38,7 @@ const UniTable = ({ columns, data, actions, onRowSelect }) => {
                   <DropdownItem 
                     key={index} 
                     onPress={() => action.onClick(row.original)}
-                    className={`${action.label === 'Delete' ? "text-red-500" : ""} rounded-lg mb-1 last:mb-0 transition-all duration-200 hover:bg-body hover:border-l-2 hover:border-primary px-3 py-2.5 font-medium`}
+                    className={`${action.label === 'Delete' ? "text-red-500 hover:border-red-500" : "hover:border-primary"} rounded-lg mb-1 last:mb-0 transition-all duration-200 hover:bg-body hover:border-l-2  px-3 py-2.5 font-medium`}
                   >
                     <div className="flex items-center gap-3">
                       {action.label === 'Edit' && (

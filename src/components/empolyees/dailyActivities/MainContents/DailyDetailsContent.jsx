@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CardContainer from '../../../CardContainer';
 import { Plus, LogOut, Play, MonitorSmartphone, Moon, Coffee, Clock, LogIn } from 'lucide-react';
 import AddTimeManuallyForm from './AddTimeManuallyForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { getActivityMetricsForMonths } from '../../../../store/reducers/activity';
+import dayjs from 'dayjs';
+import { useAuth } from '../../../../contexts/AuthContext';
+import { useParams } from 'react-router-dom';
+import Loading from '../../../Loading';
 
 const DetailCard = ({ title, value, icon }) => {
   return (
@@ -35,50 +41,130 @@ const AddManuallyCard = ({ onClick }) => {
   );
 };
 
-function DailyDetailsContent({acitveDay}) {
+function DailyDetailsContent({activeDay}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const {id} = useParams()
+  const dispatch = useDispatch()
+  const { metricsForMonths, metricsLoadingForMonths :loading } = useSelector(state => state.activity)
+  const { user, token } = useAuth()
+  
+  useEffect(() => {
+    // Parse the activeDay using dayjs
+    const activeDayDate = dayjs(activeDay, 'MM-DD-YYYY')
+    
+    // Check if it's the first day of the month
+    const isFirstDayOfMonth = activeDayDate.date() === 1
+    
+    let targetDate
+    if (isFirstDayOfMonth) {
+      // If it's the first day of the month, use the last day of the previous month
+      targetDate = activeDayDate.subtract(1, 'day')
+    } else {
+      // Otherwise, use the previous day
+      targetDate = activeDayDate.subtract(1, 'day')
+    }
+    
+    // Format the target date as M-D-YYYY for the API
+    const formattedDate = targetDate.format('M-D-YYYY')
+    
+    // Use the same date for both from and to
+    const from = formattedDate
+    const to = formattedDate
+    
+    dispatch(getActivityMetricsForMonths({ 
+      token, 
+      from, 
+      to, 
+      userId: id 
+    }))
+  }, [dispatch, token, activeDay , id])
+
+  // Function to calculate total metrics from all data
+  const calculateTotalMetrics = () => {
+    if (!metricsForMonths || !Array.isArray(metricsForMonths) || metricsForMonths.length === 0) {
+      return {
+        totalTimeLogged: 0,
+        totalTimeActive: 0,
+        totalInactiveTime: 0,
+        totalBreakTime: 0,
+        overtime: 0
+      };
+    }
+
+    // Aggregate data from all entries
+    return metricsForMonths.reduce((totals, data) => {
+      return {
+        totalTimeLogged: totals.totalTimeLogged + (data?.totalTimeLogged || 0),
+        totalTimeActive: totals.totalTimeActive + (data?.totalTimeActive || 0),
+        totalInactiveTime: totals.totalInactiveTime + (data?.totalInactiveTime || 0),
+        totalBreakTime: totals.totalBreakTime + (data?.totalBreakTime || 0),
+        overtime: totals.overtime + (data?.overtime || 0)
+      };
+    }, {
+      totalTimeLogged: 0,
+      totalTimeActive: 0,
+      totalInactiveTime: 0,
+      totalBreakTime: 0,
+      overtime: 0
+    });
+  };
+
+  // Get the aggregated metrics
+  const totalMetrics = calculateTotalMetrics();
+  
+  // Function to convert seconds to hours:minutes format (HH:MM)
+  const secondsToHoursMinutes = (seconds) => {
+    if (!seconds) return "0h";
+    const totalMinutes = Math.floor(seconds / 60);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return `${hours}h ${minutes.toString().padStart(2, '0')}m`;
+  };
   return (
     <>
+    {
+      loading ?  <Loading className='min-h-[50vh]' /> : 
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* Add Manually Card */}
-        <AddManuallyCard onClick={() => setIsModalOpen(true)} />
+      {/* Add Manually Card */}
+      <AddManuallyCard onClick={() => setIsModalOpen(true)} />
 
-        {/* Tracked time */}
-        <DetailCard
-          title="Tracked time"
-          value="8h 45m"
-          icon={<Play className="w-5 h-5" />}
-        />
+      <DetailCard
+              title="Tracked time"
+              value={loading ? "0h" : `${secondsToHoursMinutes(totalMetrics.totalTimeLogged)}`}
+              icon={<Play className="w-5 h-5" />}
+            />
+      
+            {/* Productivity */}
+            <DetailCard
+              title="Productivity"
+              value={loading ? "0h" : `${secondsToHoursMinutes(totalMetrics.totalTimeActive)}`}
+              icon={<MonitorSmartphone className="w-5 h-5" />}
+            />
+      
+            {/* Unproductivity */}
+            <DetailCard
+              title="Unproductivity"
+              value={loading ? "0h" : `${secondsToHoursMinutes(totalMetrics.totalInactiveTime)}`}
+              icon={<Moon className="w-5 h-5" />}
+            />
+      
+            {/* Break Time */}
+            <DetailCard
+              title="Break Time"
+              value={loading ? "0h" : `${secondsToHoursMinutes(totalMetrics.totalBreakTime)}`}
+              icon={<Coffee className="w-5 h-5" />}
+            />
+      
+            {/* Overtime */}
+            <DetailCard
+              title="Overtime"
+              value={loading ? "00:00" : `+${secondsToHoursMinutes(totalMetrics.overtime)}`}
+              icon={<Clock className="w-5 h-5" />}
+            />
 
-        {/* Productivity */}
-        <DetailCard
-          title="Productivity"
-          value="8h 30m"
-          icon={<MonitorSmartphone className="w-5 h-5" />}
-        />
-
-        {/* Unproductivity */}
-        <DetailCard
-          title="Unproductivity"
-          value="30m"
-          icon={<Moon className="w-5 h-5" />}
-        />
-
-        {/* Break Time */}
-        <DetailCard
-          title="Break Time"
-          value="23m"
-          icon={<Coffee className="w-5 h-5" />}
-        />
-
-        {/* Overtime */}
-        <DetailCard
-          title="Overtime"
-          value="+23m"
-          icon={<Clock className="w-5 h-5" />}
-        />
-
-      </div>
+    </div>
+    }
 
       {/* Add Time Manually Form */}
       <AddTimeManuallyForm 

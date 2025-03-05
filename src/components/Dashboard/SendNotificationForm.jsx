@@ -123,7 +123,7 @@ const SendNotificationForm = ({ isOpen, onClose }) => {
           options={[
             ...users.filter(user => user._id !==id).map(user => ({ 
               value: user._id, 
-              label: `${user?.userId?.name?.first} ${user?.userId?.name?.last}`   || 'Unknown User'
+              label: `${user?.userId?.fullName}`   || 'Unknown User'
             }))
           ]}
           error={errors.recipients?.message}

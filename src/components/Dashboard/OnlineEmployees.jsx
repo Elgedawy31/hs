@@ -194,7 +194,6 @@ function OnlineEmployees() {
   ];
 
   const handleRowSelect = (selectedRows) => {
-    console.log('Selected rows:', selectedRows);
   };
   
   return (

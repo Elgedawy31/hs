@@ -195,7 +195,6 @@ function RecentLogs() {
 
   // Handle row selection
   const handleRowSelect = (selectedRows) => {
-    console.log('Selected rows:', selectedRows);
   };
   const handleClick = () => {
    navigate('new')

@@ -180,15 +180,15 @@ function OnlineEmployees() {
       },
     },
     {
-      label: 'Delete',
+      label: 'Details',
       onClick: (row) => {
-        console.log('Delete:', row);
+        console.log('View Details:', row);
       },
     },
     {
-      label: 'View Details',
+      label: 'Delete',
       onClick: (row) => {
-        console.log('View Details:', row);
+        console.log('Delete:', row);
       },
     },
   ];

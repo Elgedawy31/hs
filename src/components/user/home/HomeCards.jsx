@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useAuth } from '@contexts/AuthContext'
 import { getActivityMetricsForCards } from '../../../store/reducers/activity'
 import dayjs from 'dayjs'
-import { secondsToHours } from '../../../utils/general'
 
 // Function to convert seconds to hours:minutes format (HH:MM)
 const secondsToHoursMinutes = (seconds) => {

@@ -41,9 +41,9 @@ function HomeCards() {
       console.log('Activity metrics data:', result.payload)
     })
   }, [dispatch, token, user.id])
-  // Function to calculate total metrics from all months
-  const calculateTotalMetrics = () => {
-    if (!metricsForCards || !Array.isArray(metricsForCards) || metricsForCards.length === 0) {
+  // Function to get metrics from the new object structure
+  const getMetrics = () => {
+    if (!metricsForCards || typeof metricsForCards !== 'object') {
       return {
         totalTimeLogged: 0,
         totalTimeActive: 0,
@@ -51,39 +51,33 @@ function HomeCards() {
       };
     }
 
-    // Aggregate data from all months
-    return metricsForCards.reduce((totals, monthData) => {
-      return {
-        totalTimeLogged: totals.totalTimeLogged + (monthData?.totalTimeLogged || 0),
-        totalTimeActive: totals.totalTimeActive + (monthData?.totalTimeActive || 0),
-        overtime: totals.overtime + (monthData?.overtime || 0)
-      };
-    }, {
-      totalTimeLogged: 0,
-      totalTimeActive: 0,
-      overtime: 0
-    });
+    // Return the metrics directly from the object
+    return {
+      totalTimeLogged: metricsForCards?.totalTimeLogged || 0,
+      totalTimeActive: metricsForCards?.totalTimeActive || 0,
+      overtime: metricsForCards?.overtime || 0
+    };
   };
 
-  // Get the aggregated metrics
-  const totalMetrics = calculateTotalMetrics();
+  // Get the metrics
+  const metrics = getMetrics();
 
   return (
     <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
       <HomeCard 
         Icon={StepForward} 
         title='Tracked Time' 
-        description={metricsLoadingForCards ? '0h' : secondsToHoursMinutes(totalMetrics.totalTimeLogged)} 
+        description={metricsLoadingForCards ? '0h' : secondsToHoursMinutes(metrics.totalTimeLogged)} 
       />
       <HomeCard 
         Icon={CircleCheckBig} 
         title='Productivity' 
-        description={metricsLoadingForCards ? '0h' : secondsToHoursMinutes(totalMetrics.totalTimeActive)} 
+        description={metricsLoadingForCards ? '0h' : secondsToHoursMinutes(metrics.totalTimeActive)} 
       />
       <HomeCard 
         Icon={ClockAlert} 
         title='Overtime' 
-        description={metricsLoadingForCards ? '0h' : secondsToHoursMinutes(totalMetrics.overtime)} 
+        description={metricsLoadingForCards ? '0h' : secondsToHoursMinutes(metrics.overtime)} 
       />
     </div>
   )

@@ -15,7 +15,7 @@ function DailyActivities() {
   return (
     <div className="space-y-6">
       <CalendarHeader currentMonth={currentMonth} onMonthChange={handleMonthChange} />
-      <MonthlyDashboard showHeader={false} />
+      <MonthlyDashboard showHeader={false} currentMonth={currentMonth} />
 
       <MonthDays currentDate={currentMonth} />
       <ActivitiesContainer />

@@ -18,17 +18,20 @@ const secondsToHoursAndMinutes = (seconds) => {
   return { hours, minutes };
 };
 
-function MonthlyDashboard({showHeader=true}) {
+function MonthlyDashboard({showHeader=true, currentMonth}) {
   const dispatch = useDispatch()
   const { metricsForMonths, metricsLoadingForMonths } = useSelector(state => state.activity)
   const {id} = useParams()
   const {  token } = useAuth()
   
   useEffect(() => {
-    // Get the date from the last day of previous month
-    const fromDate = dayjs().startOf('month').subtract(1, 'day')
-    // Get the current day
-    const toDate = dayjs()
+    // Use currentMonth if provided, otherwise use current date
+    const monthToUse = currentMonth || dayjs();
+    
+    // Get the first day of the selected month
+    const fromDate = monthToUse.startOf('month')
+    // Get the last day of the selected month
+    const toDate = monthToUse.endOf('month')
     
     // Format dates as M-D-YYYY
     const from = fromDate.format('M-D-YYYY')
@@ -41,7 +44,7 @@ function MonthlyDashboard({showHeader=true}) {
       to, 
       userId: id  
     }))
-  }, [dispatch, token, id])
+  }, [dispatch, token, id, currentMonth])
 
   // Function to get metrics from the data
   const calculateTotalMetrics = () => {
@@ -53,8 +56,28 @@ function MonthlyDashboard({showHeader=true}) {
       };
     }
 
-    // Aggregate data from all months in the array
-    return metricsForMonths.reduce((acc, month) => {
+    // If currentMonth is provided, filter metrics for that month
+    let filteredMetrics = metricsForMonths;
+    if (currentMonth) {
+      const month = currentMonth.month() + 1; // dayjs months are 0-indexed
+      const year = currentMonth.year();
+      
+      filteredMetrics = metricsForMonths.filter(metric => 
+        metric.month === month && metric.year === year
+      );
+      
+      // If no metrics found for the selected month, return zeros
+      if (filteredMetrics.length === 0) {
+        return {
+          totalTimeLogged: 0,
+          totalTimeActive: 0,
+          overtime: 0
+        };
+      }
+    }
+
+    // Aggregate data from the filtered months
+    return filteredMetrics.reduce((acc, month) => {
       return {
         totalTimeLogged: acc.totalTimeLogged + (month.totalTimeLogged || 0),
         totalTimeActive: acc.totalTimeActive + (month.totalTimeActive || 0),

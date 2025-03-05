@@ -27,7 +27,6 @@ function DailyScreenShots({ activeDay, userId }) {
         token,
         page: currentPage,
         limit: 20,
-        userId: userId, // Use the userId passed as prop or from the URL
         startDate,
         endDate ,
         userId:id

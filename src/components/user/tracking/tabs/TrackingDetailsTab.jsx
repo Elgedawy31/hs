@@ -67,9 +67,9 @@ function TrackingDetailsTab({activeDay}) {
     })
   }, [dispatch, token, user.id, activeDay])
 
-  // Function to calculate total metrics from all data
-  const calculateTotalMetrics = () => {
-    if (!metricsForCards || !Array.isArray(metricsForCards) || metricsForCards.length === 0) {
+  // Function to get metrics from the new object structure
+  const getMetrics = () => {
+    if (!metricsForCards || typeof metricsForCards !== 'object') {
       return {
         totalTimeLogged: 0,
         totalTimeActive: 0,
@@ -79,26 +79,18 @@ function TrackingDetailsTab({activeDay}) {
       };
     }
 
-    // Aggregate data from all entries
-    return metricsForCards.reduce((totals, data) => {
-      return {
-        totalTimeLogged: totals.totalTimeLogged + (data?.totalTimeLogged || 0),
-        totalTimeActive: totals.totalTimeActive + (data?.totalTimeActive || 0),
-        totalInactiveTime: totals.totalInactiveTime + (data?.totalInactiveTime || 0),
-        totalBreakTime: totals.totalBreakTime + (data?.totalBreakTime || 0),
-        overtime: totals.overtime + (data?.overtime || 0)
-      };
-    }, {
-      totalTimeLogged: 0,
-      totalTimeActive: 0,
-      totalInactiveTime: 0,
-      totalBreakTime: 0,
-      overtime: 0
-    });
+    // Return the metrics directly from the object
+    return {
+      totalTimeLogged: metricsForCards?.totalTimeLogged || 0,
+      totalTimeActive: metricsForCards?.totalTimeActive || 0,
+      totalInactiveTime: metricsForCards?.totalInactiveTime || 0,
+      totalBreakTime: metricsForCards?.totalBreakTime || 0,
+      overtime: metricsForCards?.overtime || 0
+    };
   };
 
-  // Get the aggregated metrics
-  const totalMetrics = calculateTotalMetrics();
+  // Get the metrics
+  const metrics = getMetrics();
   
   // Function to convert seconds to hours:minutes format (HH:MM)
   const secondsToHoursMinutes = (seconds) => {
@@ -118,35 +110,35 @@ function TrackingDetailsTab({activeDay}) {
       {/* Tracked time */}
       <DetailCard
         title="Tracked time"
-        value={metricsLoadingForCards ? "0h" : `${secondsToHoursMinutes(totalMetrics.totalTimeLogged)}`}
+        value={metricsLoadingForCards ? "0h" : `${secondsToHoursMinutes(metrics.totalTimeLogged)}`}
         icon={<Play className="w-5 h-5" />}
       />
 
       {/* Productivity */}
       <DetailCard
         title="Productivity"
-        value={metricsLoadingForCards ? "0h" : `${secondsToHoursMinutes(totalMetrics.totalTimeActive)}`}
+        value={metricsLoadingForCards ? "0h" : `${secondsToHoursMinutes(metrics.totalTimeActive)}`}
         icon={<MonitorSmartphone className="w-5 h-5" />}
       />
 
       {/* Unproductivity */}
       <DetailCard
         title="Unproductivity"
-        value={metricsLoadingForCards ? "0h" : `${secondsToHoursMinutes(totalMetrics.totalInactiveTime)}`}
+        value={metricsLoadingForCards ? "0h" : `${secondsToHoursMinutes(metrics.totalInactiveTime)}`}
         icon={<Moon className="w-5 h-5" />}
       />
 
       {/* Break Time */}
       <DetailCard
         title="Break Time"
-        value={metricsLoadingForCards ? "0h" : `${secondsToHoursMinutes(totalMetrics.totalBreakTime)}`}
+        value={metricsLoadingForCards ? "0h" : `${secondsToHoursMinutes(metrics.totalBreakTime)}`}
         icon={<Coffee className="w-5 h-5" />}
       />
 
       {/* Overtime */}
       <DetailCard
         title="Overtime"
-        value={metricsLoadingForCards ? "00:00" : `+${secondsToHoursMinutes(totalMetrics.overtime)}`}
+        value={metricsLoadingForCards ? "00:00" : `+${secondsToHoursMinutes(metrics.overtime)}`}
         icon={<Clock className="w-5 h-5" />}
       />
 

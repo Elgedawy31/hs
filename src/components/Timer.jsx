@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 
 const Timer = ({ activeDay }) => {
   const { metricsForCards, metricsLoadingForCards } = useSelector(state => state.activity);
-  const data = metricsForCards[0] || {};
+  const data = metricsForCards && typeof metricsForCards === 'object' ? metricsForCards : {};
   
   // Initialize state for the timer
   const [timerSeconds, setTimerSeconds] = useState(0);

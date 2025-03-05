@@ -5,6 +5,7 @@ import { getAppStats } from '../../../../store/reducers/apps';
 import CardContainer from '@components/CardContainer';
 import Loading from '@components/Loading';
 import { LayoutGrid } from 'lucide-react';
+import NoDataMsg from '@components/NoDataMsg';
 import dayjs from 'dayjs';
 
 function TrackingAppTab({ activeDay }) {
@@ -55,7 +56,7 @@ function TrackingAppTab({ activeDay }) {
       {loading ? (
         <Loading className='min-h-[50vh]' />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className={apps?.length >0 && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'}>
           {apps && apps.length > 0 ? (
             apps.map((app, index) => (
               <CardContainer
@@ -75,9 +76,7 @@ function TrackingAppTab({ activeDay }) {
               </CardContainer>
             ))
           ) : (
-            <div className="col-span-3 text-center py-10">
-              <p className="text-placeholderText">No app usage data available for this day.</p>
-            </div>
+          <NoDataMsg />
           )}
         </div>
       )}

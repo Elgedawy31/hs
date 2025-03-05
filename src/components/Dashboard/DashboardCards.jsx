@@ -1,14 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import UniCard from '../UniCard';
 import { UsersRound, UserCheck, MailIcon, FileChartLineIcon } from 'lucide-react';
 import { BASE_URL } from '../../utils/constants';
 import { useAuth } from '@contexts/AuthContext';
 import toast from 'react-hot-toast';
-import { EventSourceWithAuth } from '../../utils/general'
+import { EventSourceWithAuth } from '../../utils/general';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateOnlineUsers } from '../../store/reducers/onlineUsers';
 
 function DashboardCards() {
   const { token } = useAuth();
-  const [activeUsers, setActiveUsers] = useState(0);
+  const dispatch = useDispatch();
+  const { activeUsers } = useSelector(state => state.onlineUsers);
   const eventSourceRef = useRef(null);
 
   useEffect(() => {
@@ -31,13 +34,13 @@ function DashboardCards() {
     });
     
     eventSource.addEventListener('activity', (event) => {
-      // save this on redux store 
       console.log('activity', event.data);
 
       try {
         const data = JSON.parse(event.data);
-        if (data && data.activeUsers !== undefined) {
-          setActiveUsers(data.activeUsers);
+        if (data) {
+          // Dispatch the action to update Redux store
+          dispatch(updateOnlineUsers(data));
         }
       } catch (error) {
         console.error('Error parsing activity data:', error);
@@ -56,7 +59,7 @@ function DashboardCards() {
         console.log('SSE connection closed');
       }
     };
-  }, [token]); // Re-connect if token changes
+  }, [token, dispatch]); // Re-connect if token changes or dispatch function changes
    
   return (
     <div className="p-4 space-y-6">
@@ -69,7 +72,7 @@ function DashboardCards() {
         />
         <UniCard 
           title="Active Now" 
-          value="4"
+          value={activeUsers.toString()}
           icon={UserCheck}
         />
         <UniCard 

@@ -8,6 +8,7 @@ import PhotosReducer from './reducers/photos';
 import logsReducer from './reducers/logs';
 import appsReducer from './reducers/apps';
 import bonusesReducer from './reducers/bonuses';
+import onlineUsersReducer from './reducers/onlineUsers';
 
 export const store = configureStore({
     reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
         photos: PhotosReducer,
         logs: logsReducer,
         apps: appsReducer,
-        bonuses: bonusesReducer
+        bonuses: bonusesReducer,
+        onlineUsers: onlineUsersReducer
     }
 });

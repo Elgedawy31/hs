@@ -167,7 +167,7 @@ export const updateRequest = createAsyncThunk(
         return rejectWithValue(data?.error || data?.message || "Failed to update request");
       }
 
-      return data.request;
+      return data;
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -256,12 +256,12 @@ const requestsSlice = createSlice({
     updateRequestStatus: (state, action) => {
       const { requestId, status } = action.payload;
       const requestIndex = state.requests.findIndex(
-        (request) => request.requestId === requestId
+        (request) => request._id === requestId
       );
       if (requestIndex !== -1) {
         state.requests[requestIndex].status = status;
       }
-      if (state.selectedRequest && state.selectedRequest.requestId === requestId) {
+      if (state.selectedRequest && state.selectedRequest._id === requestId) {
         state.selectedRequest.status = status;
       }
     },
@@ -342,20 +342,18 @@ const requestsSlice = createSlice({
         state.isUpdated = false;
       })
       .addCase(updateRequest.fulfilled, (state, action) => {
+        console.log('action.payload', action.payload)
         state.loading = false;
         state.error = null;
         state.isUpdated = true;
         // Update the request in the requests array
-        const index = state.requests.findIndex(
-          (request) => request.requestId === action.payload.requestId
+       state.requests = state.requests.map((request) =>
+          request?._id === action.payload?._id ? action.payload : request
         );
-        if (index !== -1) {
-          state.requests[index] = action.payload;
-        }
         // Update selectedRequest if it's the same request
         if (
           state.selectedRequest &&
-          state.selectedRequest.requestId === action.payload.requestId
+          state.selectedRequest._id === action.payload._id
         ) {
           state.selectedRequest = action.payload;
         }
@@ -386,7 +384,7 @@ const requestsSlice = createSlice({
         // Clear selectedRequest if it's the deleted request
         if (
           state.selectedRequest &&
-          state.selectedRequest.requestId === action.payload.requestId
+          state.selectedRequest._id === action.payload.requestId
         ) {
           state.selectedRequest = null;
         }

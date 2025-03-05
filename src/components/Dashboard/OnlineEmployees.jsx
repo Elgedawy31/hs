@@ -1,138 +1,39 @@
-import React, { useState } from 'react';
+import React from 'react';
 import UniTable from '../UniTable';
 import UniHeading from '../UniHeading';
-import { UsersRound} from 'lucide-react';
+import { UsersRound } from 'lucide-react';
 import CardContainer from '../CardContainer';
+import { useSelector } from 'react-redux';
 
 function OnlineEmployees() {
-  const [selectedRows, setSelectedRows] = useState([]);
+  // Get sseData from Redux store
+  const { sseData } = useSelector(state => state.onlineUsers);
   
-    const handleCheckboxChange = (id) => {
-      setSelectedRows((prev) =>
-        prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]
-      );
+  // Helper function to format time in "Xh Ym" format
+  const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    
+    if (hours > 0) {
+      return `${hours}h ${minutes}m`;
+    } else {
+      return `${minutes}m`;
+    }
+  };
+  
+  // Transform sseData into the format expected by the table
+  const data = Array.isArray(sseData) ? sseData.map(user => {
+    // Extract email username (before @)
+    const name = user.email ? user.email.split('@')[0].replace('.',' ') : 'Unknown';
+    
+    return {
+      id: user.id,
+      name: name,
+      status: user.isActive ? 'Active' : user.inBreak ? 'Break' : 'Idle',
+      hoursToday: formatTime(user.totalTimeActive || 0),
+      productiveHours: formatTime((user.totalTimeActive || 0) - (user.totalBreakTime || 0)),
     };
-     const data = [
-    {
-      id: 1,
-      name: 'Nouran Khaled',
-      status: 'Idle',
-      hoursToday: '6H 30M',
-      productiveHours: '7 h',
-    },
-    {
-      id: 2,
-      name: 'John Doe',
-      status: 'Active',
-      hoursToday: '5H 45M',
-      productiveHours: '5 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Idle',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Active',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Active',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Active',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Idle',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Idle',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Idle',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Idle',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Active',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Idle',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Idle',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Active',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Active',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Active',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-    {
-      id: 3,
-      name: 'Jane Smith',
-      status: 'Active',
-      hoursToday: '2H 15M',
-      productiveHours: '2 h',
-    },
-  ];
+  }) : [];
 
   // Column definitions
   const columns = [
@@ -171,29 +72,11 @@ function OnlineEmployees() {
     },
   ];
 
-  // Action menu items
-  const actions = [
-    {
-      label: 'Edit',
-      onClick: (row) => {
-        console.log('Edit:', row);
-      },
-    },
-    {
-      label: 'Details',
-      onClick: (row) => {
-        console.log('View Details:', row);
-      },
-    },
-    {
-      label: 'Delete',
-      onClick: (row) => {
-        console.log('Delete:', row);
-      },
-    },
-  ];
+  // No actions as per user request
+  const actions = [];
 
-  const handleRowSelect = (selectedRows) => {
+  const handleRowSelect = () => {
+    // No action handling as per user request
   };
   
   return (

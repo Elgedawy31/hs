@@ -26,7 +26,6 @@ const Timer = ({ activeDay }) => {
     // Only run the timer if it's today
     setIsRunning(isSameDay);
     
-    console.log('Timer: Active day is today?', isSameDay);
   }, [activeDay]);
   
   // Initialize timer with data from Redux store

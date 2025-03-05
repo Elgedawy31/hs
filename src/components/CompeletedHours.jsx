@@ -40,7 +40,6 @@ const CompletedHours = () => {
       userId: user.id 
     }))
     .then(result => {
-      console.log('Activity metrics for months:', result.payload);
     });
   }, [dispatch, token, user.id]);
 
@@ -136,8 +135,6 @@ const CompletedHours = () => {
       setMonthsData([...processedData].reverse());
       
       // Log the processed data for debugging
-      console.log('Processed months data:', processedData);
-      console.log('Monthly grouped data:', monthlyData);
     }
   }, [metricsForMonths]);
 

@@ -52,10 +52,7 @@ function UniUploadDoc({
 
   // Reset state when existingFiles prop changes
   useEffect(() => {
-    console.log("Existing files in UniUploadDoc:", existingFiles);
     existingFiles.forEach((file) => {
-      console.log("File URL:", file.url);
-      console.log("File details:", file);
     });
     setUploadedFiles([]);
     setCurrentExistingFiles(existingFiles);

@@ -59,7 +59,7 @@ export default function Header({ sidebarOpen, setSidebarOpen }) {
   }
 
   const handleFilterEamils = (e) => {
-    console.log(e.target.value)
+    // console.log(e.target.value)
   }
 
   return (

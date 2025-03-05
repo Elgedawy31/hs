@@ -39,7 +39,6 @@ const AddTimeManuallyForm = ({ isOpen, onClose }) => {
   const values = watch();
 
   const onSubmit = (data) => {
-    console.log('Saving time:', data);
     onClose();
   };
 

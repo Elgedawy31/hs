@@ -62,12 +62,6 @@ function NotificationBtn() {
     !isToday(parseDate(n.createdAt)) && !isYesterday(parseDate(n.createdAt))
   )
   
-  // Mark all notifications as read
-  const markAllAsRead = () => {
-    // This would need to be implemented if needed
-    console.log('Mark all as read')
-  }
-  
   // Mark a specific notification as seen
   const markAsRead = (notificationId) => {
     if (markingAsSeen) return; // Prevent multiple simultaneous requests

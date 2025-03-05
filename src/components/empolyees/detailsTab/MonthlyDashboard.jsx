@@ -41,9 +41,6 @@ function MonthlyDashboard({showHeader=true}) {
       to, 
       userId: id  
     }))
-    .then(result => {
-      console.log('Activity metrics data for months:', result.payload)
-    })
   }, [dispatch, token, id])
 
   // Function to get metrics from the data

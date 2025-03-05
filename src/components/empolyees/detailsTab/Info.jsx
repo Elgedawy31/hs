@@ -6,7 +6,6 @@ import { Avatar } from "@heroui/react"
 import UniBtn from '../../UniBtn'
 
 function Info({user , isActive}) {
-  console.log('user', isActive)
   return (
     <div className='space-y-4'>
       <UniHeading

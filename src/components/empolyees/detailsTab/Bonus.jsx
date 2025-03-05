@@ -34,7 +34,6 @@ function Bonuces() {
   }
 
   const handleConfirmDelete = () => {
-    console.log('Deleting bonus:', bonusToDelete);
     // Here you would typically make an API call to delete the bonus
     setShowDeleteModal(false);
     setBonusToDelete(null);

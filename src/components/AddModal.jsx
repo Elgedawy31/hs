@@ -38,12 +38,10 @@ const AddModal = ({
   const [step, setStep] = useState(initialStep);
 
   const handleSave = () => {
-    console.log('Save button clicked');
     onSave?.(step);
   };
 
   const handleClose = () => {
-    console.log('Close/Cancel button clicked');
     onClose();
   };
 

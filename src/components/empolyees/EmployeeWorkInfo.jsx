@@ -28,7 +28,6 @@ const EmployeeWorkInfo = ({
   
   // For debugging
   useEffect(() => {
-    console.log("EmployeeWorkInfo data:", data);
   }, [data]);
   return (
     <div className="space-y-6">

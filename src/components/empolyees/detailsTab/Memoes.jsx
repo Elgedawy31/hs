@@ -84,7 +84,6 @@ function Memoes() {
   }
 
   const handleAdd = (data) => {
-    console.log('Adding new memo:', data);
     
     // // Prepare warning data from form data
     // const warningData = {
@@ -115,7 +114,6 @@ function Memoes() {
   }
 
   const handleUpdate = (data) => {
-    console.log('Updating memo:', data);
     
     const formData = new FormData();
     formData.append('title', data.title);

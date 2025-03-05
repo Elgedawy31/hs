@@ -37,9 +37,6 @@ function HomeCards() {
       to, 
       userId: user.id 
     }))
-    .then(result => {
-      console.log('Activity metrics data:', result.payload)
-    })
   }, [dispatch, token, user.id])
   // Function to get metrics from the new object structure
   const getMetrics = () => {

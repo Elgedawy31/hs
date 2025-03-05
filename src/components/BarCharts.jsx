@@ -131,7 +131,6 @@ const WorkHoursTracker = () => {
                   // Could not find day of week in reordered array
                 }
               } catch (error) {
-                // Error handling without console.log
               }
             } else {
               // Skip details without date

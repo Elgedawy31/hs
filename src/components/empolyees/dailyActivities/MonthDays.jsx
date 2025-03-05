@@ -61,7 +61,6 @@ const MonthDays = ({ currentDate, metricsData, onActiveDayChange }) => {
             const detailYear = detailDate.year();
             
             // Log the date for debugging
-            console.log(`Detail date: ${detail.date}, Day: ${detailDay}, Month: ${detailMonth}, Year: ${detailYear}, Looking for day: ${i}, month: ${currentDate.month() + 1}, year: ${currentDate.year()}`);
             
             // Check if this detail matches the current day we're looking for
             const matchesDay = detailDay === i;

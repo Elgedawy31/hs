@@ -49,8 +49,6 @@ export default function TrackingSystemLogs({ activeDay }) {
       header: 'Name',
       size: 150,
       cell: ({ row }) => {
-        console.log(row)
-      
         return row.original.userId?.userId?.fullName;
       }
     },
@@ -103,7 +101,6 @@ export default function TrackingSystemLogs({ activeDay }) {
     return <NoDataMsg message="No logs found for this day" />;
   }
 
-  console.log('logs', logs);
   return (
     <CardContainer>
       <UniTable

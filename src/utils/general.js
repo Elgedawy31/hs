@@ -5,7 +5,6 @@ export const secondsToHours = (seconds) => {
 };
 
 export const getSenderName = (from) => {
-  // console.log(from);
   const match = from.match(/^(?:"([^"]+?)"\s)?<?([^>]+?)>?$/);
   if (match) {
     return {

@@ -207,7 +207,6 @@ const usersSlice = createSlice({
 
       // Get all users
       .addCase(getAllUsers.pending, (state) => {
-        console.log('state', state);
         state.loading = true;
         state.error = null;
       })
@@ -296,7 +295,6 @@ const usersSlice = createSlice({
         state.message = null;
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
-        console.log('action.payload', action.payload);
         state.loading = false;
         state.error = null;
         state.isDeleted = true;

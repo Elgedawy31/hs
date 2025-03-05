@@ -128,7 +128,6 @@ export default function Employees() {
     {
       label: 'Details',
       onClick: (row) => {
-        console.log('Viewing details for:', row);
         navigate(`${row._id || row.userId?._id}`)
       },
     },

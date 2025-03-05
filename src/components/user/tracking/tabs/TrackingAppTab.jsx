@@ -23,9 +23,6 @@ function TrackingAppTab({ activeDay }) {
       to, 
       userId: user.id 
     }))
-    .then(result => {
-      console.log('App stats data for day:', result.payload);
-    });
   }, [dispatch, token, user.id, activeDay]);
   
   // Function to convert seconds to hours:minutes:seconds format

@@ -9,7 +9,6 @@ function Reminder() {
 
   const handleSendReminder = () => {
     // Add your reminder sending logic here
-    console.log('Reminder sent')
     setIsModalOpen(false)
   }
 

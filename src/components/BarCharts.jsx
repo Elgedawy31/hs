@@ -59,8 +59,8 @@ const WorkHoursTracker = () => {
 
   useEffect(() => {
     if (!metricsLoading && metrics) {
-      // Check if metrics is an array
-      if (Array.isArray(metrics) && metrics.length > 0) {
+      // Check if metrics is an object with details array
+      if (metrics && typeof metrics === 'object' && metrics.details && Array.isArray(metrics.details) && metrics.details.length > 0) {
         
         // Create an array for all days of the week
         const allDaysOfWeek = [
@@ -103,46 +103,41 @@ const WorkHoursTracker = () => {
           isToday: day.dayIndex === today
         }));
         
-        // Process all months in the metrics array
-        metrics.forEach(monthData => {
-          // Process the details array from each month
-          if (monthData.details && Array.isArray(monthData.details) && monthData.details.length > 0) {
+        // Process the details array directly from the metrics object
+        if (metrics.details && Array.isArray(metrics.details) && metrics.details.length > 0) {
+          
+          // Loop through each detail (daily data)
+          metrics.details.forEach((detail, index) => {
             
-            // Loop through each detail (daily data)
-            monthData.details.forEach((detail, index) => {
-              
-              if (detail && detail.date) {
-                try {
-                  // Parse the date to get the day of week
-                  const date = new Date(detail.date);
-                  const dayOfWeekIndex = date.getDay(); // 0 = Sunday, 1 = Monday, etc.
+            if (detail && detail.date) {
+              try {
+                // Parse the date to get the day of week
+                const date = new Date(detail.date);
+                const dayOfWeekIndex = date.getDay(); // 0 = Sunday, 1 = Monday, etc.
+                
+                // Find the corresponding day in our reordered array
+                const dayDataIndex = initialData.findIndex(d => d.dayIndex === dayOfWeekIndex);
+                
+                if (dayDataIndex !== -1) {
                   
-                  // Find the corresponding day in our reordered array
-                  const dayDataIndex = initialData.findIndex(d => d.dayIndex === dayOfWeekIndex);
+                  // Get the hours (convert from seconds)
+                  const hours = detail.totalTimeLogged ? secondsToHours(detail.totalTimeLogged) : 0;
                   
-                  if (dayDataIndex !== -1) {
-                    
-                    // Get the hours (convert from seconds)
-                    const hours = detail.totalTimeLogged ? secondsToHours(detail.totalTimeLogged) : 0;
-                    
-                    // Add to our running total for this day of week
-                    initialData[dayDataIndex].hours += hours;
-                    initialData[dayDataIndex].count += 1;
-                    
-                  } else {
-                    // Could not find day of week in reordered array
-                  }
-                } catch (error) {
-                  // Error handling without console.log
+                  // Add to our running total for this day of week
+                  initialData[dayDataIndex].hours += hours;
+                  initialData[dayDataIndex].count += 1;
+                  
+                } else {
+                  // Could not find day of week in reordered array
                 }
-              } else {
-                // Skip details without date
+              } catch (error) {
+                // Error handling without console.log
               }
-            });
-          } else {
-            // Skip months without details
-          }
-        });
+            } else {
+              // Skip details without date
+            }
+          });
+        }
         
         // Calculate averages and format labels
         initialData.forEach(dayData => {

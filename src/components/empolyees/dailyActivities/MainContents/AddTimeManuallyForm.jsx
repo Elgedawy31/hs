@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { createActivity } from '../../../../store/reducers/activity';
+import { useAuth } from '../../../../contexts/AuthContext';
 import AddModal from '../../../AddModal';
 import UniTextInput from '../../../UniTextInput';
 
@@ -10,36 +14,51 @@ import UniTextInput from '../../../UniTextInput';
 const timeManuallySchema = z.object({
   employee: z.string().min(1, 'Employee is required'),
   date: z.string().min(1, 'Date is required'),
-  hours: z.string()
-    .min(1, 'Hours is required')
-    .refine((val) => {
-      const num = parseInt(val);
-      return num >= 0 && num <= 23;
-    }, 'Hours must be between 0 and 23'),
-  minutes: z.string()
-    .min(1, 'Minutes is required')
-    .refine((val) => {
-      const num = parseInt(val);
-      return num >= 0 && num <= 59;
-    }, 'Minutes must be between 0 and 59')
+  totalTimeLogged: z.string().min(1, 'Total time logged is required'),
+  totalTimeActive: z.string().min(1, 'Total active time is required'),
+  totalInactiveTime: z.string().min(1, 'Total inactive time is required'),
+  totalBreakTime: z.string().min(1, 'Total break time is required')
 });
 
 const AddTimeManuallyForm = ({ isOpen, onClose }) => {
+  const dispatch = useDispatch();
+  const { token } = useAuth();
+  const { id } = useParams();
+  
   const { handleSubmit, formState: { errors }, setValue, watch } = useForm({
     resolver: zodResolver(timeManuallySchema),
     mode: 'onChange',
     defaultValues: {
-      employee: '',
-      date: '',
-      hours: '',
-      minutes: ''
+      totalTimeLogged: '0',
+      totalTimeActive: '0',
+      totalInactiveTime: '0',
+      totalBreakTime: '0'
     }
   });
 
   const values = watch();
 
   const onSubmit = (data) => {
-    onClose();
+    const { employee, date, totalTimeLogged, totalTimeActive, totalInactiveTime, totalBreakTime } = data;
+    
+    const activityData = {
+      userId: employee,
+      date: date,
+      totalTimeLogged: parseInt(totalTimeLogged),
+      totalTimeActive: parseInt(totalTimeActive),
+      totalInactiveTime: parseInt(totalInactiveTime),
+      totalBreakTime: parseInt(totalBreakTime)
+    };
+    
+    dispatch(createActivity({ activityData, token }))
+      .unwrap()
+      .then(() => {
+        // Close the modal and potentially refresh the data
+        onClose();
+      })
+      .catch((error) => {
+        console.error('Failed to add time manually:', error);
+      });
   };
 
   return (
@@ -52,52 +71,51 @@ const AddTimeManuallyForm = ({ isOpen, onClose }) => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <UniTextInput
-            label="Employee"
-            placeholder="Select an Employee"
-            value={values.employee || ''}
-            onChange={(value) => setValue('employee', value, { shouldValidate: true })}
-            error={errors.employee?.message}
+            label="Total Time Logged (seconds)"
+            type="number"
+            placeholder="Total time logged in seconds"
+            value={values.totalTimeLogged || ''}
+            onChange={(value) => setValue('totalTimeLogged', value, { shouldValidate: true })}
+            error={errors.totalTimeLogged?.message}
+            min="0"
             required
           />
         </div>
         <div>
           <UniTextInput
-            label="Date"
-            type="date"
-            value={values.date || ''}
-            onChange={(value) => setValue('date', value, { shouldValidate: true })}
-            error={errors.date?.message}
+            label="Total Active Time (seconds)"
+            type="number"
+            placeholder="Total active time in seconds"
+            value={values.totalTimeActive || ''}
+            onChange={(value) => setValue('totalTimeActive', value, { shouldValidate: true })}
+            error={errors.totalTimeActive?.message}
+            min="0"
             required
           />
         </div>
         <div>
-          <label className="text-sm text-placeholderText">Time</label>
-          <div className="flex gap-4">
-            <div className="flex-1">
-              <UniTextInput
-                type="number"
-                placeholder="Hour"
-                value={values.hours || ''}
-                onChange={(value) => setValue('hours', value, { shouldValidate: true })}
-                error={errors.hours?.message}
-                min="0"
-                max="23"
-                required
-              />
-            </div>
-            <div className="flex-1">
-              <UniTextInput
-                type="number"
-                placeholder="Minute"
-                value={values.minutes || ''}
-                onChange={(value) => setValue('minutes', value, { shouldValidate: true })}
-                error={errors.minutes?.message}
-                min="0"
-                max="59"
-                required
-              />
-            </div>
-          </div>
+          <UniTextInput
+            label="Total Inactive Time (seconds)"
+            type="number"
+            placeholder="Total inactive time in seconds"
+            value={values.totalInactiveTime || ''}
+            onChange={(value) => setValue('totalInactiveTime', value, { shouldValidate: true })}
+            error={errors.totalInactiveTime?.message}
+            min="0"
+            required
+          />
+        </div>
+        <div>
+          <UniTextInput
+            label="Total Break Time (seconds)"
+            type="number"
+            placeholder="Total break time in seconds"
+            value={values.totalBreakTime || ''}
+            onChange={(value) => setValue('totalBreakTime', value, { shouldValidate: true })}
+            error={errors.totalBreakTime?.message}
+            min="0"
+            required
+          />
         </div>
       </form>
     </AddModal>

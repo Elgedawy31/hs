@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SidebarItem from './SidebarItem'
 import MainContent from './MainContent'
 
-function ActivitiesContainer() {
+function ActivitiesContainer({ activeDay }) {
   const [activeTab, setActiveTab] = useState(null)
 
   const menuItems = [
@@ -11,6 +11,13 @@ function ActivitiesContainer() {
     { id: 'systemLogs', title: 'System Logs' },
     { id: 'apps', title: 'Apps' },
   ]
+
+  // Reset active tab when day changes
+  useEffect(() => {
+    if (activeDay && !activeTab) {
+      setActiveTab('details'); // Set default tab when day changes
+    }
+  }, [activeDay, activeTab]);
 
   return (
     <div className="flex gap-4 h-[calc(100vh-200px)] pt-6">
@@ -28,7 +35,7 @@ function ActivitiesContainer() {
 
       {/* Main Content */}
       <div className="flex-1 overflow-hidden">
-        <MainContent activeTab={activeTab} />
+        <MainContent activeTab={activeTab} activeDay={activeDay} />
       </div>
     </div>
   )

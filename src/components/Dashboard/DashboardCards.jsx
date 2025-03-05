@@ -58,15 +58,52 @@ function DashboardCards() {
       }
     };
   }, [token, dispatch]); // Re-connect if token changes or dispatch function changes
-  // Helper function to format time in "Xh Ym" format
+  // Helper function to format time based on duration
   const formatTime = (seconds) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
+    // Constants for time conversions
+    const SECONDS_IN_MINUTE = 60;
+    const SECONDS_IN_HOUR = 3600;
+    const SECONDS_IN_DAY = 86400;
+    const SECONDS_IN_WEEK = 604800;
+    const SECONDS_IN_MONTH = 2592000; // Approximation: 30 days
     
-    if (hours > 0) {
-      return `${hours}h ${minutes}m`;
-    } else {
-      return `${minutes}m`;
+    // If more than 99 days (8,553,600 seconds)
+    if (seconds >= 99 * SECONDS_IN_DAY) {
+      // Option 1: Show in months and weeks
+      const months = Math.floor(seconds / SECONDS_IN_MONTH);
+      const remainingSeconds = seconds % SECONDS_IN_MONTH;
+      const weeks = Math.floor(remainingSeconds / SECONDS_IN_WEEK);
+      
+      if (months > 0 && weeks > 0) {
+        return `${months}mo ${weeks}w`;
+      } else if (months > 0) {
+        return `${months}mo`;
+      } else {
+        // Fallback to weeks and days if months is 0
+        const weeks = Math.floor(seconds / SECONDS_IN_WEEK);
+        const remainingSeconds = seconds % SECONDS_IN_WEEK;
+        const days = Math.floor(remainingSeconds / SECONDS_IN_DAY);
+        return `${weeks}w ${days}d`;
+      }
+    }
+    // If more than 99 hours (356,400 seconds)
+    else if (seconds >= 99 * SECONDS_IN_HOUR) {
+      const days = Math.floor(seconds / SECONDS_IN_DAY);
+      const remainingSeconds = seconds % SECONDS_IN_DAY;
+      const hours = Math.floor(remainingSeconds / SECONDS_IN_HOUR);
+      
+      return `${days}d ${hours}h`;
+    }
+    // Default: hours and minutes
+    else {
+      const hours = Math.floor(seconds / SECONDS_IN_HOUR);
+      const minutes = Math.floor((seconds % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE);
+      
+      if (hours > 0) {
+        return `${hours}h ${minutes}m`;
+      } else {
+        return `${minutes}m`;
+      }
     }
   };
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import UniCard from '../UniCard';
-import { UsersRound, UserCheck, MailIcon, FileChartLineIcon } from 'lucide-react';
+import { UsersRound, UserCheck, Clock, TimerOff } from 'lucide-react';
 import { BASE_URL } from '../../utils/constants';
 import { useAuth } from '@contexts/AuthContext';
 import toast from 'react-hot-toast';
@@ -58,34 +58,80 @@ function DashboardCards() {
       }
     };
   }, [token, dispatch]); // Re-connect if token changes or dispatch function changes
-   console.log(sseData)
+  // Helper function to format time in "Xh Ym" format
+  const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    
+    if (hours > 0) {
+      return `${hours}h ${minutes}m`;
+    } else {
+      return `${minutes}m`;
+    }
+  };
+
+  // Calculate metrics from sseData
+  const calculateMetrics = () => {
+    if (!sseData || !Array.isArray(sseData)) {
+      return {
+        totalUsers: 0,
+        activeUsers: 0,
+        totalActiveTimeSeconds: 0,
+        totalBreakTimeSeconds: 0
+      };
+    }
+
+    const totalUsers = sseData.length;
+    const activeUsers = sseData.filter(user => user.isActive).length;
+    
+    // Calculate total active time in seconds
+    const totalActiveTimeSeconds = sseData.reduce((sum, user) => {
+      return sum + (user.totalTimeActive || 0);
+    }, 0);
+    
+    // Calculate total break time in seconds
+    const totalBreakTimeSeconds = sseData.reduce((sum, user) => {
+      return sum + (user.totalBreakTime || 0);
+    }, 0);
+
+    return {
+      totalUsers,
+      activeUsers,
+      totalActiveTimeSeconds,
+      totalBreakTimeSeconds
+    };
+  };
+
+  const { totalUsers, activeUsers, totalActiveTimeSeconds, totalBreakTimeSeconds } = calculateMetrics();
+  
+  // Format the time values
+  const formattedActiveTime = formatTime(totalActiveTimeSeconds);
+  const formattedBreakTime = formatTime(totalBreakTimeSeconds);
+
   return (
     <div className="p-4 space-y-6">
-      
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4 ">
         <UniCard 
           title="Total Employees" 
-          value="50"
+          value={totalUsers}
           icon={UsersRound}
         />
         <UniCard 
           title="Active Now" 
-          value={0}
+          value={activeUsers}
           icon={UserCheck}
         />
         <UniCard 
-          title="MTD / CH" 
-          value="680"
-          icon={MailIcon}
+          title="Total Active Time" 
+          value={formattedActiveTime}
+          icon={Clock}
         />
         <UniCard 
-          title="Bouns This Month" 
-          value="$ 2,500"
-          icon={FileChartLineIcon}
+          title="Total Break Time" 
+          value={formattedBreakTime}
+          icon={TimerOff}
         />
       </div>
-
-     
     </div>
   )
 }

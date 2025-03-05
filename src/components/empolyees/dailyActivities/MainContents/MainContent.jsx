@@ -10,9 +10,9 @@ function MainContent({activeTab ,activeDay}) {
   return (
     <div className="h-full overflow-y-auto">
     {activeTab === 'details' && <DailyDetailsContent activeDay={activeDay.format('MM-DD-YYYY')} />}
-    {activeTab === 'screenshots' && <DailyScreenShots />}
-    {activeTab === 'systemLogs' && <DailySystemLogs />}
-    {activeTab === 'apps' && <DailyAppsUsage />}
+    {activeTab === 'screenshots' && <DailyScreenShots activeDay={activeDay.format('MM-DD-YYYY')}  />}
+    {activeTab === 'systemLogs' && <DailySystemLogs activeDay={activeDay.format('MM-DD-YYYY')}  />}
+    {activeTab === 'apps' && <DailyAppsUsage activeDay={activeDay.format('MM-DD-YYYY')}  />}
     </div>
 
   )

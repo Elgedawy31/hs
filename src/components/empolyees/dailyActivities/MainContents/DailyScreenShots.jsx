@@ -33,7 +33,7 @@ function DailyScreenShots({ activeDay, userId }) {
         userId:id
       }));
     }
-  }, [dispatch, activeDay, token, currentPage, userId]);
+  }, [dispatch, activeDay, token, currentPage, id]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);

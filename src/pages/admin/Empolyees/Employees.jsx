@@ -59,8 +59,8 @@ export default function Employees() {
       header: 'Name',
       size: 200,
       cell: ({ row }) => {
-        const name = row.original.userId?.name;
-        return name ? `${name.first || ''} ${name.last || ''}` : 'N/A';
+        const name = row.original.userId?.fullName;
+        return name ? name : 'N/A';
       }
     },
     {

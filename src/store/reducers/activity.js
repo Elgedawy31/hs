@@ -45,7 +45,8 @@ export const getActivityMetricsForCards = createAsyncThunk(
         }
       );
 
-      const data = await response.json();
+      const data = await response?.json() || {};
+      console.log('empty data',data)
       if (!data) {
         return rejectWithValue("Failed to get metrics data");
       }

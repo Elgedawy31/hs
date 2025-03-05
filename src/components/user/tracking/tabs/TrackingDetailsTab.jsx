@@ -100,7 +100,7 @@ function TrackingDetailsTab({activeDay}) {
     const minutes = totalMinutes % 60;
     return `${hours}h ${minutes.toString().padStart(2, '0')}m`;
   };
-  
+  console.log('metrics for us', metricsForCards)
   return (
     <>
     {

@@ -30,8 +30,8 @@ function OnlineEmployees() {
       id: user.id,
       name: name,
       status: user.isActive ? 'Active' : user.inBreak ? 'Break' : 'Idle',
-      hoursToday: formatTime(user.totalTimeActive || 0),
-      productiveHours: formatTime((user.totalTimeActive || 0) - (user.totalBreakTime || 0)),
+      hoursToday: formatTime(user.totalTimeLogged || 0),
+      productiveHours: formatTime((user.totalTimeActive || 0) )
     };
   }) : [];
 
@@ -78,7 +78,7 @@ function OnlineEmployees() {
   const handleRowSelect = () => {
     // No action handling as per user request
   };
-  
+  console.log(sseData)
   return (
     <div className=''>
     <UniHeading icon={UsersRound} text="Online Employees"  />

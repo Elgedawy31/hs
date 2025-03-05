@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import CardContainer from '../../CardContainer';
-import { Calendar, Edit, Flag, Tag, Trash2 } from 'lucide-react';
+import { Calendar, Edit, Flag, Pencil, Tag, Trash2 } from 'lucide-react';
 import dayjs from 'dayjs';
 import { IMAGE_URL } from '../../../utils/constants';
 import { deleteRequest } from '../../../store/reducers/requests';
@@ -108,22 +108,20 @@ function RequestingCard({ request, onEdit }) {
             
             {/* Only show edit/delete buttons for pending requests */}
             {(!request.status || request.status.toLowerCase() === 'pending') && (
-              <>
-                <button 
-                  onClick={handleEdit}
-                  className="p-2 text-placeholderText hover:text-primary transition-colors"
-                  title="Edit request"
-                >
-                  <Edit size={18} />
-                </button>
-                <button 
-                  onClick={handleDelete}
-                  className="p-2 text-placeholderText hover:text-danger transition-colors"
-                  title="Delete request"
-                >
-                  <Trash2 size={18} />
-                </button>
-              </>
+            <div className="flex gap-2 self-end sm:self-auto">
+            <button 
+              className="hover:opacity-80"
+              onClick={handleEdit}
+            >
+              <Pencil size={17} className="text-text" />
+            </button>
+            <button 
+              className="text-danger hover:opacity-80"
+              onClick={handleDelete}
+            >
+              <Trash2 size={17} />
+            </button>
+          </div>
             )}
           </div>
         </div>
@@ -178,6 +176,7 @@ function RequestingCard({ request, onEdit }) {
       </CardContainer>
       
       <DeleteConfirmation
+      folderName={request.title || 'Untitled Request'}
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={confirmDelete}

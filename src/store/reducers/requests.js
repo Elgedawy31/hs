@@ -45,8 +45,8 @@ export const getOneRequest = createAsyncThunk(
       });
 
       const data = await response.json();
-      if (!data.success || data.error) {
-        return rejectWithValue(data.error || "Failed to fetch request");
+      if (!data._id ) {
+        return rejectWithValue(data?.error || data?.message || "Failed to fetch request");
       }
 
       return data.request;
@@ -157,14 +157,14 @@ export const updateRequest = createAsyncThunk(
       }
 
       const response = await fetch(`${API_URL}/${KEY}/${requestId}`, {
-        method: "PUT",
+        method: "PATCH",
         headers,
         body: formData,
       });
 
       const data = await response.json();
-      if (!data.success || data.error) {
-        return rejectWithValue(data.error || "Failed to update request");
+      if (!data._id ) {
+        return rejectWithValue(data?.error || data?.message || "Failed to update request");
       }
 
       return data.request;
@@ -380,7 +380,7 @@ const requestsSlice = createSlice({
         state.message = action.payload.message;
         // Remove the request from the requests array
         state.requests = state.requests.filter(
-          (request) => request.requestId !== action.payload.requestId
+          (request) => request._id !== action.payload.requestId
         );
         state.count -= 1;
         // Clear selectedRequest if it's the deleted request

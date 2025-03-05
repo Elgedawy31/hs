@@ -22,39 +22,42 @@ const UniTable = ({ columns, data, actions, onRowSelect }) => {
         header: '',
         cell: ({ row }) => (
           <div className="relative">
-            <Dropdown className='bg-background border border-borderColor rounded-xl text-text gap-5'>
+            <Dropdown className='bg-background rounded-xl text-text gap-5 relative'>
               <DropdownTrigger>
-                <Button variant="bordered" className="p-1 hover:bg-background text-text rounded-full ml-auto block min-w-0">
+                <Button variant="bordered" className="p-1.5 hover:bg-body text-text rounded-full ml-auto block min-w-0 transition-colors duration-200">
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                     <path d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu  aria-label="Actions">
+              <DropdownMenu 
+                aria-label="Actions" 
+                className="p-2 min-w-[180px] shadow-md border border-borderColor rounded-xl bg-background animate-menuEnter z-50"
+              >
                 {actions?.map((action, index) => (
                   <DropdownItem 
                     key={index} 
                     onPress={() => action.onClick(row.original)}
-                    className={action.label === 'Delete' ? "text-red-500 " : ""}
+                    className={`${action.label === 'Delete' ? "text-red-500" : ""} rounded-lg mb-1 last:mb-0 transition-all duration-200 hover:bg-body hover:border-l-2 hover:border-primary px-3 py-2.5 font-medium`}
                   >
                     <div className="flex items-center gap-3">
                       {action.label === 'Edit' && (
-                        <svg className="w-4 h-4 text-primary-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <svg className="w-4 h-4 text-primary flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                           <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       )}
                       {action.label === 'Delete' && (
-                        <svg className="w-4 h-4 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <svg className="w-4 h-4 text-red-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                           <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       )}
                       {action.label === 'Details' && (
-                        <svg className="w-4 h-4 text-purple-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <svg className="w-4 h-4 text-primary flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                           <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                           <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       )}
-                      <span className='text-[16px]'>{action.label}</span>
+                      <span className='text-[15px]'>{action.label}</span>
                     </div>
                   </DropdownItem>
                 ))}

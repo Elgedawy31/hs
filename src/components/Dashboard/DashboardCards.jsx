@@ -1,29 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import UniCard from '../UniCard';
 import { UsersRound, UserCheck, MailIcon, FileChartLineIcon } from 'lucide-react';
 import { BASE_URL } from '../../utils/constants';
 import { useAuth } from '@contexts/AuthContext';
 import toast from 'react-hot-toast';
+import { EventSourceWithAuth } from '../../utils/general'
 
 function DashboardCards() {
   const {token} = useAuth();
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const eventSource = new EventSourceWithAuth(`${BASE_URL}/sse/admin`,{
-        headers:{
-         
-            'Authorization': token
-        }
-    });
-    eventSource.connect();
-    eventSource.addEventListener('activity', (event) => {
-        console.log('activity',event.data);
-    });
-
-    eventSource.addEventListener('error',(err)=>{
-       toast.error(err || 'An error occured');
-    })
-});
+    document.addEventListener('DOMContentLoaded', () => {
+      const eventSource = new EventSourceWithAuth(`${BASE_URL}/sse/admin`,{
+          headers:{
+           
+              'Authorization': token
+          }
+      });
+      eventSource.connect();
+      eventSource.addEventListener('activity', (event) => {
+          console.log('activity',event.data);
+      });
+  
+      eventSource.addEventListener('error',(err)=>{
+         toast.error(err || 'An error occured');
+      })
+  });
+   
   return (
     <div className="p-4 space-y-6">
       

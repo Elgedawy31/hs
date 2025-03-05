@@ -26,7 +26,7 @@ const AddManuallyCard = ({ onClick }) => {
       onClick={onClick}
     >
       <div className="flex flex-col items-center justify-center gap-4">
-        <div className="text-primary bg-primary-50 rounded-full p-2">
+        <div className="text-primary bg-[#F8EFE6] rounded-full p-2">
           <Plus className="w-5 h-5" />
         </div>
         <span className="text-primary text-xl font-semibold">Add Manually</span>

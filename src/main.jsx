@@ -18,6 +18,7 @@ import { Toaster } from 'react-hot-toast'
 import HomePage from './pages/HomePage.jsx'
 import { CheckCircle, Info, XCircle } from 'lucide-react'
 import Products from './pages/Products.jsx'
+import Experts from './pages/Experts.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         'path': '/products',
         element:<Products />
+      },
+      {
+        path:'experts',
+        element: <Experts />
       }
     ]
   },

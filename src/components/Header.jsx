@@ -69,6 +69,21 @@ function Header() {
             )}
           </NavLink>
           <NavLink 
+            to="/experts" 
+            className={({ isActive }) => 
+              `text-text hover:text-primary font-medium relative group ${isActive ? 'text-primary' : ''}`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                Experts
+                <span className={`absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full transition-all duration-300 ${
+                  isActive ? 'opacity-100 scale-100' : 'group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-0'
+                }`}></span>
+              </>
+            )}
+          </NavLink>
+          <NavLink 
             to="/contact" 
             className={({ isActive }) => 
               `text-text hover:text-primary font-medium relative group ${isActive ? 'text-primary' : ''}`
@@ -170,6 +185,14 @@ function Header() {
             }
           >
             Products
+          </NavLink>
+          <NavLink 
+            to="/experts" 
+            className={({ isActive }) => 
+              `text-text hover:text-primary font-medium py-2 border-b border-borderColor ${isActive ? 'text-primary' : ''}`
+            }
+          >
+            Experts
           </NavLink>
           <NavLink 
             to="/contact" 

@@ -230,7 +230,10 @@ function Products() {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Sidebar with filters */}
         <div className="lg:w-1/4 w-full">
-          <ProductFilter onFilterChange={handleFilterChange} />
+          <ProductFilter 
+            onFilterChange={handleFilterChange} 
+            currentFilters={filters}
+          />
         </div>
         
         {/* Main content */}

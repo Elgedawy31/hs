@@ -56,67 +56,76 @@ const StarRating = ({ stars, selected, onClick }) => {
   );
 };
 
-const ProductFilter = ({ onFilterChange }) => {
+const ProductFilter = ({ onFilterChange, currentFilters }) => {
   const { theme } = useTheme();
   const [isFilterOpen, setIsFilterOpen] = useState(true);
-  const [filters, setFilters] = useState({
+  
+  // Use currentFilters directly instead of maintaining a separate state
+  const filters = currentFilters || {
     skinType: [],
     productType: [],
     categories: [],
     rating: null,
     priceRange: { min: "", max: "" }
-  });
+  };
 
   const handleFilterToggle = () => {
     setIsFilterOpen(!isFilterOpen);
   };
 
   const handleCheckboxChange = (category, value) => {
-    setFilters(prevFilters => {
-      const updatedCategory = prevFilters[category].includes(value)
-        ? prevFilters[category].filter(item => item !== value)
-        : [...prevFilters[category], value];
+    const updatedCategory = filters[category].includes(value)
+      ? filters[category].filter(item => item !== value)
+      : [...filters[category], value];
 
-      return {
-        ...prevFilters,
-        [category]: updatedCategory
-      };
-    });
+    const updatedFilters = {
+      ...filters,
+      [category]: updatedCategory
+    };
+    
+    if (onFilterChange) {
+      onFilterChange(updatedFilters);
+    }
   };
 
   const handleRatingChange = (rating) => {
-    setFilters(prevFilters => ({
-      ...prevFilters,
-      rating: prevFilters.rating === rating ? null : rating
-    }));
+    const updatedFilters = {
+      ...filters,
+      rating: filters.rating === rating ? null : rating
+    };
+    
+    if (onFilterChange) {
+      onFilterChange(updatedFilters);
+    }
   };
 
   const handlePriceChange = (type, value) => {
-    setFilters(prevFilters => ({
-      ...prevFilters,
+    const updatedFilters = {
+      ...filters,
       priceRange: {
-        ...prevFilters.priceRange,
+        ...filters.priceRange,
         [type]: value
       }
-    }));
+    };
+    
+    if (onFilterChange) {
+      onFilterChange(updatedFilters);
+    }
   };
 
   const clearFilters = () => {
-    setFilters({
+    const emptyFilters = {
       skinType: [],
       productType: [],
       categories: [],
       rating: null,
       priceRange: { min: "", max: "" }
-    });
-  };
-
-  // Update parent component when filters change
-  useEffect(() => {
+    };
+    
     if (onFilterChange) {
-      onFilterChange(filters);
+      onFilterChange(emptyFilters);
     }
-  }, [filters, onFilterChange]);
+  };
 
   return (
     <div 

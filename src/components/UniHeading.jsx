@@ -18,7 +18,7 @@ function UniHeading({ title, className = "" }) {
         {title}
       </h2>
       <div 
-        className="h-1 w-24 mx-auto rounded-full"
+        className="h-1 w-[170px] mx-auto rounded-full"
         style={{ backgroundColor: theme.primary }}
       ></div>
     </div>

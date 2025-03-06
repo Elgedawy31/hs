@@ -23,6 +23,7 @@ import Expert from './pages/Expert.jsx'
 import ProdcutDetails from './pages/ProdcutDetails.jsx'
 import ContactUs from './pages/ContactUs.jsx'
 import Terms from './pages/Terms.jsx'
+import Notifications from './pages/Notifications.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
       {
         path:'/terms',
         element: <Terms />
+      },
+      {
+        path:'/notifications',
+        element: <Notifications />
       },
     ]
   },

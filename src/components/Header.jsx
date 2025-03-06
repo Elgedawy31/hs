@@ -226,14 +226,11 @@ function Header() {
                   <Bell className="h-6 w-6 mr-2" />
                   <span>Notifications</span>
                 </Link>
-                <Link to="/profile" className="text-text hover:text-primary flex items-center">
-                  <svg width="30" height="30" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2">
-                    <circle cx="35" cy="35" r="35" fill="#F9F5EB"/>
-                    <path d="M35 35C30.3 35 26.5 31.2 26.5 26.5C26.5 21.8 30.3 18 35 18C39.7 18 43.5 21.8 43.5 26.5C43.5 31.2 39.7 35 35 35ZM35 21C31.95 21 29.5 23.45 29.5 26.5C29.5 29.55 31.95 32 35 32C38.05 32 40.5 29.55 40.5 26.5C40.5 23.45 38.05 21 35 21Z" fill="#E4A951"/>
-                    <path d="M53.5 52C52.65 52 52 51.35 52 50.5C52 43.05 44.4 37 35 37C25.6 37 18 43.05 18 50.5C18 51.35 17.35 52 16.5 52C15.65 52 15 51.35 15 50.5C15 41.4 24.05 34 35 34C45.95 34 55 41.4 55 50.5C55 51.35 54.35 52 53.5 52Z" fill="#E4A951"/>
-                  </svg>
-                  <span>Profile</span>
+                <Link to="/cart" className="text-text hover:text-primary flex items-center">
+                  <ShoppingCart className="h-6 w-6 mr-2" />
+                  <span>Cart</span>
                 </Link>
+              
               </div>
             ) : (
               <>

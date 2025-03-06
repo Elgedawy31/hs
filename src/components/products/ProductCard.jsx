@@ -1,10 +1,11 @@
 import React from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Star, ShoppingCart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
   const { theme } = useTheme();
-  
+  const navigate = useNavigate()
   // Render stars based on rating
   const renderStars = (rating) => {
     return (
@@ -23,11 +24,12 @@ const ProductCard = ({ product }) => {
 
   return (
     <div 
-      className="rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1"
+      className="rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform duration-300 hover:shadow-lg hover:-translate-y-1"
       style={{ 
         backgroundColor: theme.background,
         borderColor: theme.borderColor
       }}
+      onClick={() => navigate(`${product.id}`)}
     >
       <div className="relative">
         <img

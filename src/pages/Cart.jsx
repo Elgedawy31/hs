@@ -67,14 +67,14 @@ function Cart() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-6 md:py-8">
       <SEO 
         title={`HS - Healthcare Solutions - Cart`}
         description={`Cart page for HS - Healthcare Solutions`}
       />
       
-      {/* Cart Header */}
-      <div className="grid grid-cols-4 gap-4 mb-4 font-semibold text-text">
+      {/* Cart Header - Hidden on mobile */}
+      <div className="hidden md:grid md:grid-cols-4 gap-4 mb-4 font-semibold text-text">
         <div>Product</div>
         <div className="text-center">Price</div>
         <div className="text-center">Quantity</div>
@@ -86,66 +86,75 @@ function Cart() {
         {products.map(product => (
           <div 
             key={product.id} 
-            className="grid grid-cols-4 gap-4 items-center p-4 rounded-lg bg-altPrimary shadow-sm"
+            className="flex flex-col md:grid md:grid-cols-4 gap-4 items-center p-4 rounded-lg bg-altPrimary shadow-sm"
           >
-            {/* Product */}
-            <div className="flex items-center space-x-4">
+            {/* Product - Full width on mobile */}
+            <div className="w-full md:w-auto flex items-center justify-center md:justify-start space-x-4 mb-4 md:mb-0">
               <img 
                 src={product.image} 
                 alt={product.name} 
-                className="w-32 h-32 object-cover rounded-lg"
+                className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-lg"
               />
             </div>
             
-            {/* Price */}
-            <div className="text-center">
-              <p>{product.price} LE</p>
-              <button 
-                onClick={() => toggleFavorite(product.id)}
-                className="mt-2"
-              >
-                <Heart 
-                  className={`${product.isFavorite ? 'fill-primary' : ''} text-primary`} 
-                  size={20} 
-                />
-              </button>
+            {/* Price - With labels on mobile */}
+            <div className="w-full md:w-auto flex justify-between md:block md:text-center mb-4 md:mb-0">
+              <span className="font-medium md:hidden">Price:</span>
+              <div className="flex flex-col md:block items-end md:items-center">
+                <p>{product.price} LE</p>
+                <button 
+                  onClick={() => toggleFavorite(product.id)}
+                  className="mt-2"
+                >
+                  <Heart 
+                    className={`${product.isFavorite ? 'fill-primary' : ''} text-primary`} 
+                    size={20} 
+                  />
+                </button>
+              </div>
             </div>
             
-            {/* Quantity */}
-            <div className="flex items-center justify-center space-x-4">
-              <button 
-                onClick={() => handleQuantityChange(product.id, product.quantity - 1)}
-                className="p-1 rounded-full border border-borderColor"
-              >
-                <Minus size={16} />
-              </button>
-              
-              <span className="w-8 text-center">{product.quantity}</span>
-              
-              <button 
-                onClick={() => handleQuantityChange(product.id, product.quantity + 1)}
-                className="p-1 rounded-full border border-borderColor"
-              >
-                <Plus size={16} />
-              </button>
+            {/* Quantity - With labels on mobile */}
+            <div className="w-full md:w-auto flex justify-between md:justify-center items-center mb-4 md:mb-0">
+              <span className="font-medium md:hidden">Quantity:</span>
+              <div className="flex items-center space-x-4">
+                <button 
+                  onClick={() => handleQuantityChange(product.id, product.quantity - 1)}
+                  className="p-1 rounded-full border border-borderColor"
+                >
+                  <Minus size={16} />
+                </button>
+                
+                <span className="w-8 text-center">{product.quantity}</span>
+                
+                <button 
+                  onClick={() => handleQuantityChange(product.id, product.quantity + 1)}
+                  className="p-1 rounded-full border border-borderColor"
+                >
+                  <Plus size={16} />
+                </button>
+              </div>
             </div>
             
-            {/* Total */}
-            <div className="flex items-center justify-between">
-              <span>{product.price * product.quantity} LE</span>
-              <button 
-                onClick={() => handleRemoveProduct(product.id)}
-                className="p-1 rounded-full"
-              >
-                <X size={20} />
-              </button>
+            {/* Total - With labels on mobile */}
+            <div className="w-full md:w-auto flex justify-end items-center">
+              <span className="font-medium md:hidden">Total:</span>
+              <div className="flex items-center space-x-4">
+                <span>{product.price * product.quantity} LE</span>
+                <button 
+                  onClick={() => handleRemoveProduct(product.id)}
+                  className="p-1 rounded-full"
+                >
+                  <X size={20} />
+                </button>
+              </div>
             </div>
           </div>
         ))}
       </div>
       
       {/* Payment and Summary */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 bg-altPrimary rounded-lg p-6 shadow-sm">
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 bg-altPrimary rounded-lg p-4 md:p-6 shadow-sm">
         {/* Payment Method */}
         <div>
           <h3 className="text-lg font-semibold mb-4">Choose Pay way</h3>

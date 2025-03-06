@@ -23,23 +23,23 @@ function Header() {
         <nav className="hidden lg:flex items-center space-x-8">
           <Link to="/" className="text-text hover:text-primary font-medium relative group">
             Home
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
+            <span className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
           </Link>
           <Link to="/treatments" className="text-text hover:text-primary font-medium relative group">
             Treatments
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
+            <span className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
           </Link>
           <Link to="/products" className="text-text hover:text-primary font-medium relative group">
             Products
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
+            <span className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
           </Link>
           <Link to="/contact" className="text-text hover:text-primary font-medium relative group">
             Contact US
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
+            <span className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
           </Link>
           <Link to="/terms" className="text-text hover:text-primary font-medium relative group">
             Terms
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
+            <span className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
           </Link>
         </nav>
 

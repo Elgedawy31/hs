@@ -121,6 +121,7 @@ const sampleProducts = [
 function Products() {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTags, setActiveTags] = useState([]);
+  const [sortBy, setSortBy] = useState('latest');
   const [filters, setFilters] = useState({
     skinType: [],
     productType: [],
@@ -129,6 +130,11 @@ function Products() {
     priceRange: { min: "", max: "" }
   });
   const [filteredProducts, setFilteredProducts] = useState(sampleProducts);
+  
+  // Handle sort change
+  const handleSortChange = (newSortBy) => {
+    setSortBy(newSortBy);
+  };
   
   // Handle filter changes from ProductFilter component
   const handleFilterChange = (newFilters) => {
@@ -175,7 +181,7 @@ function Products() {
     setFilters(newFilters);
   };
   
-  // Filter products based on selected filters
+  // Filter and sort products based on selected filters and sort option
   useEffect(() => {
     let result = sampleProducts;
     
@@ -215,8 +221,29 @@ function Products() {
       result = result.filter(product => product.price >= min && product.price <= max);
     }
     
+    // Sort products based on selected sort option
+    switch (sortBy) {
+      case 'price-low':
+        result = [...result].sort((a, b) => a.price - b.price);
+        break;
+      case 'price-high':
+        result = [...result].sort((a, b) => b.price - a.price);
+        break;
+      case 'rating':
+        result = [...result].sort((a, b) => b.rating - a.rating);
+        break;
+      case 'name':
+        result = [...result].sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'latest':
+      default:
+        // For 'latest', we'll use the ID as a proxy for recency (higher ID = more recent)
+        result = [...result].sort((a, b) => b.id - a.id);
+        break;
+    }
+    
     setFilteredProducts(result);
-  }, [filters]);
+  }, [filters, sortBy]);
   
   return (
     <div className="container mx-auto px-4 py-8">
@@ -238,7 +265,11 @@ function Products() {
         
         {/* Main content */}
         <div className="lg:w-3/4 w-full">
-          <ProductSort />
+          <ProductSort 
+            sortBy={sortBy}
+            onSortChange={handleSortChange}
+            totalProducts={filteredProducts.length}
+          />
           
           {activeTags.length > 0 && (
             <ProductTags 

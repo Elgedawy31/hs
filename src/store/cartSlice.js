@@ -16,7 +16,7 @@ const cartSlice = createSlice({
       if (existingItem) {
         existingItem.quantity++;
       } else {
-        state.items.push({ ...newItem, quantity: 1 });
+        state.items.push({ ...newItem, quantity: 1, isFavorite: false });
       }
       
       state.totalQuantity++;
@@ -53,8 +53,16 @@ const cartSlice = createSlice({
         }
       }
     },
+    toggleFavorite(state, action) {
+      const id = action.payload;
+      const existingItem = state.items.find(item => item.id === id);
+      
+      if (existingItem) {
+        existingItem.isFavorite = !existingItem.isFavorite;
+      }
+    },
   },
 });
 
-export const { addToCart, removeFromCart, increaseQuantity, decreaseQuantity } = cartSlice.actions;
+export const { addToCart, removeFromCart, increaseQuantity, decreaseQuantity, toggleFavorite } = cartSlice.actions;
 export default cartSlice.reducer;

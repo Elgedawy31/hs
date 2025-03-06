@@ -4,7 +4,7 @@ import { useTheme } from '../contexts/ThemeContext'
 import { Minus, Plus, X, Heart } from 'lucide-react'
 import UniBtn from '../components/UniBtn'
 import { useSelector, useDispatch } from 'react-redux'
-import { removeFromCart, increaseQuantity, decreaseQuantity } from '../store/cartSlice'
+import { removeFromCart, increaseQuantity, decreaseQuantity, toggleFavorite } from '../store/cartSlice'
 
 function Cart() {
   const { theme } = useTheme()
@@ -40,9 +40,8 @@ function Cart() {
   }
 
   // Toggle favorite
-  const toggleFavorite = (id) => {
-    // This functionality could be added to the Redux store if needed
-    // For now, we'll just keep it as a UI interaction without persistence
+  const handleToggleFavorite = (id) => {
+    dispatch(toggleFavorite(id));
   }
 
   return (
@@ -88,7 +87,7 @@ function Cart() {
               <div className="flex flex-col md:block items-end md:items-center">
                 <p>{product.price} LE</p>
                 <button 
-                  onClick={() => toggleFavorite(product.id)}
+                  onClick={() => handleToggleFavorite(product.id)}
                   className="mt-2"
                 >
                   <Heart 

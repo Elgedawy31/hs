@@ -39,21 +39,6 @@ function Header() {
             )}
           </NavLink>
           <NavLink 
-            to="/treatments" 
-            className={({ isActive }) => 
-              `text-text hover:text-primary font-medium relative group ${isActive ? 'text-primary' : ''}`
-            }
-          >
-            {({ isActive }) => (
-              <>
-                Treatments
-                <span className={`absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full transition-all duration-300 ${
-                  isActive ? 'opacity-100 scale-100' : 'group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-0'
-                }`}></span>
-              </>
-            )}
-          </NavLink>
-          <NavLink 
             to="/products" 
             className={({ isActive }) => 
               `text-text hover:text-primary font-medium relative group ${isActive ? 'text-primary' : ''}`
@@ -157,7 +142,7 @@ function Header() {
 
       {/* Mobile Menu - Only visible when menu is open */}
       <div 
-        className={`lg:hidden fixed inset-x-0 top-[72px] z-50 bg-body shadow-lg transform transition-transform duration-300 ease-in-out ${
+        className={`lg:hidden sticky inset-x-0 top-[72px] z-50 bg-body shadow-lg transform transition-transform duration-300 ease-in-out ${
           isMenuOpen ? 'translate-y-0' : '-translate-y-[120%]'
         }`}
       >
@@ -169,14 +154,6 @@ function Header() {
             }
           >
             Home
-          </NavLink>
-          <NavLink 
-            to="/treatments" 
-            className={({ isActive }) => 
-              `text-text hover:text-primary font-medium py-2 border-b border-borderColor ${isActive ? 'text-primary' : ''}`
-            }
-          >
-            Treatments
           </NavLink>
           <NavLink 
             to="/products" 

@@ -4,7 +4,7 @@ import logo from '../assets/Images/logo.svg';
 
 function Header() {
   return (
-    <header className="bg-background shadow-md py-2">
+    <header className="shadow-md py-2">
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
         <div className="flex-shrink-0">
@@ -39,10 +39,10 @@ function Header() {
 
         {/* Buttons */}
         <div className="hidden md:flex items-center space-x-4">
-          <Link to="/login" className="bg-primary text-white px-6 py-2 rounded-full font-medium hover:bg-opacity-90 transition-colors">
+          <Link to="/login" className="bg-primary text-white px-6 py-2 rounded-full font-medium shadow-lg  hover:bg-opacity-90 transition-colors">
             Login
           </Link>
-          <Link to="/book" className="bg-white text-text px-6 py-2 rounded-full font-medium shadow-md hover:shadow-lg transition-shadow">
+          <Link to="/book" className="bg-altPrimary text-text px-6 py-2 rounded-full font-medium shadow-lg hover:shadow-xl transition-shadow">
             Book Appointment
           </Link>
         </div>

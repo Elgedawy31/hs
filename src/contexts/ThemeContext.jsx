@@ -7,7 +7,7 @@ export const themes = {
     body:'#F7F3E9',
     placeholderText: "#99958F",
     primary: "#D29244",
-    altPrimary: '#A8A2A21A',
+    altPrimary: '#A8A2A240',
     text: '#101010',
     hoverText: '#000000',
     background: '#FFFFFF' ,

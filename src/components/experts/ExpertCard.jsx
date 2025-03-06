@@ -1,18 +1,24 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Calendar, Globe } from 'lucide-react';
 
 const ExpertCard = ({ expert }) => {
   const { theme } = useTheme();
+  const navigate = useNavigate();
   
+  const handleNavigateToExpert = () => {
+    navigate(`/experts/${expert.id}`);
+  };
 
   return (
     <div 
-      className="rounded-3xl shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
+      className="rounded-3xl shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 bg-white cursor-pointer"
       style={{ 
         backgroundColor: theme.background,
         borderColor: theme.borderColor
       }}
+      onClick={handleNavigateToExpert}
     >
       <div className="flex flex-col h-full justify-between">
         <div 
@@ -77,6 +83,10 @@ const ExpertCard = ({ expert }) => {
                 color: theme.primary,
                 border: `1px solid ${theme.primary}`
               }}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent the card's onClick from firing
+                handleNavigateToExpert();
+              }}
             >
               View Profile
             </button>
@@ -86,6 +96,10 @@ const ExpertCard = ({ expert }) => {
               style={{ 
                 backgroundColor: theme.primary,
                 color: '#FFFFFF'
+              }}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent the card's onClick from firing
+                handleNavigateToExpert();
               }}
             >
               Book Appointment

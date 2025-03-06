@@ -5,9 +5,6 @@ import { useTheme } from './contexts/ThemeContext';
 import Login from './pages/Login';
 
 // Components
-import Header from '@components/Header'
-import Sidebar from '@components/Sidebar';
-import ToastProvider from './components/CustomToast';
 function App() {
   const { isAuthenticated , token } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(
@@ -28,15 +25,7 @@ function App() {
   }, [theme]);
   return (
     <div className="min-h-screen flex flex-col bg-body text-text">
-      <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-      <div className="flex flex-1 overflow-auto h-[calc(100vh-64px)] my-5 
-       
-        ">
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        <main className="flex-1 pr-5 lg:pl-0 pl-5 " >
           <Outlet />
-        </main>
-      </div>
     </div>
   );
 }

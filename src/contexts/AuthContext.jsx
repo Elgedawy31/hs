@@ -11,7 +11,12 @@ const AuthContext = createContext({
 })
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null)
+  const defaultuser={
+    email:'mo@gmail.com',
+    password:'123456',
+    name:'Mohamed',
+  }
+  const [user, setUser] = useState(defaultuser || null)
   const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')) || null)
   const [loading, setLoading] = useState(false)
 

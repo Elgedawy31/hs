@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CustomTabs from '../components/CustomTabs';
 import SEO from '../components/SEO';
+import UniBtn from '../components/UniBtn';
 
 function Notifications() {
   const [activeTab, setActiveTab] = useState('all');
@@ -115,16 +116,21 @@ function Notifications() {
                     
                     <div className="flex space-x-3">
                       {notification.actions.map((action, index) => (
-                        <button 
-                          key={index} 
-                          className={`px-5 py-2 rounded-md text-sm font-medium transition-colors ${
-                            action.primary 
-                              ? 'bg-primary text-white hover:bg-primary/90' 
-                              : 'border border-primary text-primary hover:bg-primary/10'
-                          }`}
-                        >
-                          {action.label}
-                        </button>
+                        // <button 
+                        //   key={index} 
+                        //   className={`px-5 py-2 rounded-md text-sm font-medium transition-colors ${
+                        //     action.primary 
+                        //       ? 'bg-primary text-white hover:bg-primary/90' 
+                        //       : 'border border-primary text-primary hover:bg-primary/10'
+                        //   }`}
+                        // >
+                        //   {action.label}
+                        // </button>
+                        <UniBtn text={action.label}  className={` ${
+                              action.primary 
+                                ? 'bg-primary text-white hover:bg-primary/90' 
+                                : 'border border-primary bg-transparent  text-primary hover:bg-primary/10'
+                            }`}  />
                       ))}
                     </div>
                   </div>

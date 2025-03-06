@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom'
 import App from './App.jsx'
 import './index.css'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 import Login from '@pages/Login'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { ThemeProvider } from './contexts/ThemeContext'
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
     element: <NotFound />
   }
 ])
+
+// Initialize AOS
+AOS.init({
+  duration: 800,
+  easing: 'ease-in-out',
+  once: true,
+  mirror: false
+});
 
 // Check if the root element already has a React root associated with it
 const rootElement = document.getElementById('root');

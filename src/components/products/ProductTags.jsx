@@ -7,8 +7,12 @@ const ProductTag = ({ label, onRemove }) => {
   
   return (
     <div 
-      className="flex items-center rounded-full px-3 py-1 mr-2 mb-2"
-      style={{ backgroundColor: theme.accent }}
+      className="flex items-center rounded-full px-3 py-1 mr-2 mb-2 border"
+      style={{ 
+        backgroundColor: 'transparent',
+        borderColor: theme.primary,
+        color: theme.text
+      }}
     >
       <span className="text-sm font-medium">{label}</span>
       <button 
@@ -22,6 +26,8 @@ const ProductTag = ({ label, onRemove }) => {
 };
 
 const ProductTags = ({ tags = [], onRemoveTag }) => {
+  if (!tags || tags.length === 0) return null;
+  
   return (
     <div className="flex flex-wrap mb-4">
       {tags.map((tag, index) => (

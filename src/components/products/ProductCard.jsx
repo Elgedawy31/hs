@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { Star } from 'lucide-react';
+import { Star, ShoppingCart } from 'lucide-react';
 
 const ProductCard = ({ product }) => {
   const { theme } = useTheme();
@@ -22,7 +22,13 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
+    <div 
+      className="rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1"
+      style={{ 
+        backgroundColor: theme.background,
+        borderColor: theme.borderColor
+      }}
+    >
       <div className="relative">
         <img
           src={product.image}
@@ -31,8 +37,11 @@ const ProductCard = ({ product }) => {
         />
         <div className="absolute top-4 left-4">
           <span 
-            className="text-xs font-medium px-2 py-1 rounded-full text-white"
-            style={{ backgroundColor: theme.primary }}
+            className="text-xs font-medium px-2 py-1 rounded-full"
+            style={{ 
+              backgroundColor: theme.primary,
+              color: '#FFFFFF' 
+            }}
           >
             {product.category}
           </span>
@@ -40,11 +49,17 @@ const ProductCard = ({ product }) => {
       </div>
       
       <div className="p-4">
-        <h3 className="text-center font-semibold text-lg mb-1" style={{ color: theme.primary }}>
+        <h3 
+          className="text-center font-semibold text-lg mb-1" 
+          style={{ color: theme.primary }}
+        >
           {product.name}
         </h3>
         
-        <p className="text-center text-sm text-gray-600 mb-3">
+        <p 
+          className="text-center text-sm mb-3"
+          style={{ color: theme.placeholderText }}
+        >
           {product.description}
         </p>
         
@@ -53,14 +68,21 @@ const ProductCard = ({ product }) => {
         </div>
         
         <div className="flex justify-between items-center">
-          <span className="font-bold" style={{ color: theme.primary }}>
+          <span 
+            className="font-bold" 
+            style={{ color: theme.primary }}
+          >
             {product.price} LE
           </span>
           
           <button
-            className="px-4 py-1 rounded text-white text-sm"
-            style={{ backgroundColor: theme.primary }}
+            className="px-4 py-1 rounded text-sm flex items-center"
+            style={{ 
+              backgroundColor: theme.primary,
+              color: '#FFFFFF'
+            }}
           >
+            <ShoppingCart className="w-4 h-4 mr-1" />
             Add To Cart
           </button>
         </div>

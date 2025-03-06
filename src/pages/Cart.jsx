@@ -5,11 +5,13 @@ import { Minus, Plus, X, Heart } from 'lucide-react'
 import UniBtn from '../components/UniBtn'
 import { useSelector, useDispatch } from 'react-redux'
 import { removeFromCart, increaseQuantity, decreaseQuantity, toggleFavorite } from '../store/cartSlice'
+import { useNavigate } from 'react-router-dom'
 
 function Cart() {
   const { theme } = useTheme()
   const dispatch = useDispatch()
   const cartItems = useSelector(state => state.cart.items)
+  const navigate = useNavigate()
   const [paymentMethod, setPaymentMethod] = useState('cash') // 'online' or 'cash'
 
   // Calculate subtotal
@@ -202,11 +204,11 @@ function Cart() {
             <span className="font-semibold">{total} LE</span>
           </div>
           
-          <div className="mt-6">
+          <div className="mt-6" style={{display:paymentMethod ==='online' ? 'block' : 'none'}}>
             <UniBtn 
               text="CheckOut" 
               className="w-full text-white" 
-              onClick={() => alert('Checkout process initiated')}
+              onClick={() => navigate('/checkout')}
             />
           </div>
         </div>

@@ -37,19 +37,6 @@ const sampleExperts = [
     rating: 4
   },
   {
-    id: 2,
-    name: 'Dr. Emily Watson',
-    image: '/src/assets/Images/doctor-2.svg',
-    specializations: ['Surgical Dermatology'],
-    experience: 6,
-    languages: ['English'],
-    availability: {
-      nextAvailable: 'Tomorrow, 11:00 AM',
-      days: ['Tuesday', 'Thursday']
-    },
-    rating: 4
-  },
-  {
     id: 3,
     name: 'Dr. William Harris',
     image: '/src/assets/Images/doctor-3.svg',
@@ -129,6 +116,19 @@ const sampleExperts = [
   },
   {
     id: 9,
+    name: 'Dr. Omar Abdelrahman',
+    image: '/src/assets/Images/doctor-3.svg',
+    specializations: ['Cosmetic Dermatology', 'Medical Dermatology'],
+    experience: 7,
+    languages: ['Arabic', 'English'],
+    availability: {
+      nextAvailable: 'Tomorrow, 3:15 PM',
+      days: ['Monday', 'Wednesday']
+    },
+    rating: 5
+  },
+  {
+    id: 90,
     name: 'Dr. Omar Abdelrahman',
     image: '/src/assets/Images/doctor-3.svg',
     specializations: ['Cosmetic Dermatology', 'Medical Dermatology'],

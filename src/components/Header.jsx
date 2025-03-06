@@ -84,7 +84,7 @@ function Header() {
             )}
           </NavLink>
           <NavLink 
-            to="/contact" 
+            to="/contact-us" 
             className={({ isActive }) => 
               `text-text hover:text-primary font-medium relative group ${isActive ? 'text-primary' : ''}`
             }
@@ -195,7 +195,7 @@ function Header() {
             Experts
           </NavLink>
           <NavLink 
-            to="/contact" 
+            to="/contact-us" 
             className={({ isActive }) => 
               `text-text hover:text-primary font-medium py-2 border-b border-borderColor ${isActive ? 'text-primary' : ''}`
             }

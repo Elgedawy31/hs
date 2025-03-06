@@ -44,8 +44,8 @@ const UniTextInput = ({
     ${error 
       ? 'border-red-500 focus:border-red-500' 
       : isDarkMode 
-      ? 'focus:border-[#E76507]'
-      : 'focus:border-[#E76507]'
+      ? 'focus:border-[#D29244]'
+      : 'focus:border-[#D29244]'
     } 
     ${disabled 
       ? 'opacity-50 cursor-not-allowed' 

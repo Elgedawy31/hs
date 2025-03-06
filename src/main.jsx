@@ -21,6 +21,7 @@ import Products from './pages/Products.jsx'
 import Experts from './pages/Experts.jsx'
 import Expert from './pages/Expert.jsx'
 import ProdcutDetails from './pages/ProdcutDetails.jsx'
+import ContactUs from './pages/ContactUs.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -59,7 +60,11 @@ const router = createBrowserRouter([
       {
         path:'/experts/:id',
         element: <Expert />
-      }
+      },
+      {
+        path:'/contact-us',
+        element: <ContactUs />
+      },
     ]
   },
   {

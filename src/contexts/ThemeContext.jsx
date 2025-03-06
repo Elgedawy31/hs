@@ -11,7 +11,8 @@ export const themes = {
     text: '#101010',
     hoverText: '#000000',
     background: '#FFFFFF' ,
-    footer:'#000000'
+    footer:'#000000' ,
+    borderColor: '#E5E5E5'
   },
   dark: {
     body: '#101010',
@@ -21,7 +22,8 @@ export const themes = {
     text: '#F7F3E9',
     hoverText: '#FFFFFF',
     background: '#1E1E1E',
-    footer:'#FFFFFF'  
+    footer:'#FFFFFF'  ,
+    borderColor: '#333333'
   }
 };
 

@@ -2,7 +2,7 @@ import React from 'react'
 
 function CustomTabs({ tabs, activeTab, onChange, children }) {
   return (
-    <div className="w-full rounded-lg">
+    <div className="w-full rounded-lg overflow-auto">
       <div className="">
         <div className="flex relative">
           {tabs.map((tab) => (

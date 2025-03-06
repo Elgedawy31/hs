@@ -1,9 +1,10 @@
 import React from 'react'
+import Hero from '../components/home/Hero'
 
 function HomePage() {
   return (
     <div className='container mx-auto'>
-      HomePage
+    <Hero />
     </div>
   )
 }

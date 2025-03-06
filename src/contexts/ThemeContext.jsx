@@ -4,28 +4,24 @@ const ThemeContext = createContext();
 
 export const themes = {
   light: {
-    body:'#F6F8FC',
-    secondPrimaryColor: "#F8EEE6",
-    placeholderText: "#525253",
-    primary: "#E76507",
-    altPrimary: '#D35400',
+    body:'#F7F3E9',
+    placeholderText: "#99958F",
+    primary: "#D29244",
+    altPrimary: '#A8A2A21A',
     text: '#101010',
     hoverText: '#000000',
-    borderColor: '#E4E5E7',
     background: '#FFFFFF' ,
-    barcolor:'#F8EEE6'
+    footer:'#000000'
   },
   dark: {
-    body:'#111111',
-    secondPrimaryColor: "#272728",
-    placeholderText: "#a0a0a1",
-    primary: "#E76507",
-    altPrimary: '#F97316',
-    text: '#e6e6e6',
+    body: '#101010',
+    placeholderText: "#99958F",
+    primary: "#D29244",
+    altPrimary: '#A8A2A21A',
+    text: '#F7F3E9',
     hoverText: '#FFFFFF',
-    borderColor: '#2d2d2d',
-    background:'#151515' ,
-    barcolor:'##F8EEE6'
+    background: '#1E1E1E',
+    footer:'#FFFFFF'  
   }
 };
 

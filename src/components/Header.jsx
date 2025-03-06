@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import logo from '../assets/Images/logo.svg';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
@@ -23,25 +23,80 @@ function Header() {
 
         {/* Navigation - Only visible on lg screens and above */}
         <nav className="hidden lg:flex items-center space-x-8">
-          <NavLink to="/" className="text-text hover:text-primary font-medium relative group">
-            Home
-            <span className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
+          <NavLink 
+            to="/" 
+            className={({ isActive }) => 
+              `text-text hover:text-primary font-medium relative group ${isActive ? 'text-primary' : ''}`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                Home
+                <span className={`absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full transition-all duration-300 ${
+                  isActive ? 'opacity-100 scale-100' : 'group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-0'
+                }`}></span>
+              </>
+            )}
           </NavLink>
-          <NavLink to="/treatments" className="text-text hover:text-primary font-medium relative group">
-            Treatments
-            <span className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
+          <NavLink 
+            to="/treatments" 
+            className={({ isActive }) => 
+              `text-text hover:text-primary font-medium relative group ${isActive ? 'text-primary' : ''}`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                Treatments
+                <span className={`absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full transition-all duration-300 ${
+                  isActive ? 'opacity-100 scale-100' : 'group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-0'
+                }`}></span>
+              </>
+            )}
           </NavLink>
-          <NavLink to="/products" className="text-text hover:text-primary font-medium relative group">
-            Products
-            <span className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
+          <NavLink 
+            to="/products" 
+            className={({ isActive }) => 
+              `text-text hover:text-primary font-medium relative group ${isActive ? 'text-primary' : ''}`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                Products
+                <span className={`absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full transition-all duration-300 ${
+                  isActive ? 'opacity-100 scale-100' : 'group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-0'
+                }`}></span>
+              </>
+            )}
           </NavLink>
-          <NavLink to="/contact" className="text-text hover:text-primary font-medium relative group">
-            Contact US
-            <span className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
+          <NavLink 
+            to="/contact" 
+            className={({ isActive }) => 
+              `text-text hover:text-primary font-medium relative group ${isActive ? 'text-primary' : ''}`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                Contact US
+                <span className={`absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full transition-all duration-300 ${
+                  isActive ? 'opacity-100 scale-100' : 'group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-0'
+                }`}></span>
+              </>
+            )}
           </NavLink>
-          <NavLink to="/terms" className="text-text hover:text-primary font-medium relative group">
-            Terms
-            <span className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full group-hover:opacity-100 opacity-0 transition-opacity"></span>
+          <NavLink 
+            to="/terms" 
+            className={({ isActive }) => 
+              `text-text hover:text-primary font-medium relative group ${isActive ? 'text-primary' : ''}`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                Terms
+                <span className={`absolute left-1/2 transform -translate-x-1/2 w-2 h-2 -bottom-2 bg-primary rounded-full transition-all duration-300 ${
+                  isActive ? 'opacity-100 scale-100' : 'group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-0'
+                }`}></span>
+              </>
+            )}
           </NavLink>
         </nav>
 
@@ -92,21 +147,46 @@ function Header() {
         }`}
       >
         <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-          <Link to="/" className="text-text hover:text-primary font-medium py-2 border-b border-borderColor">
+          <NavLink 
+            to="/" 
+            className={({ isActive }) => 
+              `text-text hover:text-primary font-medium py-2 border-b border-borderColor ${isActive ? 'text-primary' : ''}`
+            }
+          >
             Home
-          </Link>
-          <Link to="/treatments" className="text-text hover:text-primary font-medium py-2 border-b border-borderColor">
+          </NavLink>
+          <NavLink 
+            to="/treatments" 
+            className={({ isActive }) => 
+              `text-text hover:text-primary font-medium py-2 border-b border-borderColor ${isActive ? 'text-primary' : ''}`
+            }
+          >
             Treatments
-          </Link>
-          <Link to="/products" className="text-text hover:text-primary font-medium py-2 border-b border-borderColor">
+          </NavLink>
+          <NavLink 
+            to="/products" 
+            className={({ isActive }) => 
+              `text-text hover:text-primary font-medium py-2 border-b border-borderColor ${isActive ? 'text-primary' : ''}`
+            }
+          >
             Products
-          </Link>
-          <Link to="/contact" className="text-text hover:text-primary font-medium py-2 border-b border-borderColor">
+          </NavLink>
+          <NavLink 
+            to="/contact" 
+            className={({ isActive }) => 
+              `text-text hover:text-primary font-medium py-2 border-b border-borderColor ${isActive ? 'text-primary' : ''}`
+            }
+          >
             Contact US
-          </Link>
-          <Link to="/terms" className="text-text hover:text-primary font-medium py-2 border-b border-borderColor">
+          </NavLink>
+          <NavLink 
+            to="/terms" 
+            className={({ isActive }) => 
+              `text-text hover:text-primary font-medium py-2 border-b border-borderColor ${isActive ? 'text-primary' : ''}`
+            }
+          >
             Terms
-          </Link>
+          </NavLink>
           <div className="flex flex-col space-y-3 pt-2">
             <button 
               onClick={toggleTheme} 

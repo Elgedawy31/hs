@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/Images/logo.svg';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { currentTheme, toggleTheme } = useTheme();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -45,7 +47,21 @@ function Header() {
 
         {/* Buttons - Only visible on lg screens and above */}
         <div className="hidden lg:flex items-center space-x-4">
-          <Link to="/login" className="bg-primary text-white px-6 py-2 rounded-full font-medium shadow-lg  hover:bg-opacity-90 transition-colors">
+          <button 
+            onClick={toggleTheme} 
+            className="p-2 rounded-full flex items-center justify-center relative overflow-hidden group transition-all duration-300 ease-in-out hover:bg-altPrimary"
+            aria-label={currentTheme === 'dark' ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            <div className="absolute inset-0 w-full h-full bg-altPrimary opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
+            <div className="relative z-10 transform group-hover:rotate-45 transition-transform duration-500 ease-in-out">
+              {currentTheme === 'dark' ? (
+                <Sun className="h-5 w-5 text-text" />
+              ) : (
+                <Moon className="h-5 w-5 text-text" />
+              )}
+            </div>
+          </button>
+          <Link to="/login" className="bg-primary text-white px-6 py-2 rounded-full font-medium shadow-lg hover:bg-opacity-90 transition-colors">
             Login
           </Link>
           <Link to="/book" className="bg-altPrimary text-text px-6 py-2 rounded-full font-medium shadow-lg hover:shadow-xl transition-shadow">
@@ -92,6 +108,20 @@ function Header() {
             Terms
           </Link>
           <div className="flex flex-col space-y-3 pt-2">
+            <button 
+              onClick={toggleTheme} 
+              className="flex items-center justify-center p-2 rounded-full group transition-all duration-300 ease-in-out hover:bg-altPrimary"
+              aria-label={currentTheme === 'dark' ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              <div className="transform group-hover:rotate-45 transition-transform duration-500 ease-in-out mr-2">
+                {currentTheme === 'dark' ? (
+                  <Sun className="h-5 w-5 text-text" />
+                ) : (
+                  <Moon className="h-5 w-5 text-text" />
+                )}
+              </div>
+              <span className="text-text">{currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+            </button>
             <Link to="/login" className="bg-primary text-white px-6 py-2 rounded-full font-medium shadow-lg hover:bg-opacity-90 transition-colors text-center">
               Login
             </Link>

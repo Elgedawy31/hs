@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import SEO from '../components/SEO';
 import ProductFilter from '../components/products/ProductFilter';
 import ProductList from '../components/products/ProductList';
@@ -6,7 +6,7 @@ import ProductSort from '../components/products/ProductSort';
 import ProductTags from '../components/products/ProductTags';
 import UniPagination from '../components/UniPagination';
 
-// Sample product data
+// Sample product data with unique IDs
 const sampleProducts = [
   {
     id: 1,
@@ -115,6 +115,66 @@ const sampleProducts = [
     skinType: ['dry'],
     productType: ['cleanser'],
     categories: ['scars']
+  },
+  {
+    id: 10,
+    name: 'Ginkgo Biloba Extract',
+    category: 'Cleanser',
+    description: 'nourishing cream for extremely dry & sensitive skin',
+    image: '/src/assets/Images/products-1.svg',
+    rating: 3,
+    price: 800,
+    skinType: ['all'],
+    productType: ['cleanser'],
+    categories: ['vitiligo']
+  },
+  {
+    id: 11,
+    name: 'Ginkgo Biloba Extract',
+    category: 'Cleanser',
+    description: 'nourishing cream for extremely dry & sensitive skin',
+    image: '/src/assets/Images/products-1.svg',
+    rating: 3,
+    price: 800,
+    skinType: ['all'],
+    productType: ['cleanser'],
+    categories: ['vitiligo']
+  },
+  {
+    id: 12,
+    name: 'Ginkgo Biloba Extract',
+    category: 'Cleanser',
+    description: 'nourishing cream for extremely dry & sensitive skin',
+    image: '/src/assets/Images/products-1.svg',
+    rating: 3,
+    price: 800,
+    skinType: ['all'],
+    productType: ['cleanser'],
+    categories: ['vitiligo']
+  },
+  {
+    id: 13,
+    name: 'Ginkgo Biloba Extract',
+    category: 'Cleanser',
+    description: 'nourishing cream for extremely dry & sensitive skin',
+    image: '/src/assets/Images/products-2.svg',
+    rating: 3,
+    price: 800,
+    skinType: ['all'],
+    productType: ['cleanser'],
+    categories: ['vitiligo']
+  },
+  {
+    id: 14,
+    name: 'Ginkgo Biloba Extract',
+    category: 'Cleanser',
+    description: 'nourishing cream for extremely dry & sensitive skin',
+    image: '/src/assets/Images/products-1.svg',
+    rating: 3,
+    price: 800,
+    skinType: ['all'],
+    productType: ['cleanser'],
+    categories: ['vitiligo']
   }
 ];
 
@@ -130,6 +190,14 @@ function Products() {
     priceRange: { min: "", max: "" }
   });
   const [filteredProducts, setFilteredProducts] = useState(sampleProducts);
+  const productsPerPage = 6;
+  
+  // Calculate paginated products
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+    return filteredProducts.slice(startIndex, endIndex);
+  }, [filteredProducts, currentPage, productsPerPage]);
   
   // Handle sort change
   const handleSortChange = (newSortBy) => {
@@ -180,6 +248,11 @@ function Products() {
     
     setFilters(newFilters);
   };
+  
+  // Reset to first page when filters or sort changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters, sortBy]);
   
   // Filter and sort products based on selected filters and sort option
   useEffect(() => {
@@ -278,11 +351,11 @@ function Products() {
             />
           )}
           
-          <ProductList products={filteredProducts} />
+          <ProductList products={paginatedProducts} />
           
           <UniPagination 
             currentPage={currentPage}
-            totalPages={Math.ceil(filteredProducts.length / 6)}
+            totalPages={Math.ceil(filteredProducts.length / productsPerPage)}
             onPageChange={setCurrentPage}
           />
         </div>

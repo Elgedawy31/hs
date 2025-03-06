@@ -28,7 +28,7 @@ const ProductSort = ({ sortBy, onSortChange, totalProducts }) => {
           value={sortBy || 'latest'}
           onChange={handleSortChange}
           style={{ 
-            backgroundColor: 'transparent',
+            backgroundColor: theme.background,
             color: theme.text,
             borderColor: theme.borderColor
           }}

@@ -10,6 +10,7 @@ import './index.css'
 import Login from '@pages/Login'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { ThemeProvider } from './contexts/ThemeContext'
+import { HelmetProvider } from 'react-helmet-async'
 import NotFound from './pages/NotFound.jsx'
 import { Toaster } from 'react-hot-toast'
 import HomePage from './pages/HomePage.jsx'
@@ -53,6 +54,7 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <AuthProvider>
       <ThemeProvider>
+        <HelmetProvider>
           <RouterProvider router={router} />
           <Toaster
             position="bottom-right"
@@ -91,6 +93,7 @@ root.render(
               },
             }}
           />
+        </HelmetProvider>
       </ThemeProvider>
   </AuthProvider>
 );

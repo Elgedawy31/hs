@@ -27,6 +27,7 @@ import ContactUs from './pages/ContactUs.jsx'
 import Terms from './pages/Terms.jsx'
 import Notifications from './pages/Notifications.jsx'
 import Cart from './pages/Cart.jsx'
+import Checkout from './pages/Checkout.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
       {
         path:'/cart',
         element: <Cart />
+      },
+      {
+        path:'/checkout',
+        element: <Checkout />
       },
     ]
   },

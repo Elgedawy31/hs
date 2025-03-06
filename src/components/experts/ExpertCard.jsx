@@ -1,66 +1,58 @@
 import React from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { Star, Calendar } from 'lucide-react';
+import { Calendar, Globe } from 'lucide-react';
 
 const ExpertCard = ({ expert }) => {
   const { theme } = useTheme();
   
-  // Render stars based on rating
-  const renderStars = (rating) => {
-    return (
-      <div className="flex">
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className="w-4 h-4"
-            fill={i < rating ? theme.primary : "none"}
-            stroke={theme.primary}
-          />
-        ))}
-      </div>
-    );
-  };
 
   return (
     <div 
-      className="rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
+      className="rounded-3xl shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
       style={{ 
         backgroundColor: theme.background,
         borderColor: theme.borderColor
       }}
     >
-      <div className="p-4">
-        <div className="flex flex-col items-center">
+      <div className="flex flex-col h-full justify-between">
+        <div 
+          className="w-full h-64 bg-sky-100 flex items-center justify-center"
+        >
           <img
             src={expert.image}
             alt={expert.name}
-            className="w-32 h-32 object-cover rounded-lg mb-4"
+            className="h-full object-cover"
           />
-          
+        </div>
+        
+        <div className="p-4 flex flex-col justify-between h-full">
           <h3 
-            className="font-semibold text-lg mb-2 text-center" 
-            style={{ color: theme.primary }}
+            className="font-bold text-xl mb-4 text-center" 
+            style={{ color: theme.text }}
           >
             {expert.name}
           </h3>
           
-          {expert.specializations.map((specialization, index) => (
-            <span 
-              key={index}
-              className="text-sm mb-1 text-center"
-              style={{ color: theme.text }}
-            >
-              {specialization}
-            </span>
-          ))}
+          <div className="flex flex-wrap justify-start gap-2 mb-2">
+            {expert.specializations.map((specialization, index) => (
+              <span 
+                key={index}
+                className="text-sm py-1 px-4 rounded-full bg-altPrimary"
+                style={{ color: theme.text }}
+              >
+                {specialization}
+              </span>
+            ))}
+          </div>
           
-          <div className="mt-3 flex items-center">
+          <div className="mb-1">
             <span className="text-sm" style={{ color: theme.text }}>
               {expert.experience} years experience
             </span>
           </div>
           
-          <div className="mt-2 flex items-center">
+          <div className="mb-1 flex items-center justify-start">
+            <Globe className="w-4 h-4 mr-2" style={{ color: theme.primary }} />
             <span className="text-sm" style={{ color: theme.text }}>
               {expert.languages.map((lang, i) => (
                 <span key={i}>
@@ -70,16 +62,16 @@ const ExpertCard = ({ expert }) => {
             </span>
           </div>
           
-          <div className="mt-2 flex items-center">
-            <Calendar className="w-4 h-4 mr-1" style={{ color: theme.placeholderText }} />
-            <span className="text-sm" style={{ color: theme.placeholderText }}>
-              Next Available: {expert.availability.nextAvailable}
+          <div className="mb-4 flex items-center justify-start">
+            <Calendar className="w-4 h-4 mr-2" style={{ color: theme.primary }} />
+            <span className="text-sm" style={{ color: theme.text }}>
+              Next Available : {expert.availability.nextAvailable}
             </span>
           </div>
           
           <div className="mt-4 w-full">
             <button
-              className="w-full py-2 rounded text-sm mb-2"
+              className="w-full py-2 rounded-full text-sm mb-3"
               style={{ 
                 backgroundColor: 'transparent',
                 color: theme.primary,
@@ -90,7 +82,7 @@ const ExpertCard = ({ expert }) => {
             </button>
             
             <button
-              className="w-full py-2 rounded text-sm"
+              className="w-full py-2 rounded-full text-sm"
               style={{ 
                 backgroundColor: theme.primary,
                 color: '#FFFFFF'

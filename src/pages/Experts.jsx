@@ -156,7 +156,7 @@ function Experts() {
     rating: null
   });
   const [filteredExperts, setFilteredExperts] = useState(sampleExperts);
-  const expertsPerPage = 9;
+  const expertsPerPage = 6;
   
   // Calculate paginated experts
   const paginatedExperts = useMemo(() => {

@@ -400,7 +400,7 @@ function Experts() {
         </p>
       </div>
       
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center md:flex-row flex-col gap-3 mb-8">
         {/* Search bar */}
         <ExpertSearch 
           searchQuery={searchQuery}

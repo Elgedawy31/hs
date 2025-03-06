@@ -19,6 +19,7 @@ import HomePage from './pages/HomePage.jsx'
 import { CheckCircle, Info, XCircle } from 'lucide-react'
 import Products from './pages/Products.jsx'
 import Experts from './pages/Experts.jsx'
+import Expert from './pages/Expert.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path:'experts',
         element: <Experts />
+      },
+      {
+        path:'exports:id',
+        element: <Expert />
       }
     ]
   },

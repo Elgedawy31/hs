@@ -142,7 +142,7 @@ function Header() {
 
       {/* Mobile Menu - Only visible when menu is open */}
       <div 
-        className={`lg:hidden sticky inset-x-0 top-[72px] z-50 bg-body shadow-lg transform transition-transform duration-300 ease-in-out ${
+        className={`lg:hidden absolute inset-x-0 top-[72px] z-50 bg-body shadow-lg transform transition-transform duration-300 ease-in-out ${
           isMenuOpen ? 'translate-y-0' : '-translate-y-[120%]'
         }`}
       >

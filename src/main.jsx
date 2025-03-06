@@ -17,6 +17,7 @@ import NotFound from './pages/NotFound.jsx'
 import { Toaster } from 'react-hot-toast'
 import HomePage from './pages/HomePage.jsx'
 import { CheckCircle, Info, XCircle } from 'lucide-react'
+import Products from './pages/Products.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         path: '/',
         element: <HomePage />
       },
+      {
+        'path': '/products',
+        element:<Products />
+      }
     ]
   },
   {

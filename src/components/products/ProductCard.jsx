@@ -1,0 +1,72 @@
+import React from 'react';
+import { useTheme } from '../../contexts/ThemeContext';
+import { Star } from 'lucide-react';
+
+const ProductCard = ({ product }) => {
+  const { theme } = useTheme();
+  
+  // Render stars based on rating
+  const renderStars = (rating) => {
+    return (
+      <div className="flex">
+        {[...Array(5)].map((_, i) => (
+          <Star
+            key={i}
+            className="w-4 h-4"
+            fill={i < rating ? theme.primary : "none"}
+            stroke={theme.primary}
+          />
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
+      <div className="relative">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-48 object-cover"
+        />
+        <div className="absolute top-4 left-4">
+          <span 
+            className="text-xs font-medium px-2 py-1 rounded-full text-white"
+            style={{ backgroundColor: theme.primary }}
+          >
+            {product.category}
+          </span>
+        </div>
+      </div>
+      
+      <div className="p-4">
+        <h3 className="text-center font-semibold text-lg mb-1" style={{ color: theme.primary }}>
+          {product.name}
+        </h3>
+        
+        <p className="text-center text-sm text-gray-600 mb-3">
+          {product.description}
+        </p>
+        
+        <div className="flex justify-center mb-3">
+          {renderStars(product.rating)}
+        </div>
+        
+        <div className="flex justify-between items-center">
+          <span className="font-bold" style={{ color: theme.primary }}>
+            {product.price} LE
+          </span>
+          
+          <button
+            className="px-4 py-1 rounded text-white text-sm"
+            style={{ backgroundColor: theme.primary }}
+          >
+            Add To Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductCard;

@@ -190,7 +190,7 @@ function Products() {
     priceRange: { min: "", max: "" }
   });
   const [filteredProducts, setFilteredProducts] = useState(sampleProducts);
-  const productsPerPage = 6;
+  const productsPerPage = 9;
   
   // Calculate paginated products
   const paginatedProducts = useMemo(() => {

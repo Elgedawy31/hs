@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CustomTabs from '../components/CustomTabs';
+import SEO from '../components/SEO';
 
 function Notifications() {
   const [activeTab, setActiveTab] = useState('all');
@@ -77,6 +78,10 @@ function Notifications() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
+        <SEO 
+        title={`HS - Healthcare Solutions - Notifications`}
+        description={`Stay updated with your appointments and clinic news`}
+      />
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-text mb-2">Notifications</h1>
         <p className="text-text/80">Stay updated with your appointments and clinic news</p>

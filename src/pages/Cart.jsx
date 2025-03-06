@@ -1,9 +1,13 @@
 import React from 'react'
+import SEO from '../components/SEO'
 
 function Cart() {
   return (
     <div>
-      Cart
+      <SEO 
+        title={`HS - Healthcare Solutions - Cart`}
+        description={`Cart page for HS - Healthcare Solutions`}
+      />
     </div>
   )
 }

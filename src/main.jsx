@@ -24,6 +24,7 @@ import ProdcutDetails from './pages/ProdcutDetails.jsx'
 import ContactUs from './pages/ContactUs.jsx'
 import Terms from './pages/Terms.jsx'
 import Notifications from './pages/Notifications.jsx'
+import Cart from './pages/Cart.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
       {
         path:'/notifications',
         element: <Notifications />
+      },
+      {
+        path:'/cart',
+        element: <Cart />
       },
     ]
   },

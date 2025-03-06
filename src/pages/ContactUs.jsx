@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import UniTextInput from '../components/UniTextInput';
 import UniBtn from '../components/UniBtn';
+import SEO from '../components/SEO';
 
 // Form validation schema using Zod
 const contactFormSchema = z.object({
@@ -49,6 +50,10 @@ function ContactUs() {
 
   return (
     <div className="flex justify-center items-center min-h-screen  py-16">
+       <SEO 
+        title={`HS - Healthcare Solutions - Contact Us`}
+        description={`Contact us for any queries or questions. We are here to help you.`}
+      />
       <div className="w-full max-w-2xl bg-background rounded-lg shadow-md p-8 md:p-12">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">Contact Us</h1>

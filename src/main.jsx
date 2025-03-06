@@ -22,6 +22,7 @@ import Experts from './pages/Experts.jsx'
 import Expert from './pages/Expert.jsx'
 import ProdcutDetails from './pages/ProdcutDetails.jsx'
 import ContactUs from './pages/ContactUs.jsx'
+import Terms from './pages/Terms.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
       {
         path:'/contact-us',
         element: <ContactUs />
+      },
+      {
+        path:'/terms',
+        element: <Terms />
       },
     ]
   },

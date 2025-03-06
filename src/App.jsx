@@ -9,10 +9,6 @@ import Footer from './components/Footer';
 // Components
 function App() {
   const { isAuthenticated, token } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(
-    false
-  )
-
   if (!isAuthenticated) {
     return <Login />;
   }

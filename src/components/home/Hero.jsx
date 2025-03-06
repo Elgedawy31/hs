@@ -51,12 +51,29 @@ function Hero() {
           />
         </div>
       </div>
+
+      
+      {/* Hero title */}
+      <div className="max-w-3xl mx-auto mb-6">
+        <p 
+          className="text-center text-lg md:text-2xl"
+          style={{ color: theme.text ,
+            fontFamily: 'Montaga, serif'
+
+           }}
+        >
+        Glow with Confidence , Your  Skin is our care
+        </p>
+      </div>
       
       {/* Hero Description */}
       <div className="max-w-3xl mx-auto mb-12">
         <p 
           className="text-center text-sm md:text-lg"
-          style={{ color: theme.placeholderText }}
+          style={{ color: theme.placeholderText ,
+            fontFamily: 'Montaga, serif'
+
+          }}
         >
           At Dermatology Clinic , we believe that healthy skin is the key to
           confidence. Our expert dermatologists provide advanced treatments

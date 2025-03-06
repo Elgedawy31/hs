@@ -4,11 +4,13 @@ import logo from '../assets/Images/logo.svg';
 import { Menu, X, Sun, Moon, Bell, ShoppingCart } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useSelector } from 'react-redux';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { currentTheme, toggleTheme } = useTheme();
   const {user} = useAuth();
+  const cartTotalQuantity = useSelector(state => state.cart.totalQuantity);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -124,8 +126,13 @@ function Header() {
               <Link to="/notifications" className="text-text hover:text-primary">
                 <Bell className="h-6 w-6" />
               </Link>
-              <Link to="/cart" className="text-text hover:text-primary">
+              <Link to="/cart" className="text-text hover:text-primary relative">
                 <ShoppingCart className="h-6 w-6" />
+                {cartTotalQuantity > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {cartTotalQuantity}
+                  </span>
+                )}
               </Link>
              
             </div>
@@ -226,9 +233,14 @@ function Header() {
                   <Bell className="h-6 w-6 mr-2" />
                   <span>Notifications</span>
                 </Link>
-                <Link to="/cart" className="text-text hover:text-primary flex items-center">
+                <Link to="/cart" className="text-text hover:text-primary flex items-center relative">
                   <ShoppingCart className="h-6 w-6 mr-2" />
                   <span>Cart</span>
+                  {cartTotalQuantity > 0 && (
+                    <span className="absolute -top-2 left-4 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {cartTotalQuantity}
+                    </span>
+                  )}
                 </Link>
               
               </div>

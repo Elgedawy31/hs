@@ -66,7 +66,7 @@ function Doctors() {
             <button 
               className="mt-auto py-2 px-6 rounded-md shadow-md w-full text-center"
               style={{ 
-                backgroundColor: theme.background,
+                backgroundColor: theme.altPrimary,
                 color: theme.text,
                 border: `1px solid ${theme.borderColor}`
               }}

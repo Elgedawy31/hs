@@ -2,10 +2,13 @@ import React from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Star, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../store/cartSlice';
 
 const ProductCard = ({ product }) => {
   const { theme } = useTheme();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   // Render stars based on rating
   const renderStars = (rating) => {
     return (
@@ -82,6 +85,10 @@ const ProductCard = ({ product }) => {
             style={{ 
               backgroundColor: theme.primary,
               color: '#FFFFFF'
+            }}
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent navigation when clicking the button
+              dispatch(addToCart(product));
             }}
           >
             <ShoppingCart className="w-4 h-4 mr-1" />

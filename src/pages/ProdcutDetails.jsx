@@ -3,10 +3,13 @@ import { useTheme } from '../contexts/ThemeContext';
 import { Star, ShoppingCart, Check } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../store/cartSlice';
 
 function ProdcutDetails() {
   const { theme } = useTheme();
   const { id } = useParams();
+  const dispatch = useDispatch();
 
   // Mock product data - in a real app, this would come from an API
   const product = {
@@ -126,6 +129,7 @@ function ProdcutDetails() {
               <button
                 className="px-8 py-3 rounded-md font-medium text-white"
                 style={{ backgroundColor: theme.primary }}
+                onClick={() => dispatch(addToCart(product))}
               >
                 Add To Cart
               </button>

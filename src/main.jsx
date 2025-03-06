@@ -13,6 +13,8 @@ import Login from '@pages/Login'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { HelmetProvider } from 'react-helmet-async'
+import { Provider } from 'react-redux'
+import store from './store'
 import NotFound from './pages/NotFound.jsx'
 import { Toaster } from 'react-hot-toast'
 import HomePage from './pages/HomePage.jsx'
@@ -102,7 +104,8 @@ const root = ReactDOM.createRoot(rootElement);
 
 // Render the application
 root.render(
-  <AuthProvider>
+  <Provider store={store}>
+    <AuthProvider>
       <ThemeProvider>
         <HelmetProvider>
           <RouterProvider router={router} />
@@ -145,5 +148,6 @@ root.render(
           />
         </HelmetProvider>
       </ThemeProvider>
-  </AuthProvider>
+    </AuthProvider>
+  </Provider>
 );

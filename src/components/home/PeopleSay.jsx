@@ -54,7 +54,7 @@ function PeopleSay() {
             key={testimonial.id} 
             className="flex flex-col p-6 rounded-lg shadow-md"
             style={{ 
-              backgroundColor: theme.background,
+              backgroundColor: theme.altPrimary,
               border: `1px solid ${theme.borderColor}`
             }}
           >

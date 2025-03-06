@@ -3,67 +3,46 @@ import SEO from '../components/SEO'
 import { useTheme } from '../contexts/ThemeContext'
 import { Minus, Plus, X, Heart } from 'lucide-react'
 import UniBtn from '../components/UniBtn'
-
-// Sample product data - in a real app this would come from a state or context
-const initialProducts = [
-  {
-    id: 1,
-    name: "Product 1",
-    image: "/src/assets/Images/Med1.jpg",
-    price: 300,
-    quantity: 1,
-    isFavorite: false
-  },
-  {
-    id: 2,
-    name: "Product 2",
-    image: "/src/assets/Images/Med2.jpg",
-    price: 400,
-    quantity: 2,
-    isFavorite: true
-  },
-  {
-    id: 3,
-    name: "Product 3",
-    image: "/src/assets/Images/Med3.jpg",
-    price: 320,
-    quantity: 2,
-    isFavorite: false
-  }
-]
+import { useSelector, useDispatch } from 'react-redux'
+import { removeFromCart, increaseQuantity, decreaseQuantity } from '../store/cartSlice'
 
 function Cart() {
   const { theme } = useTheme()
-  const [products, setProducts] = useState(initialProducts)
+  const dispatch = useDispatch()
+  const cartItems = useSelector(state => state.cart.items)
   const [paymentMethod, setPaymentMethod] = useState('cash') // 'online' or 'cash'
 
   // Calculate subtotal
-  const subtotal = products.reduce((total, product) => {
-    return total + (product.price * product.quantity)
+  const subtotal = cartItems.reduce((total, product) => {
+    // Handle price that might be a string with "LE" suffix
+    const price = typeof product.price === 'string' 
+      ? parseFloat(product.price.replace(' LE', '')) 
+      : product.price;
+    
+    return total + (price * product.quantity)
   }, 0)
 
   const shipping = 100
   const total = subtotal + shipping
 
   // Handle quantity change
-  const handleQuantityChange = (id, newQuantity) => {
-    if (newQuantity < 1) return
-    
-    setProducts(products.map(product => 
-      product.id === id ? { ...product, quantity: newQuantity } : product
-    ))
+  const handleIncreaseQuantity = (id) => {
+    dispatch(increaseQuantity(id))
+  }
+
+  const handleDecreaseQuantity = (id) => {
+    dispatch(decreaseQuantity(id))
   }
 
   // Handle remove product
   const handleRemoveProduct = (id) => {
-    setProducts(products.filter(product => product.id !== id))
+    dispatch(removeFromCart(id))
   }
 
   // Toggle favorite
   const toggleFavorite = (id) => {
-    setProducts(products.map(product => 
-      product.id === id ? { ...product, isFavorite: !product.isFavorite } : product
-    ))
+    // This functionality could be added to the Redux store if needed
+    // For now, we'll just keep it as a UI interaction without persistence
   }
 
   return (
@@ -83,7 +62,13 @@ function Cart() {
       
       {/* Cart Items */}
       <div className="space-y-4">
-        {products.map(product => (
+        {cartItems.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-lg font-medium">Your cart is empty</p>
+            <p className="text-sm mt-2">Add some products to your cart to see them here.</p>
+          </div>
+        ) : (
+          cartItems.map(product => (
           <div 
             key={product.id} 
             className="flex flex-col md:grid md:grid-cols-4 gap-4 items-center p-4 rounded-lg bg-altPrimary shadow-sm"
@@ -119,7 +104,7 @@ function Cart() {
               <span className="font-medium md:hidden">Quantity:</span>
               <div className="flex items-center space-x-4">
                 <button 
-                  onClick={() => handleQuantityChange(product.id, product.quantity - 1)}
+                  onClick={() => handleDecreaseQuantity(product.id)}
                   className="p-1 rounded-full border border-borderColor"
                 >
                   <Minus size={16} />
@@ -128,7 +113,7 @@ function Cart() {
                 <span className="w-8 text-center">{product.quantity}</span>
                 
                 <button 
-                  onClick={() => handleQuantityChange(product.id, product.quantity + 1)}
+                  onClick={() => handleIncreaseQuantity(product.id)}
                   className="p-1 rounded-full border border-borderColor"
                 >
                   <Plus size={16} />
@@ -140,7 +125,12 @@ function Cart() {
             <div className="w-full md:w-auto flex justify-end items-center">
               <span className="font-medium md:hidden">Total:</span>
               <div className="flex items-center space-x-4">
-                <span>{product.price * product.quantity} LE</span>
+                <span>
+                  {typeof product.price === 'string' 
+                    ? `${parseFloat(product.price.replace(' LE', '')) * product.quantity} LE`
+                    : `${product.price * product.quantity} LE`
+                  }
+                </span>
                 <button 
                   onClick={() => handleRemoveProduct(product.id)}
                   className="p-1 rounded-full"
@@ -150,7 +140,7 @@ function Cart() {
               </div>
             </div>
           </div>
-        ))}
+        )))}
       </div>
       
       {/* Payment and Summary */}

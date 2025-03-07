@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, ArrowLeft } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -8,6 +8,7 @@ import UniTextInput from '../components/UniTextInput';
 import UniBtn from '../components/UniBtn';
 import { useTheme } from '../contexts/ThemeContext';
 import toast from 'react-hot-toast';
+import { useAuth } from '../contexts/AuthContext';
 
 // Define validation schema with Zod
 const verifySchema = z.object({
@@ -18,6 +19,7 @@ function Verify() {
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const {user} = useAuth()
 
   // Initialize React Hook Form with Zod validation
   const { 
@@ -61,6 +63,12 @@ function Verify() {
   const handleInputChange = (field, value) => {
     setValue(field, value, { shouldValidate: true });
   };
+
+  useEffect(() => {
+    if(user){
+      navigate('/')
+    }
+  } , [user])
 
   return (
     <div className="min-h-screen flex items-center justify-center py-16" style={{backgroundColor: theme.body, color: theme.text}}>

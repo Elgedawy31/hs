@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Check } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -8,6 +8,7 @@ import UniTextInput from '../components/UniTextInput';
 import UniBtn from '../components/UniBtn';
 import { useTheme } from '../contexts/ThemeContext';
 import toast from 'react-hot-toast';
+import { useAuth } from '../contexts/AuthContext';
 
 // Define password validation schema with Zod
 const passwordSchema = z.object({
@@ -27,6 +28,7 @@ function ResetPassword() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   // Initialize React Hook Form with Zod validation
@@ -52,7 +54,15 @@ function ResetPassword() {
   const hasMinLength = password.length >= 8;
   const hasUppercase = /[A-Z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
+  
   const hasSpecialChar = /[^A-Za-z0-9]/.test(password);
+
+
+  useEffect(() => {
+    if(user){
+      navigate('/')
+    }
+  } , [user])
 
   const onSubmit = async (data) => {
     setLoading(true);

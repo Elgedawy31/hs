@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import logo from '../assets/Images/logo.svg';
-import { Menu, X, Sun, Moon, Bell, ShoppingCart } from 'lucide-react';
+import { Menu, X, Sun, Moon, Bell, ShoppingCart, LogOut } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useSelector } from 'react-redux';
@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { currentTheme, toggleTheme } = useTheme();
-  const {user} = useAuth();
+  const {user, logout} = useAuth();
   const cartTotalQuantity = useSelector(state => state.cart.totalQuantity);
 
   const toggleMenu = () => {
@@ -134,6 +134,13 @@ function Header() {
                   </span>
                 )}
               </Link>
+              <button 
+                onClick={logout} 
+                className="text-text hover:text-primary"
+                aria-label="Logout"
+              >
+                <LogOut className="h-6 w-6" />
+              </button>
              
             </div>
           ) : (
@@ -242,6 +249,14 @@ function Header() {
                     </span>
                   )}
                 </Link>
+                <button 
+                  onClick={logout} 
+                  className="text-text hover:text-primary flex items-center"
+                  aria-label="Logout"
+                >
+                  <LogOut className="h-6 w-6 mr-2" />
+                  <span>Logout</span>
+                </button>
               
               </div>
             ) : (

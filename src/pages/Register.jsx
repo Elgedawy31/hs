@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Eye, EyeOff } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -30,6 +30,7 @@ function Register() {
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   // Initialize React Hook Form with Zod validation
   const { 
@@ -93,6 +94,12 @@ function Register() {
   const handleAgreeToTermsChange = () => {
     setValue('agreeToTerms', !agreeToTerms, { shouldValidate: true });
   };
+
+  useEffect(() => {
+    if(user){
+      navigate('/')
+    }
+  } , [user])
 
   return (
     <div className="min-h-screen flex items-center justify-center py-16" style={{backgroundColor: theme.body, color: theme.text}}>

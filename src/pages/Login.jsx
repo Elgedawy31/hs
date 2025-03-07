@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Eye, EyeOff } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -21,7 +21,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
-  const { login } = useAuth();
+  const { login , user } = useAuth();
   const navigate = useNavigate();
 
   // Initialize React Hook Form with Zod validation
@@ -44,7 +44,11 @@ function Login() {
   const email = watch('email');
   const password = watch('password');
   const rememberMe = watch('rememberMe');
-
+useEffect(() => {
+  if(user){
+    navigate('/')
+  }
+} , [user])
   const onSubmit = async (data) => {
     setLoading(true);
     try {

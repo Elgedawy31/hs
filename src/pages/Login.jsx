@@ -1,42 +1,108 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Eye, EyeOff } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import UniTextInput from '../components/UniTextInput';
 import UniBtn from '../components/UniBtn';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
+import toast from 'react-hot-toast';
+
+// Define validation schema with Zod
+const loginSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  rememberMe: z.boolean().optional()
+});
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
-  
   const { theme } = useTheme();
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  // Initialize React Hook Form with Zod validation
+  const { 
+    handleSubmit, 
+    formState: { errors },
+    setValue,
+    watch,
+    setError
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      rememberMe: false
+    }
+  });
+
+  // Watch form values
+  const email = watch('email');
+  const password = watch('password');
+  const rememberMe = watch('rememberMe');
+
+  const onSubmit = async (data) => {
     setLoading(true);
-    // Simulate login process
-    setTimeout(() => {
+    try {
+      const result = await login(data.email, data.password);
+      
+      if (result.success) {
+        toast.success('Login successful!');
+        // If rememberMe is checked, we could set a longer expiration for the token
+        // but that would be handled on the server side
+        
+        // Redirect to home page or dashboard
+        navigate('/');
+      } else {
+        // Handle login failure
+        setError('root', { 
+          type: 'manual',
+          message: result.error || 'Invalid email or password'
+        });
+        toast.error(result.error || 'Login failed');
+      }
+    } catch (error) {
+      setError('root', { 
+        type: 'manual',
+        message: error.message || 'Something went wrong'
+      });
+      toast.error(error.message || 'An error occurred');
+    } finally {
       setLoading(false);
-      // Handle login logic here
-    }, 1500);
+    }
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleInputChange = (field, value) => {
+    setValue(field, value, { shouldValidate: true });
+  };
+
+  const handleRememberMeChange = () => {
+    setValue('rememberMe', !rememberMe, { shouldValidate: true });
+  };
+
   return (
-    <div className="min-h-screen  flex items-center justify-center  py-16"style={{backgroundColor:theme.body , color:theme.text}}>
-      <div className="w-full max-w-md  rounded-lg shadow-lg p-6 md:p-8" style={{backgroundColor:theme.background}}>
+    <div className="min-h-screen flex items-center justify-center py-16" style={{backgroundColor: theme.body, color: theme.text}}>
+      <div className="w-full max-w-md rounded-lg shadow-lg p-6 md:p-8" style={{backgroundColor: theme.background}}>
         <div className="text-center mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2" style={{color:theme.text}}>Welcome Back</h1>
-          <p className="text-placeholderText" style={{color:theme.placeholderText}} >Login to your account</p>
+          <h1 className="text-2xl md:text-3xl font-bold mb-2" style={{color: theme.text}}>Welcome Back</h1>
+          <p className="text-placeholderText" style={{color: theme.placeholderText}}>Login to your account</p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {errors.root && (
+            <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {errors.root.message}
+            </div>
+          )}
+          
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-1.5">Email Address</label>
@@ -44,8 +110,9 @@ function Login() {
                 <UniTextInput
                   type="email"
                   value={email}
-                  onChange={setEmail}
+                  onChange={(value) => handleInputChange('email', value)}
                   placeholder="Enter Your Email"
+                  error={errors.email?.message}
                   required
                 />
                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-placeholderText">
@@ -60,8 +127,9 @@ function Login() {
                 <UniTextInput
                   type={showPassword ? "text" : "password"}
                   value={password}
-                  onChange={setPassword}
+                  onChange={(value) => handleInputChange('password', value)}
                   placeholder="Enter Your Password"
+                  error={errors.password?.message}
                   required
                 />
               </div>
@@ -75,7 +143,7 @@ function Login() {
                 name="remember-me"
                 type="checkbox"
                 checked={rememberMe}
-                onChange={() => setRememberMe(!rememberMe)}
+                onChange={handleRememberMeChange}
                 className="h-4 w-4 rounded border-borderColor text-primary focus:ring-primary"
               />
               <label htmlFor="remember-me" className="ml-2 block text-sm">

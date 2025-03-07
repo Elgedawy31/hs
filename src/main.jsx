@@ -30,6 +30,8 @@ import Cart from './pages/Cart.jsx'
 import Checkout from './pages/Checkout.jsx'
 import Model from './pages/Model.jsx'
 import Register from './pages/Register.jsx'
+import Verify from './pages/Verify.jsx'
+import ResetPassword from './pages/ResetPassword.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -48,6 +50,14 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <Register />
+  },
+  {
+    path: '/verify',
+    element: <Verify />
+  },
+  {
+    path: '/reset-password',
+    element: <ResetPassword />
   },
   {
     path: '/',

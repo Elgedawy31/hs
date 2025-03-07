@@ -155,7 +155,7 @@ useEffect(() => {
               </label>
             </div>
             <div className="text-sm">
-              <Link to="/forget-password" className="text-primary hover:underline">
+              <Link to="/verify" className="text-primary hover:underline">
                 Forgot password?
               </Link>
             </div>

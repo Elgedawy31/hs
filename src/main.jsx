@@ -134,7 +134,7 @@ const router = createBrowserRouter([
         element: <Prescription />
       },
       {
-        path:'/add-server',
+        path:'/add-service',
         element: <AddService />
       },
     ]

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import logo from '../assets/Images/logo.svg';
-import { Menu, X, Sun, Moon, Bell, ShoppingCart, LogOut } from 'lucide-react';
+import { Menu, X, Sun, Moon, Bell, ShoppingCart, LogOut, User } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useSelector } from 'react-redux';
@@ -134,6 +134,9 @@ function Header() {
                   </span>
                 )}
               </Link>
+              <Link to="/profile" className="text-text hover:text-primary">
+                <User className="h-6 w-6" />
+              </Link>
               <button 
                 onClick={logout} 
                 className="text-text hover:text-primary"
@@ -235,7 +238,7 @@ function Header() {
             </button>
             
             {user ? (
-              <div className="flex justify-center space-x-4 py-2">
+              <div className="grid md:gird-cols-4 grid-cols-2 gap-4 justify-between  py-2">
                 <Link to="/notifications" className="text-text hover:text-primary flex items-center">
                   <Bell className="h-6 w-6 mr-2" />
                   <span>Notifications</span>
@@ -248,6 +251,10 @@ function Header() {
                       {cartTotalQuantity}
                     </span>
                   )}
+                </Link>
+                <Link to="/profile" className="text-text hover:text-primary flex items-center">
+                  <User className="h-6 w-6 mr-2" />
+                  <span>Profile</span>
                 </Link>
                 <button 
                   onClick={logout} 

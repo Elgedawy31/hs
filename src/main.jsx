@@ -32,6 +32,7 @@ import Model from './pages/Model.jsx'
 import Register from './pages/Register.jsx'
 import Verify from './pages/Verify.jsx'
 import ResetPassword from './pages/ResetPassword.jsx'
+import Profile from './pages/Profile.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -106,6 +107,10 @@ const router = createBrowserRouter([
       {
         path:'/model',
         element: <Model />
+      },
+      {
+        path:'/profile',
+        element: <Profile />
       },
     ]
   },

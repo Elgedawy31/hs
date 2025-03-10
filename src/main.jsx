@@ -37,6 +37,7 @@ import Library from './pages/Library.jsx'
 import Blog from './pages/Blog.jsx'
 import EditProfile from './pages/EditProfile.jsx'
 import Prescription from './pages/Prescription.jsx'
+import AddService from './pages/AddService.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -131,6 +132,10 @@ const router = createBrowserRouter([
       {
         path:'/prescription',
         element: <Prescription />
+      },
+      {
+        path:'/add-server',
+        element: <AddService />
       },
     ]
   },

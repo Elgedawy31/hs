@@ -12,9 +12,11 @@ import {
   Gift 
 } from 'lucide-react';
 import UniBtn from '../components/UniBtn';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
-  const { theme } = useTheme();
+  const { theme } = useTheme()
+  const navigate = useNavigate();
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -49,7 +51,7 @@ function Profile() {
                 </div>
               } 
               className="text-white"
-              onClick={() => {}}
+              onClick={() => navigate('edit')}
             />
             <UniBtn 
               text="Medical Records" 

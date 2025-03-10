@@ -36,6 +36,7 @@ import Profile from './pages/Profile.jsx'
 import Library from './pages/Library.jsx'
 import Blog from './pages/Blog.jsx'
 import EditProfile from './pages/EditProfile.jsx'
+import Prescription from './pages/Prescription.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -126,6 +127,10 @@ const router = createBrowserRouter([
       {
         path:'/blog',
         element: <Blog />
+      },
+      {
+        path:'/prescription',
+        element: <Prescription />
       },
     ]
   },

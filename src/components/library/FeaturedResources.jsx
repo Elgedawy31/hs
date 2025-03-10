@@ -1,7 +1,10 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 function FeaturedResources() {
+  const navigate = useNavigate();
+  
   const featuredResources = [
     {
       id: 1,
@@ -29,14 +32,19 @@ function FeaturedResources() {
     }
   ];
 
+  const handleResourceClick = (resourceId) => {
+    navigate(`/resource/${resourceId}`);
+  };
+
   return (
-    <div className="my-12">
+    <div className="mb-12">
       <h2 className="text-2xl font-bold mb-8">Features Resources</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {featuredResources.map((resource) => (
           <div 
             key={resource.id} 
-            className="bg-background rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full border border-borderColor"
+            className="bg-background rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full border border-borderColor cursor-pointer"
+            onClick={() => handleResourceClick(resource.id)}
           >
             <div className="h-48 overflow-hidden">
               <img 
@@ -56,7 +64,14 @@ function FeaturedResources() {
                   <span className="mx-2">•</span>
                   <span>{resource.date}</span>
                 </div>
-                <a href="#" className="text-primary flex items-center font-medium text-sm hover:underline">
+                <a 
+                  href="#" 
+                  className="text-primary flex items-center font-medium text-sm hover:underline"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleResourceClick(resource.id);
+                  }}
+                >
                   Read More <ArrowRight className="ml-1 w-4 h-4" />
                 </a>
               </div>

@@ -315,6 +315,10 @@ function Library() {
       
       <div className="container mx-auto px-4 py-16">
         <LibraryHeader />
+        <div className="my-12">
+          <h2 className="text-2xl font-bold mb-8">Resource Categories</h2>
+          <LibraryGrid />
+        </div>
         <FeaturedResources />
         
         <div className="flex flex-col lg:flex-row gap-8">
@@ -351,10 +355,7 @@ function Library() {
           </div>
         </div>
         
-        <div className="mt-16">
-          <h2 className="text-2xl font-bold mb-8">Resource Categories</h2>
-          <LibraryGrid />
-        </div>
+       
       </div>
     </div>
   );

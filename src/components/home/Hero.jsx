@@ -37,14 +37,14 @@ function Hero() {
       {/* Hero Images */}
       <div className="flex flex-col md:flex-row gap-4 md:gap-6 mb-6">
         <div className="w-full md:w-1/2">
-          <img 
+          <img  draggable="false" 
             src={hero1} 
             alt="Skin treatment procedure" 
             className="w-full h-auto rounded-lg shadow-md"
           />
         </div>
         <div className="w-full md:w-1/2">
-          <img 
+          <img  draggable="false" 
             src={hero2} 
             alt="Dermatology examination" 
             className="w-full h-auto rounded-lg shadow-md"

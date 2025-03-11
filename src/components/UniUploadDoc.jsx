@@ -138,7 +138,7 @@ function UniUploadDoc({
     const preview = getFilePreview(file);
 
     if (preview) {
-      return <img src={preview} alt="preview" className="w-10 h-10 object-contain rounded" />;
+      return <img  draggable="false" src={preview} alt="preview" className="w-10 h-10 object-contain rounded" />;
     }
 
     switch (file.type.toLowerCase()) {

@@ -107,7 +107,7 @@ function Footer() {
         {/* Logo and Copyright */}
         <div className="mt-12 flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center mb-4 md:mb-0">
-            <img src={logo} alt="Health Skin Clinic" className="h-10 mr-2" />
+            <img  draggable="false" src={logo} alt="Health Skin Clinic" className="h-10 mr-2" />
             <span className="text-2xl font-medium" style={{ fontFamily: 'Montaga, serif' }}>
               Health Skin Clinic
             </span>

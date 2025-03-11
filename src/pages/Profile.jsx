@@ -24,7 +24,7 @@ function Profile() {
       <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-10">
         {/* Profile Image */}
         <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0">
-          <img 
+          <img  draggable="false" 
             src="/src/assets/Images/model-1.jpg" 
             alt="Emily Williams" 
             className="w-full h-full object-cover"
@@ -198,7 +198,7 @@ function Profile() {
             
             <div className="flex flex-col sm:flex-row gap-4 items-start">
               <div className="w-20 h-20 rounded-full overflow-hidden flex-shrink-0">
-                <img 
+                <img  draggable="false" 
                   src="/src/assets/Images/doctor-1.svg" 
                   alt="Dr. Lukas Weber" 
                   className="w-full h-full object-cover"

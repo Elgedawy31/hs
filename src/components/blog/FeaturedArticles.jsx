@@ -20,7 +20,7 @@ function FeaturedArticles({ articles }) {
             onClick={() => handleArticleClick(article.id)}
           >
             <div className="h-48 overflow-hidden">
-              <img 
+              <img  draggable="false" 
                 src={article.image} 
                 alt={article.title} 
                 className="w-full h-full object-cover"

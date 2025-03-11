@@ -35,7 +35,7 @@ const ProductCard = ({ product }) => {
       onClick={() => navigate(`${product.id}`)}
     >
       <div className="relative">
-        <img
+        <img  draggable="false"
           src={product.image}
           alt={product.name}
           className="w-full h-48 object-cover"

@@ -39,7 +39,7 @@ function Doctors() {
         {doctors.map((doctor) => (
           <div key={doctor.id} className="flex flex-col">
             <div className="mb-4">
-              <img 
+              <img  draggable="false" 
                 src={doctor.image} 
                 alt={doctor.name} 
                 className="w-full h-[350px] object-cover"

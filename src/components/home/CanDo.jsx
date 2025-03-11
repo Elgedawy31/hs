@@ -36,7 +36,7 @@ function CanDo() {
         {services.map((service) => (
           <div key={service.id} className="flex flex-col">
             <div className="overflow-hidden mb-4">
-              <img
+              <img  draggable="false"
                 src={service.image}
                 alt={service.description}
                 className="w-full h-[350px] object-cover"

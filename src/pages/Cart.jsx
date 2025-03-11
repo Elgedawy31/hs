@@ -76,7 +76,7 @@ function Cart() {
           >
             {/* Product - Full width on mobile */}
             <div className="w-full md:w-auto flex items-center justify-center md:justify-start space-x-4 mb-4 md:mb-0">
-              <img 
+              <img  draggable="false" 
                 src={product.image} 
                 alt={product.name} 
                 className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-lg"

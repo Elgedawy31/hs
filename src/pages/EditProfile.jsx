@@ -153,7 +153,7 @@ function EditProfile() {
         {/* Profile Image */}
         <div className="flex flex-col items-center mb-8">
           <div className="relative w-32 h-32 mb-4">
-            <img 
+            <img  draggable="false" 
               src={profileImage} 
               alt="Profile" 
               className="w-full h-full object-cover rounded-full border-4 border-background"

@@ -99,7 +99,7 @@ function ProdcutDetails() {
           {/* Product Image */}
           <div className="md:w-1/2 lg:w-2/5 mb-6 md:mb-0">
             <div className="bg-[#d9e6f2] rounded-lg overflow-hidden flex items-center justify-center p-4">
-              <img 
+              <img  draggable="false" 
                 src={product.image} 
                 alt={product.name} 
                 className="w-full h-auto object-contain"
@@ -166,7 +166,7 @@ function ProdcutDetails() {
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-1/4 mb-4 md:mb-0 flex justify-center">
             <div className="w-32 h-32 rounded-full overflow-hidden">
-              <img 
+              <img  draggable="false" 
                 src={product.expertRecommendation.image} 
                 alt={product.expertRecommendation.name} 
                 className="w-full h-full object-cover"
@@ -274,7 +274,7 @@ function ProdcutDetails() {
               style={{ backgroundColor: theme.background }}
             >
               <div className="p-4">
-                <img 
+                <img  draggable="false" 
                   src={relatedProduct.image} 
                   alt={relatedProduct.name} 
                   className="w-full h-48 object-cover mb-4 rounded-md"

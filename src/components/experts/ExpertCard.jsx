@@ -24,7 +24,7 @@ const ExpertCard = ({ expert }) => {
         <div 
           className="w-full h-64 bg-sky-100 flex items-center justify-center"
         >
-          <img
+          <img  draggable="false"
             src={expert.image}
             alt={expert.name}
             className="h-full object-cover"

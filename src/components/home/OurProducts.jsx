@@ -55,7 +55,7 @@ function OurProducts() {
         {products.map((product) => (
           <div key={product.id} className="flex flex-col">
             <div className="mb-4">
-              <img 
+              <img  draggable="false" 
                 src={product.image} 
                 alt={product.name} 
                 className="w-full h-[350px] object-cover"

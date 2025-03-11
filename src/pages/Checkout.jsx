@@ -127,7 +127,7 @@ function Checkout() {
             >
               <div className="flex flex-col items-center">
                 <div className="w-16 h-16 mb-4 flex items-center justify-center">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1200px-PayPal.svg.png" alt="PayPal" className="w-full" />
+                  <img  draggable="false" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1200px-PayPal.svg.png" alt="PayPal" className="w-full" />
                 </div>
                 <h3 className="font-medium mb-2" style={{ color: theme.text }}>Pay With PayPal</h3>
                 <p className="text-sm text-center" style={{ color: theme.placeholderText }}>Quick and secure checkout</p>
@@ -152,9 +152,9 @@ function Checkout() {
             >
               <div className="flex flex-col items-center">
                 <div className="w-16 h-16 mb-4 flex items-center justify-center space-x-2">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/1200px-MasterCard_Logo.svg.png" alt="MasterCard" className="w-8 h-8" />
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1200px-Visa_Inc._logo.svg.png" alt="Visa" className="w-8 h-8" />
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/1200px-Apple_logo_black.svg.png" alt="Apple Pay" className="w-6 h-6" />
+                  <img  draggable="false" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/1200px-MasterCard_Logo.svg.png" alt="MasterCard" className="w-8 h-8" />
+                  <img  draggable="false" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1200px-Visa_Inc._logo.svg.png" alt="Visa" className="w-8 h-8" />
+                  <img  draggable="false" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/1200px-Apple_logo_black.svg.png" alt="Apple Pay" className="w-6 h-6" />
                 </div>
                 
                 <div className="flex items-center space-x-4 mb-2">

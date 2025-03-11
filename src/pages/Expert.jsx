@@ -63,7 +63,7 @@ function Expert() {
         <div className="flex flex-col md:flex-row">
           {/* Expert Image */}
           <div className="md:w-1/3 p-6">
-            <img 
+            <img  draggable="false" 
               src={expert.image} 
               alt={expert.name} 
               className="w-full h-auto rounded-xl object-cover"

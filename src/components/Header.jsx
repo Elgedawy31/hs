@@ -21,7 +21,7 @@ function Header() {
         {/* Logo */}
         <div className="flex-shrink-0">
           <Link to="/">
-            <img src={logo} alt="HS Logo" className="h-15" />
+            <img  draggable="false" src={logo} alt="HS Logo" className="h-15" />
           </Link>
         </div>
 

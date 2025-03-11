@@ -60,7 +60,7 @@ function PeopleSay() {
           >
             <div className="flex items-center mb-6">
               <div className="w-24 h-24 rounded-full overflow-hidden mr-4">
-                <img 
+                <img  draggable="false" 
                   src={testimonial.image} 
                   alt={testimonial.name} 
                   className="w-full h-full object-cover"

@@ -128,7 +128,7 @@ function Model() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {previousDiagnoses.map((item) => (
             <div key={item.id} className="bg-background rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-              <img 
+              <img  draggable="false" 
                 src={item.image} 
                 alt={item.diagnosis} 
                 className="w-full h-64 object-cover"

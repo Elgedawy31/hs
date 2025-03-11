@@ -47,7 +47,7 @@ function FeaturedResources() {
             onClick={() => handleResourceClick(resource.id)}
           >
             <div className="h-48 overflow-hidden">
-              <img 
+              <img  draggable="false" 
                 src={resource.image} 
                 alt={resource.title} 
                 className="w-full h-full object-cover"

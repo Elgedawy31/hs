@@ -39,6 +39,7 @@ import EditProfile from './pages/EditProfile.jsx'
 import Prescription from './pages/Prescription.jsx'
 import AddService from './pages/AddService.jsx'
 import Chat from './pages/Chat.jsx'
+import Favorites from './pages/Favorites.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -141,6 +142,10 @@ const router = createBrowserRouter([
       {
         path:'/chat',
         element: <Chat />
+      },
+      {
+        path:'/favorites',
+        element: <Favorites />
       },
     ]
   },

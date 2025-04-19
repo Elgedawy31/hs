@@ -16,6 +16,8 @@ function ProdcutDetails() {
     id: id,
     name: 'Psoralen-Based Cream',
     price: '430 LE',
+    discountedPrice: '350 LE',
+    discount: '19%',
     rating: 4,
     image: '/src/assets/Images/products-1.svg',
     description: 'Psoralen-based cream enhances skin sensitivity to UV light, aiding in conditions like psoriasis and vitiligo. It promotes pigmentation and reduces abnormal cell growth. Always use under medical supervision to avoid side effects.',
@@ -45,24 +47,32 @@ function ProdcutDetails() {
         id: 2,
         name: 'Botanical Skin Essence',
         price: '1000 LE',
+        discountedPrice: '850 LE',
+        discount: '15%',
         image: '/src/assets/Images/products-2.svg'
       },
       {
         id: 3,
         name: 'Radiance Facial Oil',
         price: '760 LE',
+        discountedPrice: '599 LE',
+        discount: '21%',
         image: '/src/assets/Images/products-3.svg'
       },
       {
         id: 4,
         name: 'Golden Elixir Serum',
         price: '290 LE',
+        discountedPrice: '232 LE',
+        discount: '20%',
         image: '/src/assets/Images/products-1.svg'
       },
       {
         id: 5,
         name: 'Hydrating Glow Serum',
         price: '1280 LE',
+        discountedPrice: '999 LE',
+        discount: '22%',
         image: '/src/assets/Images/products-2.svg'
       }
     ]
@@ -117,9 +127,17 @@ function ProdcutDetails() {
               {renderStars(product.rating)}
             </div>
             
-            <p className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
-              {product.price}
-            </p>
+            <div className="flex items-center gap-3 mb-4">
+              <p className="text-lg font-semibold" style={{ color: theme.primary }}>
+                {product.discountedPrice}
+              </p>
+              <p className="text-sm line-through text-gray-500">
+                {product.price}
+              </p>
+              <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                -{product.discount}
+              </span>
+            </div>
             
             <p className="mb-6 text-sm" style={{ color: theme.text }}>
               {product.description}
@@ -284,9 +302,17 @@ function ProdcutDetails() {
                   {relatedProduct.name}
                 </h3>
                 
-                <p className="text-center font-semibold" style={{ color: theme.primary }}>
-                  {relatedProduct.price}
-                </p>
+                <div className="flex items-center justify-center gap-2 flex-wrap">
+                  <p className="font-semibold" style={{ color: theme.primary }}>
+                    {relatedProduct.discountedPrice}
+                  </p>
+                  <p className="text-xs line-through text-gray-500">
+                    {relatedProduct.price}
+                  </p>
+                  <span className="bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded">
+                    -{relatedProduct.discount}
+                  </span>
+                </div>
               </div>
             </div>
           ))}

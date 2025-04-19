@@ -15,7 +15,9 @@ const sampleProducts = [
     description: 'Activate, tone, and glow - the skincare essential you need',
     image: '/src/assets/Images/products-1.svg',
     rating: 4,
-    price: 650,
+    price: '650 LE',
+    discountedPrice: '520 LE',
+    discount: '20%',
     skinType: ['dry', 'sensitive'],
     productType: ['moisturizer'],
     categories: ['eczema']
@@ -27,7 +29,9 @@ const sampleProducts = [
     description: 'Deep hydration with advanced peptide complex',
     image: '/src/assets/Images/products-2.svg',
     rating: 5,
-    price: 300,
+    price: '300 LE',
+    discountedPrice: '255 LE',
+    discount: '15%',
     skinType: ['oily', 'combination'],
     productType: ['toner'],
     categories: ['acne']
@@ -39,7 +43,9 @@ const sampleProducts = [
     description: 'Clean, fresh, and refresh - gentle care for sensitive skin',
     image: '/src/assets/Images/products-3.svg',
     rating: 5,
-    price: 700,
+    price: '700 LE',
+    discountedPrice: '560 LE',
+    discount: '20%',
     skinType: ['sensitive'],
     productType: ['toner'],
     categories: ['eczema', 'vitiligo']
@@ -51,7 +57,9 @@ const sampleProducts = [
     description: 'nourishing cream for extremely dry & sensitive skin',
     image: '/src/assets/Images/products-1.svg',
     rating: 4,
-    price: 580,
+    price: '580 LE',
+    discountedPrice: '464 LE',
+    discount: '20%',
     skinType: ['dry', 'sensitive'],
     productType: ['serum'],
     categories: ['eczema']
@@ -63,7 +71,9 @@ const sampleProducts = [
     description: 'nourishing cream for extremely dry & sensitive skin',
     image: '/src/assets/Images/products-2.svg',
     rating: 4,
-    price: 430,
+    price: '430 LE',
+    discountedPrice: '350 LE',
+    discount: '19%',
     skinType: ['all'],
     productType: ['serum'],
     categories: ['vitiligo']
@@ -75,7 +85,9 @@ const sampleProducts = [
     description: 'Fast-acting blemish solution',
     image: '/src/assets/Images/products-3.svg',
     rating: 3,
-    price: 1000,
+    price: '1000 LE',
+    discountedPrice: '750 LE',
+    discount: '25%',
     skinType: ['oily', 'combination'],
     productType: ['cleanser'],
     categories: ['acne']
@@ -87,7 +99,9 @@ const sampleProducts = [
     description: 'nourishing cream for extremely dry & sensitive skin',
     image: '/src/assets/Images/products-1.svg',
     rating: 3,
-    price: 290,
+    price: '290 LE',
+    discountedPrice: '232 LE',
+    discount: '20%',
     skinType: ['sensitive'],
     productType: ['moisturizer'],
     categories: ['eczema']
@@ -99,7 +113,9 @@ const sampleProducts = [
     description: 'nourishing cream for extremely dry & sensitive skin',
     image: '/src/assets/Images/products-2.svg',
     rating: 3,
-    price: 800,
+    price: '800 LE',
+    discountedPrice: '640 LE',
+    discount: '20%',
     skinType: ['all'],
     productType: ['cleanser'],
     categories: ['vitiligo']
@@ -111,7 +127,9 @@ const sampleProducts = [
     description: 'nourishing cream for extremely dry & sensitive skin',
     image: '/src/assets/Images/products-3.svg',
     rating: 3,
-    price: 400,
+    price: '400 LE',
+    discountedPrice: '320 LE',
+    discount: '20%',
     skinType: ['dry'],
     productType: ['cleanser'],
     categories: ['scars']
@@ -123,7 +141,9 @@ const sampleProducts = [
     description: 'nourishing cream for extremely dry & sensitive skin',
     image: '/src/assets/Images/products-1.svg',
     rating: 3,
-    price: 800,
+    price: '800 LE',
+    discountedPrice: '640 LE',
+    discount: '20%',
     skinType: ['all'],
     productType: ['cleanser'],
     categories: ['vitiligo']
@@ -135,7 +155,9 @@ const sampleProducts = [
     description: 'nourishing cream for extremely dry & sensitive skin',
     image: '/src/assets/Images/products-1.svg',
     rating: 3,
-    price: 800,
+    price: '800 LE',
+    discountedPrice: '640 LE',
+    discount: '20%',
     skinType: ['all'],
     productType: ['cleanser'],
     categories: ['vitiligo']
@@ -147,7 +169,9 @@ const sampleProducts = [
     description: 'nourishing cream for extremely dry & sensitive skin',
     image: '/src/assets/Images/products-1.svg',
     rating: 3,
-    price: 800,
+    price: '800 LE',
+    discountedPrice: '640 LE',
+    discount: '20%',
     skinType: ['all'],
     productType: ['cleanser'],
     categories: ['vitiligo']
@@ -159,7 +183,9 @@ const sampleProducts = [
     description: 'nourishing cream for extremely dry & sensitive skin',
     image: '/src/assets/Images/products-2.svg',
     rating: 3,
-    price: 800,
+    price: '800 LE',
+    discountedPrice: '640 LE',
+    discount: '20%',
     skinType: ['all'],
     productType: ['cleanser'],
     categories: ['vitiligo']
@@ -171,7 +197,9 @@ const sampleProducts = [
     description: 'nourishing cream for extremely dry & sensitive skin',
     image: '/src/assets/Images/products-1.svg',
     rating: 3,
-    price: 800,
+    price: '800 LE',
+    discountedPrice: '640 LE',
+    discount: '20%',
     skinType: ['all'],
     productType: ['cleanser'],
     categories: ['vitiligo']
@@ -291,16 +319,28 @@ function Products() {
       const min = filters.priceRange.min ? parseFloat(filters.priceRange.min) : 0;
       const max = filters.priceRange.max ? parseFloat(filters.priceRange.max) : Infinity;
       
-      result = result.filter(product => product.price >= min && product.price <= max);
+      result = result.filter(product => {
+        // Extract numeric price value from string (e.g., "800 LE" -> 800)
+        const priceValue = parseFloat(product.price.replace(/[^\d.]/g, ''));
+        return priceValue >= min && priceValue <= max;
+      });
     }
     
     // Sort products based on selected sort option
     switch (sortBy) {
       case 'price-low':
-        result = [...result].sort((a, b) => a.price - b.price);
+        result = [...result].sort((a, b) => {
+          const priceA = parseFloat(a.price.replace(/[^\d.]/g, ''));
+          const priceB = parseFloat(b.price.replace(/[^\d.]/g, ''));
+          return priceA - priceB;
+        });
         break;
       case 'price-high':
-        result = [...result].sort((a, b) => b.price - a.price);
+        result = [...result].sort((a, b) => {
+          const priceA = parseFloat(a.price.replace(/[^\d.]/g, ''));
+          const priceB = parseFloat(b.price.replace(/[^\d.]/g, ''));
+          return priceB - priceA;
+        });
         break;
       case 'rating':
         result = [...result].sort((a, b) => b.rating - a.rating);

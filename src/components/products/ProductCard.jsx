@@ -73,12 +73,35 @@ const ProductCard = ({ product }) => {
         </div>
         
         <div className="flex justify-between items-center">
-          <span 
-            className="font-bold" 
-            style={{ color: theme.primary }}
-          >
-            {product.price} LE
-          </span>
+          <div className="flex flex-col">
+            {product.discountedPrice ? (
+              <>
+                <span 
+                  className="font-bold" 
+                  style={{ color: theme.primary }}
+                >
+                  {product.discountedPrice} LE
+                </span>
+                <div className="flex items-center gap-1">
+                  <span 
+                    className="text-xs line-through text-gray-500"
+                  >
+                    {product.price} LE
+                  </span>
+                  <span className="bg-green-100 text-green-800 text-xs font-medium px-1.5 py-0.5 rounded">
+                    -{product.discount}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <span 
+                className="font-bold" 
+                style={{ color: theme.primary }}
+              >
+                {product.price} LE
+              </span>
+            )}
+          </div>
           
           <button
             className="px-4 py-1 rounded text-sm flex items-center"

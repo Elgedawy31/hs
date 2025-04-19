@@ -57,34 +57,49 @@ const UniPagination = ({
   const getSizeClasses = () => {
     switch (size) {
       case 'sm':
-        return 'h-7 min-w-7 text-xs';
+        return 'h-8 min-w-8 text-xs';
       case 'lg':
-        return 'h-10 min-w-10 text-base';
+        return 'h-11 min-w-11 text-base';
       case 'md':
       default:
-        return 'h-9 min-w-9 text-sm';
+        return 'h-10 min-w-10 text-sm';
     }
   };
   
-  // Get color-specific classes
-  const getColorClasses = (isActive) => {
-    if (isActive) {
-      switch (color) {
-        case 'primary':
-          return 'bg-primary text-white';
-        case 'secondary':
-          return 'bg-secondary text-white';
-        case 'success':
-          return 'bg-success text-white';
-        case 'warning':
-          return 'bg-warning text-white';
-        case 'danger':
-          return 'bg-danger text-white';
-        default:
-          return 'bg-primary text-white';
-      }
+  // Get color-specific classes for active state
+  const getActiveClasses = () => {
+    switch (color) {
+      case 'primary':
+        return 'text-primary border-primary';
+      case 'secondary':
+        return 'text-secondary border-secondary';
+      case 'success':
+        return 'text-success border-success';
+      case 'warning':
+        return 'text-warning border-warning';
+      case 'danger':
+        return 'text-danger border-danger';
+      default:
+        return 'text-primary border-primary';
     }
-    return 'bg-transparent text-text hover:text-primary';
+  };
+  
+  // Get color-specific classes for hover state
+  const getHoverClasses = () => {
+    switch (color) {
+      case 'primary':
+        return 'hover:text-primary hover:border-primary';
+      case 'secondary':
+        return 'hover:text-secondary hover:border-secondary';
+      case 'success':
+        return 'hover:text-success hover:border-success';
+      case 'warning':
+        return 'hover:text-warning hover:border-warning';
+      case 'danger':
+        return 'hover:text-danger hover:border-danger';
+      default:
+        return 'hover:text-primary hover:border-primary';
+    }
   };
   
   const handlePageChange = (page) => {
@@ -96,68 +111,115 @@ const UniPagination = ({
   if (totalPages <= 1) return null;
   
   return (
-    <nav className={`flex items-center justify-center gap-1 ${className} overflow-hidden`} aria-label="Pagination">
+    <nav
+      className={`flex items-center justify-center gap-2 py-2 ${className} overflow-hidden`}
+      aria-label="Pagination"
+    >
       {/* Previous button */}
       {showControls && (
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className={`${getSizeClasses()} px-2 flex items-center justify-center rounded-md transition-all duration-300 transform ${
-            currentPage === 1 
-              ? 'opacity-50 cursor-not-allowed' 
-              : 'hover:scale-105 hover:shadow-md'
-          } border border-borderColor`}
+          className={`
+            ${getSizeClasses()} 
+            px-3 
+            flex 
+            items-center 
+            justify-center 
+            rounded-full 
+            transition-all 
+            duration-300 
+            ${currentPage === 1 
+              ? 'opacity-50 cursor-not-allowed bg-background' 
+              : `${getHoverClasses()} hover:bg-background/80 active:scale-95`
+            } 
+            border 
+            border-borderColor
+            backdrop-blur-sm
+          `}
           aria-label="Previous page"
         >
-          <ChevronLeft size={16} className='text-text' />
+          <ChevronLeft size={18} className={currentPage === 1 ? 'text-text/50' : 'text-text'} />
         </button>
       )}
       
       {/* Page numbers */}
-      {paginationRange.map((pageNumber, index) => {
-        if (pageNumber === 'DOTS') {
+      <div className="flex items-center gap-1.5 px-1">
+        {paginationRange.map((pageNumber, index) => {
+          if (pageNumber === 'DOTS') {
+            return (
+              <span 
+                key={`dots-${index}`} 
+                className={`
+                  ${getSizeClasses()} 
+                  flex 
+                  items-center 
+                  justify-center 
+                  text-placeholderText
+                  px-1
+                `}
+              >
+                <MoreHorizontal size={18} className="opacity-70" />
+              </span>
+            );
+          }
+          
+          const isActive = pageNumber === currentPage;
+          
           return (
-            <span 
-              key={`dots-${index}`} 
-              className={`${getSizeClasses()} flex items-center justify-center text-placeholderText`}
+            <button
+              key={pageNumber}
+              onClick={() => handlePageChange(pageNumber)}
+              className={`
+                ${getSizeClasses()} 
+                px-1.5 
+                flex 
+                items-center 
+                justify-center 
+                rounded-full 
+                font-medium
+                transition-all 
+                duration-300 
+                border
+                ${isActive 
+                  ? `${getActiveClasses()} bg-background shadow-sm scale-110` 
+                  : `bg-background/80 backdrop-blur-sm text-text ${getHoverClasses()} border-borderColor hover:shadow-sm active:scale-95`
+                }
+              `}
+              aria-current={isActive ? 'page' : undefined}
+              aria-label={`Page ${pageNumber}`}
             >
-              <MoreHorizontal size={16} />
-            </span>
+              {pageNumber}
+            </button>
           );
-        }
-        
-        const isActive = pageNumber === currentPage;
-        
-        return (
-          <button
-            key={pageNumber}
-            onClick={() => handlePageChange(pageNumber)}
-            className={`${getSizeClasses()} px-2 flex items-center justify-center rounded-md transition-all duration-300 transform ${
-              isActive 
-                ? `${getColorClasses(true)} shadow-md` 
-                : `${getColorClasses(false)} border border-borderColor hover:scale-105 hover:shadow-md`
-            }`}
-            aria-current={isActive ? 'page' : undefined}
-            aria-label={`Page ${pageNumber}`}
-          >
-            {pageNumber}
-          </button>
-        );
-      })}
+        })}
+      </div>
       
       {/* Next button */}
       {showControls && (
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className={`${getSizeClasses()} px-2 flex items-center justify-center rounded-md transition-all duration-300 transform ${
-            currentPage === totalPages 
-              ? 'opacity-50 cursor-not-allowed' 
-              : 'hover:scale-105 hover:shadow-md'
-          } border border-borderColor`}
+          className={`
+            ${getSizeClasses()} 
+            px-3 
+            flex 
+            items-center 
+            justify-center 
+            rounded-full 
+            transition-all 
+            duration-300 
+            ${currentPage === totalPages 
+              ? 'opacity-50 cursor-not-allowed bg-background' 
+              : `${getHoverClasses()} hover:bg-background/80 active:scale-95`
+            } 
+            border 
+            border-borderColor
+            backdrop-blur-sm
+          `}
           aria-label="Next page"
         >
-          <ChevronRight size={16} className='text-text' />
+          <ChevronRight size={18} className={currentPage === totalPages ? 'text-text/50' : 'text-text'} />
         </button>
       )}
     </nav>

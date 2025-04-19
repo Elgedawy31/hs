@@ -1,20 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Montaga&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+h1 , h2 , h3 , h4 , h5 , h6 {
+  font-family: Merriweather, system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
 body{
   background-color: #F6F8FC;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+
+
+}
+button{
+  box-shadow: 0 0 5px color-mix(in srgb, var(--primary) 30%, transparent) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+button:hover{
+  opacity: 0.8 !important;
+  box-shadow: 0 0 15px color-mix(in srgb, var(--primary) 70%, transparent) !important;
+  transition: all 0.3s ease-in-out !important;
+  cursor: pointer !important;
 }
 
 ::-webkit-scrollbar {

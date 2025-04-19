@@ -136,7 +136,7 @@ function Header() {
 
         {/* Buttons - Only visible on lg screens and above */}
         <div className="hidden lg:flex items-center space-x-4">
-          <button 
+          <span 
             onClick={toggleTheme} 
             className="p-2 rounded-full flex items-center justify-center relative overflow-hidden group transition-all duration-300 ease-in-out hover:bg-altPrimary"
             aria-label={currentTheme === 'dark' ? "Switch to light mode" : "Switch to dark mode"}
@@ -149,7 +149,7 @@ function Header() {
                 <Moon className="h-5 w-5 text-text" />
               )}
             </div>
-          </button>
+          </span>
           
           {user ? (
             <div className="flex items-center space-x-4">
@@ -167,13 +167,13 @@ function Header() {
               <Link to="/profile" className="text-text hover:text-primary">
                 <User className="h-6 w-6" />
               </Link>
-              <button 
+              <span 
                 onClick={logout} 
                 className="text-text hover:text-primary"
                 aria-label="Logout"
               >
                 <LogOut className="h-6 w-6" />
-              </button>
+              </span>
              
             </div>
           ) : (
@@ -190,7 +190,7 @@ function Header() {
 
         {/* Mobile Menu Button */}
         <div className="lg:hidden">
-          <button 
+          <span 
             className="text-text focus:outline-none" 
             onClick={toggleMenu}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -200,7 +200,7 @@ function Header() {
             ) : (
               <Menu className="h-6 w-6" />
             )}
-          </button>
+          </span>
         </div>
       </div>
 
@@ -268,7 +268,7 @@ function Header() {
             Terms
           </NavLink>
           <div className="flex flex-col space-y-3 pt-2">
-            <button 
+            <span 
               onClick={toggleTheme} 
               className="flex items-center justify-center p-2 rounded-full group transition-all duration-300 ease-in-out hover:bg-altPrimary"
               aria-label={currentTheme === 'dark' ? "Switch to light mode" : "Switch to dark mode"}
@@ -281,7 +281,7 @@ function Header() {
                 )}
               </div>
               <span className="text-text">{currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
-            </button>
+            </span>
             
             {user ? (
               <div className="grid md:gird-cols-4 grid-cols-2 gap-4 justify-between  py-2">
@@ -302,14 +302,14 @@ function Header() {
                   <User className="h-6 w-6 mr-2" />
                   <span>Profile</span>
                 </Link>
-                <button 
+                <span 
                   onClick={logout} 
                   className="text-text hover:text-primary flex items-center"
                   aria-label="Logout"
                 >
                   <LogOut className="h-6 w-6 mr-2" />
                   <span>Logout</span>
-                </button>
+                </span>
               
               </div>
             ) : (

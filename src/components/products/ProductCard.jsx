@@ -42,7 +42,7 @@ const ProductCard = ({ product }) => {
         />
         <div className="absolute top-4 left-4">
           <span 
-            className="text-xs font-medium px-2 py-1 rounded-full"
+            className="text-[12px] font-medium px-2 py-1 rounded-full"
             style={{ 
               backgroundColor: theme.primary,
               color: '#FFFFFF' 

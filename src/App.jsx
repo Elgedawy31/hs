@@ -5,6 +5,7 @@ import { useTheme } from './contexts/ThemeContext';
 import Login from './pages/Login';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import FloatingActionMenu from './components/FloatingActionMenu';
 
 // Components
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Outlet />
       </main>
       <Footer />
+      <FloatingActionMenu />
     </div>
   );
 }

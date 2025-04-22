@@ -1,11 +1,14 @@
 import React from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { Star } from 'lucide-react';
+import { Star, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../store/cartSlice';
 
 const ProductCard = ({ product }) => {
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <div 
@@ -49,18 +52,33 @@ const ProductCard = ({ product }) => {
           {product.name}
         </h3>
         
-        <div className="flex items-center gap-2 mb-2">
-          <span 
-            className="text-base font-bold"
-            style={{ color: theme.primary }}
-          >
-            {product.discountedPrice || product.price}
-          </span>
-          {product.discountedPrice && (
-            <span className="text-sm line-through text-placeholderText">
-              {product.price}
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <span 
+              className="text-base font-bold"
+              style={{ color: theme.primary }}
+            >
+              {product.discountedPrice || product.price}
             </span>
-          )}
+            {product.discountedPrice && (
+              <span className="text-sm line-through text-placeholderText">
+                {product.price}
+              </span>
+            )}
+          </div>
+          
+          <button
+            className="px-2 py-1 rounded-md flex items-center justify-center gap-1 text-white text-xs font-medium transition-colors duration-200 hover:opacity-90"
+            style={{ backgroundColor: theme.primary }}
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch(addToCart(product));
+              console.log('Added to cart:', product.name);
+            }}
+          >
+            <ShoppingCart className="w-3 h-3" />
+            Add
+          </button>
         </div>
       </div>
     </div>

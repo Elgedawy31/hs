@@ -3,6 +3,7 @@ import UniHeading from '../UniHeading';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
+import ProductCard from '../products/ProductCard';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -14,7 +15,6 @@ import '../home/CanDo.css';
 import product1 from '../../assets/Images/products-1.svg';
 import product2 from '../../assets/Images/products-2.svg';
 import product3 from '../../assets/Images/products-3.svg';
-import { Star } from 'lucide-react';
 
 function OurProducts() {
   const { theme } = useTheme();
@@ -25,49 +25,46 @@ function OurProducts() {
       image: product1,
       name: 'Niacinamide Serum',
       price: '370 LE',
-      reviews: 24
+      category: 'Skin Care',
+      rating: '4.8',
+      discount: '15%',
+      discountedPrice: '314 LE'
     },
     {
       id: 2,
       image: product2,
       name: 'Niacinamide Serum',
       price: '700 LE',
-      reviews: 24
+      category: 'Skin Care',
+      rating: '4.7'
     },
     {
       id: 3,
       image: product3,
       name: 'Salicylic Acid Cleanser',
       price: '450 LE',
-      reviews: 24
+      category: 'Cleansers',
+      rating: '4.9'
     },
     {
-      id: 2,
+      id: 4,
       image: product2,
       name: 'Niacinamide Serum',
       price: '700 LE',
-      reviews: 24
+      category: 'Skin Care',
+      rating: '4.7'
     },
     {
-      id: 1,
+      id: 5,
       image: product1,
       name: 'Niacinamide Serum',
       price: '370 LE',
-      reviews: 24
+      category: 'Skin Care',
+      rating: '4.8',
+      discount: '10%',
+      discountedPrice: '333 LE'
     },
   ];
-
-  // Function to render stars using Lucide React
-  const renderStars = (count) => {
-    return Array(5).fill(0).map((_, index) => (
-      <Star 
-        key={index} 
-        size={18} 
-        fill={index < 4 ? "#FFD700" : "none"} 
-        color={index < 4 ? "#FFD700" : "#D1D5DB"}
-      />
-    ));
-  };
 
   return (
     <section className="py-16 px-4 relative">
@@ -109,49 +106,7 @@ function OurProducts() {
         >
           {products.map((product) => (
             <SwiperSlide key={product.id}>
-              <div className="flex flex-col">
-                <div className="mb-4">
-                  <img draggable="false" 
-                    src={product.image} 
-                    alt={product.name} 
-                    className="w-full h-[350px] object-cover"
-                  />
-                </div>
-                
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 
-                      className="text-xl font-medium"
-                      style={{ 
-                        color: theme.text,
-                        fontFamily: 'Montaga, serif'
-                      }}
-                    >
-                      {product.name}
-                    </h3>
-                    <div className="flex items-center mt-1">
-                      <div className="flex">
-                        {renderStars(4)}
-                      </div>
-                      <span className="ml-2 text-gray-600">({product.reviews} reviews)</span>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p 
-                      className="text-xl font-bold"
-                      style={{ color: theme.text }}
-                    >
-                      {product.price}
-                    </p>
-                    <button 
-                      className="mt-2 px-4 py-1 text-sm rounded text-white"
-                      style={{ backgroundColor: theme.primary }}
-                    >
-                      Add To Cart
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <ProductCard product={product} />
             </SwiperSlide>
           ))}
         </Swiper>

@@ -1,0 +1,91 @@
+/* CanDo Slider Styles */
+.cando-swiper {
+  padding: 20px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-swiper {
+padding: 0 !important;
+height: 65vh;}
+/* Navigation Arrows */
+.swiper-button-prev,
+.swiper-button-next {
+  width: 36px;
+  height: 36px;
+  background-color: var(--primary);
+  border-radius: 18px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+  
+}
+.swiper-button-prev:hover,
+.swiper-button-next:hover{
+  opacity: 1;
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  display: none;
+}
+
+/* Pagination Bullets */
+.swiper-pagination {
+  position: relative;
+  margin-top: 25px;
+}
+
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background-color: var(--placeholderText);
+  opacity: 0.6;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--primary);
+  opacity: 1;
+}
+
+/* Dynamic bullets styling */
+.swiper-pagination-bullet-active-main {
+  background-color: var(--primary);
+}
+
+.swiper-pagination-bullet-active-prev,
+.swiper-pagination-bullet-active-next {
+  background-color: var(--placeholderText);
+}
+
+/* Remove slide animations as per user feedback */
+.swiper-slide {
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .cando-swiper {
+    padding: 20px 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .cando-swiper {
+    padding: 15px 25px;
+  }
+}

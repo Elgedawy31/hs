@@ -49,3 +49,9 @@ button:hover{
   @apply bg-primary !important;
   /* Scrollbar thumb color */
 }
+
+*::selection {
+  background-color: var(--primary) !important;
+  color: var(--text) !important;
+  /* Change the background color of selected text */
+}

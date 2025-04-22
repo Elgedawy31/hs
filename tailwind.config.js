@@ -8,6 +8,16 @@ export default {
     "./node_modules/@heroui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
+    container: {
+      center: true,
+      screens: {
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1440px',  // Increased from 1280px
+        '2xl': '1800px',  // Increased from 1536px
+      },
+    },
     extend: {
       keyframes: {
         fadeIn: {

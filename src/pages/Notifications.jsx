@@ -78,21 +78,36 @@ function Notifications() {
   }, {});
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto px-4 py-8" data-aos="fade-in">
         <SEO 
         title={`HS - Healthcare Solutions - Notifications`}
         description={`Stay updated with your appointments and clinic news`}
       />
-      <div className="text-center mb-8">
+      <div 
+        className="text-center mb-8"
+        data-aos="fade-down"
+        data-aos-delay="200"
+      >
         <h1 className="text-3xl font-bold text-text mb-2">Notifications</h1>
         <p className="text-text/80">Stay updated with your appointments and clinic news</p>
       </div>
 
-      <CustomTabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab}>
+      <CustomTabs 
+        tabs={tabs} 
+        activeTab={activeTab} 
+        onChange={setActiveTab}
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
         <div className="mt-6">
           {Object.keys(groupedNotifications).length > 0 ? (
             Object.entries(groupedNotifications).map(([date, dateNotifications]) => (
-              <div key={date} className="mb-6">
+              <div 
+                key={date} 
+                className="mb-6"
+                data-aos="fade-up"
+                data-aos-delay="400"
+              >
                 <div className="flex items-center mb-4">
                   <div className="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -104,7 +119,12 @@ function Notifications() {
                 </div>
 
                 {dateNotifications.map(notification => (
-                  <div key={notification.id} className="bg-altPrimary rounded-lg shadow-sm mb-4 p-6 border border-borderColor relative">
+                  <div 
+                    key={notification.id} 
+                    className="bg-altPrimary rounded-lg shadow-sm mb-4 p-6 border border-borderColor relative"
+                    data-aos="fade-up"
+                    data-aos-delay={500 + (notification.id * 50)}
+                  >
                     <button className="absolute top-4 right-4 text-text/40 hover:text-text/60">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -138,7 +158,11 @@ function Notifications() {
               </div>
             ))
           ) : (
-            <div className="text-center py-12">
+            <div 
+              className="text-center py-12"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
               <p className="text-text/60">No notifications found</p>
             </div>
           )}

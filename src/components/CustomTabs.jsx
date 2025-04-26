@@ -6,10 +6,10 @@ function CustomTabs({ tabs, activeTab, onChange, children }) {
       <div className="">
         <div className="flex relative">
           {tabs.map((tab) => (
-            <button
+            <span
               key={tab.id}
               onClick={() => onChange(tab.id)}
-              className={`relative px-6 py-4 text-sm font-medium transition-all duration-300 ease-in-out
+              className={`relative cursor-pointer px-6 py-4 text-sm font-medium transition-all duration-300 ease-in-out
                 ${
                   activeTab === tab.id
                     ? "text-primary"
@@ -26,7 +26,7 @@ function CustomTabs({ tabs, activeTab, onChange, children }) {
                   }
                 `} 
               />
-            </button>
+            </span>
           ))}
         </div>
       </div>

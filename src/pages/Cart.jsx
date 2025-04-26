@@ -47,14 +47,18 @@ function Cart() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6 md:py-8">
+    <div className="container mx-auto px-4 py-6 md:py-8" data-aos="fade-in">
       <SEO 
         title={`HS - Healthcare Solutions - Cart`}
         description={`Cart page for HS - Healthcare Solutions`}
       />
       
       {/* Cart Header - Hidden on mobile */}
-      <div className="hidden md:grid md:grid-cols-4 gap-4 mb-4 font-semibold text-text">
+      <div 
+        className="hidden md:grid md:grid-cols-4 gap-4 mb-4 font-semibold text-text"
+        data-aos="fade-down"
+        data-aos-delay="200"
+      >
         <div>Product</div>
         <div className="text-center">Price</div>
         <div className="text-center">Quantity</div>
@@ -64,15 +68,21 @@ function Cart() {
       {/* Cart Items */}
       <div className="space-y-4">
         {cartItems.length === 0 ? (
-          <div className="text-center py-8">
+          <div 
+            className="text-center py-8"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
             <p className="text-lg font-medium">Your cart is empty</p>
             <p className="text-sm mt-2">Add some products to your cart to see them here.</p>
           </div>
         ) : (
-          cartItems.map(product => (
+          cartItems.map((product, index) => (
           <div 
             key={product.id} 
             className="flex flex-col md:grid md:grid-cols-4 gap-4 items-center p-4 rounded-lg bg-altPrimary shadow-sm"
+            data-aos="fade-up"
+            data-aos-delay={300 + (index * 100)}
           >
             {/* Product - Full width on mobile */}
             <div className="w-full md:w-auto flex items-center justify-center md:justify-start space-x-4 mb-4 md:mb-0">
@@ -145,12 +155,20 @@ function Cart() {
       </div>
       
       {/* Payment and Summary */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 bg-altPrimary rounded-lg p-4 md:p-6 shadow-sm">
+      <div 
+        className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 bg-altPrimary rounded-lg p-4 md:p-6 shadow-sm"
+        data-aos="fade-up"
+        data-aos-delay="400"
+      >
         {/* Payment Method */}
         <div>
           <h3 className="text-lg font-semibold mb-4">Choose Pay way</h3>
           
-          <div className="space-y-4">
+          <div 
+            className="space-y-4"
+            data-aos="fade-left"
+            data-aos-delay="450"
+          >
             <label className="flex items-center space-x-2 cursor-pointer">
               <div className={`w-6 h-6 rounded-full border-2 border-primary flex items-center justify-center ${paymentMethod === 'online' ? 'border-primary' : 'border-borderColor'}`}>
                 {paymentMethod === 'online' && (
@@ -188,7 +206,11 @@ function Cart() {
         </div>
         
         {/* Order Summary */}
-        <div className="space-y-4">
+          <div 
+            className="space-y-4"
+            data-aos="fade-right"
+            data-aos-delay="450"
+          >
           <div className="flex justify-between">
             <span>SubTotal</span>
             <span className="font-semibold">{subtotal} LE</span>

@@ -19,9 +19,13 @@ function Profile() {
   const navigate = useNavigate();
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8" data-aos="fade-in">
       {/* Profile Header Section */}
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-10">
+      <div 
+        className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-10"
+        data-aos="fade-down"
+        data-aos-delay="200"
+      >
         {/* Profile Image */}
         <div className="w-32 h-32 rounded-full overflow-hidden flex-shrink-0">
           <img  draggable="false" 
@@ -68,9 +72,17 @@ function Profile() {
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div 
+        className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
         {/* Left Column - Personal Information */}
-        <div className="bg-background rounded-lg shadow-sm p-6">
+        <div 
+          className="bg-background rounded-lg shadow-sm p-6"
+          data-aos="fade-right"
+          data-aos-delay="400"
+        >
           <h2 className="text-xl font-semibold mb-6">Personal Information</h2>
           
           <div className="space-y-4">
@@ -116,7 +128,11 @@ function Profile() {
         </div>
 
         {/* Middle Column - Recent Treatments & Documents */}
-        <div className="space-y-6">
+        <div 
+          className="space-y-6"
+          data-aos="fade-up"
+          data-aos-delay="400"
+        >
           {/* Recent Treatments */}
           <div className="bg-background rounded-lg shadow-sm p-6">
             <h2 className="text-xl font-semibold mb-6">Recent Treatments</h2>
@@ -191,7 +207,11 @@ function Profile() {
         </div>
 
         {/* Right Column - Upcoming Appointment & Medical History */}
-        <div className="space-y-6">
+        <div 
+          className="space-y-6"
+          data-aos="fade-left"
+          data-aos-delay="400"
+        >
           {/* Upcoming Appointment */}
           <div className="bg-background rounded-lg shadow-sm p-6">
             <h2 className="text-xl font-semibold mb-6">Upcoming Appointment</h2>
@@ -271,10 +291,18 @@ function Profile() {
       </div>
 
       {/* Treatment Progress Section */}
-      <div className="mt-10">
+      <div 
+        className="mt-10"
+        data-aos="fade-up"
+        data-aos-delay="500"
+      >
         <h2 className="text-xl font-semibold mb-6">Treatment Progress</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div 
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          data-aos="fade-up"
+          data-aos-delay="600"
+        >
           {/* Progress Bar 1 */}
           <div>
             <div className="flex justify-between mb-2">

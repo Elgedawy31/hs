@@ -56,9 +56,13 @@ function Model() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl">
+    <div className="container mx-auto px-4 py-8 max-w-5xl" data-aos="fade-in">
       {/* Header Section */}
-      <div className="text-center mb-10">
+      <div 
+        className="text-center mb-10"
+        data-aos="fade-down"
+        data-aos-delay="200"
+      >
         <h1 className="text-3xl md:text-4xl font-bold mb-4 text-text">AI Skin Diagnosis</h1>
         <p className="text-hoverText max-w-2xl mx-auto">
           Upload an image of your skin condition, and our AI will analyze it to provide a possible diagnosis.
@@ -66,7 +70,11 @@ function Model() {
       </div>
 
       {/* Upload Section */}
-      <div className="bg-background rounded-lg border border-borderColor p-6 mb-8">
+      <div 
+        className="bg-background rounded-lg border border-borderColor p-6 mb-8"
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
         <UniUploadDoc
           title=""
           fileType="images"
@@ -80,7 +88,11 @@ function Model() {
       </div>
 
       {/* Analyze Button */}
-      <div className="flex justify-center mb-12">
+      <div 
+        className="flex justify-center mb-12"
+        data-aos="fade-up"
+        data-aos-delay="400"
+      >
         <UniBtn 
           text="Analyze Image" 
           className="text-white px-10 py-3"
@@ -92,7 +104,11 @@ function Model() {
 
       {/* Analysis Results */}
       {analysisResult && (
-        <div className="mb-12">
+        <div 
+          className="mb-12"
+          data-aos="fade-up"
+          data-aos-delay="500"
+        >
           <h2 className="text-2xl font-bold mb-6 text-text">Analysis Results</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -122,12 +138,20 @@ function Model() {
       )}
 
       {/* Previous Diagnoses */}
-      <div>
+      <div
+        data-aos="fade-up"
+        data-aos-delay="600"
+      >
         <h2 className="text-2xl font-bold mb-6 text-text">Previous Diagnoses</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {previousDiagnoses.map((item) => (
-            <div key={item.id} className="bg-background rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+          {previousDiagnoses.map((item, index) => (
+            <div 
+              key={item.id} 
+              className="bg-background rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+              data-aos="fade-up"
+              data-aos-delay={700 + (index * 100)}
+            >
               <img  draggable="false" 
                 src={item.image} 
                 alt={item.diagnosis} 

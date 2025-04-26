@@ -137,7 +137,7 @@ function EditProfile() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-body">
+    <div className="container mx-auto px-4 py-8 bg-body" data-aos="fade-in">
       {/* Back button */}
       <button 
         onClick={() => navigate('/profile')}
@@ -147,11 +147,20 @@ function EditProfile() {
         <span>Back to Profile</span>
       </button>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="max-w-4xl mx-auto">
+      <form 
+        onSubmit={handleSubmit(onSubmit)} 
+        className="max-w-4xl mx-auto"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
         <h1 className="text-3xl font-bold text-center mb-8">Edit Profile</h1>
         
         {/* Profile Image */}
-        <div className="flex flex-col items-center mb-8">
+        <div 
+          className="flex flex-col items-center mb-8"
+          data-aos="fade-up"
+          data-aos-delay="300"
+        >
           <div className="relative w-32 h-32 mb-4">
             <img  draggable="false" 
               src={profileImage} 
@@ -183,7 +192,11 @@ function EditProfile() {
         </div>
 
         {/* Profile Completion */}
-        <div className="mb-8">
+        <div 
+          className="mb-8"
+          data-aos="fade-up"
+          data-aos-delay="400"
+        >
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-lg font-semibold">Profile Completion</h2>
             <span className="text-primary font-medium">{completion}%</span>
@@ -199,7 +212,11 @@ function EditProfile() {
         {/* Form Sections */}
         <div className="space-y-8">
           {/* Personal Information */}
-          <div className="bg-background rounded-lg p-6 shadow-sm">
+          <div 
+            className="bg-background rounded-lg p-6 shadow-sm"
+            data-aos="fade-up"
+            data-aos-delay="500"
+          >
             <h2 className="text-xl font-semibold mb-6">Personal Information</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -263,7 +280,11 @@ function EditProfile() {
           </div>
 
           {/* Medical Information */}
-          <div className="bg-background rounded-lg p-6 shadow-sm">
+          <div 
+            className="bg-background rounded-lg p-6 shadow-sm"
+            data-aos="fade-up"
+            data-aos-delay="600"
+          >
             <h2 className="text-xl font-semibold mb-6">Medical Information</h2>
             
             <div className="grid grid-cols-1 gap-6">
@@ -300,7 +321,11 @@ function EditProfile() {
           </div>
 
           {/* Contact Reminders */}
-          <div className="bg-background rounded-lg p-6 shadow-sm">
+          <div 
+            className="bg-background rounded-lg p-6 shadow-sm"
+            data-aos="fade-up"
+            data-aos-delay="700"
+          >
             <h2 className="text-xl font-semibold mb-6">Contact Reminders</h2>
             
             <div className="space-y-4">
@@ -333,7 +358,11 @@ function EditProfile() {
           </div>
 
           {/* Address Information */}
-          <div className="bg-background rounded-lg p-6 shadow-sm">
+          <div 
+            className="bg-background rounded-lg p-6 shadow-sm"
+            data-aos="fade-up"
+            data-aos-delay="800"
+          >
             <h2 className="text-xl font-semibold mb-6">Address Information</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -378,7 +407,11 @@ function EditProfile() {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-end gap-4 mt-8">
+        <div 
+          className="flex justify-end gap-4 mt-8"
+          data-aos="fade-up"
+          data-aos-delay="900"
+        >
           <UniBtn
             text="Cancel"
             onClick={() => navigate('/profile')}

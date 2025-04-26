@@ -110,15 +110,15 @@ function Favorites() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8" data-aos="fade-in">
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-8" data-aos="fade-up" data-aos-delay="200">
         <h1 className="text-3xl font-bold text-text">My Favorites</h1>
         <p className="text-placeholderText">Your saved treatments and services</p>
       </div>
       
       {/* Filter tabs */}
-      <div className="flex flex-wrap gap-2 mb-8">
+      <div className="flex flex-wrap gap-2 mb-8" data-aos="fade-up" data-aos-delay="300">
         <button 
           onClick={() => setActiveTab('all')}
           className={`px-6 py-2 rounded-full transition-colors ${
@@ -172,9 +172,9 @@ function Favorites() {
       </div>
       
       {/* Favorites grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="400">
         {filteredFavorites.map((item) => (
-          <div key={item.id} className="bg-background rounded-lg overflow-hidden shadow-md relative">
+          <div key={item.id} className="bg-background rounded-lg overflow-hidden shadow-md relative" data-aos="fade-up" data-aos-delay={500 + (item.id * 50)}>
             {/* Favorite button */}
             <button 
               onClick={() => toggleFavorite(item.id)}

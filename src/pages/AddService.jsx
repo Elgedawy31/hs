@@ -132,12 +132,12 @@ function AddService() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-body">
+    <div className="container mx-auto px-4 py-8 bg-body" data-aos="fade-in">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-8">Add New Service</h1>
+        <h1 className="text-3xl font-bold text-center mb-8" data-aos="fade-up" data-aos-delay="200">Add New Service</h1>
         
         {/* Step Indicator */}
-        <div className="flex justify-center mb-10">
+        <div className="flex justify-center mb-10" data-aos="fade-up" data-aos-delay="300">
           <div className="flex items-center w-full max-w-2xl justify-between">
             <div className="flex flex-col items-center">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white ${currentStep >= 1 ? 'bg-primary' : 'bg-gray-300'}`}>
@@ -173,7 +173,7 @@ function AddService() {
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* Step 1: Basic Information */}
           {currentStep === 1 && (
-            <div className="bg-background rounded-lg p-6 shadow-sm">
+            <div className="bg-background rounded-lg p-6 shadow-sm" data-aos="fade-up" data-aos-delay="400">
               <h2 className="text-xl font-semibold mb-6">Basic Information</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -242,7 +242,7 @@ function AddService() {
           
           {/* Step 2: Specialization */}
           {currentStep === 2 && (
-            <div className="bg-background rounded-lg p-6 shadow-sm">
+            <div className="bg-background rounded-lg p-6 shadow-sm" data-aos="fade-up" data-aos-delay="400">
               <h2 className="text-xl font-semibold mb-6">Specialization</h2>
               
               <div className="mb-6">
@@ -354,7 +354,7 @@ function AddService() {
           
           {/* Step 3: Service Details */}
           {currentStep === 3 && (
-            <div className="bg-background rounded-lg p-6 shadow-sm">
+            <div className="bg-background rounded-lg p-6 shadow-sm" data-aos="fade-up" data-aos-delay="400">
               <h2 className="text-xl font-semibold mb-6">Service Details</h2>
               
               <div className="mb-6">

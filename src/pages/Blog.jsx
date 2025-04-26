@@ -151,10 +151,12 @@ function Blog() {
         ogImage="/src/assets/Images/logo.svg"
       />
       
-      <div className="container mx-auto px-4 py-16">
-        <BlogHeader />
+      <div className="container mx-auto px-4 py-16" data-aos="fade-in">
+        <BlogHeader data-aos="fade-up" data-aos-delay="200"/>
         
-        <BlogSearch 
+        <BlogSearch
+          data-aos="fade-up" 
+          data-aos-delay="300"
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           categoryFilter={categoryFilter}
@@ -163,16 +165,18 @@ function Blog() {
           setSortBy={setSortBy}
         />
         
-        <FeaturedArticles articles={featuredArticles} />
+        <FeaturedArticles articles={featuredArticles} data-aos="fade-up" data-aos-delay="400"/>
         
-        <RelatedResources resources={relatedResources} />
+        <RelatedResources resources={relatedResources} data-aos="fade-up" data-aos-delay="500"/>
         
-        <Newsletter />
+        <Newsletter data-aos="fade-up" data-aos-delay="600"/>
         
-        <BlogArticleList articles={paginatedArticles} />
+        <BlogArticleList articles={paginatedArticles} data-aos="fade-up" data-aos-delay="700"/>
         
         <div className="flex justify-center">
-          <UniPagination 
+          <UniPagination
+            data-aos="zoom-in"
+            data-aos-delay="800"
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}

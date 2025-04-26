@@ -313,17 +313,17 @@ function Library() {
         ogImage="/src/assets/Images/logo.svg"
       />
       
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-16" data-aos="fade-in">
         <LibraryHeader />
-        <div className="my-12">
+        <div className="my-12" data-aos="fade-up" data-aos-delay="200">
           <h2 className="text-2xl font-bold mb-8">Resource Categories</h2>
           <LibraryGrid />
         </div>
-        <FeaturedResources />
+        <FeaturedResources data-aos="fade-up" data-aos-delay="300"/>
         
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar with filters */}
-          <div className="lg:w-1/4 w-full">
+          <div className="lg:w-1/4 w-full" data-aos="fade-right" data-aos-delay="400">
             <LibraryFilter 
               onFilterChange={handleFilterChange} 
               currentFilters={filters}
@@ -331,8 +331,10 @@ function Library() {
           </div>
           
           {/* Main content */}
-          <div className="lg:w-3/4 w-full">
-            <LibrarySort 
+          <div className="lg:w-3/4 w-full" data-aos="fade-left" data-aos-delay="400">
+            <LibrarySort
+              data-aos="fade-down" 
+              data-aos-delay="500"
               sortBy={sortBy}
               onSortChange={handleSortChange}
               totalResources={filteredResources.length}
@@ -345,9 +347,11 @@ function Library() {
               />
             )}
             
-            <ResourceList resources={paginatedResources} />
+            <ResourceList resources={paginatedResources} data-aos="fade-up" data-aos-delay="600"/>
             
-            <UniPagination 
+            <UniPagination
+              data-aos="zoom-in"
+              data-aos-delay="700"
               currentPage={currentPage}
               totalPages={Math.ceil(filteredResources.length / resourcesPerPage)}
               onPageChange={setCurrentPage}

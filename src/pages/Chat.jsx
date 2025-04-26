@@ -20,10 +20,10 @@ function Chat() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-[calc(100vh-64px)] bg-body">
+    <div className="flex flex-col md:flex-row h-[calc(100vh-64px)] bg-body" data-aos="fade-in">
       {/* Left sidebar - Doctor info */}
       <div className="w-full md:w-72 lg:w-80 bg-background border-r border-borderColor flex-shrink-0">
-        <div className="p-6 flex flex-col items-center">
+        <div className="p-6 flex flex-col items-center" data-aos="fade-right" data-aos-delay="200">
           <div className="relative">
             <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-borderColor">
               <img 
@@ -54,7 +54,7 @@ function Chat() {
       {/* Right side - Chat area */}
       <div className="flex-1 flex flex-col">
         {/* Chat header */}
-        <div className="p-4 border-b border-borderColor bg-background flex items-center justify-between">
+        <div className="p-4 border-b border-borderColor bg-background flex items-center justify-between" data-aos="fade-down" data-aos-delay="300">
           <div className="flex items-center">
             <div className="relative mr-3">
               <div className="w-12 h-12 rounded-full overflow-hidden">
@@ -86,7 +86,7 @@ function Chat() {
         </div>
         
         {/* Chat messages */}
-        <div className="flex-1 overflow-y-auto p-4 bg-body">
+        <div className="flex-1 overflow-y-auto p-4 bg-body" data-aos="fade-up" data-aos-delay="400">
           <div className="text-center text-placeholderText text-sm mb-6">
             Today, 3/8/2025
           </div>
@@ -102,7 +102,7 @@ function Chat() {
           </div>
           
           {/* Doctor message */}
-          <div className="flex mb-4">
+          <div className="flex mb-4" data-aos="fade-right" data-aos-delay="500">
             <div className="w-8 h-8 rounded-full overflow-hidden mr-2 flex-shrink-0">
               <img 
                 src="/src/assets/Images/model-1.jpg" 
@@ -119,7 +119,7 @@ function Chat() {
           </div>
           
           {/* User message */}
-          <div className="flex justify-end mb-4">
+          <div className="flex justify-end mb-4" data-aos="fade-left" data-aos-delay="600">
             <div className="flex flex-col items-end">
               <div className="bg-primary p-3 rounded-lg rounded-tr-none max-w-xs md:max-w-md">
                 <p className="text-white">Hi Dr. Watson, what documents should I bring for my first visit?</p>
@@ -129,7 +129,7 @@ function Chat() {
           </div>
           
           {/* Doctor message */}
-          <div className="flex mb-4">
+          <div className="flex mb-4" data-aos="fade-right" data-aos-delay="700">
             <div className="w-8 h-8 rounded-full overflow-hidden mr-2 flex-shrink-0">
               <img 
                 src="/src/assets/Images/model-1.jpg" 
@@ -147,7 +147,7 @@ function Chat() {
         </div>
         
         {/* Message input */}
-        <div className="p-4 border-t border-borderColor bg-background">
+        <div className="p-4 border-t border-borderColor bg-background" data-aos="fade-up" data-aos-delay="800">
           <form onSubmit={handleSendMessage} className="flex items-center">
             <button 
               type="button" 

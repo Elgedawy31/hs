@@ -509,15 +509,15 @@ function Rate() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-body">
+    <div className="container mx-auto px-4 py-8 bg-body" data-aos="fade-in">
       {/* SEO */}
       <RateSEO />
       
       {/* Header */}
-      <RateHeader />
+      <RateHeader data-aos="fade-up" data-aos-delay="200"/>
       
       {/* Review submission form */}
-      <ReviewForm 
+      <ReviewForm data-aos="fade-up" data-aos-delay="300"
         userRating={userRating}
         setUserRating={setUserRating}
         reviewText={reviewText}
@@ -528,7 +528,7 @@ function Rate() {
       />
       
       {/* Filters and search */}
-      <ReviewFilters 
+      <ReviewFilters data-aos="fade-up" data-aos-delay="400"
         sortBy={sortBy}
         setSortBy={setSortBy}
         treatmentFilter={treatmentFilter}
@@ -540,7 +540,7 @@ function Rate() {
       />
       
       {/* Reviews list */}
-      <ReviewList 
+      <ReviewList data-aos="fade-up" data-aos-delay="500"
         paginatedReviews={paginatedReviews}
         renderStars={renderStars}
         handleHelpfulClick={handleHelpfulClick}
@@ -548,7 +548,7 @@ function Rate() {
       
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-8" data-aos="fade-up" data-aos-delay="600">
           <UniPagination
             currentPage={currentPage}
             totalPages={totalPages}

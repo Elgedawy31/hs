@@ -7,10 +7,10 @@ function Prescription() {
   const { theme } = useTheme();
 
   return (
-    <div className="container mx-auto px-4 py-8 ">
+    <div className="container mx-auto px-4 py-8" data-aos="fade-in">
       <div className="max-w-4xl mx-auto  ">
         {/* Header */}
-        <div className="p-6 border-b border-borderColor">
+        <div className="p-6 border-b border-borderColor" data-aos="fade-up" data-aos-delay="200">
           <h1 className="text-2xl md:text-3xl font-bold text-center text-primary">E-Prescription</h1>
           <p className="text-center text-gray-600 dark:text-gray-400 mt-2">
             Secure online prescription management for our patients
@@ -18,7 +18,7 @@ function Prescription() {
         </div>
 
         {/* Patient and Payment Information */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border-b border-borderColor">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border-b border-borderColor" data-aos="fade-up" data-aos-delay="300">
           {/* Patient Information */}
           <div>
             <h2 className="text-xl font-semibold mb-4">Patient Information</h2>
@@ -42,7 +42,7 @@ function Prescription() {
         </div>
 
         {/* Diagnosis */}
-        <div className="p-6 border-b border-borderColor">
+        <div className="p-6 border-b border-borderColor" data-aos="fade-up" data-aos-delay="400">
           <h2 className="text-xl font-semibold mb-3">Diagnosis</h2>
           <p className="text-placeholderText">
             Atopic Dermatitis (L20.9) - Moderate to severe presentation with acute exacerbation
@@ -50,7 +50,7 @@ function Prescription() {
         </div>
 
         {/* Symptoms */}
-        <div className="p-6 border-b border-borderColor">
+        <div className="p-6 border-b border-borderColor" data-aos="fade-up" data-aos-delay="500">
           <h2 className="text-xl font-semibold mb-3">Symptoms</h2>
           <ol className="list-decimal list-inside space-y-2 pl-1">
             <li>Persistent itching and redness</li>
@@ -60,7 +60,7 @@ function Prescription() {
         </div>
 
         {/* Prescription Details */}
-        <div className="p-6 border-b border-borderColor">
+        <div className="p-6 border-b border-borderColor" data-aos="fade-up" data-aos-delay="600">
           <h2 className="text-xl font-semibold mb-4">Prescription Details</h2>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-borderColor">
@@ -101,7 +101,7 @@ function Prescription() {
         </div>
 
         {/* Additional Instructions and Follow Up */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border-b border-borderColor">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border-b border-borderColor" data-aos="fade-up" data-aos-delay="700">
           {/* Additional Instructions */}
           <div>
             <h2 className="text-xl font-semibold mb-4">Additional Instructions</h2>
@@ -133,7 +133,7 @@ function Prescription() {
         </div>
 
         {/* Digital Signature and Validity */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6" data-aos="fade-up" data-aos-delay="800">
           {/* Digital Signature */}
           <div>
             <h2 className="text-xl font-semibold mb-2">Digital Signature</h2>

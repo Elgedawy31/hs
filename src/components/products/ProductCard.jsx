@@ -23,7 +23,7 @@ const ProductCard = ({ product }) => {
           className="w-full h-52 object-cover rounded-lg"
         />
         {product.discount && (
-          <div className="absolute top-3 left-3">
+          <div className="absolute top-3 left-3" data-aos="zoom-in" data-aos-duration="600">
             <span 
               className="text-xs font-medium px-3 py-1 rounded-full text-white"
               style={{ backgroundColor: theme.primary }}
@@ -75,6 +75,8 @@ const ProductCard = ({ product }) => {
               dispatch(addToCart(product));
               console.log('Added to cart:', product.name);
             }}
+            data-aos="fade-left" 
+            data-aos-duration="500"
           >
             <ShoppingCart className="w-3 h-3" />
             Add

@@ -359,7 +359,7 @@ function Products() {
   }, [filters, sortBy]);
   
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8" data-aos="fade-in">
       <SEO 
         title="HS - Healthcare Solutions - Products"
         description="HS provides innovative healthcare solutions and products to improve your health and wellbeing."
@@ -369,7 +369,7 @@ function Products() {
       
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Sidebar with filters */}
-        <div className="lg:w-1/4 w-full">
+        <div className="lg:w-1/4 w-full" data-aos="fade-up" data-aos-delay="100">
           <ProductFilter 
             onFilterChange={handleFilterChange} 
             currentFilters={filters}
@@ -378,26 +378,34 @@ function Products() {
         
         {/* Main content */}
         <div className="lg:w-3/4 w-full">
-          <ProductSort 
-            sortBy={sortBy}
-            onSortChange={handleSortChange}
-            totalProducts={filteredProducts.length}
-          />
+          <div data-aos="fade-down" data-aos-delay="200">
+            <ProductSort 
+              sortBy={sortBy}
+              onSortChange={handleSortChange}
+              totalProducts={filteredProducts.length}
+            />
+          </div>
           
           {activeTags.length > 0 && (
-            <ProductTags 
-              tags={activeTags} 
-              onRemoveTag={handleRemoveTag} 
-            />
+            <div data-aos="fade-right" data-aos-delay="300">
+              <ProductTags 
+                tags={activeTags} 
+                onRemoveTag={handleRemoveTag} 
+              />
+            </div>
           )}
           
-          <ProductList products={paginatedProducts} />
+          <div data-aos="fade-up" data-aos-delay="400">
+            <ProductList products={paginatedProducts} />
+          </div>
           
-          <UniPagination 
-            currentPage={currentPage}
-            totalPages={Math.ceil(filteredProducts.length / productsPerPage)}
-            onPageChange={setCurrentPage}
-          />
+          <div data-aos="zoom-in" data-aos-delay="500">
+            <UniPagination 
+              currentPage={currentPage}
+              totalPages={Math.ceil(filteredProducts.length / productsPerPage)}
+              onPageChange={setCurrentPage}
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -50,7 +50,7 @@ function Expert() {
   };
   
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8" data-aos="fade-in">
       <SEO 
         title={`HS - Healthcare Solutions - ${expert.name}`}
         description={`Book an appointment with ${expert.name}, a dermatology specialist.`}
@@ -59,11 +59,16 @@ function Expert() {
       />
       
       {/* Expert Profile Card */}
-      <div className="rounded-xl overflow-hidden shadow-sm mb-10 bg-white" style={{ backgroundColor: theme.background }}>
+      <div 
+        className="rounded-xl overflow-hidden shadow-sm mb-10 bg-white" 
+        style={{ backgroundColor: theme.background }}
+        data-aos="fade-up"
+        data-aos-duration="800"
+      >
         <div className="flex flex-col md:flex-row">
           {/* Expert Image */}
-          <div className="md:w-1/3 p-6">
-            <img  draggable="false" 
+          <div className="md:w-1/3 p-6" data-aos="zoom-in" data-aos-delay="200">
+            <img draggable="false" 
               src={expert.image} 
               alt={expert.name} 
               className="w-full h-auto rounded-xl object-cover"
@@ -71,7 +76,7 @@ function Expert() {
           </div>
           
           {/* Expert Details */}
-          <div className="md:w-2/3 p-6">
+          <div className="md:w-2/3 p-6" data-aos="fade-left" data-aos-delay="300">
             <h1 className="text-2xl font-bold mb-4" style={{ color: theme.text }}>
               {expert.name}
             </h1>
@@ -80,13 +85,13 @@ function Expert() {
               {expert.description}
             </p>
             
-            <div className="flex items-center mb-2">
+            <div className="flex items-center mb-2" data-aos="fade-up" data-aos-delay="400">
               <span className="font-medium mr-2" style={{ color: theme.text }}>
                 {expert.experience} years experience
               </span>
             </div>
             
-            <div className="flex items-center">
+            <div className="flex items-center" data-aos="fade-up" data-aos-delay="500">
               <span className="text-amber-500"><GraduationCap /></span>
               <span className="ml-2" style={{ color: theme.text }}>
                 {expert.education}
@@ -96,24 +101,29 @@ function Expert() {
         </div>
       </div>
       
-      <h2 className="text-2xl font-bold mb-6" style={{ color: theme.text }}>
+      <h2 
+        className="text-2xl font-bold mb-6" 
+        style={{ color: theme.text }}
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
         Book Your Appointment
       </h2>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div>
+        <div data-aos="fade-right" data-aos-delay="200">
           {/* Available Time */}
           <div className="mb-6">
             <h3 className="font-semibold mb-2" style={{ color: theme.text }}>
               Available Time
             </h3>
             
-            <div className="mb-4">
+            <div className="mb-4" data-aos="fade-up" data-aos-delay="300">
               <p className="text-sm mb-2" style={{ color: theme.placeholderText }}>
                 Morning
               </p>
               <div className="grid grid-cols-4 gap-2">
-                {morningSlots.map((time) => (
+                {morningSlots.map((time, index) => (
                   <button
                     key={time}
                     className={`py-2 px-4 rounded-md text-sm border transition-colors ${
@@ -126,6 +136,8 @@ function Expert() {
                       color: theme.text
                     }}
                     onClick={() => handleTimeSelection(time)}
+                    data-aos="zoom-in"
+                    data-aos-delay={300 + (index * 50)}
                   >
                     {time}
                   </button>
@@ -133,12 +145,12 @@ function Expert() {
               </div>
             </div>
             
-            <div>
+            <div data-aos="fade-up" data-aos-delay="400">
               <p className="text-sm mb-2" style={{ color: theme.placeholderText }}>
                 Evening
               </p>
               <div className="grid grid-cols-4 gap-2">
-                {eveningSlots.map((time) => (
+                {eveningSlots.map((time, index) => (
                   <button
                     key={time}
                     className={`py-2 px-4 rounded-md text-sm border transition-colors ${
@@ -151,6 +163,8 @@ function Expert() {
                       color: theme.text
                     }}
                     onClick={() => handleTimeSelection(time)}
+                    data-aos="zoom-in"
+                    data-aos-delay={400 + (index * 50)}
                   >
                     {time}
                   </button>
@@ -160,7 +174,7 @@ function Expert() {
           </div>
           
           {/* Reason For Visit */}
-          <div className="mb-6">
+          <div className="mb-6" data-aos="fade-up" data-aos-delay="500">
             <h3 className="font-semibold mb-2" style={{ color: theme.text }}>
               Reason For Visit
             </h3>
@@ -179,7 +193,7 @@ function Expert() {
           </div>
           
           {/* Patient Type */}
-          <div className="mb-6">
+          <div className="mb-6" data-aos="fade-up" data-aos-delay="600">
             <h3 className="font-semibold mb-2" style={{ color: theme.text }}>
               Patient Type
             </h3>
@@ -212,7 +226,7 @@ function Expert() {
           </div>
           
           {/* Upload Medical Records */}
-          <div>
+          <div data-aos="fade-up" data-aos-delay="700">
             <h3 className="font-semibold mb-2" style={{ color: theme.text }}>
               Upload Medical Records
             </h3>
@@ -226,26 +240,31 @@ function Expert() {
           </div>
         </div>
         
-        <div>
+        <div data-aos="fade-left" data-aos-delay="200">
           {/* Appointment Summary */}
-          <div className="bg-white rounded-lg p-6 mb-6 border" style={{ 
-            backgroundColor: theme.background,
-            borderColor: theme.borderColor
-          }}>
+          <div 
+            className="bg-white rounded-lg p-6 mb-6 border" 
+            style={{ 
+              backgroundColor: theme.background,
+              borderColor: theme.borderColor
+            }}
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
             <h3 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
               Appointment Summary
             </h3>
             
             <div className="space-y-4">
-              <div className="flex items-start">
-                <span ><UserRound className="w-5 h-5 mr-2" style={{ color: theme.primary }}  /></span>
+              <div className="flex items-start" data-aos="fade-up" data-aos-delay="350">
+                <span><UserRound className="w-5 h-5 mr-2" style={{ color: theme.primary }} /></span>
                 <div>
                   <p className="text-sm" style={{ color: theme.placeholderText }}>Doctor</p>
                   <p className="font-medium" style={{ color: theme.text }}>{expert.name}</p>
                 </div>
               </div>
               
-              <div className="flex items-start">
+              <div className="flex items-start" data-aos="fade-up" data-aos-delay="400">
                 <Calendar className="w-5 h-5 mr-2" style={{ color: theme.primary }} />
                 <div>
                   <p className="text-sm" style={{ color: theme.placeholderText }}>Date & Time</p>
@@ -255,7 +274,7 @@ function Expert() {
                 </div>
               </div>
               
-              <div className="flex items-start">
+              <div className="flex items-start" data-aos="fade-up" data-aos-delay="450">
                 <Clock className="w-5 h-5 mr-2" style={{ color: theme.primary }} />
                 <div>
                   <p className="text-sm" style={{ color: theme.placeholderText }}>Duration</p>
@@ -266,28 +285,33 @@ function Expert() {
           </div>
           
           {/* Appointment Instructions */}
-          <div className="bg-white rounded-lg p-6 border" style={{ 
-            backgroundColor: theme.background,
-            borderColor: theme.borderColor
-          }}>
+          <div 
+            className="bg-white rounded-lg p-6 border" 
+            style={{ 
+              backgroundColor: theme.background,
+              borderColor: theme.borderColor
+            }}
+            data-aos="fade-up"
+            data-aos-delay="500"
+          >
             <h3 className="text-lg font-semibold mb-4" style={{ color: theme.text }}>
               Appointment Instructions
             </h3>
             
             <ul className="space-y-3">
-              <li className="flex items-start">
+              <li className="flex items-start" data-aos="fade-up" data-aos-delay="550">
                 <CheckCircle2 className="w-5 h-5 mr-2 flex-shrink-0" style={{ color: theme.primary }} />
                 <span style={{ color: theme.text }}>Please arrive 10 minutes before your appointment</span>
               </li>
-              <li className="flex items-start">
+              <li className="flex items-start" data-aos="fade-up" data-aos-delay="600">
                 <CheckCircle2 className="w-5 h-5 mr-2 flex-shrink-0" style={{ color: theme.primary }} />
                 <span style={{ color: theme.text }}>Medical history documentation</span>
               </li>
-              <li className="flex items-start">
+              <li className="flex items-start" data-aos="fade-up" data-aos-delay="650">
                 <CheckCircle2 className="w-5 h-5 mr-2 flex-shrink-0" style={{ color: theme.primary }} />
                 <span style={{ color: theme.text }}>Bring your insurance card and photo ID</span>
               </li>
-              <li className="flex items-start">
+              <li className="flex items-start" data-aos="fade-up" data-aos-delay="700">
                 <CheckCircle2 className="w-5 h-5 mr-2 flex-shrink-0" style={{ color: theme.primary }} />
                 <span style={{ color: theme.text }}>List of Current Medications</span>
               </li>
@@ -295,7 +319,7 @@ function Expert() {
           </div>
           
           {/* Action Buttons */}
-          <div className="flex justify-between mt-8">
+          <div className="flex justify-between mt-8" data-aos="fade-up" data-aos-delay="800">
             <button
               onClick={() => navigate('/experts')}
               className="px-6 py-3 rounded-lg border font-medium"
@@ -303,6 +327,8 @@ function Expert() {
                 borderColor: theme.borderColor,
                 color: theme.text
               }}
+              data-aos="fade-right"
+              data-aos-delay="850"
             >
               Return To Experts
             </button>
@@ -311,6 +337,8 @@ function Expert() {
               onClick={handleConfirmAppointment}
               className="px-6 py-3 rounded-lg font-medium text-white"
               style={{ backgroundColor: theme.primary }}
+              data-aos="fade-left"
+              data-aos-delay="850"
             >
               Confirm Appointment
             </button>

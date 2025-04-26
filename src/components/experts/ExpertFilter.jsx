@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Filter, X, Star } from 'lucide-react';
 
-const FilterSection = ({ title, children }) => {
+const FilterSection = ({ title, children, delay = 0 }) => {
   return (
-    <div className="mb-8">
+    <div className="mb-8" data-aos="fade-right" data-aos-delay={delay}>
       <h3 className="font-semibold text-lg mb-4">{title}</h3>
       <div className="space-y-2">
         {children}
@@ -156,7 +156,7 @@ const ExpertFilter = ({ onFilterChange, currentFilters }) => {
 
       {isFilterOpen && (
         <>
-          <FilterSection title="Specialization">
+          <FilterSection title="Specialization" delay={100}>
             {specializationOptions.map(option => (
               <FilterCheckbox 
                 key={option.id}
@@ -168,7 +168,7 @@ const ExpertFilter = ({ onFilterChange, currentFilters }) => {
             ))}
           </FilterSection>
 
-          <FilterSection title="Experience">
+          <FilterSection title="Experience" delay={200}>
             {experienceOptions.map(option => (
               <FilterCheckbox 
                 key={option.id}
@@ -180,7 +180,7 @@ const ExpertFilter = ({ onFilterChange, currentFilters }) => {
             ))}
           </FilterSection>
 
-          <FilterSection title="Languages">
+          <FilterSection title="Languages" delay={300}>
             {languageOptions.map(option => (
               <FilterCheckbox 
                 key={option.id}
@@ -192,7 +192,7 @@ const ExpertFilter = ({ onFilterChange, currentFilters }) => {
             ))}
           </FilterSection>
 
-          <FilterSection title="Availability">
+          <FilterSection title="Availability" delay={400}>
             {availabilityOptions.map(option => (
               <FilterCheckbox 
                 key={option.id}
@@ -204,7 +204,7 @@ const ExpertFilter = ({ onFilterChange, currentFilters }) => {
             ))}
           </FilterSection>
 
-          <FilterSection title="Rating">
+          <FilterSection title="Rating" delay={500}>
             <div className="space-y-1">
               <StarRating 
                 stars={5} 
@@ -234,7 +234,7 @@ const ExpertFilter = ({ onFilterChange, currentFilters }) => {
             </div>
           </FilterSection>
 
-          <div className="flex mt-6 space-x-2">
+          <div className="flex mt-6 space-x-2" data-aos="fade-up" data-aos-delay="600">
             <button 
               className="flex-1 py-2 rounded text-white"
               style={{ backgroundColor: theme.primary }}

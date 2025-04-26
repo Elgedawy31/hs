@@ -114,6 +114,8 @@ const UniPagination = ({
     <nav
       className={`flex items-center justify-center gap-2 py-2 ${className} overflow-hidden`}
       aria-label="Pagination"
+      data-aos="zoom-in"
+      data-aos-duration="800"
     >
       {/* Previous button */}
       {showControls && (
@@ -138,13 +140,15 @@ const UniPagination = ({
             backdrop-blur-sm
           `}
           aria-label="Previous page"
+          data-aos="fade-right"
+          data-aos-delay="100"
         >
           <ChevronLeft size={18} className={currentPage === 1 ? 'text-text/50' : 'text-text'} />
         </button>
       )}
       
       {/* Page numbers */}
-      <div className="flex items-center gap-1.5 px-1">
+      <div className="flex items-center gap-1.5 px-1" data-aos="fade-up" data-aos-delay="200">
         {paginationRange.map((pageNumber, index) => {
           if (pageNumber === 'DOTS') {
             return (
@@ -218,6 +222,8 @@ const UniPagination = ({
             backdrop-blur-sm
           `}
           aria-label="Next page"
+          data-aos="fade-left"
+          data-aos-delay="100"
         >
           <ChevronRight size={18} className={currentPage === totalPages ? 'text-text/50' : 'text-text'} />
         </button>

@@ -14,21 +14,30 @@ const NoDataMsg = ({
   const { theme } = useTheme();
   
   return (
-    <div className="flex flex-col items-center justify-center h-full space-y-6 py-12">
-      <div className={`w-32 h-32 ${iconBgColor} rounded-full flex items-center justify-center`}>
+    <div className="flex flex-col items-center justify-center h-full space-y-6 py-12" data-aos="fade-in" data-aos-duration="1000">
+      <div 
+        className={`w-32 h-32 ${iconBgColor} rounded-full flex items-center justify-center`}
+        data-aos="zoom-in" 
+        data-aos-delay="200"
+      >
         <Icon 
           className={`w-16 h-16 ${iconColor}`} 
           stroke={theme.primary}
         />
       </div>
-      <div className="text-center space-y-3">
+      <div className="text-center space-y-3" data-aos="fade-up" data-aos-delay="400">
         <h3 className="text-2xl font-semibold" style={{ color: theme.primary }}>{title}</h3>
         <p className="text-lg max-w-md" style={{ color: theme.placeholderText }}>
           {description}
         </p>
       </div>
       {additionalMessage && (
-        <div className="text-sm" style={{ color: theme.placeholderText }}>
+        <div 
+          className="text-sm" 
+          style={{ color: theme.placeholderText }}
+          data-aos="fade-up" 
+          data-aos-delay="600"
+        >
           {additionalMessage}
         </div>
       )}

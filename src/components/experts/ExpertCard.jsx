@@ -23,8 +23,10 @@ const ExpertCard = ({ expert }) => {
       <div className="flex flex-col h-full justify-between">
         <div 
           className="w-full h-64 bg-sky-100 flex items-center justify-center"
+          data-aos="zoom-in"
+          data-aos-duration="600"
         >
-          <img  draggable="false"
+          <img draggable="false"
             src={expert.image}
             alt={expert.name}
             className="h-full object-cover"
@@ -45,6 +47,9 @@ const ExpertCard = ({ expert }) => {
                 key={index}
                 className="text-sm py-1 px-4 rounded-full bg-altPrimary"
                 style={{ color: theme.text }}
+                data-aos="fade-right"
+                data-aos-delay={100 * (index + 1)}
+                data-aos-duration="500"
               >
                 {specialization}
               </span>
@@ -87,6 +92,9 @@ const ExpertCard = ({ expert }) => {
                 e.stopPropagation(); // Prevent the card's onClick from firing
                 handleNavigateToExpert();
               }}
+              data-aos="fade-up"
+              data-aos-delay="200"
+              data-aos-duration="500"
             >
               View Profile
             </button>
@@ -101,6 +109,9 @@ const ExpertCard = ({ expert }) => {
                 e.stopPropagation(); // Prevent the card's onClick from firing
                 handleNavigateToExpert();
               }}
+              data-aos="fade-up"
+              data-aos-delay="300"
+              data-aos-duration="500"
             >
               Book Appointment
             </button>

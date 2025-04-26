@@ -18,8 +18,15 @@ const ExpertList = ({ experts = [] }) => {
 
   return (
     <div className="grid mb-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {experts.map((expert) => (
-        <ExpertCard key={expert.id} expert={expert} />
+      {experts.map((expert, index) => (
+        <div 
+          key={expert.id} 
+          data-aos="fade-up" 
+          data-aos-delay={100 + (index * 50)} 
+          data-aos-duration="800"
+        >
+          <ExpertCard expert={expert} />
+        </div>
       ))}
     </div>
   );

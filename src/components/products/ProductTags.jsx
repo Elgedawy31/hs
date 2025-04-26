@@ -2,7 +2,7 @@ import React from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { X } from 'lucide-react';
 
-const ProductTag = ({ label, onRemove }) => {
+const ProductTag = ({ label, onRemove, index }) => {
   const { theme } = useTheme();
   
   return (
@@ -13,6 +13,9 @@ const ProductTag = ({ label, onRemove }) => {
         borderColor: theme.primary,
         color: theme.text
       }}
+      data-aos="zoom-in"
+      data-aos-delay={100 + (index * 50)}
+      data-aos-duration="600"
     >
       <span className="text-sm font-medium">{label}</span>
       <button 
@@ -29,12 +32,13 @@ const ProductTags = ({ tags = [], onRemoveTag }) => {
   if (!tags || tags.length === 0) return null;
   
   return (
-    <div className="flex flex-wrap mb-4">
+    <div className="flex flex-wrap mb-4" data-aos="fade-up" data-aos-duration="800">
       {tags.map((tag, index) => (
         <ProductTag 
           key={index} 
           label={tag} 
           onRemove={() => onRemoveTag(tag)} 
+          index={index}
         />
       ))}
     </div>

@@ -383,7 +383,7 @@ function Experts() {
   }, [filters, sortBy, searchQuery]);
   
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8" data-aos="fade-in">
       <SEO 
         title="HS - Healthcare Solutions - Our Dermatology Experts"
         description="Find the right specialist for your skin concerns at HS Healthcare Solutions."
@@ -391,7 +391,7 @@ function Experts() {
         ogImage="/src/assets/Images/logo.svg"
       />
       
-      <div className="text-center mb-8">
+      <div className="text-center mb-8" data-aos="fade-down" data-aos-duration="800">
         <h1 className="text-3xl font-bold mb-2" style={{ color: theme.primary }}>
           Our Dermatology Experts
         </h1>
@@ -402,22 +402,26 @@ function Experts() {
       
       <div className="flex justify-between items-center md:flex-row flex-col gap-3 mb-8">
         {/* Search bar */}
-        <ExpertSearch 
-          searchQuery={searchQuery}
-          onSearchChange={handleSearchChange}
-        />
+        <div data-aos="fade-right" data-aos-delay="100">
+          <ExpertSearch 
+            searchQuery={searchQuery}
+            onSearchChange={handleSearchChange}
+          />
+        </div>
         
         {/* Sort dropdown */}
-        <ExpertSort 
-          sortBy={sortBy}
-          onSortChange={handleSortChange}
-          totalExperts={filteredExperts.length}
-        />
+        <div data-aos="fade-left" data-aos-delay="200">
+          <ExpertSort 
+            sortBy={sortBy}
+            onSortChange={handleSortChange}
+            totalExperts={filteredExperts.length}
+          />
+        </div>
       </div>
       
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Sidebar with filters */}
-        <div className="lg:w-1/4 w-full">
+        <div className="lg:w-1/4 w-full" data-aos="fade-up" data-aos-delay="300">
           <ExpertFilter 
             onFilterChange={handleFilterChange} 
             currentFilters={filters}
@@ -427,19 +431,25 @@ function Experts() {
         {/* Main content */}
         <div className="lg:w-3/4 w-full">
           {activeTags.length > 0 && (
-            <ExpertTags 
-              tags={activeTags} 
-              onRemoveTag={handleRemoveTag} 
-            />
+            <div data-aos="fade-right" data-aos-delay="400">
+              <ExpertTags 
+                tags={activeTags} 
+                onRemoveTag={handleRemoveTag} 
+              />
+            </div>
           )}
           
-          <ExpertList experts={paginatedExperts} />
+          <div data-aos="fade-up" data-aos-delay="500">
+            <ExpertList experts={paginatedExperts} />
+          </div>
           
-          <UniPagination 
-            currentPage={currentPage}
-            totalPages={Math.ceil(filteredExperts.length / expertsPerPage)}
-            onPageChange={setCurrentPage}
-          />
+          <div data-aos="zoom-in" data-aos-delay="600">
+            <UniPagination 
+              currentPage={currentPage}
+              totalPages={Math.ceil(filteredExperts.length / expertsPerPage)}
+              onPageChange={setCurrentPage}
+            />
+          </div>
         </div>
       </div>
     </div>

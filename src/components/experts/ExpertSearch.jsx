@@ -12,7 +12,11 @@ const ExpertSearch = ({ searchQuery, onSearchChange }) => {
   };
 
   return (
-    <div className="relative w-full max-w-md">
+    <div 
+      className="relative w-full max-w-md"
+      data-aos="fade-right"
+      data-aos-duration="800"
+    >
       <input
         type="text"
         placeholder="Search for experts"
@@ -24,10 +28,14 @@ const ExpertSearch = ({ searchQuery, onSearchChange }) => {
           backgroundColor: theme.background,
           color: theme.text
         }}
+        data-aos="fade-in"
+        data-aos-delay="100"
       />
       <Search 
         className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" 
         style={{ color: theme.placeholderText }} 
+        data-aos="zoom-in"
+        data-aos-delay="200"
       />
     </div>
   );

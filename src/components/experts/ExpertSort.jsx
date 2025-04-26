@@ -19,8 +19,10 @@ const ExpertSort = ({ sortBy, onSortChange, totalExperts }) => {
         borderColor: theme.borderColor,
         color: theme.text
       }}
+      data-aos="fade-down"
+      data-aos-duration="800"
     >
-      <div className="flex items-center">
+      <div className="flex items-center" data-aos="fade-right" data-aos-delay="100">
         <SortDesc className="w-5 h-5 mr-2" style={{ color: theme.primary }} />
         <span className="text-sm font-medium">Sort by :</span>
         <select 
@@ -40,7 +42,12 @@ const ExpertSort = ({ sortBy, onSortChange, totalExperts }) => {
           <option value="name">Name: A to Z</option>
         </select>
       </div>
-      <div className="text-sm" style={{ color: theme.placeholderText }}>
+      <div 
+        className="text-sm" 
+        style={{ color: theme.placeholderText }}
+        data-aos="fade-left" 
+        data-aos-delay="200"
+      >
         Showing {totalExperts || 0} Experts
       </div>
     </div>

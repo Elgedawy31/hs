@@ -95,7 +95,7 @@ function ProdcutDetails() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8" data-aos="fade-in">
       <SEO 
         title={`HS - ${product.name}`}
         description={product.description}
@@ -104,30 +104,58 @@ function ProdcutDetails() {
       />
       
       {/* Product Details Card */}
-      <div className="rounded-lg overflow-hidden shadow-sm mb-8" style={{ backgroundColor: theme.body }}>
+      <div 
+        className="rounded-lg overflow-hidden shadow-sm mb-8" 
+        style={{ backgroundColor: theme.body }}
+        data-aos="fade-up"
+        data-aos-duration="800"
+      >
         <div className="flex flex-col md:flex-row p-6">
           {/* Product Image */}
-          <div className="md:w-1/2 lg:w-2/5 mb-6 md:mb-0">
+          <div 
+            className="md:w-1/2 lg:w-2/5 mb-6 md:mb-0"
+            data-aos="fade-right"
+            data-aos-delay="200"
+          >
             <div className="bg-[#d9e6f2] rounded-lg overflow-hidden flex items-center justify-center p-4">
-              <img  draggable="false" 
+              <img draggable="false" 
                 src={product.image} 
                 alt={product.name} 
                 className="w-full h-auto object-contain"
+                data-aos="zoom-in"
+                data-aos-delay="300"
               />
             </div>
           </div>
           
           {/* Product Info */}
-          <div className="md:w-1/2 lg:w-3/5 md:pl-8">
-            <h1 className="text-2xl font-bold mb-2" style={{ color: theme.text }}>
+          <div 
+            className="md:w-1/2 lg:w-3/5 md:pl-8"
+            data-aos="fade-left"
+            data-aos-delay="200"
+          >
+            <h1 
+              className="text-2xl font-bold mb-2" 
+              style={{ color: theme.text }}
+              data-aos="fade-up"
+              data-aos-delay="300"
+            >
               {product.name}
             </h1>
             
-            <div className="mb-2">
+            <div 
+              className="mb-2"
+              data-aos="fade-up"
+              data-aos-delay="350"
+            >
               {renderStars(product.rating)}
             </div>
             
-            <div className="flex items-center gap-3 mb-4">
+            <div 
+              className="flex items-center gap-3 mb-4"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
               <p className="text-lg font-semibold" style={{ color: theme.primary }}>
                 {product.discountedPrice}
               </p>
@@ -139,15 +167,26 @@ function ProdcutDetails() {
               </span>
             </div>
             
-            <p className="mb-6 text-sm" style={{ color: theme.text }}>
+            <p 
+              className="mb-6 text-sm" 
+              style={{ color: theme.text }}
+              data-aos="fade-up"
+              data-aos-delay="450"
+            >
               {product.description}
             </p>
             
-            <div className="flex flex-wrap gap-4 mb-6">
+            <div 
+              className="flex flex-wrap gap-4 mb-6"
+              data-aos="fade-up"
+              data-aos-delay="500"
+            >
               <button
                 className="px-8 py-3 rounded-md font-medium text-white"
                 style={{ backgroundColor: theme.primary }}
                 onClick={() => dispatch(addToCart(product))}
+                data-aos="zoom-in"
+                data-aos-delay="550"
               >
                 Add To Cart
               </button>
@@ -158,6 +197,8 @@ function ProdcutDetails() {
                   borderColor: theme.primary,
                   color: theme.primary
                 }}
+                data-aos="zoom-in"
+                data-aos-delay="600"
               >
                 Buy Now
               </button>
@@ -165,7 +206,12 @@ function ProdcutDetails() {
             
             <div className="space-y-3">
               {product.features.map((feature, index) => (
-                <div key={index} className="flex items-start">
+                <div 
+                  key={index} 
+                  className="flex items-start"
+                  data-aos="fade-up"
+                  data-aos-delay={650 + (index * 50)}
+                >
                   <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mr-3" style={{ backgroundColor: theme.primary }}>
                     <Check className="w-4 h-4 text-white" />
                   </div>
@@ -180,11 +226,20 @@ function ProdcutDetails() {
       </div>
       
       {/* Expert Recommendation */}
-      <div className="rounded-lg overflow-hidden shadow-sm mb-8 p-6" style={{ backgroundColor: theme.body }}>
+      <div 
+        className="rounded-lg overflow-hidden shadow-sm mb-8 p-6" 
+        style={{ backgroundColor: theme.body }}
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
         <div className="flex flex-col md:flex-row items-center">
-          <div className="md:w-1/4 mb-4 md:mb-0 flex justify-center">
+          <div 
+            className="md:w-1/4 mb-4 md:mb-0 flex justify-center"
+            data-aos="fade-right"
+            data-aos-delay="400"
+          >
             <div className="w-32 h-32 rounded-full overflow-hidden">
-              <img  draggable="false" 
+              <img draggable="false" 
                 src={product.expertRecommendation.image} 
                 alt={product.expertRecommendation.name} 
                 className="w-full h-full object-cover"
@@ -192,16 +247,33 @@ function ProdcutDetails() {
             </div>
           </div>
           
-          <div className="md:w-3/4 md:pl-6 text-center md:text-left">
-            <h2 className="text-xl font-bold mb-3" style={{ color: theme.text }}>
+          <div 
+            className="md:w-3/4 md:pl-6 text-center md:text-left"
+            data-aos="fade-left"
+            data-aos-delay="400"
+          >
+            <h2 
+              className="text-xl font-bold mb-3" 
+              style={{ color: theme.text }}
+            >
               Expert Recommendation
             </h2>
             
-            <p className="italic mb-3 text-sm" style={{ color: theme.text }}>
+            <p 
+              className="italic mb-3 text-sm" 
+              style={{ color: theme.text }}
+              data-aos="fade-up"
+              data-aos-delay="450"
+            >
               "{product.expertRecommendation.quote}"
             </p>
             
-            <p className="font-medium" style={{ color: theme.primary }}>
+            <p 
+              className="font-medium" 
+              style={{ color: theme.primary }}
+              data-aos="fade-up"
+              data-aos-delay="500"
+            >
               {product.expertRecommendation.name}
             </p>
           </div>
@@ -209,10 +281,23 @@ function ProdcutDetails() {
       </div>
       
       {/* Product Information Boxes */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <div 
+        className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
+        data-aos="fade-up"
+        data-aos-delay="400"
+      >
         {/* Key Benefits */}
-        <div className="rounded-lg p-6 text-center" style={{ backgroundColor: theme.body }}>
-          <div className="flex justify-center mb-4">
+        <div 
+          className="rounded-lg p-6 text-center" 
+          style={{ backgroundColor: theme.body }}
+          data-aos="fade-up"
+          data-aos-delay="500"
+        >
+          <div 
+            className="flex justify-center mb-4"
+            data-aos="zoom-in"
+            data-aos-delay="550"
+          >
             <div className="w-12 h-12">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke={theme.primary} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14 22h5a2 2 0 0 0 2-2v-7.5L14 6v16z"/>
@@ -230,14 +315,29 @@ function ProdcutDetails() {
           
           <div className="space-y-2 text-sm" style={{ color: theme.text }}>
             {product.keyBenefits.map((benefit, index) => (
-              <p key={index}>{benefit}</p>
+              <p 
+                key={index}
+                data-aos="fade-up"
+                data-aos-delay={600 + (index * 50)}
+              >
+                {benefit}
+              </p>
             ))}
           </div>
         </div>
         
         {/* Ingredients */}
-        <div className="rounded-lg p-6 text-center" style={{ backgroundColor: theme.body }}>
-          <div className="flex justify-center mb-4">
+        <div 
+          className="rounded-lg p-6 text-center" 
+          style={{ backgroundColor: theme.body }}
+          data-aos="fade-up"
+          data-aos-delay="600"
+        >
+          <div 
+            className="flex justify-center mb-4"
+            data-aos="zoom-in"
+            data-aos-delay="650"
+          >
             <div className="w-12 h-12">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke={theme.primary} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/>
@@ -253,14 +353,29 @@ function ProdcutDetails() {
           
           <div className="space-y-2 text-sm" style={{ color: theme.text }}>
             {product.ingredients.map((ingredient, index) => (
-              <p key={index}>{ingredient}</p>
+              <p 
+                key={index}
+                data-aos="fade-up"
+                data-aos-delay={700 + (index * 50)}
+              >
+                {ingredient}
+              </p>
             ))}
           </div>
         </div>
         
         {/* How To Use */}
-        <div className="rounded-lg p-6 text-center" style={{ backgroundColor: theme.body }}>
-          <div className="flex justify-center mb-4">
+        <div 
+          className="rounded-lg p-6 text-center" 
+          style={{ backgroundColor: theme.body }}
+          data-aos="fade-up"
+          data-aos-delay="700"
+        >
+          <div 
+            className="flex justify-center mb-4"
+            data-aos="zoom-in"
+            data-aos-delay="750"
+          >
             <div className="w-12 h-12">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke={theme.primary} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -272,37 +387,62 @@ function ProdcutDetails() {
             How To Use
           </h3>
           
-          <div className="text-sm" style={{ color: theme.text }}>
+          <div 
+            className="text-sm" 
+            style={{ color: theme.text }}
+            data-aos="fade-up"
+            data-aos-delay="800"
+          >
             <p>{product.howToUse}</p>
           </div>
         </div>
       </div>
       
       {/* You May Also Like */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold mb-6" style={{ color: theme.text }}>
+      <div 
+        className="mb-12"
+        data-aos="fade-up"
+        data-aos-delay="800"
+      >
+        <h2 
+          className="text-2xl font-bold mb-6" 
+          style={{ color: theme.text }}
+          data-aos="fade-up"
+          data-aos-delay="850"
+        >
           You May Also Like
         </h2>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {product.relatedProducts.map((relatedProduct) => (
+          {product.relatedProducts.map((relatedProduct, index) => (
             <div 
               key={relatedProduct.id}
               className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
               style={{ backgroundColor: theme.background }}
+              data-aos="fade-up"
+              data-aos-delay={900 + (index * 50)}
             >
               <div className="p-4">
-                <img  draggable="false" 
+                <img draggable="false" 
                   src={relatedProduct.image} 
                   alt={relatedProduct.name} 
                   className="w-full h-48 object-cover mb-4 rounded-md"
+                  data-aos="zoom-in"
+                  data-aos-delay={950 + (index * 50)}
                 />
                 
-                <h3 className="font-medium mb-2 text-center" style={{ color: theme.text }}>
+                <h3 
+                  className="font-medium mb-2 text-center" 
+                  style={{ color: theme.text }}
+                >
                   {relatedProduct.name}
                 </h3>
                 
-                <div className="flex items-center justify-center gap-2 flex-wrap">
+                <div 
+                  className="flex items-center justify-center gap-2 flex-wrap"
+                  data-aos="fade-up"
+                  data-aos-delay={1000 + (index * 50)}
+                >
                   <p className="font-semibold" style={{ color: theme.primary }}>
                     {relatedProduct.discountedPrice}
                   </p>

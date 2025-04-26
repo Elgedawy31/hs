@@ -49,19 +49,27 @@ function ContactUs() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen  py-16">
+    <div className="flex justify-center items-center min-h-screen py-16" data-aos="fade-in">
        <SEO 
         title={`HS - Healthcare Solutions - Contact Us`}
         description={`Contact us for any queries or questions. We are here to help you.`}
       />
-      <div className="w-full max-w-2xl bg-background rounded-lg shadow-md p-8 md:p-12">
-        <div className="text-center mb-8">
+      <div 
+        className="w-full max-w-2xl bg-background rounded-lg shadow-md p-8 md:p-12"
+        data-aos="fade-up"
+        data-aos-duration="800"
+      >
+        <div 
+          className="text-center mb-8"
+          data-aos="fade-down"
+          data-aos-delay="200"
+        >
           <h1 className="text-3xl font-bold mb-2">Contact Us</h1>
           <p className="text-gray-500">We are ready for helping and answering any questions</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div>
+          <div data-aos="fade-up" data-aos-delay="300">
             <UniTextInput
               label="Full Name"
               value={watch('fullName')}
@@ -72,7 +80,7 @@ function ContactUs() {
             />
           </div>
 
-          <div>
+          <div data-aos="fade-up" data-aos-delay="350">
             <UniTextInput
               label="Email Address"
               value={watch('email')}
@@ -83,7 +91,7 @@ function ContactUs() {
             />
           </div>
 
-          <div>
+          <div data-aos="fade-up" data-aos-delay="400">
             <UniTextInput
               label="Phone Number"
               value={watch('phoneNumber')}
@@ -94,7 +102,7 @@ function ContactUs() {
             />
           </div>
 
-          <div>
+          <div data-aos="fade-up" data-aos-delay="450">
             <UniTextInput
               label="Subject"
               value={watch('subject')}
@@ -105,7 +113,7 @@ function ContactUs() {
             />
           </div>
 
-          <div>
+          <div data-aos="fade-up" data-aos-delay="500">
             <UniTextInput
               label="Message"
               type="textarea"
@@ -118,7 +126,11 @@ function ContactUs() {
             />
           </div>
 
-          <div className="pt-2">
+          <div 
+            className="pt-2"
+            data-aos="fade-up" 
+            data-aos-delay="600"
+          >
             <UniBtn
               text="Send Message"
               type="submit"

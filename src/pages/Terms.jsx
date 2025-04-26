@@ -69,7 +69,7 @@ function Terms() {
   ];
 
   return (
-    <div className=" min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8" data-aos="fade-in">
       <SEO 
         title={`HS - Healthcare Solutions - Terms`}
         description={`Terms and conditions for using HS - Healthcare Solutions`}
@@ -77,21 +77,31 @@ function Terms() {
       
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-10">
+        <div 
+          className="text-center mb-10"
+          data-aos="fade-down"
+          data-aos-duration="800"
+        >
           <h1 className="text-4xl font-bold text-primary mb-2">Terms & Conditions</h1>
           <p className="text-text">Last updated: March 1, 2025</p>
         </div>
         
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar */}
-          <div className="lg:w-1/4 bg-altPrimary border border-borderColor rounded-lg p-6 h-fit">
+          <div 
+            className="lg:w-1/4 bg-altPrimary border border-borderColor rounded-lg p-6 h-fit"
+            data-aos="fade-right"
+            data-aos-delay="200"
+          >
             <h2 className="text-xl font-semibold text-primary mb-4">Contents</h2>
             <nav className="space-y-3">
-              {sections.map((section) => (
+              {sections.map((section, index) => (
                 <a 
                   key={section.id}
                   href={`#${section.id}`}
                   className="flex items-center gap-3 text-text hover:text-hoverText transition-colors py-1"
+                  data-aos="fade-right"
+                  data-aos-delay={250 + (index * 50)}
                 >
                   <span className="flex-shrink-0">{section.icon}</span>
                   <span>{section.title}</span>
@@ -101,26 +111,48 @@ function Terms() {
           </div>
           
           {/* Main Content */}
-          <div className="lg:w-3/4 space-y-8">
-            {sections.map((section) => (
+          <div 
+            className="lg:w-3/4 space-y-8"
+            data-aos="fade-left"
+            data-aos-delay="200"
+          >
+            {sections.map((section, index) => (
               <section 
                 key={section.id} 
                 id={section.id}
                 className="bg-altPrimary border border-borderColor rounded-lg p-6"
+                data-aos="fade-up"
+                data-aos-delay={300 + (index * 100)}
               >
-                <div className="flex items-center gap-3 mb-4">
+                <div 
+                  className="flex items-center gap-3 mb-4"
+                  data-aos="fade-right"
+                  data-aos-delay={350 + (index * 100)}
+                >
                   <span className="flex-shrink-0">{section.icon}</span>
                   <h2 className="text-xl font-semibold text-primary">{section.title}</h2>
                 </div>
                 
                 {Array.isArray(section.content) ? (
                   <div className="text-text space-y-2">
-                    {section.content.map((item, index) => (
-                      <p key={index}>{item}</p>
+                    {section.content.map((item, itemIndex) => (
+                      <p 
+                        key={itemIndex}
+                        data-aos="fade-up"
+                        data-aos-delay={400 + (index * 100) + (itemIndex * 50)}
+                      >
+                        {item}
+                      </p>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-text">{section.content}</p>
+                  <p 
+                    className="text-text"
+                    data-aos="fade-up"
+                    data-aos-delay={400 + (index * 100)}
+                  >
+                    {section.content}
+                  </p>
                 )}
               </section>
             ))}

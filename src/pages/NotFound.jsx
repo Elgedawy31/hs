@@ -8,7 +8,9 @@ const NotFound = () => {
   return (
     <div 
       className="min-h-screen flex items-center justify-center transition-colors duration-300"
-      style={{ backgroundColor: theme.body }}
+      style={{ 
+        backgroundColor: theme.body, 
+      }}
     >
       <div className="text-center">
         <div className="transition-all duration-500 hover:scale-105">

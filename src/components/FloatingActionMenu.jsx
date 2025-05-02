@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, X, ExternalLink, Download, Trash2, RotateCcw, Pencil } from 'lucide-react';
+import { Plus, X, Sun, Moon, Bell, ShoppingCart, LogOut, User } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const FloatingActionMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { theme } = useTheme();
+  const { theme, currentTheme, toggleTheme } = useTheme();
+  const { user, logout } = useAuth();
+  const cartTotalQuantity = useSelector(state => state.cart.totalQuantity);
   
   // Close menu when clicking outside
   useEffect(() => {
@@ -29,13 +34,37 @@ const FloatingActionMenu = () => {
   };
 
   // Define menu items with their icons and actions
-  const menuItems = [
-    { icon: ExternalLink, label: 'Open', onClick: () => console.log('Open clicked') },
-    { icon: Download, label: 'Download', onClick: () => console.log('Download clicked') },
-    { icon: Trash2, label: 'Delete', onClick: () => console.log('Delete clicked') },
-    { icon: RotateCcw, label: 'Reset', onClick: () => console.log('Reset clicked') },
-    { icon: Pencil, label: 'Edit', onClick: () => console.log('Edit clicked') }
-  ];
+  const menuItems = user ? [
+    { 
+      icon: currentTheme === 'dark' ? Sun : Moon, 
+      label: currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode', 
+      onClick: toggleTheme 
+    },
+    { 
+      icon: Bell, 
+      label: 'Notifications', 
+      component: Link,
+      to: '/notifications'
+    },
+    { 
+      icon: ShoppingCart, 
+      label: 'Cart', 
+      component: Link,
+      to: '/cart',
+      badge: cartTotalQuantity > 0 ? cartTotalQuantity : null
+    },
+    { 
+      icon: User, 
+      label: 'Profile', 
+      component: Link,
+      to: '/profile'
+    },
+    { 
+      icon: LogOut, 
+      label: 'Logout', 
+      onClick: logout 
+    }
+  ] : [];
 
   return (
     <>
@@ -74,39 +103,83 @@ const FloatingActionMenu = () => {
                   {item.label}
                 </div>
                 
-                {/* Button */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    item.onClick();
-                  }}
-                  className={`group w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center transform transition-all duration-500 ease-in-out hover:shadow-xl ${
-                    isOpen 
-                      ? 'scale-100 opacity-100' 
-                      : 'scale-0 opacity-0'
-                  }`}
-                  style={{ 
-                    transform: isOpen 
-                      ? `translate(${translateX}px, ${translateY}px) scale(1)` 
-                      : 'translate(0, 0) scale(0)',
-                    backgroundColor: theme.background,
-                    color: theme.primary,
-                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.15)',
-                    transitionDelay: isOpen ? `${delay}s` : '0s'
-                  }}
-                  aria-label={item.label}
-                >
-                  <div className="relative">
-                    <item.icon size={20} className="transition-transform duration-200 ease-in-out group-hover:scale-110" />
-                    
-                    {/* Tooltip on hover */}
-                    <div 
-                      className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none"
-                    >
-                      {item.label}
+                {/* Button or Link */}
+                {item.component === Link ? (
+                  <Link
+                    to={item.to}
+                    className={`group w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center transform transition-all duration-500 ease-in-out hover:shadow-xl ${
+                      isOpen 
+                        ? 'scale-100 opacity-100' 
+                        : 'scale-0 opacity-0'
+                    }`}
+                    style={{ 
+                      transform: isOpen 
+                        ? `translate(${translateX}px, ${translateY}px) scale(1)` 
+                        : 'translate(0, 0) scale(0)',
+                      backgroundColor: theme.background,
+                      color: theme.primary,
+                      boxShadow: '0 4px 10px rgba(0, 0, 0, 0.15)',
+                      transitionDelay: isOpen ? `${delay}s` : '0s'
+                    }}
+                    aria-label={item.label}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsOpen(false);
+                    }}
+                  >
+                    <div className="relative">
+                      <item.icon size={20} className="transition-transform duration-200 ease-in-out group-hover:scale-110" />
+                      
+                      {/* Badge for cart */}
+                      {item.badge && (
+                        <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                          {item.badge}
+                        </span>
+                      )}
+                      
+                      {/* Tooltip on hover */}
+                      <div 
+                        className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none"
+                      >
+                        {item.label}
+                      </div>
                     </div>
-                  </div>
-                </button>
+                  </Link>
+                ) : (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      item.onClick();
+                      setIsOpen(false);
+                    }}
+                    className={`group w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center transform transition-all duration-500 ease-in-out hover:shadow-xl ${
+                      isOpen 
+                        ? 'scale-100 opacity-100' 
+                        : 'scale-0 opacity-0'
+                    }`}
+                    style={{ 
+                      transform: isOpen 
+                        ? `translate(${translateX}px, ${translateY}px) scale(1)` 
+                        : 'translate(0, 0) scale(0)',
+                      backgroundColor: theme.background,
+                      color: theme.primary,
+                      boxShadow: '0 4px 10px rgba(0, 0, 0, 0.15)',
+                      transitionDelay: isOpen ? `${delay}s` : '0s'
+                    }}
+                    aria-label={item.label}
+                  >
+                    <div className="relative">
+                      <item.icon size={20} className="transition-transform duration-200 ease-in-out group-hover:scale-110" />
+                      
+                      {/* Tooltip on hover */}
+                      <div 
+                        className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none"
+                      >
+                        {item.label}
+                      </div>
+                    </div>
+                  </button>
+                )}
               </div>
             );
           })}

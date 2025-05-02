@@ -18,9 +18,6 @@ h1 , h2 , h3 , h4 , h5 , h6 {
 body{
   background-color: #F6F8FC;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif !important;
-  cursor: url(/pills.png), auto !important;
-
-
 }
 button{
   box-shadow: 0 0 5px color-mix(in srgb, var(--primary) 30%, transparent) !important;

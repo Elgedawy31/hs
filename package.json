@@ -16,6 +16,7 @@
     "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^2.6.0",
     "@splinetool/react-spline": "^4.0.0",
+    "@splinetool/runtime": "^1.9.89",
     "@tanstack/react-table": "^8.21.2",
     "aos": "^2.3.4",
     "axios": "^1.8.1",

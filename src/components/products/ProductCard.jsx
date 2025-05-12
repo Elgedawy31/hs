@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Star, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../store/cartSlice';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ProductCard = ({ product }) => {
   const { theme } = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isAnimating, setIsAnimating] = useState(false);
 
   return (
     <div 
@@ -67,20 +69,63 @@ const ProductCard = ({ product }) => {
             )}
           </div>
           
-          <button
-            className="px-2 py-1 rounded-md flex items-center justify-center gap-1 text-white text-xs font-medium transition-colors duration-200 hover:opacity-90"
-            style={{ backgroundColor: theme.primary }}
+          <motion.button
+            className="px-2 py-1 rounded-md flex items-center justify-center gap-1 text-white text-xs font-medium transition-colors duration-200 hover:opacity-90 relative overflow-hidden"
+            style={{ backgroundColor: theme.primary, minWidth: '50px', height: '24px' }}
             onClick={(e) => {
               e.stopPropagation();
               dispatch(addToCart(product));
               console.log('Added to cart:', product.name);
+              
+              // Animation is handled by framer-motion variants
+              setIsAnimating(true);
+              
+              // Reset after animation completes
+              setTimeout(() => {
+                setIsAnimating(false);
+              }, 1000); // Match this with the animation duration
             }}
-            data-aos="fade-left" 
-            data-aos-duration="500"
+            whileTap={{ scale: 0.95 }}
           >
-            <ShoppingCart className="w-3 h-3" />
-            Add
-          </button>
+            <AnimatePresence mode="wait">
+              {isAnimating ? (
+                <motion.div
+                  key="animating"
+                  className="flex items-center justify-center w-full h-full absolute inset-0"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <motion.div
+                    initial={{ scale: 0.5 }}
+                    animate={{ 
+                      scale: [0.5, 1.2, 1],
+                      rotate: [0, 10, 0]
+                    }}
+                    transition={{ 
+                      duration: 0.5,
+                      times: [0, 0.6, 1]
+                    }}
+                  >
+                    <ShoppingCart className="w-3 h-3" />
+                  </motion.div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="default"
+                  className="flex items-center justify-center gap-1 w-full"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ShoppingCart className="w-3 h-3" />
+                  <span>Add</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.button>
         </div>
       </div>
     </div>

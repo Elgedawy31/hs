@@ -6,7 +6,6 @@ import { useAuth } from '../contexts/AuthContext';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSticky, setIsSticky] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(0);
   const headerRef = useRef(null);
   const {user} = useAuth();
@@ -16,36 +15,6 @@ function Header() {
     if (headerRef.current) {
       setHeaderHeight(headerRef.current.offsetHeight);
     }
-
-    const handleScroll = () => {
-      // Calculate 10vh in pixels (changed from 70vh to 10vh as requested)
-      const scrollThreshold = window.innerHeight * 0.1;
-      
-      // Check if scroll position exceeds 10vh
-      if (window.scrollY > scrollThreshold) {
-        setIsSticky(true);
-      } else {
-        setIsSticky(false);
-      }
-    };
-
-    // Add scroll event listener
-    window.addEventListener('scroll', handleScroll);
-    
-    // Handle resize to update header height if needed
-    const handleResize = () => {
-      if (headerRef.current) {
-        setHeaderHeight(headerRef.current.offsetHeight);
-      }
-    };
-    
-    window.addEventListener('resize', handleResize);
-    
-    // Clean up the event listeners on component unmount
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
-    };
   }, []);
 
   const toggleMenu = () => {
@@ -54,13 +23,9 @@ function Header() {
   return (
     <>
       <header 
-      style={{backdropFilter: isSticky ? 'blur(20px)' : 'blur(0px)'}}
+      style={{backdropFilter: 'blur(20px)'}}
         ref={headerRef}
-        className={`py-3 w-full transition-all duration-500 ease-in-out ${
-          isSticky 
-            ? 'fixed top-0 left-0 right-0 z-50  shadow-lg transform animate-slideDown scale-100' 
-            : 'scale-100'
-        }`}
+        className={`py-3 w-full fixed top-0 left-0 right-0 z-50 lg:transition-all lg:duration-500 lg:ease-in-out`}
       >
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
@@ -287,8 +252,8 @@ function Header() {
         </div>
       </div>
       </header>
-      {/* Add a placeholder div with the exact same height as the header when it's sticky to prevent content jump */}
-      {isSticky && <div style={{ height: `${headerHeight}px` }}></div>}
+      {/* Add a placeholder div with the exact same height as the header to prevent content jump */}
+      <div style={{ height: `${headerHeight}px` }}></div>
     </>
   );
 }

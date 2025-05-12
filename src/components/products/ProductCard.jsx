@@ -70,25 +70,50 @@ const ProductCard = ({ product }) => {
           </div>
           
           <motion.button
-            className="px-2 py-1 rounded-md flex items-center justify-center gap-1 text-white text-xs font-medium transition-colors duration-200 hover:opacity-90 relative overflow-hidden"
-            style={{ backgroundColor: theme.primary, minWidth: '50px', height: '24px' }}
+            className="px-2 py-1 rounded-md flex items-center justify-center gap-1 text-white text-xs font-medium relative overflow-hidden"
+            style={{ 
+              backgroundColor: isAnimating ? 
+                (isAnimating === 'success' ? '#4CAF50' : theme.primary) : 
+                theme.primary, 
+              minWidth: '50px', 
+              height: '24px' 
+            }}
             onClick={(e) => {
               e.stopPropagation();
               dispatch(addToCart(product));
               console.log('Added to cart:', product.name);
               
-              // Animation is handled by framer-motion variants
-              setIsAnimating(true);
+              // Start animation sequence
+              setIsAnimating('animating');
               
-              // Reset after animation completes
+              // Change to success state after cart animation
+              setTimeout(() => {
+                setIsAnimating('success');
+              }, 600);
+              
+              // Reset after all animations complete
               setTimeout(() => {
                 setIsAnimating(false);
-              }, 1000); // Match this with the animation duration
+              }, 1500);
             }}
             whileTap={{ scale: 0.95 }}
+            transition={{
+              backgroundColor: { duration: 0.3 },
+              scale: { type: "spring", stiffness: 400, damping: 10 }
+            }}
           >
+            {/* Ripple effect */}
+            {isAnimating && (
+              <motion.div
+                className="absolute inset-0 bg-white rounded-full"
+                initial={{ scale: 0, opacity: 0.3 }}
+                animate={{ scale: 2, opacity: 0 }}
+                transition={{ duration: 0.8 }}
+              />
+            )}
+            
             <AnimatePresence mode="wait">
-              {isAnimating ? (
+              {isAnimating === 'animating' ? (
                 <motion.div
                   key="animating"
                   className="flex items-center justify-center w-full h-full absolute inset-0"
@@ -98,18 +123,46 @@ const ProductCard = ({ product }) => {
                   transition={{ duration: 0.2 }}
                 >
                   <motion.div
-                    initial={{ scale: 0.5 }}
+                    initial={{ scale: 0.5, y: 0 }}
                     animate={{ 
-                      scale: [0.5, 1.2, 1],
-                      rotate: [0, 10, 0]
+                      scale: [0.5, 1.3, 1],
+                      rotate: [0, 15, -10, 0],
+                      y: [0, -3, 0]
                     }}
                     transition={{ 
-                      duration: 0.5,
-                      times: [0, 0.6, 1]
+                      duration: 0.6,
+                      times: [0, 0.4, 0.8, 1],
+                      ease: "easeInOut"
                     }}
                   >
                     <ShoppingCart className="w-3 h-3" />
                   </motion.div>
+                </motion.div>
+              ) : isAnimating === 'success' ? (
+                <motion.div
+                  key="success"
+                  className="flex items-center justify-center w-full h-full absolute inset-0"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <motion.svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
+                  >
+                    <path d="M20 6L9 17L4 12" />
+                  </motion.svg>
                 </motion.div>
               ) : (
                 <motion.div
@@ -120,8 +173,17 @@ const ProductCard = ({ product }) => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <ShoppingCart className="w-3 h-3" />
-                  <span>Add</span>
+                  <motion.div
+                    whileHover={{ rotate: [0, -10, 10, -5, 0], transition: { duration: 0.5 } }}
+                  >
+                    <ShoppingCart className="w-3 h-3" />
+                  </motion.div>
+                  <motion.span
+                    initial={{ y: 0 }}
+                    whileHover={{ y: [0, -2, 0], transition: { duration: 0.3, times: [0, 0.5, 1] } }}
+                  >
+                    Add
+                  </motion.span>
                 </motion.div>
               )}
             </AnimatePresence>

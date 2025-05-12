@@ -121,7 +121,7 @@ function OurProducts() {
               <img  draggable="false" 
                 src={product.image} 
                 alt={product.name} 
-                className="w-full h-[350px] object-cover"
+                className="w-full h-[350px] object-cover card-radius"
               />
             </div>
             

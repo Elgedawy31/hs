@@ -96,7 +96,7 @@ function Doctors() {
                   <img draggable="false" 
                     src={doctor.image} 
                     alt={doctor.name} 
-                    className="w-full h-[350px] object-cover"
+                    className="w-full h-[350px] object-cover card-radius"
                   />
                 </div>
                 

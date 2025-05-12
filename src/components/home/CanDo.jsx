@@ -91,7 +91,7 @@ function CanDo() {
                   <img draggable="false"
                     src={service.image}
                     alt={service.description}
-                    className="w-full h-[350px] object-cover"
+                    className="w-full h-[350px] object-cover card-radius card-shadow"
                   />
                 </div>
                 <p

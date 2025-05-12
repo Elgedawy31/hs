@@ -88,13 +88,13 @@ function Hero() {
             <SwiperSlide key={slide.id}>
               <div className="relative">
                 {/* Image with overlay */}
-                <div className="relative overflow-hidden rounded-lg shadow-md">
+                <div className="relative overflow-hidden card-radius card-shadow">
                   {/* Base image */}
                   <img 
                     draggable="false" 
                     src={slide.image} 
                     alt={slide.alt} 
-                    className="w-full h-auto"
+                    className="w-full h-auto card-radius"
                   />
                   
                   {/* Beautiful overlay for the entire image */}

@@ -60,7 +60,7 @@ function Hero() {
   ];
   
   return (
-    <div className="py-2 md:py-4">
+    <div className="py-2 md:py-4 mt-10">
       {/* Main hero container */}
       <div className="relative">
         {/* Hero Swiper with images and text */}

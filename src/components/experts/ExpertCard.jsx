@@ -13,7 +13,7 @@ const ExpertCard = ({ expert }) => {
 
   return (
     <div 
-      className="rounded-3xl shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 bg-white cursor-pointer"
+      className="rounded-3xl shadow-md overflow-hidden transition-transform duration-300 card-shadow hover:-translate-y-1 bg-white cursor-pointer"
       style={{ 
         backgroundColor: theme.background,
         borderColor: theme.borderColor

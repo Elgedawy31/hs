@@ -89,7 +89,7 @@ function Terms() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar */}
           <div 
-            className="lg:w-1/4 bg-altPrimary border border-borderColor rounded-lg p-6 h-fit"
+            className="lg:w-1/4 bg-altPrimary border border-borderColor card-radius card-shadow p-6 h-fit"
             data-aos="fade-right"
             data-aos-delay="200"
           >
@@ -120,7 +120,7 @@ function Terms() {
               <section 
                 key={section.id} 
                 id={section.id}
-                className="bg-altPrimary border border-borderColor rounded-lg p-6"
+                className="bg-altPrimary border border-borderColor card-radius card-shadow p-6"
                 data-aos="fade-up"
                 data-aos-delay={300 + (index * 100)}
               >

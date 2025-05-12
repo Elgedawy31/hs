@@ -9,7 +9,7 @@ function RelatedResources({ resources }) {
         {resources.map((resource) => (
           <div 
             key={resource.id} 
-            className="bg-background rounded-lg p-6 border border-borderColor hover:shadow-md transition-shadow duration-300 cursor-pointer"
+            className="bg-background card-radius p-6 border border-borderColor card-shadow transition-shadow duration-300 cursor-pointer"
           >
             <div className="flex justify-center mb-4">
               <div className="w-16 h-16 rounded-full bg-altPrimary flex items-center justify-center">

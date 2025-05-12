@@ -53,3 +53,13 @@ button:hover{
   color: var(--text) !important;
   /* Change the background color of selected text */
 }
+
+
+.card-radius{
+  border-radius: 10px !important;
+
+}
+
+.card-shadow{
+  box-shadow: 0 4px 12px var(--borderColor) !important;
+}

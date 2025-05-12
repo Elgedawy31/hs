@@ -11,7 +11,7 @@ function BlogArticle({ article }) {
   
   return (
     <div 
-      className="bg-background rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full border border-borderColor cursor-pointer"
+      className="bg-background card-radius overflow-hidden shadow-sm card-shadow transition-shadow duration-300 flex flex-col h-full border border-borderColor cursor-pointer"
       onClick={handleArticleClick}
     >
       <div className="h-48 overflow-hidden">

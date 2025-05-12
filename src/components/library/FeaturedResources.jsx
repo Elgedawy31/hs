@@ -43,7 +43,7 @@ function FeaturedResources() {
         {featuredResources.map((resource) => (
           <div 
             key={resource.id} 
-            className="bg-background rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full border border-borderColor cursor-pointer"
+            className="bg-background card-radius overflow-hidden card-shadow transition-shadow duration-300 flex flex-col h-full border border-borderColor cursor-pointer"
             onClick={() => handleResourceClick(resource.id)}
           >
             <div className="h-48 overflow-hidden">

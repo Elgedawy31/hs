@@ -55,7 +55,7 @@ function ContactUs() {
         description={`Contact us for any queries or questions. We are here to help you.`}
       />
       <div 
-        className="w-full max-w-2xl bg-background rounded-lg shadow-md p-8 md:p-12"
+        className="w-full max-w-2xl bg-background card-radius card-shadow p-8 md:p-12"
         data-aos="fade-up"
         data-aos-duration="800"
       >

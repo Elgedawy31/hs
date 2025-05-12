@@ -2,7 +2,7 @@ import React from 'react';
 
 function ResourceCard({ icon, title, description, resourceCount }) {
   return (
-    <div className="bg-background rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full border border-borderColor">
+    <div className="bg-background card-radius p-6 card-shadow duration-300 flex flex-col h-full border border-borderColor">
       <div className="text-primary mb-4">
         {icon}
       </div>

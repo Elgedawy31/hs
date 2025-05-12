@@ -16,7 +16,7 @@ function FeaturedArticles({ articles }) {
         {articles.map((article) => (
           <div 
             key={article.id} 
-            className="bg-background rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full border border-borderColor cursor-pointer"
+            className="bg-background  overflow-hidden card-radius card-shadow transition-shadow duration-300 flex flex-col h-full border border-borderColor cursor-pointer"
             onClick={() => handleArticleClick(article.id)}
           >
             <div className="h-48 overflow-hidden">

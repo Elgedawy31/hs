@@ -12,7 +12,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div 
-      className="rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:shadow-lg hover:-translate-y-1"
+      className="rounded-lg overflow-hidden cursor-pointer transition-transform duration-300  card-radius card-shadow  hover:-translate-y-1"
       style={{ backgroundColor: theme.background }}
       onClick={() => navigate(`${product.id}`)}
     >

@@ -9,7 +9,7 @@ const ResourceItem = ({ resource }) => {
   
   return (
     <div 
-      className="bg-background rounded-lg overflow-hidden border border-borderColor hover:shadow-md transition-shadow duration-300"
+      className="bg-background card-radius overflow-hidden border border-borderColor card-shadow transition-shadow duration-300"
       onClick={() => navigate(`/resource/${resource.id}`)}
     >
       <div className="p-6">

@@ -4,6 +4,7 @@ import UniBtn from '../components/UniBtn';
 import { Camera, AlertTriangle, Clock } from 'lucide-react';
 import model1Img from '../assets/Images/model-1.jpg';
 import model2Img from '../assets/Images/model-2.png';
+import AnimatedBackground from '../components/AnimatedBackground';
 
 function Model() {
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -56,7 +57,8 @@ function Model() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl" data-aos="fade-in">
+   <AnimatedBackground>
+     <div className="container mx-auto px-4 py-8 max-w-5xl" data-aos="fade-in">
       {/* Header Section */}
       <div 
         className="text-center mb-10"
@@ -172,6 +174,8 @@ function Model() {
         </div>
       </div>
     </div>
+   </AnimatedBackground>
+    
   );
 }
 

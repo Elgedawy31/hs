@@ -101,11 +101,18 @@ function Register() {
     }
   } , [user])
 
+  useEffect(() => {
+    // Apply theme CSS variables
+    Object.entries(theme).forEach(([key, value]) => {
+      document.documentElement.style.setProperty(`--${key}`, value);
+    });
+  }, [theme]);
+
   return (
-    <div className="min-h-screen flex items-center justify-center py-16" style={{backgroundColor: theme.body, color: theme.text}}>
-      <div className="w-full max-w-md rounded-lg shadow-lg p-6 md:p-8" style={{backgroundColor: theme.background}}>
+    <div className="min-h-screen flex items-center justify-center py-16 bg-body text-text">
+      <div className="w-full max-w-md rounded-lg shadow-lg p-6 md:p-8 bg-background">
         <div className="text-center mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2" style={{color: theme.text}}>Create your account</h1>
+          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-text">Create your account</h1>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

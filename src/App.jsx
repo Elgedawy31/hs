@@ -10,9 +10,7 @@ import FloatingActionMenu from './components/FloatingActionMenu';
 // Components
 function App() {
   const { isAuthenticated, token } = useAuth();
-  if (!isAuthenticated) {
-    return <Login />;
-  }
+  
 
   const { theme } = useTheme();
 
@@ -22,6 +20,11 @@ function App() {
       document.documentElement.style.setProperty(`--${key}`, value);
     });
   }, [theme]);
+
+
+  if (!isAuthenticated) {
+    return <Login />;
+  }
   return (
     <div className="min-h-screen flex flex-col bg-body text-text">
       <Header />

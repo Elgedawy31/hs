@@ -22,7 +22,7 @@ function App() {
   }, [theme]);
 
 
-  if (!isAuthenticated) {
+  if (isAuthenticated) {
     return <Login />;
   }
   return (

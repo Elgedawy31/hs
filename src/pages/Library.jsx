@@ -305,7 +305,7 @@ function Library() {
   }, [filters, sortBy]);
   
   return (
-    <div className="bg-body">
+    <div >
       <SEO 
         title="HS - Healthcare Solutions - Library"
         description="Access our comprehensive library of healthcare resources, articles, and research papers."

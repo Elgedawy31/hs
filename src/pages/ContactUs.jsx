@@ -82,7 +82,6 @@ function ContactUs() {
   };
 
   return (
-    <AnimatedBackground>
       <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8">
         <SEO 
           title={`HS - Healthcare Solutions - Contact Us`}
@@ -311,7 +310,6 @@ function ContactUs() {
           </motion.div>
         </motion.div>
       </div>
-    </AnimatedBackground>
   );
 }
 

@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import FloatingActionMenu from './components/FloatingActionMenu';
+import AnimatedBackground from './components/AnimatedBackground';
 
 // Components
 function App() {
@@ -29,7 +30,9 @@ function App() {
     <div className="min-h-screen flex flex-col bg-body text-text">
       <Header />
       <main className="flex-1">
-        <Outlet />
+      <AnimatedBackground>
+          <Outlet />
+      </AnimatedBackground>
       </main>
       <Footer />
       <FloatingActionMenu />

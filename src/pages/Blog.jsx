@@ -143,7 +143,7 @@ function Blog() {
   }, [searchQuery, categoryFilter, sortBy]);
   
   return (
-    <div className="bg-body">
+    <div >
       <SEO 
         title="HS - Healthcare Solutions - Blog"
         description="Expert insights and educational resources for healthy skin"

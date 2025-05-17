@@ -91,16 +91,17 @@ function Doctors() {
         >
           {doctors.map((doctor) => (
             <SwiperSlide key={doctor.id}>
-              <div className="flex flex-col">
+              <div className="flex flex-col card-radius card-shadow">
                 <div className="mb-4">
                   <img draggable="false" 
                     src={doctor.image} 
                     alt={doctor.name} 
-                    className="w-full h-[350px] object-cover card-radius"
+                    className="w-full h-[350px] object-cover "
                   />
                 </div>
                 
-                <h3 
+                <div className="p-3">
+                  <h3 
                   className="text-2xl font-medium mb-2"
                   style={{ 
                     color: theme.text,
@@ -127,6 +128,7 @@ function Doctors() {
                 >
                   View Profile
                 </button>
+                </div>
               </div>
             </SwiperSlide>
           ))}

@@ -116,16 +116,16 @@ function OurProducts() {
         >
           {products.map((product) => (
             <SwiperSlide key={product.id}>
-                <div key={product.id} className="flex flex-col">
+                <div key={product.id} className="flex flex-col card-shadow card-radius">
             <div className="mb-4">
               <img  draggable="false" 
                 src={product.image} 
                 alt={product.name} 
-                className="w-full h-[350px] object-cover card-radius"
+                className="w-full h-[350px] object-cover "
               />
             </div>
             
-            <div className="flex justify-between items-start">
+            <div className="flex justify-between items-start p-3">
               <div>
                 <h3 
                   className="text-xl font-medium"
@@ -154,7 +154,7 @@ function OurProducts() {
                   className="mt-2 px-4 py-1 text-sm rounded text-white"
                   style={{ backgroundColor: theme.primary }}
                 >
-                  Add To Cart
+                  Add
                 </button>
               </div>
             </div>

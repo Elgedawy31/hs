@@ -86,16 +86,16 @@ function CanDo() {
         >
           {services.map((service) => (
             <SwiperSlide key={service.id}>
-              <div className="flex flex-col">
+              <div className="flex flex-col card-radius card-shadow">
                 <div className="overflow-hidden mb-4">
                   <img draggable="false"
                     src={service.image}
                     alt={service.description}
-                    className="w-full h-[350px] object-cover card-radius card-shadow"
+                    className="w-full h-[350px] object-cover card-radius"
                   />
                 </div>
                 <p
-                  className="text-xl"
+                  className="text-xl p-3"
                   style={{
                     color: theme.placeholderText,
                     fontFamily: 'Montaga, serif'

@@ -67,7 +67,7 @@ const AnimatedBackground = ({ children }) => {
         {droplets.map((droplet) => (
           <motion.div
             key={`droplet-${droplet.id}`}
-            className="absolute rounded-full bg-primary/20"
+            className="absolute rounded-full bg-primary"
             style={{
               left: `${droplet.x}%`,
               top: `${droplet.y}%`,
@@ -94,7 +94,7 @@ const AnimatedBackground = ({ children }) => {
         {bubbles.map((bubble) => (
           <motion.div
             key={`bubble-${bubble.id}`}
-            className="absolute rounded-full bg-primary/15 backdrop-blur-sm"
+            className="absolute rounded-full bg-primary backdrop-blur-sm"
             style={{
               left: `${bubble.x}%`,
               top: `${bubble.y}%`,
@@ -159,7 +159,7 @@ const AnimatedBackground = ({ children }) => {
         {circles.map((circle) => (
           <motion.div
             key={`circle-${circle.id}`}
-            className="absolute rounded-full border border-primary/20"
+            className="absolute rounded-full border border-primary"
             style={{
               left: `${circle.x}%`,
               top: `${circle.y}%`,
@@ -186,7 +186,7 @@ const AnimatedBackground = ({ children }) => {
           {Array.from({ length: 10 }).map((_, i) => (
             <React.Fragment key={`helix-${i}`}>
               <motion.div
-                className="absolute h-1 w-1 rounded-full bg-primary/30"
+                className="absolute h-1 w-1 rounded-full bg-primary"
                 style={{ left: `${i * 10}%` }}
                 animate={{
                   y: ['0%', '100%'],
@@ -200,7 +200,7 @@ const AnimatedBackground = ({ children }) => {
                 }}
               />
               <motion.div
-                className="absolute h-1 w-1 rounded-full bg-primary/20"
+                className="absolute h-1 w-1 rounded-full bg-primary"
                 style={{ left: `${i * 10 + 5}%` }}
                 animate={{
                   y: ['100%', '0%'],
@@ -219,7 +219,7 @@ const AnimatedBackground = ({ children }) => {
 
         {/* Horizontal flowing lines representing skin layers */}
         <motion.div
-          className="absolute h-px w-3/4 bg-gradient-to-r from-transparent via-primary/20 to-transparent"
+          className="absolute h-px w-3/4 bg-gradient-to-r from-transparent via-primary to-transparent"
           style={{ top: '15%', left: '10%' }}
           animate={{
             x: ['-100%', '100%'],
@@ -232,7 +232,7 @@ const AnimatedBackground = ({ children }) => {
           }}
         />
         <motion.div
-          className="absolute h-px w-1/2 bg-gradient-to-r from-transparent via-primary/15 to-transparent"
+          className="absolute h-px w-1/2 bg-gradient-to-r from-transparent via-primary to-transparent"
           style={{ top: '40%', left: '25%' }}
           animate={{
             x: ['100%', '-100%'],
@@ -246,7 +246,7 @@ const AnimatedBackground = ({ children }) => {
           }}
         />
         <motion.div
-          className="absolute h-px w-2/3 bg-gradient-to-r from-transparent via-primary/10 to-transparent"
+          className="absolute h-px w-2/3 bg-gradient-to-r from-transparent via-primary to-transparent"
           style={{ top: '65%', left: '15%' }}
           animate={{
             x: ['-100%', '100%'],
@@ -263,7 +263,7 @@ const AnimatedBackground = ({ children }) => {
         {/* Radial pulse effect (representing skin renewal) */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <motion.div
-            className="w-40 h-40 rounded-full border border-primary/10"
+            className="w-40 h-40 rounded-full border border-primary"
             animate={{
               scale: [1, 2.5],
               opacity: [0.2, 0],
@@ -275,7 +275,7 @@ const AnimatedBackground = ({ children }) => {
             }}
           />
           <motion.div
-            className="w-40 h-40 rounded-full border border-primary/15"
+            className="w-40 h-40 rounded-full border border-primary"
             animate={{
               scale: [1, 2],
               opacity: [0.3, 0],

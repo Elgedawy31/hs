@@ -55,7 +55,7 @@ const SkinCare3DEffect = () => {
             return (
               <motion.div
                 key={item.id}
-                className="absolute rounded-full border border-primary/10"
+                className="absolute rounded-full border border-primary"
                 style={{
                   left: `${xPos * 100}%`,
                   top: `${yPos * 100}%`,
@@ -87,7 +87,7 @@ const SkinCare3DEffect = () => {
       <div className="absolute inset-0">
         {/* Cream jar */}
         <motion.div
-          className="absolute w-16 h-16 rounded-full bg-gradient-to-br from-primary/10 to-transparent border border-primary/5"
+          className="absolute w-16 h-16 rounded-full bg-gradient-to-br from-primary/10 to-transparent border border-primary"
           style={{ left: '20%', top: '30%' }}
           animate={{
             y: [0, -20, 0],
@@ -101,7 +101,7 @@ const SkinCare3DEffect = () => {
           }}
         >
           <motion.div
-            className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/4 w-12 h-3 rounded-full bg-gradient-to-br from-primary/10 to-transparent border border-primary/5"
+            className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/4 w-12 h-3 rounded-full bg-gradient-to-br from-primary/10 to-transparent border border-primary"
             animate={{
               rotateX: [0, 10, 0],
             }}
@@ -116,7 +116,7 @@ const SkinCare3DEffect = () => {
         
         {/* Serum dropper */}
         <motion.div
-          className="absolute w-4 h-20 rounded-full bg-gradient-to-br from-primary/5 to-transparent border-l border-primary/5"
+          className="absolute w-4 h-20 rounded-full bg-gradient-to-br from-primary/5 to-transparent border-l border-primary"
           style={{ left: '70%', top: '40%' }}
           animate={{
             y: [0, 20, 0],
@@ -131,7 +131,7 @@ const SkinCare3DEffect = () => {
           }}
         >
           <motion.div
-            className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/4 w-8 h-8 rounded-full bg-gradient-to-br from-primary/10 to-transparent border border-primary/5"
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/4 w-8 h-8 rounded-full bg-gradient-to-br from-primary/10 to-transparent border border-primary"
             animate={{
               y: [0, -5, 0],
             }}
@@ -145,7 +145,7 @@ const SkinCare3DEffect = () => {
         
         {/* Face mask */}
         <motion.div
-          className="absolute w-24 h-16 rounded-full bg-gradient-to-br from-primary/5 to-transparent border border-primary/5"
+          className="absolute w-24 h-16 rounded-full bg-gradient-to-br from-primary/5 to-transparent border border-primary"
           style={{ left: '40%', top: '70%' }}
           animate={{
             y: [0, -15, 0],
@@ -160,7 +160,7 @@ const SkinCare3DEffect = () => {
           }}
         >
           <motion.div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-10 rounded-full bg-gradient-to-br from-transparent to-primary/5 border border-primary/5"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-10 rounded-full bg-gradient-to-br from-transparent to-primary/5 border border-primary"
             animate={{
               rotateX: [0, 20, 0],
             }}

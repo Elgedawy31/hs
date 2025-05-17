@@ -83,8 +83,12 @@ function Doctors() {
             },
             // when window width is >= 1024px
             1024: {
-              slidesPerView: 4,
+              slidesPerView: 3,
               spaceBetween: 20
+            },
+            1400: {
+              slidesPerView: 4,
+              spaceBetween: 25
             }
           }}
           className="cando-swiper doctors-swiper"
@@ -96,7 +100,7 @@ function Doctors() {
                   <img draggable="false" 
                     src={doctor.image} 
                     alt={doctor.name} 
-                    className="w-full h-[350px] object-cover "
+                    className="w-full h-[350px] object-cover card-radius "
                   />
                 </div>
                 

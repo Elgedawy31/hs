@@ -111,11 +111,15 @@ function OurProducts() {
               slidesPerView: 2,
               spaceBetween: 15
             },
-            // when window width is >= 1024px
             1024: {
-              slidesPerView: 4,
+              slidesPerView: 3,
               spaceBetween: 20
+            },
+            1400: {
+              slidesPerView: 4,
+              spaceBetween: 25
             }
+           
           }}
           className="cando-swiper products-swiper"
         >
@@ -126,7 +130,7 @@ function OurProducts() {
               <img  draggable="false" 
                 src={product.image} 
                 alt={product.name} 
-                className="w-full h-[350px] object-cover "
+                className="w-full h-[350px] object-cover card-radius "
               />
             </div>
             

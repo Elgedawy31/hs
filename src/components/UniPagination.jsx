@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
 
@@ -108,14 +108,20 @@ const UniPagination = ({
     }
   };
   
+  // Reinitialize AOS animations when currentPage changes
+  useEffect(() => {
+    // Check if AOS is available in the global scope
+    if (typeof AOS !== 'undefined') {
+      AOS.refresh();
+    }
+  }, [currentPage]);
+  
   if (totalPages <= 1) return null;
   
   return (
     <nav
-      className={`flex items-center justify-center gap-2 py-2 ${className} overflow-hidden`}
+      className={`flex items-center justify-center gap-2 py-2 ${className} overflow-hidden animate__animated animate__fadeIn`}
       aria-label="Pagination"
-      data-aos="zoom-in"
-      data-aos-duration="800"
     >
       {/* Previous button */}
       {showControls && (
@@ -138,17 +144,16 @@ const UniPagination = ({
             border 
             border-borderColor
             backdrop-blur-sm
+            animate__animated animate__fadeInLeft
           `}
           aria-label="Previous page"
-          data-aos="fade-right"
-          data-aos-delay="100"
         >
           <ChevronLeft size={18} className={currentPage === 1 ? 'text-text/50' : 'text-text'} />
         </button>
       )}
       
       {/* Page numbers */}
-      <div className="flex items-center gap-1.5 px-1" data-aos="fade-up" data-aos-delay="200">
+      <div className="flex items-center gap-1.5 px-1 animate__animated animate__fadeInUp">
         {paginationRange.map((pageNumber, index) => {
           if (pageNumber === 'DOTS') {
             return (
@@ -220,10 +225,9 @@ const UniPagination = ({
             border 
             border-borderColor
             backdrop-blur-sm
+            animate__animated animate__fadeInRight
           `}
           aria-label="Next page"
-          data-aos="fade-left"
-          data-aos-delay="100"
         >
           <ChevronRight size={18} className={currentPage === totalPages ? 'text-text/50' : 'text-text'} />
         </button>

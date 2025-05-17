@@ -41,6 +41,7 @@ import AddService from './pages/AddService.jsx'
 import Chat from './pages/Chat.jsx'
 import Favorites from './pages/Favorites.jsx'
 import Rate from './pages/Rate.jsx'
+import PaginationTest from './pages/PaginationTest.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -151,6 +152,10 @@ const router = createBrowserRouter([
       {
         path:'/rate',
         element: <Rate />
+      },
+      {
+        path:'/pagination-test',
+        element: <PaginationTest />
       },
     ]
   },

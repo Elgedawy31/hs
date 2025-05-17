@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import UniHeading from '../UniHeading';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import ProductCard from '../products/ProductCard';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../store/cartSlice';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -15,10 +18,12 @@ import '../home/CanDo.css';
 import product1 from '../../assets/Images/products-1.svg';
 import product2 from '../../assets/Images/products-2.svg';
 import product3 from '../../assets/Images/products-3.svg';
-import { Star } from 'lucide-react';
+import { Star, ShoppingCart } from 'lucide-react';
 
 function OurProducts() {
   const { theme } = useTheme();
+  const dispatch = useDispatch();
+  const [animatingItems, setAnimatingItems] = useState({});
 
   const products = [
     {
@@ -150,12 +155,134 @@ function OurProducts() {
                 >
                   {product.price}
                 </p>
-                <button 
-                  className="mt-2 px-4 py-1 text-sm rounded text-white"
-                  style={{ backgroundColor: theme.primary }}
+                <motion.button
+                   className="h-6 rounded-md flex items-center justify-center gap-1 text-white text-xs font-medium relative overflow-hidden"
+                  style={{ 
+                    backgroundColor: animatingItems[product.id] ? 
+                      (animatingItems[product.id] === 'success' ? '#4CAF50' : theme.primary) : 
+                      theme.primary,
+                    minWidth: '60px'
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(addToCart(product));
+                    console.log('Added to cart:', product.name);
+                    
+                    // Start animation sequence
+                    setAnimatingItems(prev => ({
+                      ...prev,
+                      [product.id]: 'animating'
+                    }));
+                    
+                    // Change to success state after cart animation
+                    setTimeout(() => {
+                      setAnimatingItems(prev => ({
+                        ...prev,
+                        [product.id]: 'success'
+                      }));
+                    }, 600);
+                    
+                    // Reset after all animations complete
+                    setTimeout(() => {
+                      setAnimatingItems(prev => {
+                        const newState = {...prev};
+                        delete newState[product.id];
+                        return newState;
+                      });
+                    }, 1500);
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{
+                    backgroundColor: { duration: 0.3 },
+                    scale: { type: "spring", stiffness: 400, damping: 10 }
+                  }}
                 >
-                  Add
-                </button>
+                  {/* Ripple effect */}
+                  {animatingItems[product.id] && (
+                    <motion.div
+                      className="absolute inset-0 bg-white rounded-full"
+                      initial={{ scale: 0, opacity: 0.3 }}
+                      animate={{ scale: 2, opacity: 0 }}
+                      transition={{ duration: 0.8 }}
+                    />
+                  )}
+                  
+                  <AnimatePresence mode="wait">
+                    {animatingItems[product.id] === 'animating' ? (
+                      <motion.div
+                        key="animating"
+                        className="flex items-center justify-center w-full h-full absolute inset-0"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <motion.div
+                          initial={{ scale: 0.5, y: 0 }}
+                          animate={{ 
+                            scale: [0.5, 1.3, 1],
+                            rotate: [0, 15, -10, 0],
+                            y: [0, -3, 0]
+                          }}
+                          transition={{ 
+                            duration: 0.6,
+                            times: [0, 0.4, 0.8, 1],
+                            ease: "easeInOut"
+                          }}
+                        >
+                          <ShoppingCart className="w-4 h-4" />
+                        </motion.div>
+                      </motion.div>
+                    ) : animatingItems[product.id] === 'success' ? (
+                      <motion.div
+                        key="success"
+                        className="flex items-center justify-center w-full h-full absolute inset-0"
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.5 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <motion.svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={{ duration: 0.3, delay: 0.1 }}
+                        >
+                          <path d="M20 6L9 17L4 12" />
+                        </motion.svg>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="default"
+                        className="flex items-center justify-center gap-1 w-full"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <motion.div
+                          whileHover={{ rotate: [0, -10, 10, -5, 0], transition: { duration: 0.5 } }}
+                        >
+                          <ShoppingCart className="w-4 h-4 mr-1" />
+                        </motion.div>
+                        <motion.span
+                          initial={{ y: 0 }}
+                          whileHover={{ y: [0, -2, 0], transition: { duration: 0.3, times: [0, 0.5, 1] } }}
+                        >
+                          Add
+                        </motion.span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.button>
               </div>
             </div>
           </div>

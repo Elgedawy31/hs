@@ -42,6 +42,7 @@ import Chat from './pages/Chat.jsx'
 import Favorites from './pages/Favorites.jsx'
 import Rate from './pages/Rate.jsx'
 import PaginationTest from './pages/PaginationTest.jsx'
+import DoctorDashboard from './pages/doctorDashboard.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -154,8 +155,8 @@ const router = createBrowserRouter([
         element: <Rate />
       },
       {
-        path:'/pagination-test',
-        element: <PaginationTest />
+        path:'/doctor-dashboard',
+        element: <DoctorDashboard />
       },
     ]
   },

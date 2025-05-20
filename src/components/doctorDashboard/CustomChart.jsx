@@ -1,6 +1,25 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import { useTheme } from '../../contexts/ThemeContext';
 
 function CustomChart({ data = defaultData }) {
+  const { theme } = useTheme();
+  const colorRef = useRef({
+    primary: theme.primary,
+    altPrimary: theme.altPrimary,
+    borderColor: theme.borderColor,
+    text: theme.text
+  });
+
+  // Update color ref when theme changes
+  useEffect(() => {
+    colorRef.current = {
+      primary: theme.primary,
+      altPrimary: theme.altPrimary,
+      borderColor: theme.borderColor,
+      text: theme.text
+    };
+  }, [theme]);
+
   // Find the maximum value for scaling
   const maxValue = Math.max(...data.map(item => item.value));
   
@@ -22,7 +41,7 @@ function CustomChart({ data = defaultData }) {
   
   return (
     <div className="px-4 py-6">
-      <div className="border border-borderColor rounded-3xl shadow-lg overflow-hidden  p-6">
+      <div className="border border-borderColor rounded-3xl shadow-lg overflow-hidden p-6">
         <h2 className="text-2xl font-bold mb-6 text-text">Appointments</h2>
         
         {/* Chart Container */}
@@ -66,16 +85,20 @@ function CustomChart({ data = defaultData }) {
                   style={{ width: `${100/12}%` }}
                 >
                   {/* Tooltip */}
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 absolute -top-8 bg-primary text-white px-3 py-1 rounded-md text-sm z-10 whitespace-nowrap">
+                  <div 
+                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 absolute -top-8 text-white px-3 py-1 rounded-md text-sm z-10 whitespace-nowrap"
+                    style={{ backgroundColor: colorRef.current.primary }}
+                  >
                     {item.value} appointments
                   </div>
                   
                   {/* Bar */}
                   <div 
-                    className="w-[30px] bg-primary rounded-full hover:bg-altPrimary transition-all duration-300 cursor-pointer"
+                    className="w-[30px] rounded-full transition-all duration-300 cursor-pointer hover:opacity-90"
                     style={{ 
                       height: `${heightPercent}%`,
-                      minHeight: '40px' // Ensure all bars have at least some height
+                      minHeight: '40px', // Ensure all bars have at least some height
+                      backgroundColor: colorRef.current.primary
                     }}
                   />
                 </div>
@@ -88,8 +111,11 @@ function CustomChart({ data = defaultData }) {
             {data.map((item, index) => (
               <div 
                 key={`month-${index}`}
-                className="text-center text-text font-medium"
-                style={{ width: `${100/12}%` }}
+                className="text-center font-medium"
+                style={{ 
+                  width: `${100/12}%`,
+                  color: colorRef.current.text
+                }}
               >
                 {item.month}
               </div>
@@ -97,7 +123,10 @@ function CustomChart({ data = defaultData }) {
           </div>
           
           {/* Bottom border line */}
-          <div className="absolute bottom-0 left-0 right-0 border-t border-borderColor w-full"></div>
+          <div 
+            className="absolute bottom-0 left-0 right-0 w-full"
+            style={{ borderTop: `1px solid ${colorRef.current.borderColor}` }}
+          ></div>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@ import React from 'react'
 import {ChevronDown, MoreHorizontal } from 'lucide-react'
 import Header from '../../components/Header'
 import UniTable from '../../components/doctorDashboard/UniTable'
+import CenteredCards from '../../components/dashboard/CenteredCards'
 
 const dataOne = [
   {text:"Today's Appointments", count:"15"},
@@ -136,6 +137,7 @@ export default function DashboardOverview() {
               />
             </div>
           </div>
+          <CenteredCards />
         </div>
       </div>
     </div>

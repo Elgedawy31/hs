@@ -43,6 +43,7 @@ import Favorites from './pages/Favorites.jsx'
 import Rate from './pages/Rate.jsx'
 import PaginationTest from './pages/PaginationTest.jsx'
 import DoctorDashboard from './pages/doctorDashboard.jsx'
+import DashboardOverview from './pages/dashboard/DashboardOverview.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -157,6 +158,10 @@ const router = createBrowserRouter([
       {
         path:'/doctor-dashboard',
         element: <DoctorDashboard />
+      },
+      {
+        path:'/dashboard-overview',
+        element:<DashboardOverview />
       },
     ]
   },

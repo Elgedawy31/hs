@@ -134,7 +134,7 @@ function DoctorDashboard() {
         <PeopleSay />
       </div>
 
-      <UniTable data={tableData} />
+      <UniTable data={tableData} headers={['pateint name' , 'id' , 'age/gender' , 'diagnosis' , 'type' , 'actions'  , 'time']} />
     </div>
   )
 }

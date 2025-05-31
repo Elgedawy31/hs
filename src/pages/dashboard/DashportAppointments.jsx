@@ -1,11 +1,14 @@
 import React, { useState, useMemo } from 'react'
 import { Calendar, Clock, CheckCircle, XCircle, Search, Filter, ChevronDown } from 'lucide-react'
 import UniTable from '../../components/doctorDashboard/UniTable'
+import UniPagination from '../../components/UniPagination'
 
 function DashportAppointments() {
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState('Most Recent')
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(5) // Number of items to show per page
 
   const sortOptions = ['Most Recent', 'Oldest First', 'By Name', 'By Date']
 
@@ -14,7 +17,6 @@ function DashportAppointments() {
       title: 'Total Appointment',
       value: '30',
       icon: Calendar,
-      bgColor: 'bg-blue-400',
       iconColor: 'text-blue-300',
       borderColor: 'border-blue-700'
     },
@@ -22,7 +24,6 @@ function DashportAppointments() {
       title: 'Pending Confirmation',
       value: '8',
       icon: Clock,
-      bgColor: 'bg-orange-400',
       iconColor: 'text-orange-300',
       borderColor: 'border-orange-700'
     },
@@ -30,7 +31,6 @@ function DashportAppointments() {
       title: 'Completed Today',
       value: '12',
       icon: CheckCircle,
-      bgColor: 'bg-green-400',
       iconColor: 'text-green-300',
       borderColor: 'border-green-700'
     },
@@ -38,7 +38,6 @@ function DashportAppointments() {
       title: 'Cancelled',
       value: '3',
       icon: XCircle,
-      bgColor: 'bg-red-400',
       iconColor: 'text-red-300',
       borderColor: 'border-red-700'
     }
@@ -157,6 +156,22 @@ function DashportAppointments() {
     return filtered
   }, [searchTerm, sortBy])
 
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredAndSortedAppointments.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const paginatedAppointments = filteredAndSortedAppointments.slice(startIndex, endIndex)
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+  }
+
+  // Reset to first page when search or sort changes
+  React.useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm, sortBy])
+
   return (
     <div className="p-6 bg-background min-h-screen">
       {/* Header Section */}
@@ -176,7 +191,7 @@ function DashportAppointments() {
           return (
             <div
               key={index}
-              className={`${stat.bgColor} ${stat.borderColor} border rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:scale-105`}
+              className={` border border-borderColor rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:scale-105`}
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
@@ -258,12 +273,27 @@ function DashportAppointments() {
         {/* UniTable Component */}
         <div className="mt-6">
           <UniTable 
-            data={filteredAndSortedAppointments}
+            data={paginatedAppointments}
             headers={appointmentHeaders}
             columnMappings={appointmentColumnMappings}
             title=""
           />
         </div>
+
+        {/* UniPagination Component */}
+        {totalPages > 1 && (
+          <div className="mt-6 flex justify-center">
+            <UniPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              showControls={true}
+              isCompact={false}
+              size="md"
+              color="primary"
+            />
+          </div>
+        )}
       </div>
 
       {/* Today's Schedule Section */}

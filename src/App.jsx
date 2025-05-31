@@ -41,7 +41,9 @@ function App() {
           <main className="flex-1 overflow-auto">
             <Outlet />
           </main>
+
         </div>
+      <Footer />
       <FloatingActionMenu />
 
       </div>

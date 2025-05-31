@@ -12,6 +12,7 @@ import {
   ShoppingCart,
   MessageSquare
 } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
 
 const DashboardSidebar = () => {
   const menuItems = [
@@ -37,7 +38,7 @@ const DashboardSidebar = () => {
       path: '/dashboard/analytics'
     },
     {
-      title: 'Reports',
+      title: 'Medical Records',
       icon: FileText,
       path: '/dashboard/medical-records'
     },
@@ -47,6 +48,7 @@ const DashboardSidebar = () => {
       path: '/dashboard/settings'
     }
   ];
+  const {user} = useAuth()
 
   return (
     <div className="w-64 bg-body border shadow-md shadow-borderColor border-borderColor  h-fit flex flex-col rounded-md sticky top-32">
@@ -83,8 +85,8 @@ const DashboardSidebar = () => {
             <User size={20} className="text-white" />
           </div>
           <div className="flex-1">
-            <p className="font-medium text-sm">Dr. John Doe</p>
-            <p className="text-xs text-hoverText">Dermatologist</p>
+            <p className="font-medium text-sm">{user.name}</p>
+            <p className="text-xs text-hoverText">{user.email}</p>
           </div>
         </div>
       </div>

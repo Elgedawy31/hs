@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
   const defaultuser={
     email:'mo@gmail.com',
     password:'123456',
-    name:'Mohamed',
+    name:'Mohamed Gad',
   }
   const [user, setUser] = useState(defaultuser || null)
   const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')) || null)

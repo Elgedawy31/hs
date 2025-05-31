@@ -46,6 +46,11 @@ const DashboardSidebar = () => {
       title: 'Settings',
       icon: Settings,
       path: '/dashboard/settings'
+    },
+    {
+      title: 'Doctor',
+      icon: Settings,
+      path: '/dashboard/doctor'
     }
   ];
   const {user} = useAuth()

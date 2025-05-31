@@ -126,7 +126,7 @@ function DoctorDashboard() {
   ];
 
   return (
-    <div className='space-y-8 container mx-auto mt-10'>
+    <div className='space-y-8 p-6 bg-background '>
       <DoctorHero />
       <CustomChart data={appointmentData} />
 

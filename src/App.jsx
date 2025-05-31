@@ -36,8 +36,8 @@ function App() {
          <div className="mb-10">
            <Header />
          </div>
-        <div className=" flex gap-5">
-        <DashboardSidebar />
+        <div className=" flex gap-10 container pb-2">
+          <DashboardSidebar />
           <main className="flex-1 overflow-auto">
             <Outlet />
           </main>

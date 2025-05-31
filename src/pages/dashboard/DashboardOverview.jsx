@@ -74,14 +74,13 @@ const recentPatientsData = [
 export default function DashboardOverview() {
   return (
     <div className=''>
-      <Header />
-      <h1 className="text-3xl text-center font-bold my-16">Dashboard Overview</h1>
-      <div className="mx-8 flex gap-7">
+      <h1 className="text-3xl text-center font-bold mb-10">Dashboard Overview</h1>
+      <div className=" flex gap-7">
         <div >
-          <div className="w-full flex justify-between ">
+          <div className="w-full flex justify-between gap-6 ">
             {dataOne.map((item) => {
               return(
-                <div key={item.count} className="card w-64  bg-primary pl-11 py-6 text-text rounded-xl gap-3">
+                <div key={item.count} className="card w-full  bg-primary pl-11 py-6 text-text rounded-xl gap-3">
                 <p className='text-base font-normal mb-2.5 '>{item.text}</p>
                 <span className='font-bold text-2xl'>{item.count}</span>
               </div>

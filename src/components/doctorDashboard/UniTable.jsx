@@ -98,7 +98,7 @@ function UniTable({
   };
 
   return (
-    <div className="px-4 py-6" data-aos="fade-up" data-aos-delay="200">
+    <div className="" data-aos="fade-up" data-aos-delay="200">
       <div className="border border-borderColor rounded-3xl shadow-lg overflow-hidden ">
         <div className="p-6 flex justify-between items-center">
           <h2 className="text-2xl font-bold text-text">{title}</h2>

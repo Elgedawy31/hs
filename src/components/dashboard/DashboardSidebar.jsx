@@ -69,15 +69,8 @@ const DashboardSidebar = () => {
   ];
 
   return (
-    <div className="w-64 bg-background border-r border-borderColor h-full flex flex-col">
-      {/* Logo/Brand */}
-      <div className="p-6 border-b border-borderColor">
-        <h2 className="text-xl font-bold text-primary">HealthSync</h2>
-        <p className="text-sm text-hoverText">Dashboard</p>
-      </div>
-
-      {/* Navigation Menu */}
-      <nav className="flex-1 p-4">
+    <div className="w-64 bg-body border shadow-md shadow-borderColor border-borderColor  h-fit flex flex-col rounded-md sticky top-32">
+      <nav className="flex-1 p-6">
         <ul className="space-y-2">
           {menuItems.map((item) => {
             const Icon = item.icon;
@@ -104,7 +97,7 @@ const DashboardSidebar = () => {
       </nav>
 
       {/* User Info */}
-      <div className="p-4 border-t border-borderColor">
+      <div className="p-6 border-t border-borderColor">
         <div className="flex items-center gap-3 p-3 rounded-lg bg-placeholderText">
           <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
             <User size={20} className="text-white" />

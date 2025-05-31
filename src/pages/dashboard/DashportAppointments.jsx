@@ -265,6 +265,58 @@ function DashportAppointments() {
           />
         </div>
       </div>
+
+      {/* Today's Schedule Section */}
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold text-text mb-6">
+          Today's Schedule
+        </h2>
+        
+        <div className=" rounded-xl border border-borderColor p-6">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+            {/* Schedule Items */}
+            <div className="flex flex-col sm:flex-row gap-6 flex-1">
+              {/* Appointment 1 */}
+              <div className="flex flex-col items-start">
+                <h3 className="font-semibold text-text mb-1">Jane Smith</h3>
+                <p className="text-placeholderText text-sm mb-2">Acne Vulgaris</p>
+                <span className="text-placeholderText text-sm">10:30 AM</span>
+              </div>
+              
+              {/* Appointment 2 */}
+              <div className="flex flex-col items-start">
+                <h3 className="font-semibold text-text mb-1">David Miller</h3>
+                <p className="text-placeholderText text-sm mb-2">Skin Consultation</p>
+                <span className="text-placeholderText text-sm">10:30 AM</span>
+              </div>
+              
+              {/* Appointment 3 */}
+              <div className="flex flex-col items-start">
+                <h3 className="font-semibold text-text mb-1">Michael Brown</h3>
+                <p className="text-placeholderText text-sm mb-2">Skin Check</p>
+                <span className="text-placeholderText text-sm">10:30 AM</span>
+              </div>
+              
+              {/* Appointment 4 */}
+              <div className="flex flex-col items-start">
+                <h3 className="font-semibold text-text mb-1">David Miller</h3>
+                <p className="text-placeholderText text-sm mb-2">Skin Consultation</p>
+                <span className="text-placeholderText text-sm">10:30 AM</span>
+              </div>
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="flex flex-col gap-3">
+              <button className="px-6 py-3 bg-primary text-text rounded-lg hover:bg-altPrimary transition-colors duration-200 font-medium whitespace-nowrap">
+                New Appointment
+              </button>
+              <button className="px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-text transition-colors duration-200 font-medium whitespace-nowrap">
+                View Calendar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

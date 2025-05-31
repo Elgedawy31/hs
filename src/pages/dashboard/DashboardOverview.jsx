@@ -77,8 +77,7 @@ export default function DashboardOverview() {
       <Header />
       <h1 className="text-3xl text-center font-bold my-16">Dashboard Overview</h1>
       <div className="mx-8 flex gap-7">
-        <div className="w-1/5 h-16"></div>
-        <div className="w-4/5">
+        <div >
           <div className="w-full flex justify-between ">
             {dataOne.map((item) => {
               return(

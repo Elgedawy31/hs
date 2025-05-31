@@ -22,11 +22,6 @@ const DashboardSidebar = () => {
       exact: true
     },
     {
-      title: 'Profile',
-      icon: User,
-      path: '/dashboard/profile'
-    },
-    {
       title: 'Appointments',
       icon: Calendar,
       path: '/dashboard/appointments'
@@ -37,29 +32,14 @@ const DashboardSidebar = () => {
       path: '/dashboard/patients'
     },
     {
+      title: 'Analytics',
+      icon: Users,
+      path: '/dashboard/analytics'
+    },
+    {
       title: 'Reports',
       icon: FileText,
-      path: '/dashboard/reports'
-    },
-    {
-      title: 'Messages',
-      icon: MessageSquare,
-      path: '/dashboard/messages'
-    },
-    {
-      title: 'Notifications',
-      icon: Bell,
-      path: '/dashboard/notifications'
-    },
-    {
-      title: 'Favorites',
-      icon: Heart,
-      path: '/dashboard/favorites'
-    },
-    {
-      title: 'Cart',
-      icon: ShoppingCart,
-      path: '/dashboard/cart'
+      path: '/dashboard/medical-records'
     },
     {
       title: 'Settings',

@@ -44,6 +44,11 @@ import Rate from './pages/Rate.jsx'
 import PaginationTest from './pages/PaginationTest.jsx'
 import DoctorDashboard from './pages/doctorDashboard.jsx'
 import DashboardOverview from './pages/dashboard/DashboardOverview.jsx'
+import DashboardAnalatycs from './pages/dashboard/DashboardAnalatycs.jsx'
+import DashboardMedicalRecords from './pages/dashboard/DashboardMedicalRecords.jsx'
+import DashboardPatients from './pages/dashboard/DashboardPatients.jsx'
+import DashboardSettings from './pages/dashboard/DashboardSettings.jsx'
+import DashportAppointments from './pages/dashboard/DashportAppointments.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -81,87 +86,87 @@ const router = createBrowserRouter([
       },
       {
         'path': '/products',
-        element:<Products />
+        element: <Products />
       },
       {
         'path': '/products/:id',
-        element:<ProdcutDetails />
+        element: <ProdcutDetails />
       },
       {
-        path:'/experts',
+        path: '/experts',
         element: <Experts />
       },
       {
-        path:'/experts/:id',
+        path: '/experts/:id',
         element: <Expert />
       },
       {
-        path:'/contact-us',
+        path: '/contact-us',
         element: <ContactUs />
       },
       {
-        path:'/terms',
+        path: '/terms',
         element: <Terms />
       },
       {
-        path:'/notifications',
+        path: '/notifications',
         element: <Notifications />
       },
       {
-        path:'/cart',
+        path: '/cart',
         element: <Cart />
       },
       {
-        path:'/checkout',
+        path: '/checkout',
         element: <Checkout />
       },
       {
-        path:'/model',
+        path: '/model',
         element: <Model />
       },
       {
-        path:'/profile',
+        path: '/profile',
         element: <Profile />
       },
       {
-        path:'/profile/edit',
+        path: '/profile/edit',
         element: <EditProfile />
       },
       {
-        path:'/library',
+        path: '/library',
         element: <Library />
       },
       {
-        path:'/blog',
+        path: '/blog',
         element: <Blog />
       },
       {
-        path:'/prescription',
+        path: '/prescription',
         element: <Prescription />
       },
       {
-        path:'/add-service',
+        path: '/add-service',
         element: <AddService />
       },
       {
-        path:'/chat',
+        path: '/chat',
         element: <Chat />
       },
       {
-        path:'/favorites',
+        path: '/favorites',
         element: <Favorites />
       },
       {
-        path:'/rate',
+        path: '/rate',
         element: <Rate />
       },
       {
-        path:'/doctor-dashboard',
+        path: '/doctor-dashboard',
         element: <DoctorDashboard />
       },
       {
-        path:'/dashboard-overview',
-        element:<DashboardOverview />
+        path: '/dashboard-overview',
+        element: <DashboardOverview />
       },
     ]
   },
@@ -170,12 +175,32 @@ const router = createBrowserRouter([
     element: <ProtectedRoute><App /></ProtectedRoute>,
     children: [
       {
-        path:'/dashboard/doctor',
+        path: '/dashboard',
+        element: <DashboardOverview />
+      },
+      {
+        path: '/dashboard/doctor',
         element: <DoctorDashboard />
       },
       {
-        path:'/dashboard',
-        element:<DashboardOverview />
+        path: '/dashboard/analytics',
+        element: <DashboardAnalatycs />
+      },
+      {
+        path: '/dashboard/medical-records',
+        element: <DashboardMedicalRecords />
+      },
+      {
+        path: '/dashboard/patients',
+        element: <DashboardPatients />
+      },
+      {
+        path: '/dashboard/settings',
+        element: <DashboardSettings />
+      },
+      {
+        path: '/dashboard/appointments',
+        element: <DashportAppointments />
       },
     ]
   },

@@ -42,6 +42,8 @@ function App() {
             <Outlet />
           </main>
         </div>
+      <FloatingActionMenu />
+
       </div>
     );
   }

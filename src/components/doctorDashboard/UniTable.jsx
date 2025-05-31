@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { X, Check, Search, ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
+import { X, Check, Search, ChevronLeft, ChevronRight, MoreHorizontal, MoreVertical } from 'lucide-react';
 
 function UniTable({ 
   data = defaultData, 
@@ -81,8 +81,8 @@ function UniTable({
                 </button>
               </>
             ) : (
-              <button className="text-gray-400 hover:text-gray-600">
-                <MoreHorizontal size={20} />
+              <button className="text-gray-400 hover:text-gray-600 rounded-full p-1">
+                <MoreVertical size={20} />
               </button>
             )}
           </div>

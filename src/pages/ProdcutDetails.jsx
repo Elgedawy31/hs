@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
 import { Star, ShoppingCart, Check } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../store/cartSlice';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function ProdcutDetails() {
   const { theme } = useTheme();
@@ -84,6 +85,50 @@ function ProdcutDetails() {
     ]
   };
 
+  // State to track the currently selected main image
+  const [selectedImage, setSelectedImage] = useState(product.image);
+  // State for add to cart animation
+  const [isAnimating, setIsAnimating] = useState(false);
+  // State for quantity
+  const [quantity, setQuantity] = useState(1);
+
+  // Function to handle thumbnail click
+  const handleThumbnailClick = (thumbnailSrc) => {
+    setSelectedImage(thumbnailSrc);
+  };
+
+  // Function to handle add to cart with animation
+  const handleAddToCart = () => {
+    // Add product with current quantity
+    for (let i = 0; i < quantity; i++) {
+      dispatch(addToCart(product));
+    }
+    console.log(`Added ${quantity} of ${product.name} to cart`);
+    
+    // Start animation sequence
+    setIsAnimating('animating');
+    
+    // Change to success state after cart animation
+    setTimeout(() => {
+      setIsAnimating('success');
+    }, 600);
+    
+    // Reset after all animations complete
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 1500);
+  };
+
+  // Function to handle quantity increase
+  const handleIncreaseQuantity = () => {
+    setQuantity(prev => prev + 1);
+  };
+
+  // Function to handle quantity decrease
+  const handleDecreaseQuantity = () => {
+    setQuantity(prev => prev > 1 ? prev - 1 : 1);
+  };
+
   // Render stars based on rating
   const renderStars = (rating) => {
     return (
@@ -126,10 +171,9 @@ function ProdcutDetails() {
             {/* Main Product Image */}
             <div className="bg-gradient-to-br from-background to-body rounded-2xl overflow-hidden mb-4 p-8 flex items-center justify-center min-h-[400px]">
               <img draggable="false" 
-                src={product.image} 
+                src={selectedImage} 
                 alt={product.name} 
                 className="w-full h-auto object-contain max-w-sm"
-                data-aos="zoom-in"
                 data-aos-delay="300"
               />
             </div>
@@ -139,9 +183,10 @@ function ProdcutDetails() {
               {product.thumbnails.map((thumbnail, index) => (
                 <div 
                   key={index}
-                  className="bg-gradient-to-br from-background to-body rounded-lg overflow-hidden  p-3 cursor-pointer hover:ring-2 hover:ring-primary transition-all"
-                  data-aos="fade-up"
-                  data-aos-delay={350 + (index * 50)}
+                  className={`bg-gradient-to-br from-background to-body rounded-lg overflow-hidden p-3 cursor-pointer hover:ring-2 hover:ring-primary transition-all ${
+                    selectedImage === thumbnail ? 'ring-2 ring-primary' : ''
+                  }`}
+                  onClick={() => handleThumbnailClick(thumbnail)}
                 >
                   <img draggable="false" 
                     src={thumbnail} 
@@ -203,15 +248,110 @@ function ProdcutDetails() {
               data-aos="fade-up"
               data-aos-delay="500"
             >
-              <button
-                className="px-6 py-3 rounded-lg font-medium text-white border-2 border-transparent hover:shadow-lg transition-all"
-                style={{ backgroundColor: theme.primary }}
-                onClick={() => dispatch(addToCart(product))}
+              <motion.button
+                className="px-6 py-3 rounded-lg font-medium text-white border-2 border-transparent hover:shadow-lg transition-all relative overflow-hidden flex items-center justify-center gap-2"
+                style={{ 
+                  backgroundColor: isAnimating ? 
+                    (isAnimating === 'success' ? '#4CAF50' : theme.primary) : 
+                    theme.primary,
+                  minWidth: '140px',
+                  height: '48px'
+                }}
+                onClick={handleAddToCart}
                 data-aos="zoom-in"
                 data-aos-delay="550"
+                whileTap={{ scale: 0.95 }}
+                transition={{
+                  backgroundColor: { duration: 0.3 },
+                  scale: { type: "spring", stiffness: 400, damping: 10 }
+                }}
               >
-                Add To Cart
-              </button>
+                {/* Ripple effect */}
+                {isAnimating && (
+                  <motion.div
+                    className="absolute inset-0 bg-white rounded-lg"
+                    initial={{ scale: 0, opacity: 0.3 }}
+                    animate={{ scale: 2, opacity: 0 }}
+                    transition={{ duration: 0.8 }}
+                  />
+                )}
+                
+                <AnimatePresence mode="wait">
+                  {isAnimating === 'animating' ? (
+                    <motion.div
+                      key="animating"
+                      className="flex items-center justify-center w-full h-full absolute inset-0"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <motion.div
+                        initial={{ scale: 0.5, y: 0 }}
+                        animate={{ 
+                          scale: [0.5, 1.3, 1],
+                          rotate: [0, 15, -10, 0],
+                          y: [0, -3, 0]
+                        }}
+                        transition={{ 
+                          duration: 0.6,
+                          times: [0, 0.4, 0.8, 1],
+                          ease: "easeInOut"
+                        }}
+                      >
+                        <ShoppingCart className="w-5 h-5" />
+                      </motion.div>
+                    </motion.div>
+                  ) : isAnimating === 'success' ? (
+                    <motion.div
+                      key="success"
+                      className="flex items-center justify-center w-full h-full absolute inset-0"
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.5 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <motion.svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 0.3, delay: 0.1 }}
+                      >
+                        <path d="M20 6L9 17L4 12" />
+                      </motion.svg>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="default"
+                      className="flex items-center justify-center gap-2 w-full"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <motion.div
+                        whileHover={{ rotate: [0, -10, 10, -5, 0], transition: { duration: 0.5 } }}
+                      >
+                        <ShoppingCart className="w-5 h-5" />
+                      </motion.div>
+                      <motion.span
+                        initial={{ y: 0 }}
+                        whileHover={{ y: [0, -2, 0], transition: { duration: 0.3, times: [0, 0.5, 1] } }}
+                      >
+                        Add To Cart
+                      </motion.span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.button>
               
               <button
                 className="px-6 py-3 rounded-lg font-medium border-2 hover:shadow-lg transition-all"
@@ -227,10 +367,28 @@ function ProdcutDetails() {
               </button>
               
               {/* Quantity Selector */}
-              <div className="flex items-center border-borderColor rounded-lg">
-                <button className="px-3 py-2 hover:bg-background transition-colors">-</button>
-                <span className="px-4 py-2 border-x border-borderColor">4</span>
-                <button className="px-3 py-2 hover:bg-background transition-colors">+</button>
+              <div className="flex items-center border border-borderColor rounded-lg">
+                <button 
+                  className="px-3 py-2 hover:bg-background transition-colors font-medium"
+                  style={{ color: theme.text }}
+                  onClick={handleDecreaseQuantity}
+                  disabled={quantity <= 1}
+                >
+                  -
+                </button>
+                <span 
+                  className="px-4 py-2 border-x border-borderColor min-w-[50px] text-center font-medium"
+                  style={{ color: theme.text }}
+                >
+                  {quantity}
+                </span>
+                <button 
+                  className="px-3 py-2 hover:bg-background transition-colors font-medium"
+                  style={{ color: theme.text }}
+                  onClick={handleIncreaseQuantity}
+                >
+                  +
+                </button>
               </div>
               
               {/* Wishlist Button */}

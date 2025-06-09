@@ -12,7 +12,7 @@ import '../home/CanDo.css';
 
 import hero1 from '../../assets/Images/hero-1.svg';
 import hero2 from '../../assets/Images/hero-2.svg';
-import { Star } from 'lucide-react';
+import { Microscope, UserCheck, Heart, Award } from 'lucide-react';
 import UniHeading from '../UniHeading';
 
 function Hero() {
@@ -23,22 +23,26 @@ function Hero() {
     {
       id: 1,
       title: "Experienced Dermatologist",
-      icon: <Star size={20} strokeWidth={2} />
+      description: "Board-certified specialists with extensive expertise in skin health and treatment.",
+      icon: <UserCheck size={48} strokeWidth={1.5} />
     },
     {
       id: 2,
       title: "Advanced Technology",
-      icon: <Star size={20} strokeWidth={2} />
+      description: "Cutting-edge devices for safe and effective treatments.",
+      icon: <Microscope size={48} strokeWidth={1.5} />
     },
     {
       id: 3,
       title: "Personalized Treatment",
-      icon: <Star size={20} strokeWidth={2} />
+      description: "Customized care plans tailored to your unique skin needs and concerns.",
+      icon: <Heart size={48} strokeWidth={1.5} />
     },
     {
       id: 4,
-      title: "10+ Years Experiences",
-      icon: <Star size={20} strokeWidth={2} />
+      title: "10+ Years Experience",
+      description: "Proven track record of successful treatments and satisfied patients.",
+      icon: <Award size={48} strokeWidth={1.5} />
     }
   ];
   // Hero slides array with images and text
@@ -158,22 +162,56 @@ function Hero() {
         </div>
       </div>
       
-      {/* Features */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+      {/* Features Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
         {features.map((feature) => (
-          <div key={feature.id} className="flex items-center">
-            <div 
-              className="mr-3 flex-shrink-0"
-              style={{ color: theme.primary }}
-            >
-              {feature.icon}
+          <div 
+            key={feature.id} 
+            className="group relative  rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border "
+            style={{ 
+              borderColor: theme.borderColor
+            }}
+          >
+            {/* Icon Container */}
+            <div className="flex justify-center mb-6">
+              <div 
+                className="p-4 rounded-full transition-all duration-300 group-hover:scale-110"
+                style={{ 
+                  backgroundColor: `${theme.primary}15`,
+                  color: theme.primary 
+                }}
+              >
+                {feature.icon}
+              </div>
             </div>
+            
+            {/* Title */}
             <h3 
-              className="text-base md:text-lg font-semibold"
-              style={{ color: theme.text, textShadow: '0px 4px 2px rgba(0, 0, 0, 0.15)' }}
+              className="text-xl font-bold text-center mb-4 transition-colors duration-300"
+              style={{ 
+                color: theme.text,
+                fontFamily: 'Montaga, serif'
+              }}
             >
               {feature.title}
             </h3>
+            
+            {/* Description */}
+            <p 
+              className="text-center text-sm leading-relaxed transition-colors duration-300"
+              style={{ 
+                color: theme.text === '#000000' ? '#6b7280' : '#8b949e',
+                lineHeight: '1.6'
+              }}
+            >
+              {feature.description}
+            </p>
+            
+            {/* Hover Effect Overlay */}
+            <div 
+              className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300"
+              style={{ backgroundColor: theme.primary }}
+            ></div>
           </div>
         ))}
       </div>

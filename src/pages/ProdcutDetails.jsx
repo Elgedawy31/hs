@@ -19,7 +19,13 @@ function ProdcutDetails() {
     discountedPrice: '350 LE',
     discount: '19%',
     rating: 4,
-    image: '/src/assets/Images/products-1.svg',
+    image: '/src/assets/Images/MED1.jpg',
+    thumbnails: [
+      '/src/assets/Images/MED1.jpg',
+      '/src/assets/Images/Med2.jpg',
+      '/src/assets/Images/Med3.jpg',
+      '/src/assets/Images/products-1.svg'
+    ],
     description: 'Psoralen-based cream enhances skin sensitivity to UV light, aiding in conditions like psoriasis and vitiligo. It promotes pigmentation and reduces abnormal cell growth. Always use under medical supervision to avoid side effects.',
     features: [
       'Dermatologist tested and approved',
@@ -28,7 +34,7 @@ function ProdcutDetails() {
     ],
     expertRecommendation: {
       name: 'Dr. Alejandro Gómez',
-      image: '/src/assets/Images/doctor-1.svg',
+      image: '/src/assets/Images/doctor-2.svg',
       quote: 'This serum represents a breakthrough in hydration technology. Its molecular structure allows for deeper penetration,providing lasting moisture and visible results.'
     },
     keyBenefits: [
@@ -73,7 +79,7 @@ function ProdcutDetails() {
         price: '1280 LE',
         discountedPrice: '999 LE',
         discount: '22%',
-        image: '/src/assets/Images/products-2.svg'
+        image: '/src/assets/Images/Med2.jpg'
       }
     ]
   };
@@ -110,32 +116,51 @@ function ProdcutDetails() {
         data-aos="fade-up"
         data-aos-duration="800"
       >
-        <div className="flex flex-col md:flex-row p-6">
-          {/* Product Image */}
+        <div className="flex flex-col lg:flex-row p-6 gap-8">
+          {/* Product Images */}
           <div 
-            className="md:w-1/2 lg:w-2/5 mb-6 md:mb-0"
+            className="lg:w-1/2"
             data-aos="fade-right"
             data-aos-delay="200"
           >
-            <div className="bg-[#d9e6f2] rounded-lg overflow-hidden flex items-center justify-center p-4">
+            {/* Main Product Image */}
+            <div className="bg-gradient-to-br from-background to-body rounded-2xl overflow-hidden mb-4 p-8 flex items-center justify-center min-h-[400px]">
               <img draggable="false" 
                 src={product.image} 
                 alt={product.name} 
-                className="w-full h-auto object-contain"
+                className="w-full h-auto object-contain max-w-sm"
                 data-aos="zoom-in"
                 data-aos-delay="300"
               />
+            </div>
+            
+            {/* Product Thumbnails */}
+            <div className="grid grid-cols-4 gap-3">
+              {product.thumbnails.map((thumbnail, index) => (
+                <div 
+                  key={index}
+                  className="bg-gradient-to-br from-background to-body rounded-lg overflow-hidden  p-3 cursor-pointer hover:ring-2 hover:ring-primary transition-all"
+                  data-aos="fade-up"
+                  data-aos-delay={350 + (index * 50)}
+                >
+                  <img draggable="false" 
+                    src={thumbnail} 
+                    alt={`${product.name} view ${index + 1}`} 
+                    className="w-full h-40 object-cover"
+                  />
+                </div>
+              ))}
             </div>
           </div>
           
           {/* Product Info */}
           <div 
-            className="md:w-1/2 lg:w-3/5 md:pl-8"
+            className="lg:w-1/2"
             data-aos="fade-left"
             data-aos-delay="200"
           >
             <h1 
-              className="text-2xl font-bold mb-2" 
+              className="text-3xl font-bold mb-3" 
               style={{ color: theme.text }}
               data-aos="fade-up"
               data-aos-delay="300"
@@ -144,45 +169,42 @@ function ProdcutDetails() {
             </h1>
             
             <div 
-              className="mb-2"
+              className="flex items-center gap-3 mb-4"
               data-aos="fade-up"
               data-aos-delay="350"
             >
               {renderStars(product.rating)}
-            </div>
-            
-            <div 
-              className="flex items-center gap-3 mb-4"
-              data-aos="fade-up"
-              data-aos-delay="400"
-            >
-              <p className="text-lg font-semibold" style={{ color: theme.primary }}>
-                {product.discountedPrice}
-              </p>
-              <p className="text-sm line-through text-gray-500">
-                {product.price}
-              </p>
-              <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
-                -{product.discount}
+              <span className="text-sm font-medium" style={{ color: theme.text }}>
+                {product.rating} (24 reviews)
               </span>
             </div>
             
+            <div 
+              className="mb-6"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
+              <p className="text-2xl font-bold" style={{ color: theme.text }}>
+                {product.price}
+              </p>
+            </div>
+            
             <p 
-              className="mb-6 text-sm" 
-              style={{ color: theme.text }}
+              className="mb-6 text-placeholderText leading-relaxed" 
               data-aos="fade-up"
               data-aos-delay="450"
             >
               {product.description}
             </p>
             
+            {/* Action Buttons */}
             <div 
-              className="flex flex-wrap gap-4 mb-6"
+              className="flex items-center gap-4 mb-6"
               data-aos="fade-up"
               data-aos-delay="500"
             >
               <button
-                className="px-8 py-3 rounded-md font-medium text-white"
+                className="px-6 py-3 rounded-lg font-medium text-white border-2 border-transparent hover:shadow-lg transition-all"
                 style={{ backgroundColor: theme.primary }}
                 onClick={() => dispatch(addToCart(product))}
                 data-aos="zoom-in"
@@ -192,28 +214,69 @@ function ProdcutDetails() {
               </button>
               
               <button
-                className="px-8 py-3 rounded-md font-medium border"
+                className="px-6 py-3 rounded-lg font-medium border-2 hover:shadow-lg transition-all"
                 style={{ 
                   borderColor: theme.primary,
-                  color: theme.primary
+                  color: theme.primary,
+                  backgroundColor: 'transparent'
                 }}
                 data-aos="zoom-in"
                 data-aos-delay="600"
               >
                 Buy Now
               </button>
+              
+              {/* Quantity Selector */}
+              <div className="flex items-center border-borderColor rounded-lg">
+                <button className="px-3 py-2 hover:bg-background transition-colors">-</button>
+                <span className="px-4 py-2 border-x border-borderColor">4</span>
+                <button className="px-3 py-2 hover:bg-background transition-colors">+</button>
+              </div>
+              
+              {/* Wishlist Button */}
+              <button className="p-3 rounded-lg border-borderColor hover:bg-background transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </button>
             </div>
             
+            {/* Size Options */}
+            <div 
+              className="mb-6"
+              data-aos="fade-up"
+              data-aos-delay="650"
+            >
+              <div className="flex gap-3">
+                {['60 ml', '30 ml', '80 ml', '100 ml'].map((size, index) => (
+                  <button
+                    key={size}
+                    className={`px-4 py-2 rounded-full border-2 font-medium transition-all ${
+                      index === 0 
+                        ? 'text-white border-transparent' 
+                        : 'border-borderColor hover:border-primary'
+                    }`}
+                    style={index === 0 ? { backgroundColor: theme.primary } : { color: theme.text }}
+                    data-aos="fade-up"
+                    data-aos-delay={700 + (index * 50)}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+            
+            {/* Features */}
             <div className="space-y-3">
               {product.features.map((feature, index) => (
                 <div 
                   key={index} 
-                  className="flex items-start"
+                  className="flex items-center gap-3"
                   data-aos="fade-up"
-                  data-aos-delay={650 + (index * 50)}
+                  data-aos-delay={750 + (index * 50)}
                 >
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mr-3" style={{ backgroundColor: theme.primary }}>
-                    <Check className="w-4 h-4 text-white" />
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: theme.primary }}>
+                    <Check className="w-3 h-3 text-white" />
                   </div>
                   <span className="text-sm" style={{ color: theme.text }}>
                     {feature}
@@ -224,7 +287,80 @@ function ProdcutDetails() {
           </div>
         </div>
       </div>
-      
+       
+      {/* Descriptions */}
+      <div 
+        className="rounded-lg overflow-hidden shadow-sm mb-8 p-6" 
+        style={{ backgroundColor: theme.body }}
+        data-aos="fade-up"
+        data-aos-delay="500"
+      >
+        <h2 
+          className="text-2xl font-bold mb-6" 
+          style={{ color: theme.text }}
+          data-aos="fade-up"
+          data-aos-delay="550"
+        >
+          Descriptions
+        </h2>
+        
+        <div 
+          className="mb-6 text-sm leading-relaxed" 
+          style={{ color: theme.text }}
+          data-aos="fade-up"
+          data-aos-delay="600"
+        >
+          <p className="mb-4">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore 
+            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut 
+            aliquip ex ea commodo consequat. Sed ut perspiciatis unde omnis iste natus error sit voluptatem 
+            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore 
+            veritatis et quasi architecto beatae vitae dictasunt explicabo. Nemo enim ipsam voluptatem 
+            quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos 
+            qui ratione voluptatem sequi nesciunt.
+          </p>
+        </div>
+        
+        <ul 
+          className="space-y-3 text-sm"
+          style={{ color: theme.text }}
+          data-aos="fade-up"
+          data-aos-delay="650"
+        >
+          <li 
+            className="flex items-start"
+            data-aos="fade-up"
+            data-aos-delay="700"
+          >
+            <span className="inline-block w-2 h-2 rounded-full mr-3 mt-2 flex-shrink-0" style={{ backgroundColor: theme.primary }}></span>
+            100% Lorem ipsum dolor sit amet, consectetur adipiscing elit
+          </li>
+          <li 
+            className="flex items-start"
+            data-aos="fade-up"
+            data-aos-delay="750"
+          >
+            <span className="inline-block w-2 h-2 rounded-full mr-3 mt-2 flex-shrink-0" style={{ backgroundColor: theme.primary }}></span>
+            Ut at nunc vel nisl gravida dictum.
+          </li>
+          <li 
+            className="flex items-start"
+            data-aos="fade-up"
+            data-aos-delay="800"
+          >
+            <span className="inline-block w-2 h-2 rounded-full mr-3 mt-2 flex-shrink-0" style={{ backgroundColor: theme.primary }}></span>
+            Donec non velit sed risus tincidunt suscipit.
+          </li>
+          <li 
+            className="flex items-start"
+            data-aos="fade-up"
+            data-aos-delay="850"
+          >
+            <span className="inline-block w-2 h-2 rounded-full mr-3 mt-2 flex-shrink-0" style={{ backgroundColor: theme.primary }}></span>
+            Cras laoreet lacus in dui posuere fringilla.
+          </li>
+        </ul>
+      </div>
       {/* Expert Recommendation */}
       <div 
         className="rounded-lg overflow-hidden shadow-sm mb-8 p-6" 
@@ -397,12 +533,13 @@ function ProdcutDetails() {
           </div>
         </div>
       </div>
+     
       
       {/* You May Also Like */}
       <div 
         className="mb-12"
         data-aos="fade-up"
-        data-aos-delay="800"
+        data-aos-delay="900"
       >
         <h2 
           className="text-2xl font-bold mb-6" 

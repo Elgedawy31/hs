@@ -63,3 +63,35 @@ button:hover{
 .card-shadow{
   box-shadow: 0 4px 12px var(--borderColor) !important;
 }
+
+/* Hide Google Translate header/banner globally */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+div#goog-gt-,
+div#goog-gt-c,
+.goog-te-spinner-pos,
+.goog-te-ftab,
+body > .skiptranslate {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+}
+
+/* Ensure body doesn't get pushed down by Google Translate */
+body {
+  top: 0 !important;
+  position: relative !important;
+}
+
+/* Hide any iframe that Google Translate might create */
+iframe[src*="translate.google"] {
+  display: none !important;
+}

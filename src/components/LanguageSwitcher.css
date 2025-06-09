@@ -45,8 +45,43 @@
   display: none !important;
 }
 
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+
+#goog-gt-tt, .goog-te-balloon-frame {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
+
 body {
   top: 0 !important;
+}
+
+/* Hide the top frame completely */
+body > .skiptranslate {
+  display: none !important;
+}
+
+/* Additional selectors to hide the banner */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+div#goog-gt-,
+div#goog-gt-c,
+.goog-te-spinner-pos,
+.goog-te-ftab {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
 }
 
 /* Style the dropdown menu */

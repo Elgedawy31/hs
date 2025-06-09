@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import FloatingActionMenu from './components/FloatingActionMenu';
 import AnimatedBackground from './components/AnimatedBackground';
 import DashboardSidebar from './components/dashboard/DashboardSidebar';
+import LanguageSwitcher from './components/LanguageSwitcher';
 
 // Components
 function App() {
@@ -36,6 +37,7 @@ function App() {
          <div className="mb-10">
            <Header />
          </div>
+         <LanguageSwitcher />
         <div className=" flex gap-10 container pb-2">
           <DashboardSidebar />
           <main className="flex-1 overflow-auto">
@@ -54,6 +56,7 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col bg-body text-text">
       <Header />
+      <LanguageSwitcher />
       <main className="flex-1">
         <AnimatedBackground>
           <Outlet />

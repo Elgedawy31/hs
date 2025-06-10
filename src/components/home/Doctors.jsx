@@ -114,7 +114,7 @@ const navigate = useNavigate()
                   }}
                 >
                   {doctor.name}
-                </h3>
+                </h3> 
                 
                 <p 
                   className="text-base mb-4 line-clamp-2" 

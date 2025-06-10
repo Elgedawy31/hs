@@ -14,6 +14,7 @@ import '../home/CanDo.css';
 import doctor1 from '../../assets/Images/doctor-1.svg';
 import doctor2 from '../../assets/Images/doctor-2.svg';
 import doctor3 from '../../assets/Images/doctor-3.svg';
+import { useNavigate } from 'react-router-dom';
 
 function Doctors() {
   const { theme } = useTheme();
@@ -50,7 +51,7 @@ function Doctors() {
       description: 'A highly experienced dermatologist specializing in advanced skin treatments, providing personalized care for every patient.'
     },
   ];
-
+const navigate = useNavigate()
   return (
     <section className="py-16 px-4 relative">
       <UniHeading title="Expert Dermatologists" />
@@ -123,6 +124,7 @@ function Doctors() {
                 </p>
                 
                 <button 
+                onClick={ () => navigate(`/experts/${docotor.id}`) }
                   className="mt-auto py-2 px-6 rounded-md shadow-md w-full text-center"
                   style={{ 
                     backgroundColor: theme.altPrimary,

@@ -124,7 +124,7 @@ const navigate = useNavigate()
                 </p>
                 
                 <button 
-                onClick={ () => navigate(`/experts/${docotor.id}`) }
+                onClick={ () => navigate(`/experts/${doctor.id}`) }
                   className="mt-auto py-2 px-6 rounded-md shadow-md w-full text-center"
                   style={{ 
                     backgroundColor: theme.altPrimary,

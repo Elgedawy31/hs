@@ -296,7 +296,7 @@ function ResetPassword() {
                           error={errors.password?.message}
                           required
                         />
-                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-placeholderText cursor-pointer" onClick={togglePasswordVisibility}>
+                        <div className="absolute right-3 top-5 transform -translate-y-1/2 text-placeholderText cursor-pointer" onClick={togglePasswordVisibility}>
                           {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                         </div>
                       </div>
@@ -313,7 +313,7 @@ function ResetPassword() {
                           error={errors.confirmPassword?.message}
                           required
                         />
-                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-placeholderText cursor-pointer" onClick={toggleConfirmPasswordVisibility}>
+                        <div className="absolute right-3 top-5 transform -translate-y-1/2 text-placeholderText cursor-pointer" onClick={toggleConfirmPasswordVisibility}>
                           {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                         </div>
                       </div>

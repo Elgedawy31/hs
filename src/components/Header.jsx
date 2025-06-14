@@ -3,10 +3,14 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import logo from '../assets/Images/logo.svg';
 import { Menu, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useVoiceCommands, speakText, isSpeechRecognitionSupported } from './VoiceCommands';
+import SpeechRecognition from 'react-speech-recognition';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(0);
+  const { listening, startListening, transcript, resetTranscript } = useVoiceCommands();
+
   const headerRef = useRef(null);
   const {user} = useAuth();
 
@@ -19,6 +23,34 @@ function Header() {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleVoiceControl = () => {
+    console.log('Voice control clicked, listening:', listening);
+    console.log('Speech recognition supported:', isSpeechRecognitionSupported());
+    
+    if (!isSpeechRecognitionSupported()) {
+      alert('Speech recognition is not supported in your browser. Please use Chrome, Edge, or Safari.');
+      return;
+    }
+
+    if (listening) {
+      console.log('Stopping listening...');
+      SpeechRecognition.stopListening();
+      if (transcript) {
+        console.log('Transcript received:', transcript);
+        speakText(`Command received: ${transcript}`);
+      }
+    } else {
+      console.log('Starting listening...');
+      speakText("Voice control activated. Say 'go to' followed by a page name, or 'search' followed by your query.");
+      startListening();
+    }
+  };
+
+  const stopListening = () => {
+    SpeechRecognition.stopListening();
+    resetTranscript();
   };
   return (
     <>
@@ -34,6 +66,28 @@ function Header() {
             <img  draggable="false" src={logo} alt="HS Logo" className="h-15" />
           </Link>
         </div>
+   <div className="flex items-center space-x-2">
+      <button 
+        onClick={handleVoiceControl}
+        className={`flex items-center space-x-2 px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+          listening 
+            ? 'bg-red-500 text-white hover:bg-red-600' 
+            : 'bg-primary text-white hover:bg-opacity-90'
+        }`}
+      >
+        <span>🎤</span>
+        <span>{listening ? 'Stop' : 'Voice'}</span>
+      </button>
+      {listening && (
+        <button 
+          onClick={stopListening}
+          className="px-2 py-1 text-xs bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors"
+        >
+          Reset
+        </button>
+      )}
+      
+    </div>
 
         {/* Navigation - Only visible on lg screens and above */}
         <nav className="hidden lg:flex items-center space-x-8">

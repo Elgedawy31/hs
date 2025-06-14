@@ -48,6 +48,7 @@ import DashboardMedicalRecords from './pages/dashboard/DashboardMedicalRecords.j
 import DashboardPatients from './pages/dashboard/DashboardPatients.jsx'
 import DashboardSettings from './pages/dashboard/DashboardSettings.jsx'
 import DashportAppointments from './pages/dashboard/DashportAppointments.jsx'
+import VoiceDemoPage from './pages/VoiceDemoPage.jsx'
 
 const ProtectedRoute = ({ requireAdmin, children }) => {
   const { isAuthenticated } = useAuth()
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
   {
     path: '/reset-password',
     element: <ResetPassword />
+  },
+  {
+    path: '/test-voice',
+    element: <VoiceDemoPage />
   },
   {
     path: '/',

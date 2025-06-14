@@ -319,7 +319,7 @@ function Expert() {
           </div>
           
           {/* Action Buttons */}
-          <div className="flex justify-between mt-8" data-aos="fade-up" data-aos-delay="800">
+          <div className="flex justify-around mt-8" data-aos="fade-up" data-aos-delay="800">
             <button
               onClick={() => navigate('/experts')}
               className="px-6 py-3 rounded-lg border font-medium"

@@ -252,7 +252,7 @@ useEffect(() => {
                 >
                   <motion.button
                     type="button"
-                    className="flex items-center justify-center w-full border border-borderColor rounded-lg py-2.5 px-4 "
+                    className="flex items-center lg:pl-40 pl-4  w-full border border-borderColor rounded-lg py-2.5 px-4 "
                     style={{color:theme.text , borderColor:theme.borderColor}}
                     variants={itemVariants}
                     whileHover={{ y: -2, boxShadow: "0 5px 15px -5px rgba(0, 0, 0, 0.1)" }}
@@ -281,7 +281,7 @@ useEffect(() => {
                   
                   <motion.button
                     type="button"
-                    className="flex items-center justify-center w-full border border-borderColor rounded-lg py-2.5 px-4 "
+                    className="flex items-center lg:pl-40 pl-4 w-full border border-borderColor rounded-lg py-2.5 px-4 "
                     style={{color:theme.text , borderColor:theme.borderColor}}
                     variants={itemVariants}
                     whileHover={{ y: -2, boxShadow: "0 5px 15px -5px rgba(0, 0, 0, 0.1)" }}
@@ -302,7 +302,7 @@ useEffect(() => {
                   
                   <motion.button
                     type="button"
-                    className="flex items-center justify-center w-full border border-borderColor rounded-lg py-2.5 px-4 "
+                    className="flex items-center lg:pl-40 pl-4 w-full border border-borderColor rounded-lg py-2.5 px-4 "
                     style={{color:theme.text , borderColor:theme.borderColor}}
                     variants={itemVariants}
                     whileHover={{ y: -2, boxShadow: "0 5px 15px -5px rgba(0, 0, 0, 0.1)" }}
@@ -349,7 +349,7 @@ useEffect(() => {
             
             {/* Image Section */}
             <motion.div 
-              className="relative order-1 lg:order-2 h-[400px] lg:h-[600px] overflow-hidden rounded-2xl"
+              className="relative order-1 lg:order-2 h-full overflow-hidden rounded-2xl"
               variants={imageVariants}
             >
               <motion.div 

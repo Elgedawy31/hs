@@ -202,7 +202,7 @@ function Verify() {
               
               {/* Image Section */}
               <motion.div 
-                className="relative order-1 lg:order-2 h-[400px] lg:h-[600px] overflow-hidden rounded-2xl"
+                className="relative order-1 lg:order-2 h-full overflow-hidden rounded-2xl"
                 variants={imageVariants}
               >
                 <motion.div 

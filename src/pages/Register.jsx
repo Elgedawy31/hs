@@ -154,7 +154,7 @@ function Register() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               {/* Image Section */}
               <motion.div 
-                className="relative h-[400px] lg:h-[600px] overflow-hidden rounded-2xl"
+                className="relative h-full overflow-hidden rounded-2xl"
                 variants={imageVariants}
               >
                 <motion.div 
